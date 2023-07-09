@@ -1,0 +1,191 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f2bdf7180af494e8b0750dc7264b10, type: 3}
+  m_Name: Forest
+  m_EditorClassIdentifier: 
+  mapType: 1
+  numFloors: 16
+  mapLocations:
+  - name: Monster
+    type: 1
+    sprite: {fileID: 21300000, guid: a400d7c41c0443f4e9e42e8ebbd33e8b, type: 3}
+    weightedChance: 8
+    iconScale: 0.53
+    isObstacle: 0
+  - name: Shop
+    type: 2
+    sprite: {fileID: 21300000, guid: b69caad32cbb34c49bdc409c72688ba6, type: 3}
+    weightedChance: 3
+    iconScale: 0.5
+    isObstacle: 0
+  - name: Treasure
+    type: 3
+    sprite: {fileID: 21300000, guid: cb8490c3ebff5164584783bddaca5b11, type: 3}
+    weightedChance: 0
+    iconScale: 0.5
+    isObstacle: 0
+  - name: Miniboss
+    type: 5
+    sprite: {fileID: 21300000, guid: dacee81ebca79674c89bbce47847970f, type: 3}
+    weightedChance: 1
+    iconScale: 0.52
+    isObstacle: 0
+  mapObstacles:
+  - name: Caves
+    type: 0
+    sprite: {fileID: 21300000, guid: f63ec51c807f52146a57e02ef0a7e1f8, type: 3}
+    weightedChance: 1
+    iconScale: 0.68
+    isObstacle: 1
+  - name: Mountains
+    type: 0
+    sprite: {fileID: 21300000, guid: bd52be5bb86ad4f41862de32018fff62, type: 3}
+    weightedChance: 1
+    iconScale: 0.68
+    isObstacle: 1
+  - name: Rubble
+    type: 0
+    sprite: {fileID: 21300000, guid: f15b3dd38fdcdee4bb203c1e4e55b424, type: 3}
+    weightedChance: 1
+    iconScale: 0.6
+    isObstacle: 1
+  - name: Spinch
+    type: 0
+    sprite: {fileID: 21300000, guid: badece31cb9675645a2e14fdd1816f31, type: 3}
+    weightedChance: 2
+    iconScale: 0.68
+    isObstacle: 1
+  - name: Trees
+    type: 0
+    sprite: {fileID: 21300000, guid: 115f49cf97f14724fa6906a2125a7066, type: 3}
+    weightedChance: 5
+    iconScale: 0.68
+    isObstacle: 1
+  - name: Pond
+    type: 0
+    sprite: {fileID: 21300000, guid: f533ce0730603854cbfbf49a257ca808, type: 3}
+    weightedChance: 1
+    iconScale: 0.6
+    isObstacle: 1
+  - name: Pond2
+    type: 0
+    sprite: {fileID: 21300000, guid: 37563945150ae3b4fb62e14b05a533d0, type: 3}
+    weightedChance: 1
+    iconScale: 0.68
+    isObstacle: 1
+  possibleEncounters:
+  - enemies:
+    - {fileID: 11400000, guid: dbf3bcfd32467fe428c68fa0fca73f1d, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 3
+    maxFloorLimit: 10
+  - enemies:
+    - {fileID: 11400000, guid: e6538a40b623fe24d8ff8c3b7d667d95, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 3
+    maxFloorLimit: 10
+  - enemies:
+    - {fileID: 11400000, guid: e33846f0e5ac11248a538d43bebc0519, type: 2}
+    isMiniboss: 0
+    isBoss: 1
+    minFloorRequired: 0
+    maxFloorLimit: 999
+  - enemies:
+    - {fileID: 11400000, guid: 22838726721beff4d86a20999061ebb5, type: 2}
+    isMiniboss: 1
+    isBoss: 0
+    minFloorRequired: 0
+    maxFloorLimit: 999
+  - enemies:
+    - {fileID: 11400000, guid: a46ddb76ec58c5741a930b8912f36c2d, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 3
+    maxFloorLimit: 10
+  - enemies:
+    - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
+    - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 6
+    maxFloorLimit: 999
+  - enemies:
+    - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 1
+    maxFloorLimit: 7
+  - enemies:
+    - {fileID: 11400000, guid: 5cae8c7e34be05e41a29ffbf2aa7c541, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 3
+    maxFloorLimit: 10
+  - enemies:
+    - {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 1
+    maxFloorLimit: 7
+  - enemies:
+    - {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 0
+    maxFloorLimit: 1
+  - enemies:
+    - {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
+    - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 10
+    maxFloorLimit: 999
+  - enemies:
+    - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
+    - {fileID: 11400000, guid: dbf3bcfd32467fe428c68fa0fca73f1d, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 10
+    maxFloorLimit: 999
+  - enemies:
+    - {fileID: 11400000, guid: 9764447be14e0454ea880c1b9666b89a, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 1
+    maxFloorLimit: 6
+  - enemies:
+    - {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
+    - {fileID: 11400000, guid: 5cae8c7e34be05e41a29ffbf2aa7c541, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 13
+    maxFloorLimit: 999
+  - enemies:
+    - {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
+    - {fileID: 11400000, guid: 9764447be14e0454ea880c1b9666b89a, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 13
+    maxFloorLimit: 999
+  mapDialogues:
+  - floorNumber: 0
+    mapDialogue: {fileID: 11400000, guid: 894ff538bb3271d4298819e0342def4b, type: 2}
+  - floorNumber: 1
+    mapDialogue: {fileID: 11400000, guid: 1b27cecb5f89433489c0bcf018059d4e, type: 2}
+  - floorNumber: 2
+    mapDialogue: {fileID: 11400000, guid: fb9c736f40a5b7e458753432ff78debd, type: 2}
+  - floorNumber: 16
+    mapDialogue: {fileID: 11400000, guid: 8500fcffac0ae0a40b5d7abdfc9755ae, type: 2}
+  - floorNumber: 17
+    mapDialogue: {fileID: 11400000, guid: 324742ecd08615e42a36aef7dc64faeb, type: 2}

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="RYAN_Speech-Assets.png">
+	<!-- Created with Adobe Animate version 22.0.8.217 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="RYAN fixed dimentions0000" x="10" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0001" x="955" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0002" x="10" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0003" x="1900" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0004" x="2845" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0005" x="3790" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0006" x="4735" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0007" x="3790" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0008" x="5680" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0009" x="2845" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0010" x="6625" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0011" x="6625" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0012" x="10" y="1509" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0013" x="955" y="1509" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0014" x="1900" y="1509" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0015" x="2845" y="1509" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0016" x="3790" y="1509" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0017" x="4735" y="1509" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0018" x="5680" y="1509" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0019" x="6625" y="1509" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0020" x="10" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0021" x="955" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0022" x="1900" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0023" x="1900" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0024" x="2845" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0025" x="2845" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0026" x="3790" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0027" x="4735" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0028" x="3790" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0029" x="2845" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0030" x="5680" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0031" x="6625" y="3008" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0032" x="10" y="4507" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0033" x="2845" y="10" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0034" x="955" y="4507" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0035" x="1900" y="4507" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0036" x="955" y="4507" width="895" height="1449"/>
+	<SubTexture name="RYAN fixed dimentions0037" x="2845" y="4507" width="895" height="1449"/>
+</TextureAtlas>

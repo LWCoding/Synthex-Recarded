@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="RENO_Speech-Assets.png">
+	<!-- Created with Adobe Animate version 22.0.8.217 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Idle Angry0000" x="10" y="10" width="621" height="1203" frameX="-3" frameY="0" frameWidth="625" frameHeight="1203"/>
+	<SubTexture name="Idle Angry0001" x="681" y="10" width="625" height="1202" frameX="0" frameY="-1" frameWidth="625" frameHeight="1203"/>
+	<SubTexture name="Idle Angry0002" x="1356" y="10" width="617" height="1203" frameX="-5" frameY="0" frameWidth="625" frameHeight="1203"/>
+	<SubTexture name="Idle Angry0003" x="2023" y="10" width="619" height="1203" frameX="-3" frameY="0" frameWidth="625" frameHeight="1203"/>
+	<SubTexture name="Talk Sorry!0000" x="2692" y="10" width="574" height="1208" frameX="-1" frameY="0" frameWidth="575" frameHeight="1209"/>
+	<SubTexture name="Talk Sorry!0001" x="3316" y="10" width="574" height="1208" frameX="-1" frameY="0" frameWidth="575" frameHeight="1209"/>
+	<SubTexture name="Talk Sorry!0002" x="2692" y="10" width="574" height="1208" frameX="-1" frameY="0" frameWidth="575" frameHeight="1209"/>
+	<SubTexture name="Talk Sorry!0003" x="3940" y="10" width="574" height="1208"/>
+	<SubTexture name="Talk angry0000" x="4565" y="10" width="621" height="1203"/>
+	<SubTexture name="Talk angry0001" x="5236" y="10" width="621" height="1203"/>
+	<SubTexture name="Talk angry0002" x="4565" y="10" width="621" height="1203"/>
+	<SubTexture name="Talk angry0003" x="5907" y="10" width="621" height="1203"/>
+	<SubTexture name="Talk normal0000" x="6578" y="10" width="621" height="1203"/>
+	<SubTexture name="Talk normal0001" x="7249" y="10" width="621" height="1203"/>
+	<SubTexture name="Talk normal0002" x="6578" y="10" width="621" height="1203"/>
+	<SubTexture name="Talk normal0003" x="10" y="1269" width="621" height="1203"/>
+	<SubTexture name="Talk think0000" x="681" y="1269" width="796" height="1209"/>
+	<SubTexture name="Talk think0001" x="1527" y="1269" width="796" height="1209"/>
+	<SubTexture name="Talk think0002" x="681" y="1269" width="796" height="1209"/>
+	<SubTexture name="Talk think0003" x="2373" y="1269" width="796" height="1209"/>
+	<SubTexture name="idle THINK0000" x="3219" y="1269" width="677" height="1209"/>
+	<SubTexture name="idle THINK0038" x="3946" y="1269" width="677" height="1209"/>
+</TextureAtlas>

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e20b8ec526ae2c4ea9d84e7806594b0, type: 3}
+  m_Name: Exhausts
+  m_EditorClassIdentifier: 
+  statusName: Exhausts
+  statusDescription: Card can only be played once per battle. Removed after played.
+  type: 0
+  statusIcon: {fileID: 0}
+  iconSpriteScale: {x: 0.5, y: 0.5}

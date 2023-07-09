@@ -1,0 +1,1032 @@
+fileFormatVersion: 2
+guid: 3f08068cd8d61ad4189704eb4060d726
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5932770821074265428
+    second: RYAN fixed dimentions0000
+  - first:
+      213: -7955543150327855620
+    second: RYAN fixed dimentions0001
+  - first:
+      213: -9171155370513029569
+    second: RYAN fixed dimentions0002
+  - first:
+      213: 5619998430142290360
+    second: RYAN fixed dimentions0003
+  - first:
+      213: 8068887793804747722
+    second: RYAN fixed dimentions0004
+  - first:
+      213: 3068166469771456303
+    second: RYAN fixed dimentions0005
+  - first:
+      213: 3669736000971856627
+    second: RYAN fixed dimentions0006
+  - first:
+      213: 2572532725072615398
+    second: RYAN fixed dimentions0007
+  - first:
+      213: 1540647954463712392
+    second: RYAN fixed dimentions0008
+  - first:
+      213: -4703122931959089546
+    second: RYAN fixed dimentions0009
+  - first:
+      213: 6665177217584191891
+    second: RYAN fixed dimentions0010
+  - first:
+      213: 1126901509454718299
+    second: RYAN fixed dimentions0011
+  - first:
+      213: 2211474295137659877
+    second: RYAN fixed dimentions0012
+  - first:
+      213: 4042683345964360261
+    second: RYAN fixed dimentions0013
+  - first:
+      213: -7070122867148511512
+    second: RYAN fixed dimentions0014
+  - first:
+      213: -3817989285787740666
+    second: RYAN fixed dimentions0015
+  - first:
+      213: -4316640529673174573
+    second: RYAN fixed dimentions0016
+  - first:
+      213: 6802300400842139578
+    second: RYAN fixed dimentions0017
+  - first:
+      213: 142905662637836125
+    second: RYAN fixed dimentions0018
+  - first:
+      213: 2444164227488399857
+    second: RYAN fixed dimentions0019
+  - first:
+      213: -1078437800510584402
+    second: RYAN fixed dimentions0020
+  - first:
+      213: -1011083499322793724
+    second: RYAN fixed dimentions0021
+  - first:
+      213: 2911896998743119729
+    second: RYAN fixed dimentions0022
+  - first:
+      213: 2792895130800667994
+    second: RYAN fixed dimentions0023
+  - first:
+      213: -7524594242464492110
+    second: RYAN fixed dimentions0024
+  - first:
+      213: -3077431423491763211
+    second: RYAN fixed dimentions0025
+  - first:
+      213: -6744278182669060723
+    second: RYAN fixed dimentions0026
+  - first:
+      213: -6606152136053013246
+    second: RYAN fixed dimentions0027
+  - first:
+      213: 1391218730749982376
+    second: RYAN fixed dimentions0028
+  - first:
+      213: 5629319552735867319
+    second: RYAN fixed dimentions0029
+  - first:
+      213: 352383708147015396
+    second: RYAN fixed dimentions0030
+  - first:
+      213: -286529663747994501
+    second: RYAN fixed dimentions0031
+  - first:
+      213: 135121846772510552
+    second: RYAN fixed dimentions0032
+  - first:
+      213: 9149146022786254919
+    second: RYAN fixed dimentions0033
+  - first:
+      213: 780044099735909021
+    second: RYAN fixed dimentions0034
+  - first:
+      213: -1117016576800317285
+    second: RYAN fixed dimentions0035
+  - first:
+      213: 6995300707543455089
+    second: RYAN fixed dimentions0036
+  - first:
+      213: -7305582734530582982
+    second: RYAN fixed dimentions0037
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0000
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: caad0141f509aada0800000000000000
+      internalID: -5932770821074265428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0001
+      rect:
+        serializedVersion: 2
+        x: 955
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf58a61b7ab389190800000000000000
+      internalID: -7955543150327855620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0002
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f36a7a808c289b080800000000000000
+      internalID: -9171155370513029569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0003
+      rect:
+        serializedVersion: 2
+        x: 1900
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b952e2dbce3efd40800000000000000
+      internalID: 5619998430142290360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0004
+      rect:
+        serializedVersion: 2
+        x: 2845
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac3a73a92b27aff60800000000000000
+      internalID: 8068887793804747722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0005
+      rect:
+        serializedVersion: 2
+        x: 3790
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2fed7ef521549a20800000000000000
+      internalID: 3068166469771456303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0006
+      rect:
+        serializedVersion: 2
+        x: 4735
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3fad36523758de230800000000000000
+      internalID: 3669736000971856627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0007
+      rect:
+        serializedVersion: 2
+        x: 3790
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e7550332e873b320800000000000000
+      internalID: 2572532725072615398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0008
+      rect:
+        serializedVersion: 2
+        x: 5680
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 884edb1e62b716510800000000000000
+      internalID: 1540647954463712392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0009
+      rect:
+        serializedVersion: 2
+        x: 2845
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 676b5919c962bbeb0800000000000000
+      internalID: -4703122931959089546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0010
+      rect:
+        serializedVersion: 2
+        x: 6625
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 399d123ad577f7c50800000000000000
+      internalID: 6665177217584191891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0011
+      rect:
+        serializedVersion: 2
+        x: 6625
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5566e7c3fe83af00800000000000000
+      internalID: 1126901509454718299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0012
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 5234
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5eb669f872cb0be10800000000000000
+      internalID: 2211474295137659877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0013
+      rect:
+        serializedVersion: 2
+        x: 955
+        y: 5234
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 542e797851f7a1830800000000000000
+      internalID: 4042683345964360261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0014
+      rect:
+        serializedVersion: 2
+        x: 1900
+        y: 5234
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e62f3126b0e1ed90800000000000000
+      internalID: -7070122867148511512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0015
+      rect:
+        serializedVersion: 2
+        x: 2845
+        y: 5234
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 606df5029f6c30bc0800000000000000
+      internalID: -3817989285787740666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0016
+      rect:
+        serializedVersion: 2
+        x: 3790
+        y: 5234
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d1c6cd0f463814c0800000000000000
+      internalID: -4316640529673174573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0017
+      rect:
+        serializedVersion: 2
+        x: 4735
+        y: 5234
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab761b7ac20a66e50800000000000000
+      internalID: 6802300400842139578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0018
+      rect:
+        serializedVersion: 2
+        x: 5680
+        y: 5234
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d578be961f3bbf100800000000000000
+      internalID: 142905662637836125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0019
+      rect:
+        serializedVersion: 2
+        x: 6625
+        y: 5234
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f1c9284a6a6be120800000000000000
+      internalID: 2444164227488399857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0020
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea98634c88e9801f0800000000000000
+      internalID: -1078437800510584402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0021
+      rect:
+        serializedVersion: 2
+        x: 955
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4012b901ae8e7f1f0800000000000000
+      internalID: -1011083499322793724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0022
+      rect:
+        serializedVersion: 2
+        x: 1900
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1771c9874e2296820800000000000000
+      internalID: 2911896998743119729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0023
+      rect:
+        serializedVersion: 2
+        x: 1900
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5dba46f25b52c620800000000000000
+      internalID: 2792895130800667994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0024
+      rect:
+        serializedVersion: 2
+        x: 2845
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b554fa4765439790800000000000000
+      internalID: -7524594242464492110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0025
+      rect:
+        serializedVersion: 2
+        x: 2845
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f3162edc64ca45d0800000000000000
+      internalID: -3077431423491763211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0026
+      rect:
+        serializedVersion: 2
+        x: 3790
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d85f79fb9b28762a0800000000000000
+      internalID: -6744278182669060723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0027
+      rect:
+        serializedVersion: 2
+        x: 4735
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2054f5612ab3254a0800000000000000
+      internalID: -6606152136053013246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0028
+      rect:
+        serializedVersion: 2
+        x: 3790
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a6f83b801a9e4310800000000000000
+      internalID: 1391218730749982376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0029
+      rect:
+        serializedVersion: 2
+        x: 2845
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b17bfbce4c5f1e40800000000000000
+      internalID: 5629319552735867319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0030
+      rect:
+        serializedVersion: 2
+        x: 5680
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4eedcb49d1be3e400800000000000000
+      internalID: 352383708147015396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0031
+      rect:
+        serializedVersion: 2
+        x: 6625
+        y: 3735
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7c40b6f9ca060cf0800000000000000
+      internalID: -286529663747994501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0032
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 2236
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85f254e8a9c00e100800000000000000
+      internalID: 135121846772510552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0033
+      rect:
+        serializedVersion: 2
+        x: 2845
+        y: 6733
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7484a5e55db48fe70800000000000000
+      internalID: 9149146022786254919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0034
+      rect:
+        serializedVersion: 2
+        x: 955
+        y: 2236
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d92f5e1d9f543da00800000000000000
+      internalID: 780044099735909021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0035
+      rect:
+        serializedVersion: 2
+        x: 1900
+        y: 2236
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b902893775f8f70f0800000000000000
+      internalID: -1117016576800317285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0036
+      rect:
+        serializedVersion: 2
+        x: 955
+        y: 2236
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1759a2a4eec441160800000000000000
+      internalID: 6995300707543455089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RYAN fixed dimentions0037
+      rect:
+        serializedVersion: 2
+        x: 2845
+        y: 2236
+        width: 895
+        height: 1449
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a36e317a53b5d9a90800000000000000
+      internalID: -7305582734530582982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

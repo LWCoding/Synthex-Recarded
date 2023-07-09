@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c91ec1c3f7dc8f44a715dc426b553f7, type: 3}
+  m_Name: Dummy
+  m_EditorClassIdentifier: 
+  characterName: Dummy
+  idleSprite: {fileID: 21300000, guid: 17c1234e98d564f40982fa3c4ed36043, type: 3}
+  damagedSprite: {fileID: 21300000, guid: dd731b16c09a39644b07ad1156a39a8c, type: 3}
+  spriteOffset: {x: 0, y: 0.15}
+  spriteScale: {x: -0.9, y: 0.9}
+  shadowScale: {x: 3.3, y: 0.77}
+  enemyHealthMin: 30
+  enemyHealthMax: 30
+  enemyRewardMin: 50
+  enemyRewardMax: 50
+  enemyXPReward: 5
+  enemyAI: 2

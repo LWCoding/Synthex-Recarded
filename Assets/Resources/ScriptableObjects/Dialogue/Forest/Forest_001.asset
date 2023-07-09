@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 657f010bdda42f742b058c9674db6e24, type: 3}
+  m_Name: Forest_001
+  m_EditorClassIdentifier: 
+  dialogueName: 0
+  dialogueLines:
+  - speakerName: Jack
+    speakerText: ...
+    leftAnimationName: JackSkepticalIdle
+    rightAnimationName: RyanHappyIdle
+    characterBlipName: 1
+    focusDirection: 0
+  - speakerName: Jack
+    speakerText: So, Ryan, what are we doing here again?
+    leftAnimationName: JackTalking
+    rightAnimationName: RyanHappyIdle
+    characterBlipName: 1
+    focusDirection: 0
+  - speakerName: Ryan
+    speakerText: Come on, dude! I told you I found a cool dummy out in the woods...
+      it's basically begging for a fight!
+    leftAnimationName: JackTalkingIdle
+    rightAnimationName: RyanHappy
+    characterBlipName: 3
+    focusDirection: 1
+  - speakerName: Jack
+    speakerText: I don't know... Can't we just stay back in the treehouse and chill
+      out?
+    leftAnimationName: JackSkeptical
+    rightAnimationName: RyanTalkingIdle
+    characterBlipName: 1
+    focusDirection: 0
+  - speakerName: Ryan
+    speakerText: Don't pussy out on me... This thing is actually sick, yo.
+    leftAnimationName: JackSkepticalIdle
+    rightAnimationName: RyanPeeved
+    characterBlipName: 3
+    focusDirection: 1
+  - speakerName: Jack
+    speakerText: Sigh... alright then, how is it done?
+    leftAnimationName: JackSkeptical
+    rightAnimationName: RyanPeevedIdle
+    characterBlipName: 1
+    focusDirection: 0
+  - speakerName: Ryan
+    speakerText: Follow me! I'll show you the way.
+    leftAnimationName: JackSkepticalIdle
+    rightAnimationName: RyanHappy
+    characterBlipName: 3
+    focusDirection: 1
+  actionToPlayAfterDialogue: 0

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Speech Box Opening.png">
+	<!-- Created with Adobe Animate version 22.0.8.217 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Speech Box Opening0000" x="10" y="10" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0001" x="2413" y="10" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0002" x="4816" y="10" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0003" x="10" y="467" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0004" x="2413" y="467" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0005" x="4816" y="467" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0006" x="10" y="924" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0007" x="10" y="924" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0008" x="2413" y="924" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0009" x="4816" y="924" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0010" x="10" y="1381" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0011" x="2413" y="1381" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0012" x="4816" y="1381" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0013" x="10" y="1838" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0014" x="2413" y="1838" width="2353" height="407"/>
+	<SubTexture name="Speech Box Opening0015" x="4816" y="1838" width="2353" height="407"/>
+</TextureAtlas>

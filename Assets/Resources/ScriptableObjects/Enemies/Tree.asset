@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c91ec1c3f7dc8f44a715dc426b553f7, type: 3}
+  m_Name: Tree
+  m_EditorClassIdentifier: 
+  characterName: Tree?
+  idleSprite: {fileID: 21300000, guid: 1651437f2d5b24b4bb65b6ffaf152aba, type: 3}
+  damagedSprite: {fileID: 21300000, guid: 0ac14e79b71b72f4d87b561e46efe4a3, type: 3}
+  spriteOffset: {x: 0, y: 1.25}
+  spriteScale: {x: 1.25, y: 1.25}
+  shadowScale: {x: 3.3, y: 0.77}
+  enemyHealthMin: 45
+  enemyHealthMax: 55
+  enemyRewardMin: 50
+  enemyRewardMax: 65
+  enemyXPReward: 5
+  enemyAI: 6

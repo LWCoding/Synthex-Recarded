@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="VIOLET_Speech-Assets.png">
+	<!-- Created with Adobe Animate version 22.0.8.217 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="VIOLET  fixed dimensions0000" x="10" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0001" x="1314" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0002" x="2618" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0003" x="3922" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0004" x="5226" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0005" x="3922" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0006" x="1314" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0007" x="6530" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0008" x="1314" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0009" x="10" y="1510" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0010" x="1314" y="1510" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0011" x="2618" y="1510" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0012" x="1314" y="1510" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0013" x="1314" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0014" x="3922" y="1510" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0015" x="3922" y="1510" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0016" x="5226" y="1510" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0017" x="6530" y="1510" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0018" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0019" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0020" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0021" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0022" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0023" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0024" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0025" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0026" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0027" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0028" x="1314" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0029" x="1314" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0030" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0031" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0032" x="1314" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0033" x="1314" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0034" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0035" x="10" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0036" x="1314" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0037" x="2618" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0038" x="3922" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0039" x="2618" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0040" x="3922" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0041" x="1314" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0042" x="5226" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0043" x="1314" y="10" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0044" x="6530" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0045" x="10" y="4510" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0046" x="6530" y="3010" width="1254" height="1450"/>
+	<SubTexture name="VIOLET  fixed dimensions0047" x="10" y="4510" width="1254" height="1450"/>
+</TextureAtlas>

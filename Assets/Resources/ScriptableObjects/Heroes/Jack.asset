@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ac5ee4ab5934246845be6003ec63b0, type: 3}
+  m_Name: Jack
+  m_EditorClassIdentifier: 
+  characterName: Jack
+  idleSprite: {fileID: 21300000, guid: 862e4965d66d5f34890aa933469de06f, type: 3}
+  damagedSprite: {fileID: 21300000, guid: cdd023e96036bbb43bfd55416a5ac293, type: 3}
+  spriteOffset: {x: 0, y: 0}
+  spriteScale: {x: 1, y: 1}
+  shadowScale: {x: 3.11, y: 0.77}
+  baseHealth: 50
+  heroTag: 1
+  heroHeadshotSprite: {fileID: 21300000, guid: fe39f743084554d41a428c919e5c2ac7, type: 3}
+  heroUIColor: {r: 0.18039216, g: 0.63529414, b: 0, a: 1}
+  deathSprite: {fileID: 21300000, guid: cd565311be47d9444b5d93bcb3cda472, type: 3}
+  startingDeck:
+  - {fileID: 11400000, guid: 70e27e1b5fb01ac49a9c0acd269d5ed1, type: 2}
+  - {fileID: 11400000, guid: 70e27e1b5fb01ac49a9c0acd269d5ed1, type: 2}
+  - {fileID: 11400000, guid: 70e27e1b5fb01ac49a9c0acd269d5ed1, type: 2}
+  - {fileID: 11400000, guid: 76ff67b524d2e04419cd7919fd48fba4, type: 2}
+  - {fileID: 11400000, guid: 76ff67b524d2e04419cd7919fd48fba4, type: 2}
+  - {fileID: 11400000, guid: 76ff67b524d2e04419cd7919fd48fba4, type: 2}
+  - {fileID: 11400000, guid: 76ff67b524d2e04419cd7919fd48fba4, type: 2}
+  - {fileID: 11400000, guid: 28652be1c1eee1f4eade069815693534, type: 2}
+  - {fileID: 11400000, guid: 28652be1c1eee1f4eade069815693534, type: 2}
+  startingRelics:
+  - {fileID: 11400000, guid: 0457efb2ba349c247baf074d98c44222, type: 2}

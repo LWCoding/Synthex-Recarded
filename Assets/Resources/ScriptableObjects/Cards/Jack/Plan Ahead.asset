@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee86f6c045c704740bca70758d3d2139, type: 3}
+  m_Name: Plan Ahead
+  m_EditorClassIdentifier: 
+  cardName: Plan Ahead
+  cardImage: {fileID: 21300000, guid: 161f25d6fe723ec4395b4e4186f1cafe, type: 3}
+  cardType: 3
+  characterMovement: 0
+  projectileSprite: {fileID: 0}
+  projectileOffset: {x: 0, y: 0}
+  sourceParticleInfo:
+    particleType: 0
+    particleBurstType: 0
+    particleScale: {x: 1, y: 1}
+    particleLifetime: 0.8
+    particleSpeed: 6
+    particleCount: 10
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
+    affectedByGravity: 0
+  destinationParticleInfo:
+    particleType: 0
+    particleBurstType: 0
+    particleScale: {x: 1, y: 1}
+    particleLifetime: 0.8
+    particleSpeed: 6
+    particleCount: 10
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
+    affectedByGravity: 0
+  cardRarity: 0
+  cardExclusivity: 1
+  onPlaySFX: {fileID: 0}
+  onPlaySFXVolume: 1
+  cardStats:
+  - cardDesc: Gain 3 block. Gain 1 Persevere.
+    cardCost: 1
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 3
+    attackRepeatCount: 1
+    inflictedEffects:
+    - target: 2
+      effect: 3
+      amplifier: 1
+    traits: 
+  - cardDesc: Gain 6 block. Gain 1 Persevere.
+    cardCost: 1
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 6
+    attackRepeatCount: 1
+    inflictedEffects:
+    - target: 2
+      effect: 3
+      amplifier: 1
+    traits: 

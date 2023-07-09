@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c91ec1c3f7dc8f44a715dc426b553f7, type: 3}
+  m_Name: MrMushroom
+  m_EditorClassIdentifier: 
+  characterName: Mr. Mushroom
+  idleSprite: {fileID: 21300000, guid: f81861a1b2b70f24a88850bb39611bf6, type: 3}
+  damagedSprite: {fileID: 21300000, guid: ba3dde3cc0686c548b652557d869fb79, type: 3}
+  spriteOffset: {x: 0.25, y: 0.55}
+  spriteScale: {x: 1.4, y: 1.4}
+  shadowScale: {x: 3.6, y: 0.77}
+  enemyHealthMin: 65
+  enemyHealthMax: 75
+  enemyRewardMin: 160
+  enemyRewardMax: 200
+  enemyXPReward: 10
+  enemyAI: 7

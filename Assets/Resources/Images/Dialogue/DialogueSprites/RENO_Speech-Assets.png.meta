@@ -1,0 +1,648 @@
+fileFormatVersion: 2
+guid: 2b7da6eae1157254897e4981be5a6dcc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6125084946156111725
+    second: Idle Angry0000
+  - first:
+      213: -6387093396335303137
+    second: Idle Angry0001
+  - first:
+      213: 8511043130887150314
+    second: Idle Angry0002
+  - first:
+      213: 5635104486741416409
+    second: Idle Angry0003
+  - first:
+      213: 1949384287063122926
+    second: Talk Sorry!0000
+  - first:
+      213: 5875519937331710757
+    second: Talk Sorry!0001
+  - first:
+      213: -5961654276870366805
+    second: Talk Sorry!0002
+  - first:
+      213: 1579380594106445712
+    second: Talk Sorry!0003
+  - first:
+      213: 4727486957988473942
+    second: Talk angry0000
+  - first:
+      213: 767899897650657138
+    second: Talk angry0001
+  - first:
+      213: 4269464737436188392
+    second: Talk angry0002
+  - first:
+      213: -9214543159799419219
+    second: Talk angry0003
+  - first:
+      213: 2179497858412046432
+    second: Talk normal0000
+  - first:
+      213: 1807143170510932762
+    second: Talk normal0001
+  - first:
+      213: -8933320575435703220
+    second: Talk normal0002
+  - first:
+      213: 6714316483518267023
+    second: Talk normal0003
+  - first:
+      213: -8281397170884845231
+    second: Talk think0000
+  - first:
+      213: -2209407930757693237
+    second: Talk think0001
+  - first:
+      213: -4885259739524700042
+    second: Talk think0002
+  - first:
+      213: 5268718356666467284
+    second: Talk think0003
+  - first:
+      213: 6187769986904769131
+    second: idle THINK0000
+  - first:
+      213: -1557317917109065496
+    second: idle THINK0038
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Idle Angry0000
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 2883
+        width: 621
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 398b54d81b35ffaa0800000000000000
+      internalID: -6125084946156111725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle Angry0001
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 2884
+        width: 625
+        height: 1202
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f16e034756c7c57a0800000000000000
+      internalID: -6387093396335303137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle Angry0002
+      rect:
+        serializedVersion: 2
+        x: 1356
+        y: 2883
+        width: 617
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aea9e8452ac4d1670800000000000000
+      internalID: 8511043130887150314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle Angry0003
+      rect:
+        serializedVersion: 2
+        x: 2023
+        y: 2883
+        width: 619
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d99e64bca9e33e40800000000000000
+      internalID: 5635104486741416409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk Sorry!0000
+      rect:
+        serializedVersion: 2
+        x: 2692
+        y: 2878
+        width: 574
+        height: 1208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee320294eaa9d0b10800000000000000
+      internalID: 1949384287063122926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk Sorry!0001
+      rect:
+        serializedVersion: 2
+        x: 3316
+        y: 2878
+        width: 574
+        height: 1208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52bc16fc04a0a8150800000000000000
+      internalID: 5875519937331710757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk Sorry!0002
+      rect:
+        serializedVersion: 2
+        x: 2692
+        y: 2878
+        width: 574
+        height: 1208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba914797503f34da0800000000000000
+      internalID: -5961654276870366805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk Sorry!0003
+      rect:
+        serializedVersion: 2
+        x: 3940
+        y: 2878
+        width: 574
+        height: 1208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09f2cdc48461be510800000000000000
+      internalID: 1579380594106445712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk angry0000
+      rect:
+        serializedVersion: 2
+        x: 4565
+        y: 2883
+        width: 621
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65ce13b47586b9140800000000000000
+      internalID: 4727486957988473942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk angry0001
+      rect:
+        serializedVersion: 2
+        x: 5236
+        y: 2883
+        width: 621
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 277b68e63e028aa00800000000000000
+      internalID: 767899897650657138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk angry0002
+      rect:
+        serializedVersion: 2
+        x: 4565
+        y: 2883
+        width: 621
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8eeb0ffde8f204b30800000000000000
+      internalID: 4269464737436188392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk angry0003
+      rect:
+        serializedVersion: 2
+        x: 5907
+        y: 2883
+        width: 621
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dae66a021dd5f1080800000000000000
+      internalID: -9214543159799419219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk normal0000
+      rect:
+        serializedVersion: 2
+        x: 6578
+        y: 2883
+        width: 621
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 068ef5731c12f3e10800000000000000
+      internalID: 2179497858412046432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk normal0001
+      rect:
+        serializedVersion: 2
+        x: 7249
+        y: 2883
+        width: 621
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1bc3909323441910800000000000000
+      internalID: 1807143170510932762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk normal0002
+      rect:
+        serializedVersion: 2
+        x: 6578
+        y: 2883
+        width: 621
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4c77747448760480800000000000000
+      internalID: -8933320575435703220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk normal0003
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1624
+        width: 621
+        height: 1203
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8ef7ad844b0e2d50800000000000000
+      internalID: 6714316483518267023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk think0000
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 1618
+        width: 796
+        height: 1209
+      alignment: 9
+      pivot: {x: 0.3465189, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 151eb795621921d80800000000000000
+      internalID: -8281397170884845231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk think0001
+      rect:
+        serializedVersion: 2
+        x: 1527
+        y: 1618
+        width: 796
+        height: 1209
+      alignment: 9
+      pivot: {x: 0.3465189, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc0c143613b9651e0800000000000000
+      internalID: -2209407930757693237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk think0002
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 1618
+        width: 796
+        height: 1209
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 678ec1e6622143cb0800000000000000
+      internalID: -4885259739524700042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Talk think0003
+      rect:
+        serializedVersion: 2
+        x: 2373
+        y: 1618
+        width: 796
+        height: 1209
+      alignment: 9
+      pivot: {x: 0.3465189, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d34fa63e6f3e1940800000000000000
+      internalID: 5268718356666467284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle THINK0000
+      rect:
+        serializedVersion: 2
+        x: 3219
+        y: 1618
+        width: 677
+        height: 1209
+      alignment: 9
+      pivot: {x: 0.4247456, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b624845d4006fd550800000000000000
+      internalID: 6187769986904769131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: idle THINK0038
+      rect:
+        serializedVersion: 2
+        x: 3946
+        y: 1618
+        width: 677
+        height: 1209
+      alignment: 9
+      pivot: {x: 0.4247456, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e8ec5cfa9b436ae0800000000000000
+      internalID: -1557317917109065496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
