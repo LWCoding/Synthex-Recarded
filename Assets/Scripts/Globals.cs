@@ -13,6 +13,7 @@ public static class Globals
     public static List<Status> allStatuses = new List<Status>();
     public static List<StatusFlavor> allStatusFlavors = new List<StatusFlavor>();
     public static List<Relic> allRelics = new List<Relic>();
+    public static List<Item> allItems = new List<Item>();
     public static List<Dialogue> allDialogues = new List<Dialogue>();
     public static List<CardEffect> allCardEffects = new List<CardEffect>();
     public static List<MapInfo> allMapInfo = new List<MapInfo>();
@@ -61,6 +62,10 @@ public static class Globals
         // Find all relics in the "Relics" folder (through Resources)
         // and add them to the `allRelics` variable.
         allRelics = Resources.LoadAll<Relic>("ScriptableObjects/Relics").ToList();
+
+        // Find all items in the "Items" folder (through Resources)
+        // and add them to the `allItems` variable.
+        allItems = Resources.LoadAll<Item>("ScriptableObjects/Items").ToList();
 
         // Find all card effects in the "CardEffects" folder (through Resources)
         // and add them to the `allCardEffects` variable.

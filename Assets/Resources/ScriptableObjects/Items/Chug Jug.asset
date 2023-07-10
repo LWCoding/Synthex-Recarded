@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Chug Jug
   itemDesc: Gain 12 block this turn.
-  itemImage: {fileID: 0}
+  itemImage: {fileID: 21300000, guid: ee7ceb6912a783f488f35db8159fb626, type: 3}
   type: 2

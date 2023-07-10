@@ -1891,7 +1891,7 @@ MonoBehaviour:
     m_Top: 150
     m_Bottom: 150
   m_ChildAlignment: 0
-  m_Spacing: 225
+  m_Spacing: 145
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -2883,7 +2883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea587ffdb86b624da4051dd362b7526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 572404941624521553, guid: 52e0a4f4f70d5e5408baba883f5d5730, type: 3}
   scrollParentTransform: {fileID: 984680288}
 --- !u!1 &1371347580
 GameObject:

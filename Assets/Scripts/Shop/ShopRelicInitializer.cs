@@ -19,21 +19,21 @@ public class ShopRelicInitializer : MonoBehaviour
     private void InitializeShopRelics()
     {
         Transform horizontalTransform = null;
-        int currCardIdx = 0;
+        int currItemIdx = 0;
         PopulateShopRelics();
         // Recover a pooled object for each relic.
         foreach (Relic relic in _currentRelicsInShop)
         {
-            // If divisible by 2, create a new row of cards.
+            // If divisible by 2, create a new row of relics.
             // This number can be changed at any time to modify
-            // the amount of cards shown in one row.
-            if (currCardIdx % 2 == 0)
+            // the amount of relics shown in one row.
+            if (currItemIdx % 2 == 0)
             {
                 GameObject newRow = CreateNewRelicRow();
                 horizontalTransform = newRow.transform;
                 horizontalTransform.SetParent(scrollParentTransform, false);
             }
-            // Set the basic information for the card.
+            // Set the basic information for the relic.
             GameObject relicObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.RELIC);
             RelicHandler relicHandler = relicObject.GetComponent<RelicHandler>();
             relicHandler.Initialize(relic, true);
@@ -42,8 +42,7 @@ public class ShopRelicInitializer : MonoBehaviour
             relicHandler.SetRelicImageScale(2, 1);
             relicObject.transform.localPosition = new Vector3(relicObject.transform.localPosition.x, relicObject.transform.localPosition.y, 0);
             relicObject.transform.SetParent(horizontalTransform, false);
-            // We want the card to appear instantly.
-            currCardIdx++;
+            currItemIdx++;
             _relicPreviewControllers.Add(relicHandler);
         }
     }

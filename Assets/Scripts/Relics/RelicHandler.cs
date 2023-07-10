@@ -10,14 +10,15 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     [Header("Object Assignments")]
     [HideInInspector] public Relic relicInfo;
-    public GameObject imageObject;
-    public GameObject relicFlashObject;
-    public GameObject tooltipParentObject;
-    public GameObject shinyBGObject;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI descText;
-    public Image relicFlashImage;
-    public bool showTooltipOnHover;
+    [SerializeField] private GameObject imageObject;
+    [SerializeField] private GameObject tooltipParentObject;
+    [SerializeField] private GameObject shinyBGObject;
+    [SerializeField] private TextMeshProUGUI nameText;
+    [SerializeField] private TextMeshProUGUI descText;
+    [SerializeField] private GameObject relicFlashObject;
+
+    private Image _relicFlashImage;
+    private bool _showTooltipOnHover;
     private float _initialScale;
     private float _desiredScale;
     private IEnumerator _relicFlashCoroutine = null;
@@ -28,6 +29,7 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private void Awake()
     {
         _relicCanvas = GetComponent<Canvas>();
+        _relicFlashImage = relicFlashObject.GetComponent<Image>();
         _tooltipCanvas = tooltipParentObject.GetComponent<Canvas>();
     }
 
@@ -43,13 +45,13 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         GetComponent<ShopRelicHandler>().enabled = false;
         _initialScale = imageObject.transform.localScale.x;
         _desiredScale = _initialScale;
-        this.showTooltipOnHover = showTooltipOnHover;
+        this._showTooltipOnHover = showTooltipOnHover;
         // Set the relic information
         relicInfo = r;
         nameText.text = r.relicName;
         descText.text = r.relicDesc;
         imageObject.GetComponent<Image>().sprite = r.relicImage;
-        relicFlashImage.sprite = r.relicImage;
+        _relicFlashImage.sprite = r.relicImage;
     }
 
     // Flash the relic in an animation. This should happen
@@ -67,15 +69,15 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private IEnumerator FlashRelicCoroutine()
     {
         // Calculate frames and initial values for linear interpolation.
-        float frames = 0;
-        float maxFrames = 0.8f * 60; // Max # of frames calculated by 60 frames per second!
+        float currTime = 0;
+        float timeToWait = 0.7f;
         relicFlashObject.SetActive(true);
-        Vector3 initialFlashScale = new Vector3(_initialScale + 0.5f, _initialScale + 0.5f, 1);
+        Vector3 initialFlashScale = new Vector3(_initialScale + 0.4f, _initialScale + 0.4f, 1);
         Vector3 targetFlashScale = new Vector3(_initialScale, _initialScale, 1);
-        while (frames < maxFrames)
+        while (currTime < timeToWait)
         {
-            relicFlashImage.transform.localScale = Vector3.Lerp(initialFlashScale, targetFlashScale, frames / maxFrames);
-            frames++;
+            currTime += Time.deltaTime;
+            _relicFlashImage.transform.localScale = Vector3.Lerp(initialFlashScale, targetFlashScale, currTime / timeToWait);
             yield return null;
         }
         relicFlashObject.SetActive(false);
@@ -84,7 +86,7 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (showTooltipOnHover)
+        if (_showTooltipOnHover)
         {
             tooltipParentObject.SetActive(true);
         }
@@ -113,6 +115,12 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         shinyBGObject.GetComponent<Canvas>().sortingOrder = sortingOrder - 1;
         _relicCanvas.sortingOrder = sortingOrder;
         _tooltipCanvas.sortingOrder = sortingOrder + 1;
+    }
+
+    public void DisableTooltip()
+    {
+        _showTooltipOnHover = false;
+        tooltipParentObject.SetActive(false);
     }
 
     // Calling this function allows the user to click the relic to add

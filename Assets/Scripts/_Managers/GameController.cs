@@ -9,6 +9,8 @@ public static class GameController
     public static void SetChosenHero(Hero h) => _chosenHero = h;
     public static List<Card> GetHeroCards() => _chosenHero.currentDeck;
     public static List<Relic> GetRelics() => _chosenHero.currentRelics;
+    public static List<Item> GetItems() => _chosenHero.currentItems;
+    public static bool IsItemBagFull() => _chosenHero.currentItems.Count >= GetHeroData().maxItemStorageSpace;
     public static HeroData GetHeroData() => _chosenHero.heroData;
     public static int GetHeroHealth() => _chosenHero.currentHealth;
     public static int GetHeroMaxHealth() => _chosenHero.maxHealth;
@@ -45,6 +47,9 @@ public static class GameController
     private const float COMMON_RELIC_CHANCE = 0.7f;
     private const float UNCOMMON_RELIC_CHANCE = 0.2f;
     private const float RARE_RELIC_CHANCE = 0.1f;
+    private const float COMMON_ITEM_CHANCE = 0.7f;
+    private const float UNCOMMON_ITEM_CHANCE = 0.2f;
+    private const float RARE_ITEM_CHANCE = 0.1f;
 
     // Adds a card to the deck.
     public static void AddCardToDeck(Card card)
@@ -57,6 +62,18 @@ public static class GameController
     {
         if (HasRelic(relic.type)) { return; }
         _chosenHero.currentRelics.Add(relic);
+    }
+
+    // Adds an item to the player's inventory.
+    public static void AddItemToInventory(Item item)
+    {
+        _chosenHero.currentItems.Add(item);
+    }
+
+    // Uses an item in the player's inventory.
+    public static void UseItemInInventory(int index)
+    {
+        _chosenHero.currentItems.RemoveAt(index);
     }
 
     public static void SetPlayedDialogues(List<DialogueName> dialogues, List<string> tutorials, bool hasVisitedShop)
@@ -77,6 +94,7 @@ public static class GameController
         so.mapDialoguesPlayed = alreadyPlayedMapDialogues;
         so.tutorialsPlayed = alreadyPlayedTutorials;
         so.visitedShopBefore = visitedShopBefore;
+        GlobalUIController.Instance.PlaySaveIconAnimation();
         SaveLoadManager.Save(so);
     }
 
@@ -121,6 +139,67 @@ public static class GameController
         }
         int randomIdx = Random.Range(0, possibleCards.Count);
         return new Card(possibleCards[randomIdx]);
+    }
+
+    /// <summary>
+    /// Returns a random item from the pool of all items, based on the chances of item rarities.
+    /// Excludes any items that are in the provided blacklist. 
+    /// If no valid items are found, returns null.
+    /// CANNOT return unobtainable items.
+    /// </summary>
+    public static Item GetRandomItem(List<Item> itemBlacklist, float commonChance = -1, float uncommonChance = -1, float rareChance = -1)
+    {
+        if (commonChance == -1) { commonChance = COMMON_ITEM_CHANCE; }
+        if (uncommonChance == -1) { uncommonChance = UNCOMMON_ITEM_CHANCE; }
+        if (rareChance == -1) { rareChance = RARE_ITEM_CHANCE; }
+        // Get a full list of non-unobtainable and non-placeholder items.
+        List<Item> possibleItemsToAchieve = Globals.allItems.FindAll((item) => item.itemRarity != ItemRarity.UNOBTAINABLE && item.itemRarity != ItemRarity.PLACEHOLDER);
+        // Remove any items that are in the provided blacklist.
+        for (int i = 0; i < itemBlacklist.Count; i++)
+        {
+            possibleItemsToAchieve.Remove(itemBlacklist[i]);
+        }
+        // Sum up the probabilities of getting each item.
+        float itemProbabilitySum = 0;
+        foreach (Item item in possibleItemsToAchieve)
+        {
+            switch (item.itemRarity)
+            {
+                case ItemRarity.COMMON:
+                    itemProbabilitySum += commonChance;
+                    break;
+                case ItemRarity.UNCOMMON:
+                    itemProbabilitySum += uncommonChance;
+                    break;
+                case ItemRarity.RARE:
+                    itemProbabilitySum += rareChance;
+                    break;
+                default:
+                    break;
+            }
+        }
+        // Get a random number within the range, and map that to a item.
+        float randomIdx = Random.Range(0, itemProbabilitySum);
+        foreach (Item item in possibleItemsToAchieve)
+        {
+            switch (item.itemRarity)
+            {
+                case ItemRarity.COMMON:
+                    randomIdx -= commonChance;
+                    break;
+                case ItemRarity.UNCOMMON:
+                    randomIdx -= uncommonChance;
+                    break;
+                case ItemRarity.RARE:
+                    randomIdx -= rareChance;
+                    break;
+                default:
+                    break;
+            }
+            if (randomIdx <= 0) { return item; }
+        }
+        Debug.Assert(false); // This should never be null.
+        return null;
     }
 
     /// <summary>
@@ -192,6 +271,25 @@ public static class GameController
         }
         Debug.Assert(false); // This should never be null.
         return null;
+    }
+
+    /// <summary>
+    /// Returns an updated description with text like "Block" replaced with
+    /// the actual icons.
+    /// </summary>
+    public static string GetDescriptionWithIcons(string descString)
+    {
+        // Replace instances of certain texts with their icons.
+        descString = descString.Replace("damage", "<sprite name=\"damage\">");
+        descString = descString.Replace("health", "<sprite name=\"health\">");
+        descString = descString.Replace("block", "<sprite name=\"block\">");
+        descString = descString.Replace("Energy", "<sprite name=\"energy\">");
+        // Replace all status effect names with the icons of the statuses.
+        foreach (Status se in Globals.allStatuses)
+        {
+            descString = descString.Replace(se.statusName, "<sprite name=\"" + se.statusName.ToLower() + "\">");
+        }
+        return descString;
     }
 
     /// <summary>

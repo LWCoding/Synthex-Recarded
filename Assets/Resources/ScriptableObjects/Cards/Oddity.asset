@@ -36,7 +36,7 @@ MonoBehaviour:
     particleCount: 10
     particleColor: {r: 1, g: 1, b: 1, a: 1}
     affectedByGravity: 0
-  cardRarity: 1
+  cardRarity: 2
   cardExclusivity: 0
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1

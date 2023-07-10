@@ -11,7 +11,6 @@ public class TitleUIButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointe
     [Header("Object Assignments")]
     public UnityEvent OnClick = new UnityEvent();
     [Header("Sound Assignments")]
-    public AudioClip buttonHoverSFX;
     public AudioClip buttonSelectSFX;
     private bool _isClickable = true;
     private Animator _buttonAnimator;
@@ -36,7 +35,7 @@ public class TitleUIButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointe
     {
         if (IsTitleButtonSelected || !_isClickable) { return; }
         _buttonAnimator.Play("Glow", -1, 0f);
-        SoundManager.Instance.PlayOneShot(buttonHoverSFX, 1);
+        SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_BUTTON_HOVER);
     }
 
     public void OnPointerExit(PointerEventData ped)

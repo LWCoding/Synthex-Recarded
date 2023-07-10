@@ -30,7 +30,6 @@ public class SettingsManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _volumeText;
     private void SetVolumeText(float volume) => _volumeText.text = "Volume (" + Mathf.RoundToInt(volume * 100) + ")";
     [Header("Audio Assignments")]
-    public AudioClip buttonHoverSFX;
     public AudioClip buttonSelectSFX;
     private bool _isGamePaused = false;
     public bool IsGamePaused() => _isGamePaused;
@@ -110,7 +109,7 @@ public class SettingsManager : MonoBehaviour
     public void PlayButtonHoverSFX()
     {
         if (_isOptionChosen) { return; }
-        SoundManager.Instance.PlayOneShot(buttonHoverSFX);
+        SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_BUTTON_HOVER);
     }
 
     // Plays the button select sound.
@@ -171,7 +170,6 @@ public class SettingsManager : MonoBehaviour
         StartCoroutine(AnimateButtonBeforeRunningCode(buttonImage, button.spriteState.disabledSprite, button.spriteState.highlightedSprite, () =>
         {
             ToggleScreen("Options");
-            _masterVolumeSlider.value = SoundManager.Instance.GetDesiredVolume();
             button.enabled = true;
         }));
     }
@@ -297,6 +295,11 @@ public class SettingsManager : MonoBehaviour
         {
             Debug.Log("Error! SettingsManager.cs couldn't find valid option in ToggleScreen() function.");
             return;
+        }
+        // If it's the options screen, let's set some data first.
+        if (name == "Options")
+        {
+            _masterVolumeSlider.value = SoundManager.Instance.GetDesiredVolume();
         }
         GameObject screenObject = null;
         _settingsScreenObject.SetActive(false);

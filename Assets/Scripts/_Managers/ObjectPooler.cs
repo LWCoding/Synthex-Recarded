@@ -6,7 +6,8 @@ using TMPro;
 
 public enum PoolableType
 {
-    CARD, RELIC, CARD_EFFECT, TEXT_POPUP, UI_TEXT_POPUP
+    CARD = 0, RELIC = 1, CARD_EFFECT = 2, TEXT_POPUP = 3, UI_TEXT_POPUP = 4,
+    ITEM = 5
 }
 
 public class ObjectPooler : MonoBehaviour
@@ -16,6 +17,7 @@ public class ObjectPooler : MonoBehaviour
     [Header("Object Assignments")]
     public GameObject cardPrefab;
     public GameObject relicPrefab;
+    public GameObject itemPrefab;
     public GameObject textPopupPrefab;
     public GameObject uiTextPopupPrefab;
     public Dictionary<PoolableType, Stack<GameObject>> inactiveObjects = new Dictionary<PoolableType, Stack<GameObject>>();
@@ -45,6 +47,9 @@ public class ObjectPooler : MonoBehaviour
                 break;
             case PoolableType.RELIC:
                 obj = Instantiate(relicPrefab);
+                break;
+            case PoolableType.ITEM:
+                obj = Instantiate(itemPrefab);
                 break;
             case PoolableType.CARD_EFFECT:
                 obj = new GameObject("CardEffect");

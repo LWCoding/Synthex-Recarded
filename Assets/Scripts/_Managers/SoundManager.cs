@@ -12,7 +12,7 @@ public enum SoundEffect
     CARD_OBTAIN, COIN_OBTAIN, GENERIC_CARD_PLAYED, GENERIC_DAMAGE_TAKEN,
     SHIELD_DAMAGE, CARD_HOVER, RELIC_OBTAIN, GAIN_BUFF, GAIN_DEBUFF,
     GAIN_CHARGE, NEW_CARD_SELECT, GAME_OVER, SHOP_PURCHASE,
-    SHIELD_APPLY, EXPLOSION, HEAL_HEALTH, CHARGE_ENERGY
+    SHIELD_APPLY, EXPLOSION, HEAL_HEALTH, CHARGE_ENERGY, GENERIC_BUTTON_HOVER
 }
 
 public enum CharacterBlipName
@@ -68,6 +68,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip shopPurchaseSFX;
     public AudioClip explosionSFX;
     public AudioClip energyChargeSFX;
+    public AudioClip genericButtonHoverSFX;
     [Header("Character Blips")]
     public List<CharacterBlip> characterBlips = new List<CharacterBlip>();
     private float _timeSinceLastBlip;
@@ -201,6 +202,9 @@ public class SoundManager : MonoBehaviour
                 break;
             case SoundEffect.CHARGE_ENERGY:
                 PlayOneShot(energyChargeSFX, (volumeOverride != -1) ? volumeOverride : 0.7f);
+                break;
+            case SoundEffect.GENERIC_BUTTON_HOVER:
+                PlayOneShot(genericButtonHoverSFX, (volumeOverride != -1) ? volumeOverride : 1);
                 break;
         }
     }

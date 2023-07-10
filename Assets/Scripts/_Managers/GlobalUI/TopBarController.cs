@@ -13,6 +13,7 @@ public enum TokenType
 
 [RequireComponent(typeof(TopBarRelicController))]
 [RequireComponent(typeof(TopBarCardController))]
+[RequireComponent(typeof(TopBarItemController))]
 public class TopBarController : MonoBehaviour
 {
 
@@ -20,19 +21,25 @@ public class TopBarController : MonoBehaviour
     [Header("Prefab Assignments")]
     [SerializeField] private GameObject tokenPrefabObject;
     [Header("Object Assignments")]
+    [SerializeField] private Transform topBarParentTransform;
     [SerializeField] private Image barBGImage;
     [SerializeField] private Image heroFrameImage;
-    [SerializeField] private Image pauseIconImage;
     [SerializeField] private Image heroHeadshotImage;
-    [SerializeField] private GameObject topBarParentObject;
     [SerializeField] private Image coinIconImage;
     [SerializeField] private Image xpIconImage;
     [SerializeField] private TextMeshProUGUI heroNameText;
     [SerializeField] private TextMeshProUGUI heroHealthText;
     [SerializeField] private TextMeshProUGUI heroCurrencyText;
     [SerializeField] private TextMeshProUGUI heroXPText;
+    [SerializeField] private Image pauseIconImage;
+    [SerializeField] private Transform canvasTransform;
 
-    private Transform _canvasTransform;
+    private TopBarItemController _topBarItemController;
+    public void RenderItems() => _topBarItemController.RenderItems();
+    public void FlashItemObject(int idx) => _topBarItemController.FlashItemObject(idx);
+    public void UpdateItemVerifyText(bool hasBeenClicked) => _topBarItemController.UpdateItemVerifyText(hasBeenClicked);
+    public void ShowTopBarItemTooltip(Item item) => _topBarItemController.ShowTopBarItemTooltip(item);
+    public void HideTopBarItemTooltip() => _topBarItemController.HideTopBarItemTooltip();
     private TopBarRelicController _topBarRelicController;
     public void RenderRelics() => _topBarRelicController.RenderRelics();
     public void FlashRelicObject(RelicType r) => _topBarRelicController.FlashRelicObject(r);
@@ -60,7 +67,8 @@ public class TopBarController : MonoBehaviour
         // Make sure this object isn't destroyed.
         DontDestroyOnLoad(this.gameObject);
         _topBarRelicController = GetComponent<TopBarRelicController>();
-        _canvasTransform = GameObject.Find("GlobalTopBarCanvas").transform;
+        _topBarCardController = GetComponent<TopBarCardController>();
+        _topBarItemController = GetComponent<TopBarItemController>();
     }
 
     // Initializes all of the information in the top bar.
@@ -69,15 +77,13 @@ public class TopBarController : MonoBehaviour
     {
         ShowTopBar();
         StopAllCoroutines();
-        topBarParentObject.transform.SetParent(GameObject.Find("GlobalTopBarCanvas").transform);
-        topBarParentObject.transform.localScale = new Vector3(1, 1, 1);
-        topBarParentObject.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-        heroNameText.text = GameController.GetHeroData().characterName.ToUpper();
-        UpdateHealthText(GameController.GetHeroHealth(), GameController.GetHeroMaxHealth(), false);
-        UpdateCurrencyText();
-        // Spawn all relic objects at top.
+        // Update the information in the Top Bar.
+        UpdateUIInformation();
+        // Render the relics using the TopBarRelicController.
         RenderRelics();
-        // Do stuff with cards.
+        // Render the items using the TopBarItemController.
+        RenderItems();
+        // Initialize all of the card information in the TopBarCardController.
         InitializeCardController();
         // Set the colors of the UI depending on the current hero.
         HeroData heroData = GameController.GetHeroData();
@@ -86,12 +92,24 @@ public class TopBarController : MonoBehaviour
 
     public void HideTopBar()
     {
-        topBarParentObject.SetActive(false);
+        topBarParentTransform.gameObject.SetActive(false);
     }
 
     public void ShowTopBar()
     {
-        topBarParentObject.SetActive(true);
+        topBarParentTransform.gameObject.SetActive(true);
+    }
+
+    // Updates all information in the top bar, such as name, health, 
+    // currency, etc.
+    public void UpdateUIInformation()
+    {
+        topBarParentTransform.SetParent(canvasTransform);
+        topBarParentTransform.localScale = new Vector3(1, 1, 1);
+        topBarParentTransform.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+        heroNameText.text = GameController.GetHeroData().characterName.ToUpper();
+        UpdateHealthText(GameController.GetHeroHealth(), GameController.GetHeroMaxHealth(), false);
+        UpdateCurrencyText();
     }
 
     // Set the color of the UI depending on the currently selected hero.
@@ -114,7 +132,7 @@ public class TopBarController : MonoBehaviour
             int changeInHealth = newHealth - prevHealth;
             if (changeInHealth != 0)
             {
-                ObjectPooler.Instance.SpawnUIPopup((changeInHealth > 0) ? "+" + changeInHealth.ToString() : changeInHealth.ToString(), 36, heroHealthText.transform.position, (changeInHealth > 0) ? new Color(0.1f, 1, 0.1f) : new Color(1, 0.1f, 0.1f), _canvasTransform, 1, 1.4f, false);
+                ObjectPooler.Instance.SpawnUIPopup((changeInHealth > 0) ? "+" + changeInHealth.ToString() : changeInHealth.ToString(), 36, heroHealthText.transform.position, (changeInHealth > 0) ? new Color(0.1f, 1, 0.1f) : new Color(1, 0.1f, 0.1f), canvasTransform, 1, 1.4f, false);
             }
         }
         heroHealthText.text = newHealth.ToString() + "/" + maxHealth;
@@ -157,7 +175,7 @@ public class TopBarController : MonoBehaviour
     private IEnumerator AnimateTokenToBalanceCoroutine(TokenType tokenType, Vector3 initialPosition, int amount, int delayInc = 0)
     {
         yield return new WaitForSeconds(delayInc * 0.08f);
-        GameObject tokenObject = Instantiate(tokenPrefabObject, _canvasTransform);
+        GameObject tokenObject = Instantiate(tokenPrefabObject, canvasTransform);
         tokenObject.transform.position = initialPosition;
         tokenObject.GetComponent<Image>().sprite = (tokenType == TokenType.COIN) ? coinIconImage.sprite : xpIconImage.sprite;
         Vector3 targetPosition = (tokenType == TokenType.COIN) ? coinIconImage.transform.position : xpIconImage.transform.position;

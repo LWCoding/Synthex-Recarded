@@ -15,19 +15,14 @@ public class TopBarCardController : MonoBehaviour
     [SerializeField] private GraphicRaycaster _cardPreviewGraphicRaycaster;
     [SerializeField] private Transform _cardPreviewParentTransform;
     [SerializeField] private Button _showDeckButton;
+    [SerializeField] private Transform canvasTransform;
 
     private Button drawPileButton;
     private Button discardPileButton;
-    private Transform _canvasTransform;
     private bool _isShowAllCardsButtonClickable = true;
     private Button _currentlySelectedDeckPreviewButton = null;
     private List<CardHandler> _cardPreviewControllers = new List<CardHandler>();
     private int _selectedButtonInitialSortingOrder = 0;
-
-    private void Awake()
-    {
-        _canvasTransform = GameObject.Find("GlobalTopBarCanvas").transform;
-    }
 
     public void Initialize()
     {
@@ -67,7 +62,7 @@ public class TopBarCardController : MonoBehaviour
     {
         yield return new WaitForSeconds(delayInc * 0.08f);
         // Create and initialize the card object.
-        GameObject cardObject = Instantiate(cardPrefabObject, _canvasTransform);
+        GameObject cardObject = Instantiate(cardPrefabObject, canvasTransform);
         CanvasGroup cardCanvasGroup = cardObject.GetComponent<CanvasGroup>();
         cardObject.transform.position = initialPosition;
         cardObject.transform.localScale = initialScale;

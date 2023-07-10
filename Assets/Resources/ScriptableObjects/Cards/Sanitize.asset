@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee86f6c045c704740bca70758d3d2139, type: 3}
-  m_Name: Cleanse
+  m_Name: Sanitize
   m_EditorClassIdentifier: 
-  cardName: Cleanse
-  cardImage: {fileID: 0}
+  cardName: Sanitize
+  cardImage: {fileID: 21300000, guid: 499fbc7c4523b6d4bbd33e78cbbde59b, type: 3}
   cardType: 4
   characterMovement: 0
   projectileSprite: {fileID: 0}

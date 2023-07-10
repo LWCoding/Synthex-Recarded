@@ -1,4 +1,0 @@
-repository "Card Battle Game@Selenium_Inc_0@cloud"
-  path "/"
-    br "/main"
-    co "/main"

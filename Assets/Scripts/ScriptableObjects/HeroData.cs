@@ -18,6 +18,7 @@ public class Hero
     [Header("Inventory")]
     public List<Card> currentDeck = new List<Card>();
     public List<Relic> currentRelics = new List<Relic>();
+    public List<Item> currentItems = new List<Item>();
 
     // Initialize a hero from scratch from its data.
     public void Initialize(HeroData data)
@@ -31,11 +32,17 @@ public class Hero
         {
             currentDeck.Add(new Card(cardData));
         }
-        // Create a new Relic object for all relicData in the starting relics.
+        // Create a new Relic object for all relics in the starting relics.
         currentRelics = new List<Relic>();
         foreach (Relic relic in heroData.startingRelics)
         {
             currentRelics.Add(relic);
+        }
+        // Create a new Item object for all items in the starting items.
+        currentItems = new List<Item>();
+        foreach (Item item in heroData.startingItems)
+        {
+            currentItems.Add(item);
         }
     }
 
@@ -49,6 +56,7 @@ public class HeroData : Character
     [Header("Base Information")]
     public int baseHealth;
     public HeroTag heroTag;
+    public int maxItemStorageSpace;
     [Header("Cosmetic Information")]
     public Sprite heroHeadshotSprite;
     public Color heroUIColor;
@@ -58,5 +66,7 @@ public class HeroData : Character
     public List<CardData> startingDeck = new List<CardData>();
     [Header("Relics")]
     public List<Relic> startingRelics = new List<Relic>();
+    [Header("Items")]
+    public List<Item> startingItems = new List<Item>();
 
 }

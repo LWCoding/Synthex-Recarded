@@ -20,6 +20,7 @@ MonoBehaviour:
   shadowScale: {x: 3.3, y: 0.9}
   baseHealth: 40
   heroTag: 2
+  maxItemStorageSpace: 3
   heroHeadshotSprite: {fileID: 21300000, guid: b954b656573f82f4e87fcb90eba684c8, type: 3}
   heroUIColor: {r: 0, g: 0.5784782, b: 0.8490566, a: 1}
   deathSprite: {fileID: 21300000, guid: cd565311be47d9444b5d93bcb3cda472, type: 3}
@@ -31,3 +32,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 70e27e1b5fb01ac49a9c0acd269d5ed1, type: 2}
   startingRelics:
   - {fileID: 11400000, guid: e779b61f97cdb1548800a8def850b16e, type: 2}
+  startingItems: []

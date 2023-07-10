@@ -113,16 +113,8 @@ public class CardHandler : MonoBehaviour
         // Replace the [ATK] and [DEF] placeholders with the actual values.
         cardText = cardText.Replace("[ATK]", (card.GetCardStats().damageValue + strengthBuff).ToString() + strengthBuffText);
         cardText = cardText.Replace("[DEF]", (card.GetCardStats().blockValue + defenseBuff).ToString() + defenseBuffText);
-        // Replace instances of certain texts with their icons.
-        cardText = cardText.Replace("damage", "<sprite name=\"damage\">");
-        cardText = cardText.Replace("health", "<sprite name=\"health\">");
-        cardText = cardText.Replace("block", "<sprite name=\"block\">");
-        cardText = cardText.Replace("Energy", "<sprite name=\"energy\">");
-        // Replace all status effect names with the icons of the statuses.
-        foreach (Status se in Globals.allStatuses)
-        {
-            cardText = cardText.Replace(se.statusName, "<sprite name=\"" + se.statusName.ToLower() + "\">");
-        }
+        // Update the status effect texts with their actual icons.
+        cardText = GameController.GetDescriptionWithIcons(cardText);
         descText.text = cardText;
     }
 

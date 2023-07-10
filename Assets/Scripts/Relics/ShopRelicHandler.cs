@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
+[RequireComponent(typeof(RelicHandler))]
 public class ShopRelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
@@ -12,14 +13,12 @@ public class ShopRelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public GameObject frameOverlayObject;
     private RelicHandler _parentRelicHandler;
     private Relic _relicInfo;
-    private Transform _parentRelicTransform;
     private bool _isInteractable;
     private int _relicCost;
 
     private void Awake()
     {
         _parentRelicHandler = GetComponent<RelicHandler>();
-        _parentRelicTransform = _parentRelicHandler.imageObject.transform;
     }
 
     private void Start()
@@ -70,8 +69,7 @@ public class ShopRelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
             _isInteractable = false;
             relicCostText.text = "";
             // Make the tooltip not show anymore.
-            _parentRelicHandler.showTooltipOnHover = false;
-            _parentRelicHandler.tooltipParentObject.SetActive(false);
+            _parentRelicHandler.DisableTooltip();
             // Play the relic chosen SFX.
             SoundManager.Instance.PlaySFX(SoundEffect.SHOP_PURCHASE);
             // Add the relic to the deck.

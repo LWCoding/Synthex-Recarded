@@ -26,6 +26,7 @@ public class MapScroll : MonoBehaviour
             return;
         }
         Instance = this;
+        _cameraObject = Camera.main.gameObject;
         _cameraAnimator = Camera.main.GetComponent<Animator>();
     }
 
@@ -42,14 +43,13 @@ public class MapScroll : MonoBehaviour
         yield return new WaitUntil(() => !IsPlaying("PanCamera"));
         _cameraAnimator.enabled = false;
         _isPlayingBeginningAnimation = false;
-        SetCameraPosition(Camera.main.transform.position);
+        SetCameraPosition(_cameraObject.transform.position);
     }
 
     public void SetCameraPosition(Vector3 pos)
     {
-        Camera.main.transform.position = pos;
+        _cameraObject.transform.position = pos;
         _targetPosition = pos;
-        _cameraObject = Camera.main.gameObject;
         StartCoroutine(SetScrollBounds());
     }
 
@@ -58,7 +58,7 @@ public class MapScroll : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         Transform bossChoiceTransform = MapController.Instance.mapParentObject.transform.Find("BossChoice");
-        _minCameraY = Camera.main.transform.position.y;
+        _minCameraY = _cameraObject.transform.position.y;
         _maxCameraY = bossChoiceTransform.position.y - 1;
     }
 
