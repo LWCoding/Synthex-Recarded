@@ -53,13 +53,13 @@ public partial class BattleCharacterController : MonoBehaviour
                 StatusEffect effect = statusHandler.statusEffects[i];
                 if (effect.statusInfo.effectFaction == EffectFaction.DEBUFF)
                 {
-                    statusHandler.RemoveStatusEffect(effect);
+                    statusHandler.RemoveStatusEffect(effect.statusInfo.type);
                 }
             }
         }
         if (_storedCard.HasTrait(Trait.DEAL_DAMAGE_EQ_TO_BLOCK))
         {
-            targetBCC.ChangeHealth(-block);
+            targetBCC.ChangeHealth(-GetBlock());
         }
         if (_storedCard.HasTrait(Trait.HEAL_SIX_HEALTH))
         {
@@ -101,7 +101,7 @@ public partial class BattleCharacterController : MonoBehaviour
         }
         if (_storedCard.HasTrait(Trait.DRAIN_CHARGE))
         {
-            statusHandler.RemoveStatusEffect(Globals.GetStatus(Effect.CHARGE));
+            statusHandler.RemoveStatusEffect(Effect.CHARGE);
         }
         // Render attack and block values.
         RenderAttackAndBlock(_storedCard, targetBCC);

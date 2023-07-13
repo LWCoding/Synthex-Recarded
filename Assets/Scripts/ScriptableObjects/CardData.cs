@@ -140,7 +140,8 @@ public class CardData : ScriptableObject
 {
 
     [Header("Base Information")]
-    public string cardName;
+    [SerializeField] private string cardName;
+    public string cardDisplayName;
     public Sprite cardImage;
     public CardType cardType;
     [Header("Character Movement")]
@@ -163,5 +164,7 @@ public class CardData : ScriptableObject
     [SerializeField] private List<CardStats> cardStats = new List<CardStats>();
     public CardStats GetCardStats(int level) => cardStats[level];
     public int GetMaxLevel() => cardStats.Count;
+    public string GetCardUniqueName() => cardName;
+    public string GetCardDisplayName() => cardDisplayName == "" ? GetCardUniqueName() : cardDisplayName;
 
 }

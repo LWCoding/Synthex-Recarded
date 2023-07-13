@@ -133,7 +133,7 @@ public static class GameController
         // cards from the possibleCards array.
         for (int i = 0; i < cardBlacklist.Count; i++)
         {
-            possibleCards.Remove(cardBlacklist[i].cardData);
+            possibleCards = possibleCards.FindAll((card) => card.GetCardUniqueName() != cardBlacklist[i].cardData.GetCardUniqueName());
         }
         // If there are no possible cards to draw, don't draw any!
         if (possibleCards.Count == 0)

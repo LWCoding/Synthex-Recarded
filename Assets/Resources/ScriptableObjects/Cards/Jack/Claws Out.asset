@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Claws Out
   m_EditorClassIdentifier: 
   cardName: Claws Out
+  cardDisplayName: Claws Out
   cardImage: {fileID: 0}
   cardType: 0
   characterMovement: 1

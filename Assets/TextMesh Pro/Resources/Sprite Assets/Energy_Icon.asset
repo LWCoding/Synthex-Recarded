@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84a92b25f83d49b9bc132d206b370281, type: 3}
-  m_Name: energyicon
+  m_Name: Energy_Icon
   m_EditorClassIdentifier: 
   hashCode: 1870988841
   material: {fileID: 2853458206315390911}

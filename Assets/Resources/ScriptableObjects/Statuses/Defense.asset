@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Defense
   m_EditorClassIdentifier: 
   statusName: Defense
-  statusDescription: All direct blocking cards provide [X] more block.
+  statusDescription: All direct blocking moves provide [X] more block.
   type: 2
   statusIcon: {fileID: 21300000, guid: c14bfc59d6d8fcf4aae2cf733539bc9a, type: 3}
   iconSpriteScale: {x: 0.36, y: 0.36}
   effectFaction: 1
+  canGoNegative: 0

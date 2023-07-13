@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Oddity
   m_EditorClassIdentifier: 
   cardName: Oddity
+  cardDisplayName: Oddity
   cardImage: {fileID: 0}
   cardType: 4
   characterMovement: 0

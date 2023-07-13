@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Harvest
   m_EditorClassIdentifier: 
   cardName: Harvest
+  cardDisplayName: Harvest
   cardImage: {fileID: 21300000, guid: 732fe12aee878d34ea4b8fdd755460b8, type: 3}
   cardType: 2
   characterMovement: 1

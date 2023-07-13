@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Sanitize
   m_EditorClassIdentifier: 
   cardName: Sanitize
+  cardDisplayName: Sanitize
   cardImage: {fileID: 21300000, guid: 499fbc7c4523b6d4bbd33e78cbbde59b, type: 3}
   cardType: 4
   characterMovement: 0

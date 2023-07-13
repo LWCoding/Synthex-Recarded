@@ -5,69 +5,78 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
+public enum CharacterState
+{
+    IDLE = 0, DAMAGED = 1, DEATH = 2
+}
 
 public enum Alignment
 {
-    HERO, ENEMY
+    HERO = 0, ENEMY = 1
 }
 
+[RequireComponent(typeof(CharacterHealthHandler))]
 [RequireComponent(typeof(CharacterStatusHandler))]
 public partial class BattleCharacterController : MonoBehaviour
 {
 
     [Header("Object Assignments")]
     [SerializeField] private Alignment _characterAlignment;
-    [SerializeField] private SpriteRenderer _characterSprite;
-    [SerializeField] private SpriteRenderer _characterShadowSprite;
-    [SerializeField] protected SpriteRenderer _barIconSprite;
-    [SerializeField] private SpriteRenderer _shieldOverlaySprite;
-    [SerializeField] private SpriteRenderer _targetSprite;
-    [SerializeField] private Animator _targetAnimator;
-    [SerializeField] protected TextMeshPro _healthText;
-    [SerializeField] protected TextMeshPro _blockText;
-    [SerializeField] protected GameObject _healthFillObject;
-    [SerializeField] protected Transform _healthBoxTransform;
-    [Header("Sprite Assignments")]
-    [SerializeField] private Sprite _healthIcon;
-    [SerializeField] private Sprite _blockIcon;
+    [SerializeField] protected Transform _characterSpriteContainer;
+    [SerializeField] protected SpriteRenderer _characterSprite;
+    [SerializeField] protected SpriteRenderer _characterShadowSprite;
+    [SerializeField] protected SpriteRenderer _targetSprite;
+    [SerializeField] protected Animator _targetAnimator;
 
-    [HideInInspector] public Sprite damagedSprite;
-    [HideInInspector] public Sprite idleSprite;
-    [HideInInspector] public int health;
-    [HideInInspector] public int block;
-    [HideInInspector] public int maxHealth;
-    [HideInInspector] public List<BattleCharacterController> targetBCCs = new List<BattleCharacterController>();
+    private Sprite idleSprite;
+    private Sprite damagedSprite;
+    private Sprite deathSprite;
+    protected List<BattleCharacterController> targetBCCs = new List<BattleCharacterController>();
     [HideInInspector] public UnityEvent<Card> OnPlayCard = new UnityEvent<Card>();
     [HideInInspector] public UnityEvent<Card> OnPlayedCard = new UnityEvent<Card>();
     [HideInInspector] public UnityEvent<BattleCharacterController> OnDealDamage = new UnityEvent<BattleCharacterController>();
     [HideInInspector] public UnityEvent OnTakeDamage = new UnityEvent();
     [HideInInspector] public UnityEvent OnUpdateHealthText = new UnityEvent();
     [HideInInspector] public UnityEvent OnDeath = new UnityEvent();
-    [HideInInspector] public CharacterStatusHandler statusHandler;
+
+    protected CharacterStatusHandler statusHandler;
+    public StatusEffect GetStatusEffect(Effect e) => statusHandler.GetStatusEffect(e);
+    public void AddStatusEffect(StatusEffect s) => statusHandler.AddStatusEffect(s);
+    public void RemoveStatusEffect(Effect e) => statusHandler.RemoveStatusEffect(e);
+
+    protected CharacterHealthHandler healthHandler;
+    public void ChangeHealth(int change, bool ignBlock = false) => healthHandler.ChangeHealth(change, ignBlock);
+    public void ChangeBlock(int change, bool playAnim = true) => healthHandler.ChangeBlock(change, playAnim);
+    public void DisableCharacterUI() => healthHandler.DisableCharacterUI();
+    public void InitializeHealthData(int startingHP, int maxHP) => healthHandler.Initialize(startingHP, maxHP);
+    public bool IsAlive() => healthHandler.IsAlive();
+    public int GetHealth() => healthHandler.GetHealth();
+    public int GetMaxHealth() => healthHandler.GetMaxHealth();
+    public int GetBlock() => healthHandler.GetBlock();
 
     private Card _storedCard;
-    private Vector3 _initialPosition;
+    private Vector3 _initialSpriteLocalPosition;
+    private Vector3 _initialSpritePosition;
     private Vector2 _healthFillMaxValue;
-    protected IEnumerator blockOverlayCoroutine = null;
     protected IEnumerator _flashColorCoroutine = null;
     protected IEnumerator _damageShakeCoroutine = null;
-    private Color _blockColor = new Color(0.2f, 0.6f, 1);
-    private Color _damagedColor = new Color(1, 0.3f, 0.3f);
     private bool _canSpriteChange = true;
 
     public virtual void Awake()
     {
         statusHandler = GetComponent<CharacterStatusHandler>();
-        _healthFillMaxValue = _healthFillObject.transform.localScale;
+        healthHandler = GetComponent<CharacterHealthHandler>();
     }
 
     public void Initialize(Character characterInfo)
     {
         idleSprite = characterInfo.idleSprite;
         damagedSprite = characterInfo.damagedSprite;
+        deathSprite = characterInfo.deathSprite;
         _characterSprite.transform.localScale = characterInfo.spriteScale;
         _characterSprite.transform.localPosition = characterInfo.spriteOffset;
-        _initialPosition = _characterSprite.transform.localPosition;
+        _initialSpritePosition = _characterSpriteContainer.transform.position;
+        _initialSpriteLocalPosition = _characterSprite.transform.localPosition;
         // Scale the shadow sprite and calculate how much we need to enlarge the
         // target sprite correspondingly.
         Vector3 initialShadowScale = _characterShadowSprite.transform.localScale;
@@ -76,8 +85,7 @@ public partial class BattleCharacterController : MonoBehaviour
                                                 _characterShadowSprite.transform.localScale.y / _characterShadowSprite.transform.localScale.y, 1);
         _characterShadowSprite.transform.SetParent(_characterSprite.transform);
         _targetSprite.transform.localScale = shadowScaleUpwards;
-        SetCharacterSprite(idleSprite);
-        UpdateHealthAndBlockText();
+        SetCharacterSprite(CharacterState.IDLE);
         InitializeStatusEffectScripts();
         TurnUnselectedColor();
     }
@@ -92,6 +100,13 @@ public partial class BattleCharacterController : MonoBehaviour
             {
                 statusHandler.GetStatusEffect(Effect.SHARPEN).shouldActivate = true;
                 targetBCC.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.BLEED, sharpenAmplifier));
+            }
+            // RENDER TARGET'S REFLECT STATUS EFFECT -> TAKE DAMAGE ON ATTACK
+            int reflectAmplifier = (targetBCC.statusHandler.GetStatusEffect(Effect.REFLECT) != null) ? targetBCC.statusHandler.GetStatusEffect(Effect.REFLECT).amplifier : 0;
+            if (reflectAmplifier > 0)
+            {
+                targetBCC.statusHandler.GetStatusEffect(Effect.REFLECT).shouldActivate = true;
+                ChangeHealth(-reflectAmplifier);
             }
         });
         OnTakeDamage.AddListener(() =>
@@ -120,39 +135,43 @@ public partial class BattleCharacterController : MonoBehaviour
             // of each turn.
             foreach (StatusEffect s in statusHandler.statusEffects)
             {
-                // BLEED EFFECT
-                if (s.statusInfo.type == Effect.BLEED)
+                switch (s.statusInfo.type)
                 {
-                    ChangeHealth(-s.amplifier, true);
-                    s.ChangeCount(-1);
-                    s.shouldActivate = true;
-                }
-                // FOCUS EFFECT
-                if (s.statusInfo.type == Effect.FOCUS)
-                {
-                    s.shouldActivate = true;
-                    s.ChangeCount(-1);
-                    EnergyController.Instance.ChangeEnergy(1);
-                }
-                // LUCKY DRAW EFFECT
-                if (_characterAlignment == Alignment.HERO && s.statusInfo.type == Effect.LUCKY_DRAW)
-                {
-                    s.shouldActivate = true;
+                    // Bleed effect should change health.
+                    case Effect.BLEED:
+                        ChangeHealth(-s.amplifier, true);
+                        s.shouldActivate = true;
+                        break;
+                    // Focus effect should reward one energy.
+                    case Effect.FOCUS:
+                        s.shouldActivate = true;
+                        EnergyController.Instance.ChangeEnergy(1);
+                        break;
+                    // Effects that should flash if it is the hero.
+                    case Effect.LUCKY_DRAW:
+                        if (_characterAlignment == Alignment.HERO) { s.shouldActivate = true; }
+                        break;
                 }
             }
             // If the player has the Persevere effect, don't remove block.
             if (statusHandler.GetStatusEffect(Effect.PERSEVERE) != null)
             {
                 StatusEffect s = statusHandler.GetStatusEffect(Effect.PERSEVERE);
-                s.ChangeCount(-1);
                 s.shouldActivate = true;
-                statusHandler.UpdateStatusIcons();
-                return;
             }
             else
             {
                 // Or else, remove all block.
-                ChangeBlock(-block, false);
+                ChangeBlock(-GetBlock(), false);
+            }
+        }
+        // Decrement all status effects that should decrement every turn.
+        foreach (StatusEffect s in statusHandler.statusEffects)
+        {
+            if (s.statusInfo.decrementEveryTurn)
+            {
+                s.ChangeCount(-1);
+                s.shouldActivate = true;
             }
         }
         // Update all status effect icons.
@@ -166,26 +185,27 @@ public partial class BattleCharacterController : MonoBehaviour
         // of each turn.
         foreach (StatusEffect s in statusHandler.statusEffects)
         {
-            // VOLATILE EFFECT
-            if (s.statusInfo.type == Effect.VOLATILE)
+            switch (s.statusInfo.type)
             {
-                s.ChangeCount(-1);
-                s.shouldActivate = true;
-                // If the amplifier is zero, then this character explodes.
-                if (s.amplifier == 0)
-                {
-                    BattlePooler.Instance.StartOneShotAnimationFromPool(transform.position, "Explosion");
-                    SoundManager.Instance.PlaySFX(SoundEffect.EXPLOSION);
-                    ChangeHealth(-health, true);
-                    foreach (BattleCharacterController bcc in targetBCCs)
+                case Effect.VOLATILE:
+                    s.ChangeCount(-1);
+                    s.shouldActivate = true;
+                    // If the amplifier is zero, then this character explodes.
+                    if (s.amplifier == 0)
                     {
-                        bcc.ChangeHealth(-30);
+                        BattlePooler.Instance.StartOneShotAnimationFromPool(transform.position, "Explosion");
+                        SoundManager.Instance.PlaySFX(SoundEffect.EXPLOSION);
+                        ChangeHealth(-GetHealth(), true);
+                        foreach (BattleCharacterController bcc in targetBCCs)
+                        {
+                            bcc.ChangeHealth(-30);
+                        }
                     }
-                }
+                    break;
             }
         }
         // Combo status effect can't stay forever.
-        statusHandler.RemoveStatusEffect(Globals.GetStatus(Effect.COMBO));
+        statusHandler.RemoveStatusEffect(Effect.COMBO);
     }
 
     public IEnumerator PlayCard(Card c, List<BattleCharacterController> targetBCCs)
@@ -252,7 +272,7 @@ public partial class BattleCharacterController : MonoBehaviour
         int damageInc = 0;
         // Add damage based on the current combo.
         StatusEffect combo = statusHandler.GetStatusEffect(Effect.COMBO);
-        if (combo != null && combo.specialValue == c.cardData.cardName)
+        if (combo != null && combo.specialValue == c.cardData.GetCardUniqueName())
         {
             damageInc += combo.amplifier;
         }
@@ -341,150 +361,6 @@ public partial class BattleCharacterController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Adds or removes health from the character.
-    /// + values -> heals
-    /// - values -> damages
-    /// Does not work if the character is already dead.
-    ///</summary>
-    public void ChangeHealth(int val, bool ignoresBlock = false)
-    {
-        if (!IsAlive()) { return; }
-        if (val <= 0)
-        {
-            RenderDamage(val, ignoresBlock);
-        }
-        else
-        {
-            RenderHeal(val);
-        }
-        UpdateHealthAndBlockText();
-    }
-
-    // Takes a NEGATIVE integer `val` and subtracts that from the current health.
-    private void RenderDamage(int val, bool ignoresBlock)
-    {
-        // If this character has the disease effect and is taking
-        // damage, increase that damage by the disease amplifier.
-        StatusEffect disease = statusHandler.GetStatusEffect(Effect.DISEASE);
-        if (disease != null)
-        {
-            val -= disease.amplifier;
-        }
-
-        // If the move doesn't ignore block, subtract the damage taken
-        // by the amount of block.
-        if (!ignoresBlock && block > 0 && val != 0)
-        {
-            ChangeBlock(val);
-            // If we damage the shield, play the shield damage SFX.
-            SoundManager.Instance.PlaySFX(SoundEffect.SHIELD_DAMAGE);
-            if (block <= 0)
-            {
-                val = block;
-                block = 0;
-            }
-            else
-            {
-                val = 0;
-            }
-        }
-
-        // Spawn pop-up text for damage amount, if the damage isn't equal to 0.
-        if (val != 0)
-        {
-            // This sprite took damage, so invoke this method.
-            OnTakeDamage.Invoke();
-            // Play the take-damage SFX.
-            SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_DAMAGE_TAKEN, Mathf.Lerp(0.65f, 1.2f, Mathf.Min(Mathf.Abs(val / 20f), 1)));
-            if (!ignoresBlock)
-            {
-                ObjectPooler.Instance.SpawnPopup(val.ToString(), 8, _characterSprite.transform.position, new Color(1, 0.1f, 0.1f));
-            }
-            else
-            {
-                ObjectPooler.Instance.SpawnPopup(val.ToString(), 8, _characterSprite.transform.position - new Vector3(0, 0.8f), new Color(1, 0.1f, 0.6f));
-            }
-        }
-
-        // Adjust health value accordingly.
-        health += val;
-        if (health < 0)
-        {
-            health = 0;
-        }
-
-        // Tint/shake the damaged character.
-        FlashColor(_damagedColor, true);
-        DamageShake(1, 1);
-
-        // If this character has zero health...
-        if (health == 0)
-        {
-            OnDeath.Invoke();
-        }
-    }
-
-    // Takes a POSITIVE integer `val` and adds that to the current health.
-    // Health cannot go over the maximum limit.
-    private void RenderHeal(int val)
-    {
-        // Render the healing effect, but cap it at max health.
-        health += val;
-        if (health > maxHealth)
-        {
-            health = maxHealth;
-        }
-        // Play the heal sound effect.
-        SoundManager.Instance.PlaySFX(SoundEffect.HEAL_HEALTH);
-        // Spawn a popup text.
-        ObjectPooler.Instance.SpawnPopup("+" + val.ToString(), 8, _characterSprite.transform.position - new Vector3(0, 0.8f), new Color(0.1f, 1, 0.1f));
-    }
-
-    // Adds or removes block from the character.
-    // + values -> gains block
-    // - values -> removes block
-    public void ChangeBlock(int val, bool shouldPlayBlockAnim = true)
-    {
-        if (!IsAlive()) { return; }
-        block += val;
-        if (val > 0)
-        {
-            // If the function call increases block, show how much block
-            // was added.
-            ObjectPooler.Instance.SpawnPopup("+" + val.ToString(), 4, _barIconSprite.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
-            // Play the increase block sound effect.
-            SoundManager.Instance.PlaySFX(SoundEffect.SHIELD_APPLY);
-            // Flash the block overlay and tint the character.
-            FlashColor(_blockColor);
-        }
-        else if (val < 0)
-        {
-            // If the function call reduces block, show how much block
-            // was removed.
-            ObjectPooler.Instance.SpawnPopup((block < 0) ? (val - block).ToString() : val.ToString(), 4, _barIconSprite.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
-        }
-        if (shouldPlayBlockAnim)
-        {
-            FlashBlockOverlay();
-        }
-        UpdateHealthAndBlockText();
-    }
-
-    // Update the health and block bar and text.
-    public void UpdateHealthAndBlockText()
-    {
-        // Update health values.
-        _healthText.text = health.ToString() + "/" + maxHealth.ToString();
-        float newHealthXScale = _healthFillMaxValue.x * ((float)health / maxHealth);
-        _healthFillObject.transform.localScale = new Vector3(newHealthXScale, _healthFillMaxValue.y, 1);
-        OnUpdateHealthText.Invoke();
-        // Update block values.
-        _blockText.text = block.ToString();
-        _blockText.gameObject.SetActive(IsAlive() && block > 0);
-        _barIconSprite.sprite = (block > 0) ? _blockIcon : _healthIcon;
-    }
-
     public void FlashColor(Color initialColor, bool playHurtAnimation = false)
     {
         if (_flashColorCoroutine != null)
@@ -507,7 +383,7 @@ public partial class BattleCharacterController : MonoBehaviour
 
     private IEnumerator FlashColorCoroutine(Color initialColor, bool playHurtAnimation = false)
     {
-        if (playHurtAnimation) { SetCharacterSprite(damagedSprite); }
+        if (playHurtAnimation) { SetCharacterSprite(CharacterState.DAMAGED); }
         Color targetColor = new Color(1, 1, 1);
         _characterSprite.color = initialColor;
         float currTime = 0;
@@ -519,7 +395,7 @@ public partial class BattleCharacterController : MonoBehaviour
             yield return null;
         }
         _characterSprite.color = targetColor;
-        SetCharacterSprite(idleSprite);
+        SetCharacterSprite(CharacterState.IDLE);
     }
 
     private IEnumerator DamageShakeCoroutine(float waitTimeMultiplier, float moveDistanceMultiplier)
@@ -527,13 +403,12 @@ public partial class BattleCharacterController : MonoBehaviour
         float frames = 0;
         float maxFrames = 60 * 0.05f * waitTimeMultiplier;
         float distance = 0.7f * moveDistanceMultiplier;
-        _characterSprite.transform.localPosition = _initialPosition;
 
         Vector3 targetPosition = _characterSprite.transform.localPosition + Vector3.right * distance;
         while (frames < maxFrames)
         {
             frames++;
-            _characterSprite.transform.localPosition = Vector3.Lerp(_initialPosition, targetPosition, (float)frames / maxFrames);
+            _characterSprite.transform.localPosition = Vector3.Lerp(_initialSpriteLocalPosition, targetPosition, (float)frames / maxFrames);
             yield return null;
         }
 
@@ -554,51 +429,8 @@ public partial class BattleCharacterController : MonoBehaviour
         while (frames < maxFrames)
         {
             frames++;
-            _characterSprite.transform.localPosition = Vector3.Lerp(initialPosition, _initialPosition, (float)frames / maxFrames);
+            _characterSprite.transform.localPosition = Vector3.Lerp(initialPosition, _initialSpriteLocalPosition, (float)frames / maxFrames);
             yield return null;
-        }
-
-        _characterSprite.transform.localPosition = _initialPosition;
-    }
-
-    protected IEnumerator DisappearCoroutine()
-    {
-        Color initialColor = new Color(0.6f, 0.6f, 0.6f, 1);
-        Color targetColor = new Color(0.6f, 0.6f, 0.6f, 0);
-        Color initialShadowColor = _characterShadowSprite.color;
-        Color targetShadowColor = _characterShadowSprite.color - new Color(0, 0, 0, 1);
-        SetCharacterSprite(damagedSprite);
-        float currTime = 0;
-        float timeToWait = 1.2f;
-        while (currTime < timeToWait)
-        {
-            currTime += Time.deltaTime;
-            _characterSprite.color = Color.Lerp(initialColor, targetColor, currTime / timeToWait);
-            _characterShadowSprite.color = Color.Lerp(initialShadowColor, targetShadowColor, currTime / timeToWait);
-            yield return null;
-        }
-    }
-
-    public void FlashBlockOverlay()
-    {
-        if (blockOverlayCoroutine != null)
-        {
-            StopCoroutine(blockOverlayCoroutine);
-        }
-        blockOverlayCoroutine = FlashBlockOverlayCoroutine();
-        StartCoroutine(blockOverlayCoroutine);
-    }
-
-    public IEnumerator FlashBlockOverlayCoroutine()
-    {
-        _shieldOverlaySprite.color = new Color(1, 1, 1, 0.8f);
-        _shieldOverlaySprite.transform.localPosition = new Vector3(0, 0.4f, 0);
-        WaitForSeconds wfs = new WaitForSeconds(0.025f);
-        for (int i = 0; i < 20; i++)
-        {
-            _shieldOverlaySprite.color -= new Color(0, 0, 0, 0.04f);
-            _shieldOverlaySprite.transform.localPosition = Vector3.Lerp(_shieldOverlaySprite.transform.localPosition, new Vector3(0, -0.4f, 0), 0.05f);
-            yield return wfs;
         }
     }
 
@@ -629,7 +461,7 @@ public partial class BattleCharacterController : MonoBehaviour
         float currTime = 0;
         float timeToWait = 0.12f;
 
-        Vector3 targetPosition = _initialPosition + Vector3.right * distance;
+        Vector3 targetPosition = _initialSpritePosition + Vector3.right * distance;
 
         // Render particles at the start!
         RenderStartParticleAnimations();
@@ -637,7 +469,7 @@ public partial class BattleCharacterController : MonoBehaviour
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
-            _characterSprite.transform.localPosition = Vector3.Lerp(_initialPosition, targetPosition, currTime / timeToWait);
+            _characterSpriteContainer.transform.position = Vector3.Lerp(_initialSpritePosition, targetPosition, currTime / timeToWait);
             yield return null;
         }
 
@@ -658,14 +490,14 @@ public partial class BattleCharacterController : MonoBehaviour
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
-            _characterSprite.transform.localPosition = Vector3.Lerp(targetPosition, _initialPosition, currTime / timeToWait);
+            _characterSpriteContainer.transform.position = Vector3.Lerp(targetPosition, _initialSpritePosition, currTime / timeToWait);
             yield return null;
         }
 
         // Render particles at the end!
         RenderEndParticleAnimations();
 
-        _characterSprite.transform.localPosition = _initialPosition;
+        _characterSpriteContainer.transform.position = _initialSpritePosition;
     }
 
     private IEnumerator ShootProjectileCoroutine(bool shouldRenderEffects = true)
@@ -675,7 +507,7 @@ public partial class BattleCharacterController : MonoBehaviour
         foreach (BattleCharacterController targetBCC in targetBCCs)
         {
             Vector3 projectileTargetPosition = targetBCC.transform.position;
-            Vector3 adjustedSpawnPosition = transform.position + new Vector3((_characterAlignment == Alignment.HERO ? 1 : -1) * _storedCard.cardData.projectileOffset.x, _storedCard.cardData.projectileOffset.y, 0);
+            Vector3 adjustedSpawnPosition = _characterSpriteContainer.transform.position + new Vector3((_characterAlignment == Alignment.HERO ? 1 : -1) * _storedCard.cardData.projectileOffset.x, _storedCard.cardData.projectileOffset.y, 0);
             BattlePooler.Instance.StartProjectileAnimationFromPool(adjustedSpawnPosition, projectileTargetPosition, _storedCard.cardData.projectileSprite, timeToReachTarget);
         }
 
@@ -685,28 +517,28 @@ public partial class BattleCharacterController : MonoBehaviour
         float currTime = 0;
         float timeToWait = 0.1f;
 
-        Vector3 targetPosition = _initialPosition + Vector3.right * 0.7f;
+        Vector3 targetPosition = _initialSpritePosition + Vector3.right * 0.7f;
 
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
-            _characterSprite.transform.localPosition = Vector3.Lerp(_initialPosition, targetPosition, currTime / timeToWait);
+            _characterSpriteContainer.transform.position = Vector3.Lerp(_initialSpritePosition, targetPosition, currTime / timeToWait);
             yield return null;
         }
 
         currTime = 0;
         timeToWait = 0.06f;
-        Vector3 initialPosition = _characterSprite.transform.localPosition;
-        targetPosition = _initialPosition;
+        Vector3 initialPosition = _characterSpriteContainer.transform.position;
+        targetPosition = _initialSpritePosition;
 
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
-            _characterSprite.transform.localPosition = Vector3.Lerp(initialPosition, targetPosition, currTime / timeToWait);
+            _characterSpriteContainer.transform.position = Vector3.Lerp(initialPosition, targetPosition, currTime / timeToWait);
             yield return null;
         }
 
-        _characterSprite.transform.localPosition = _initialPosition;
+        _characterSpriteContainer.transform.position = _initialSpritePosition;
 
         yield return new WaitForSeconds(timeToReachTarget * 0.7f);
 
@@ -730,7 +562,7 @@ public partial class BattleCharacterController : MonoBehaviour
     private void RenderStartParticleAnimations()
     {
         // Calculate the spawn position of the particles.
-        Vector3 adjustedSpawnPosition = transform.position + new Vector3((_characterAlignment == Alignment.HERO ? 1 : -1) * _storedCard.cardData.projectileOffset.x, _storedCard.cardData.projectileOffset.y, 0);
+        Vector3 adjustedSpawnPosition = _characterSpriteContainer.transform.position + new Vector3((_characterAlignment == Alignment.HERO ? 1 : -1) * _storedCard.cardData.projectileOffset.x, _storedCard.cardData.projectileOffset.y, 0);
         // Calculate the burst direction if this is a hero or enemy. Hero = right, enemy = left.
         int burstDirection = (_characterAlignment == Alignment.HERO) ? 1 : -1;
         // Spawn the particles at the start!
@@ -759,10 +591,21 @@ public partial class BattleCharacterController : MonoBehaviour
 
     // Set the character's sprite. (e.g. idle, damaged, dead)
     // If the second parameter is true, the sprite can no longer change.
-    public void SetCharacterSprite(Sprite newSprite, bool lockSprite = false)
+    public void SetCharacterSprite(CharacterState newState, bool lockSprite = false)
     {
         if (!_canSpriteChange) { return; }
-        _characterSprite.sprite = newSprite;
+        switch (newState)
+        {
+            case CharacterState.IDLE:
+                _characterSprite.sprite = idleSprite;
+                break;
+            case CharacterState.DAMAGED:
+                _characterSprite.sprite = damagedSprite;
+                break;
+            case CharacterState.DEATH:
+                _characterSprite.sprite = (deathSprite == null) ? damagedSprite : deathSprite;
+                break;
+        }
         if (lockSprite) { _canSpriteChange = false; }
     }
 
@@ -786,11 +629,6 @@ public partial class BattleCharacterController : MonoBehaviour
     public void MakeUninteractable()
     {
         Destroy(_characterSprite.GetComponent<BoxCollider2D>());
-    }
-
-    public bool IsAlive()
-    {
-        return health != 0;
     }
 
 }

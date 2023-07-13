@@ -60,8 +60,6 @@ public class HeroData : Character
     [Header("Cosmetic Information")]
     public Sprite heroHeadshotSprite;
     public Color heroUIColor;
-    [Header("Death Animation")]
-    public Sprite deathSprite;
     [Header("Deck")]
     public List<CardData> startingDeck = new List<CardData>();
     [Header("Relics")]

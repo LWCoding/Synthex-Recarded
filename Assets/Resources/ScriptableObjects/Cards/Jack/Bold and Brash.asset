@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bold and Brash
   m_EditorClassIdentifier: 
   cardName: Bold and Brash
+  cardDisplayName: Bold and Brash
   cardImage: {fileID: 21300000, guid: 917e8155353915c41a25f39cd169c9f4, type: 3}
   cardType: 4
   characterMovement: 0
@@ -52,6 +53,7 @@ MonoBehaviour:
     - target: 2
       effect: 3
       amplifier: 99
+      renderBehavior: 0
     traits: 0c000000
   - cardDesc: Gain 99 Persevere. Exhausts.
     cardCost: 1
@@ -64,4 +66,5 @@ MonoBehaviour:
     - target: 2
       effect: 3
       amplifier: 99
+      renderBehavior: 0
     traits: 0c000000

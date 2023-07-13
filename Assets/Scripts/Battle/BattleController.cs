@@ -134,19 +134,18 @@ public partial class BattleController : MonoBehaviour
         switch (enemyData.characterName)
         {
             case "Tree?":
-                bec.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.GROWTH, 1));
+                bec.AddStatusEffect(Globals.GetStatus(Effect.GROWTH, 1));
                 break;
             case "Lone":
-                bec.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.BARRIER, 3));
+                bec.AddStatusEffect(Globals.GetStatus(Effect.BARRIER, 3));
                 break;
             case "Turtleist":
-                bec.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.VOLATILE, 4));
+                bec.AddStatusEffect(Globals.GetStatus(Effect.VOLATILE, 4));
                 break;
         }
         bec.SetRewardAmount(Random.Range(enemyData.enemyRewardMin, enemyData.enemyRewardMax));
-        bec.maxHealth = generatedHealth;
-        bec.health = generatedHealth;
         bec.gameObject.transform.position += new Vector3(-3.3f * (enemiesStillAlive - 1), 0.3f * (enemiesStillAlive - 1));
+        bec.InitializeHealthData(generatedHealth, generatedHealth);
         bec.Initialize(enemyData);
     }
 
@@ -157,7 +156,7 @@ public partial class BattleController : MonoBehaviour
         // If the character has the SCALE OF JUSTICE relic, they can play their first card twice.
         if (GameController.HasRelic(RelicType.SCALE_OF_JUSTICE))
         {
-            playerBCC.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.DOUBLE_TAKE, 1));
+            playerBCC.AddStatusEffect(Globals.GetStatus(Effect.DOUBLE_TAKE, 1));
             TopBarController.Instance.FlashRelicObject(RelicType.SCALE_OF_JUSTICE);
         }
         // If the character has the PLASMA CORE relic, they gain one additional max energy.
@@ -169,19 +168,19 @@ public partial class BattleController : MonoBehaviour
         // If the character has the DUMBELL relic, they gain one additional Strength.
         if (GameController.HasRelic(RelicType.DUMBELL))
         {
-            playerBCC.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.STRENGTH, 1));
+            playerBCC.AddStatusEffect(Globals.GetStatus(Effect.STRENGTH, 1));
             TopBarController.Instance.FlashRelicObject(RelicType.DUMBELL);
         }
         // If the character has the DUMBELL relic, they gain one additional Defense.
         if (GameController.HasRelic(RelicType.KEVLAR_VEST))
         {
-            playerBCC.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.DEFENSE, 1));
+            playerBCC.AddStatusEffect(Globals.GetStatus(Effect.DEFENSE, 1));
             TopBarController.Instance.FlashRelicObject(RelicType.KEVLAR_VEST);
         }
         // If the character has the GRAPPLING HOOK relic, they draw one additional card per turn.
         if (GameController.HasRelic(RelicType.GRAPPLING_HOOK))
         {
-            playerBCC.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.LUCKY_DRAW, 1));
+            playerBCC.AddStatusEffect(Globals.GetStatus(Effect.LUCKY_DRAW, 1));
             TopBarController.Instance.FlashRelicObject(RelicType.GRAPPLING_HOOK);
         }
         // If the player has the The Thinker relic, deal 1 damage to enemies for every card.
@@ -201,12 +200,11 @@ public partial class BattleController : MonoBehaviour
         {
             playerBCC.OnPlayCard.AddListener((c) =>
             {
-                StatusEffect combo = playerBCC.statusHandler.GetStatusEffect(Effect.COMBO);
-                if (combo != null && c.cardData.cardName != combo.specialValue)
+                StatusEffect combo = playerBCC.GetStatusEffect(Effect.COMBO);
+                if (combo != null && c.cardData.GetCardUniqueName() != combo.specialValue)
                 {
-                    playerBCC.statusHandler.RemoveStatusEffect(Globals.GetStatus(Effect.COMBO));
+                    playerBCC.RemoveStatusEffect(Effect.COMBO);
                 }
-                playerBCC.statusHandler.UpdateStatusIcons();
             });
         }
         // If the player has the Vampire Teeth relic, killing an enemy should heal 3 health.
@@ -226,7 +224,7 @@ public partial class BattleController : MonoBehaviour
         {
             foreach (BattleEnemyController bec in enemyBCCs)
             {
-                bec.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.CRIPPLED, 1));
+                bec.AddStatusEffect(Globals.GetStatus(Effect.CRIPPLED, 1));
                 TopBarController.Instance.FlashRelicObject(RelicType.AIRHORN);
             }
         }
@@ -234,7 +232,7 @@ public partial class BattleController : MonoBehaviour
         // when a card is played.
         playerBCC.OnPlayCard.AddListener((card) =>
         {
-            StatusEffect catastropheEffect = playerBCC.statusHandler.GetStatusEffect(Effect.CATASTROPHE);
+            StatusEffect catastropheEffect = playerBCC.GetStatusEffect(Effect.CATASTROPHE);
             if (catastropheEffect != null)
             {
                 foreach (BattleEnemyController bec in enemyBCCs)
@@ -269,7 +267,7 @@ public partial class BattleController : MonoBehaviour
         EnergyController.Instance.UpdateEnergyText();
         // Draw five random cards from the draw pile.
         // Potentially draw more from Lucky Draw effect.
-        StatusEffect luckyDraw = playerBCC.statusHandler.GetStatusEffect(Effect.LUCKY_DRAW);
+        StatusEffect luckyDraw = playerBCC.GetStatusEffect(Effect.LUCKY_DRAW);
         yield return DrawCardsCoroutine(5 + ((luckyDraw != null) ? luckyDraw.amplifier : 0));
         // Run after additional code.
         OnNextTurnStart.Invoke();
@@ -580,7 +578,7 @@ public partial class BattleController : MonoBehaviour
         yield return new WaitForSeconds(1.4f);
         // Let the player add a new card to their deck (out of 3).
         // ONLY do this if the player is alive.
-        if (playerBCC.health > 0)
+        if (playerBCC.IsAlive())
         {
             CardChoiceController.Instance.ShowCardChoices(3, () =>
             {

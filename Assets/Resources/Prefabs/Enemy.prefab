@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1657792844042231600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3042568032946043825}
+  m_Layer: 0
+  m_Name: SpriteContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3042568032946043825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657792844042231600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4792568730718147563}
+  - {fileID: 4792568730118725958}
+  m_Father: {fileID: 4792568731130291071}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1970783325425111446
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +318,7 @@ Transform:
   - {fileID: 4792568730550126891}
   - {fileID: 26232884787022006}
   m_Father: {fileID: 4792568731130291071}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8092869864362230509
 MonoBehaviour:
@@ -451,7 +483,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4792568731130291071}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -619,7 +651,7 @@ Transform:
   m_LocalPosition: {x: 0, y: -1.9471, z: 0}
   m_LocalScale: {x: 3.11, y: 0.77, z: 1}
   m_Children: []
-  m_Father: {fileID: 4792568731130291071}
+  m_Father: {fileID: 3042568032946043825}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4792568730118725957
@@ -835,7 +867,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 4792568731130291071}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4792568730521039317
 SpriteRenderer:
@@ -1169,7 +1201,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4792568731130291071}
+  m_Father: {fileID: 3042568032946043825}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4792568730718147564
@@ -1281,7 +1313,7 @@ Transform:
   - {fileID: 4792568730765820165}
   - {fileID: 4792568729537167560}
   m_Father: {fileID: 4792568731130291071}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4792568730727707564
 SpriteRenderer:
@@ -1363,7 +1395,7 @@ Transform:
   m_LocalScale: {x: 1.7, y: 1.7, z: 1}
   m_Children: []
   m_Father: {fileID: 4792568731130291071}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4792568730731030235
 SpriteRenderer:
@@ -1526,7 +1558,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4792568731130291071}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4792568731130291040
 GameObject:
@@ -1539,6 +1571,7 @@ GameObject:
   - component: {fileID: 4792568731130291071}
   - component: {fileID: 4792568731130291069}
   - component: {fileID: 4792568731130291070}
+  - component: {fileID: 7637357644717491335}
   - component: {fileID: 6552212053236773610}
   m_Layer: 0
   m_Name: Enemy
@@ -1558,8 +1591,7 @@ Transform:
   m_LocalPosition: {x: 5.5, y: 0.2, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
-  - {fileID: 4792568730718147563}
-  - {fileID: 4792568730118725958}
+  - {fileID: 3042568032946043825}
   - {fileID: 650291063239818566}
   - {fileID: 4792568731328639638}
   - {fileID: 4792568729626147680}
@@ -1584,24 +1616,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterAlignment: 1
+  _characterSpriteContainer: {fileID: 3042568032946043825}
   _characterSprite: {fileID: 4792568730718147564}
   _characterShadowSprite: {fileID: 4792568730118725957}
   _barIconSprite: {fileID: 4792568730521039317}
   _shieldOverlaySprite: {fileID: 4792568730731030235}
   _targetSprite: {fileID: 1064986376258752920}
   _targetAnimator: {fileID: 8241043656873849121}
-  _healthText: {fileID: 4792568731328639640}
-  _blockText: {fileID: 4792568729626147682}
   _healthFillObject: {fileID: 4792568730296871361}
-  _healthBoxTransform: {fileID: 4792568730727707565}
-  _healthIcon: {fileID: 21300000, guid: 33357a9aab9807044a290460ea1e8fb1, type: 3}
-  _blockIcon: {fileID: 21300000, guid: bb4de37810d407f4ba2d22e6abb40050, type: 3}
-  damagedSprite: {fileID: 0}
-  idleSprite: {fileID: 0}
-  health: 0
-  block: 0
-  maxHealth: 0
-  targetBCCs: []
   OnPlayCard:
     m_PersistentCalls:
       m_Calls: []
@@ -1620,7 +1642,6 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
-  statusHandler: {fileID: 0}
   _intentParentTransform: {fileID: 4792568729325286500}
 --- !u!114 &4792568731130291070
 MonoBehaviour:
@@ -1643,6 +1664,27 @@ MonoBehaviour:
   specialAttackerImage: {fileID: 21300000, guid: 7e86bfc4133db0740974fa97a0abd1d9, type: 3}
   specialBlockerImage: {fileID: 21300000, guid: bc08fc14ef1c4674193341033e57152c, type: 3}
   specialMiscImage: {fileID: 21300000, guid: bd4f293ea7b12b34db3493225b594803, type: 3}
+--- !u!114 &7637357644717491335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4792568731130291040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467070d87a0a1aa459014a4cd52910bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterSprite: {fileID: 4792568730718147564}
+  _barIconSprite: {fileID: 4792568730521039317}
+  _shieldOverlaySprite: {fileID: 4792568730731030235}
+  _healthText: {fileID: 4792568731328639640}
+  _blockText: {fileID: 4792568729626147682}
+  _healthFillObject: {fileID: 4792568730296871361}
+  _healthBoxTransform: {fileID: 4792568730727707565}
+  _healthIcon: {fileID: 21300000, guid: 33357a9aab9807044a290460ea1e8fb1, type: 3}
+  _blockIcon: {fileID: 21300000, guid: bb4de37810d407f4ba2d22e6abb40050, type: 3}
 --- !u!114 &6552212053236773610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1691,7 +1733,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4792568731130291071}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1943,7 +1985,7 @@ Transform:
   m_Children:
   - {fileID: 1456447134815453888}
   m_Father: {fileID: 4792568731130291071}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8241043656873849121
 Animator:

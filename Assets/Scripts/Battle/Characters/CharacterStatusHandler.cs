@@ -68,12 +68,12 @@ public partial class CharacterStatusHandler : MonoBehaviour
     }
 
     // Removes a status effect from the current character.
-    public void RemoveStatusEffect(StatusEffect e)
+    public void RemoveStatusEffect(Effect e)
     {
         // If we can find the status, remove it from the statusEffects list.
         for (int i = 0; i < statusEffects.Count; i++)
         {
-            if (statusEffects[i].statusInfo.type == e.statusInfo.type)
+            if (statusEffects[i].statusInfo.type == e)
             {
                 statusEffects.RemoveAt(i);
                 break;
@@ -82,7 +82,7 @@ public partial class CharacterStatusHandler : MonoBehaviour
         // If we can find the status, return its corresponding object to the pool.
         for (int i = 0; i < statusIconObjects.Count; i++)
         {
-            if (statusIconObjects[i].GetComponent<StatusController>().effectType == e.statusInfo.type)
+            if (statusIconObjects[i].GetComponent<StatusController>().effectType == e)
             {
                 BattlePooler.Instance.ReturnStatusObjectToPool(statusIconObjects[i]);
                 statusIconObjects.RemoveAt(i);
@@ -100,7 +100,7 @@ public partial class CharacterStatusHandler : MonoBehaviour
         {
             if (!statusEffects[i].IsActive())
             {
-                RemoveStatusEffect(statusEffects[i]);
+                RemoveStatusEffect(statusEffects[i].statusInfo.type);
             }
         }
     }

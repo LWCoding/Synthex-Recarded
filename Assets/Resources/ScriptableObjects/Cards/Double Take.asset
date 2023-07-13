@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Double Take
   m_EditorClassIdentifier: 
   cardName: Double Take
+  cardDisplayName: Double Take
   cardImage: {fileID: 21300000, guid: f2e39bd68221d214e90bcd4ab01f3fe1, type: 3}
   cardType: 4
   characterMovement: 0
@@ -52,6 +53,7 @@ MonoBehaviour:
     - target: 2
       effect: 5
       amplifier: 1
+      renderBehavior: 0
     traits: 
   - cardDesc: Your next card is played twice. Exhausts.
     cardCost: 0
@@ -64,4 +66,5 @@ MonoBehaviour:
     - target: 2
       effect: 5
       amplifier: 1
+      renderBehavior: 0
     traits: 

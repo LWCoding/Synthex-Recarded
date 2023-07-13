@@ -327,7 +327,7 @@ MonoBehaviour:
     sprite: {fileID: 6452595514070867569, guid: ff336427de352e74395d4e9c0aeb90c5, type: 3}
   spriteInfoList: []
   fallbackSpriteAssets:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: d83d19885d516c64eb963c71f84f5366, type: 2}
 --- !u!21 &6670333889840645963
 Material:
   serializedVersion: 6

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Frenzy
   m_EditorClassIdentifier: 
   cardName: Frenzy
+  cardDisplayName: Frenzy
   cardImage: {fileID: 21300000, guid: 72f5cd93bc532aa4fa8eda055183e80c, type: 3}
   cardType: 2
   characterMovement: 1

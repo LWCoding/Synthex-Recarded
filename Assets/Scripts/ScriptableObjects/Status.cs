@@ -20,7 +20,8 @@ public enum Effect
     GROWTH = 12, // Gain X strength everytime this character takes damage
     VOLATILE = 13, // Deal 30 damage to the hero in X turns
     CHARGE = 14, // Do nothing this turn
-    BARRIER = 15 // Gain X block when you take unblocked damage
+    BARRIER = 15, // Gain X block when you take unblocked damage
+    REFLECT = 16 // If attacked, deal X damage back to the aggressor
 }
 
 public enum EffectFaction
@@ -33,7 +34,7 @@ public class StatusEffect
 {
 
     public Status statusInfo;
-    public int amplifier;
+    public int amplifier { get; private set; }
     public bool shouldActivate = true;
     public string specialValue;
 
@@ -47,7 +48,7 @@ public class StatusEffect
     public void ChangeCount(int amp)
     {
         amplifier += amp;
-        if (amplifier < 0)
+        if (!statusInfo.canGoNegative && amplifier < 0)
         {
             amplifier = 0;
         }
@@ -55,7 +56,7 @@ public class StatusEffect
 
     public bool IsActive()
     {
-        return amplifier > 0;
+        return amplifier != 0;
     }
 
 }
@@ -70,5 +71,7 @@ public class Status : ScriptableObject
     public Sprite statusIcon;
     public Vector2 iconSpriteScale = new Vector2(0.5f, 0.5f);
     public EffectFaction effectFaction;
+    public bool decrementEveryTurn = false;
+    public bool canGoNegative = false;
 
 }

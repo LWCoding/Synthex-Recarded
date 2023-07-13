@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Catastrophe
   m_EditorClassIdentifier: 
   cardName: Catastrophe
+  cardDisplayName: Catastrophe
   cardImage: {fileID: 21300000, guid: e2efcbbd0aae96c48981f0af22fbd8bb, type: 3}
   cardType: 4
   characterMovement: 0
@@ -52,6 +53,7 @@ MonoBehaviour:
     - target: 2
       effect: 8
       amplifier: 1
+      renderBehavior: 0
     traits: 0c000000
   - cardDesc: When you play a card, deal 4 damage.
     cardCost: 1
@@ -64,4 +66,5 @@ MonoBehaviour:
     - target: 2
       effect: 8
       amplifier: 1
+      renderBehavior: 0
     traits: 

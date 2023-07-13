@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BoykisserBlast
   m_EditorClassIdentifier: 
   cardName: Boykisser Blast
+  cardDisplayName: 
   cardImage: {fileID: 0}
   cardType: 2
   characterMovement: 1
@@ -52,7 +53,9 @@ MonoBehaviour:
     - target: 1
       effect: 10
       amplifier: 1
+      renderBehavior: 0
     - target: 1
       effect: 11
       amplifier: 1
+      renderBehavior: 0
     traits: 21000000

@@ -61,10 +61,10 @@ public class BattleEnemyController : BattleCharacterController
             StopCoroutine(_flashColorCoroutine);
         }
         DamageShake(3, 1.7f);
-        StartCoroutine(DisappearCoroutine());
+        StartCoroutine(DeathDisappearCoroutine());
         MakeUninteractable();
         battleController.enemiesStillAlive--;
-        DisableCharacterUI();
+        DisableEnemyUI();
         // Animate some coins going to the player's balance.
         if (GameController.HasRelic(RelicType.GOLDEN_PAW))
         {
@@ -89,14 +89,28 @@ public class BattleEnemyController : BattleCharacterController
         }
     }
 
-    private void DisableCharacterUI()
+    private IEnumerator DeathDisappearCoroutine()
     {
-        _barIconSprite.gameObject.SetActive(false);
-        _healthBoxTransform.gameObject.SetActive(false);
+        Color initialColor = new Color(0.6f, 0.6f, 0.6f, 1);
+        Color targetColor = new Color(0.6f, 0.6f, 0.6f, 0);
+        Color initialShadowColor = _characterShadowSprite.color;
+        Color targetShadowColor = _characterShadowSprite.color - new Color(0, 0, 0, 1);
+        SetCharacterSprite(CharacterState.DEATH);
+        float currTime = 0;
+        float timeToWait = 1.2f;
+        while (currTime < timeToWait)
+        {
+            currTime += Time.deltaTime;
+            _characterSprite.color = Color.Lerp(initialColor, targetColor, currTime / timeToWait);
+            _characterShadowSprite.color = Color.Lerp(initialShadowColor, targetShadowColor, currTime / timeToWait);
+            yield return null;
+        }
+    }
+
+    private void DisableEnemyUI()
+    {
+        DisableCharacterUI();
         _intentParentTransform.gameObject.SetActive(false);
-        _healthText.gameObject.SetActive(false);
-        _blockText.gameObject.SetActive(false);
-        statusHandler.statusParentTransform.gameObject.SetActive(false);
     }
 
     public Card GetStoredCard()
@@ -185,7 +199,7 @@ public class BattleEnemyController : BattleCharacterController
                 {
                     return Globals.GetCard("Tree Heal");
                 }
-                if (health < maxHealth && rng < 0.4f)
+                if (GetHealth() < GetMaxHealth() && rng < 0.4f)
                 {
                     return Globals.GetCard("Tree Charge");
                 }

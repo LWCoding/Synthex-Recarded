@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Focus
   m_EditorClassIdentifier: 
   cardName: Focus
+  cardDisplayName: Focus
   cardImage: {fileID: 21300000, guid: d25c466ea49e1b14c977792b0a761ce0, type: 3}
   cardType: 4
   characterMovement: 0
@@ -52,6 +53,7 @@ MonoBehaviour:
     - target: 2
       effect: 4
       amplifier: 2
+      renderBehavior: 0
     traits: 
   - cardDesc: Gain 3 Focus.
     cardCost: 1
@@ -64,4 +66,5 @@ MonoBehaviour:
     - target: 2
       effect: 4
       amplifier: 3
+      renderBehavior: 0
     traits: 

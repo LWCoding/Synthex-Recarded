@@ -38,6 +38,10 @@ public static class Globals
         {
             foreach (CardData cardData in Resources.LoadAll<CardData>("ScriptableObjects/Cards/" + heroData.characterName).ToList())
             {
+                if (allCardData.FindAll((c) => c.GetCardUniqueName() == cardData.GetCardUniqueName()).Count > 1)
+                {
+                    Debug.LogError("Conflicting unique card names found in card: " + cardData.GetCardUniqueName());
+                }
                 allCardData.Add(cardData);
             }
         }
@@ -48,6 +52,10 @@ public static class Globals
         // Add these behaviors to the `allCards` list to be referenced.
         foreach (CardData behavior in allBehaviors)
         {
+            if (allCardData.FindAll((c) => c.GetCardUniqueName() == behavior.GetCardUniqueName()).Count > 1)
+            {
+                Debug.LogError("Conflicting unique card names found in card: " + behavior.GetCardUniqueName());
+            }
             allCardData.Add(behavior);
         }
 
@@ -192,7 +200,7 @@ public static class Globals
         CardData foundCardData = null;
         allCardData.ForEach((card) =>
         {
-            if (card.cardName == name)
+            if (card.GetCardUniqueName() == name)
             {
                 foundCardData = card;
                 return;

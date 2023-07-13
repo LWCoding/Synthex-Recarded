@@ -13,14 +13,34 @@ MonoBehaviour:
   m_Name: Wound Press
   m_EditorClassIdentifier: 
   cardName: Wound Press
+  cardDisplayName: Wound Press
   cardImage: {fileID: 21300000, guid: 2107cdd09989cbf49beebccab864bb80, type: 3}
   cardType: 4
   characterMovement: 0
   projectileSprite: {fileID: 0}
   projectileOffset: {x: 0, y: 0}
+  sourceParticleInfo:
+    particleType: 0
+    particleBurstType: 0
+    particleScale: {x: 1, y: 1}
+    particleLifetime: 0.8
+    particleSpeed: 6
+    particleCount: 10
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
+    affectedByGravity: 0
+  destinationParticleInfo:
+    particleType: 0
+    particleBurstType: 0
+    particleScale: {x: 1, y: 1}
+    particleLifetime: 0.8
+    particleSpeed: 6
+    particleCount: 10
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
+    affectedByGravity: 0
   cardRarity: 2
   cardExclusivity: 1
   onPlaySFX: {fileID: 0}
+  onPlaySFXVolume: 1
   cardStats:
   - cardDesc: Double the enemy's Bleed. Exhausts.
     cardCost: 1
@@ -29,6 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
+    inflictedEffects: []
     traits: 0c00000015000000
   - cardDesc: Double the enemy's Bleed.
     cardCost: 1
@@ -37,4 +58,5 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
+    inflictedEffects: []
     traits: 15000000

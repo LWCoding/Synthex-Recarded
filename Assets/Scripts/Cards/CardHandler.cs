@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public enum CardAnimation
@@ -63,14 +64,15 @@ public class CardHandler : MonoBehaviour
         EnableFunctionality();
         // Set the card information
         card = c;
-        nameText.text = c.cardData.cardName;
+        nameText.text = c.cardData.GetCardDisplayName();
         UpdateCardDescription(strengthBuff, defenseBuff);
         costText.text = c.GetCardStats().cardCost.ToString();
         levelText.text = "LV." + c.level;
         previewImage.sprite = c.cardData.cardImage;
         HideTooltip();
-        // If we're in a battle, update this card's appearance based on its cost.
-        if (BattleController.Instance?.GetGameState() == GameState.BATTLE)
+        // If we're in a battle, update this card's appearance based on its cost
+        // if it's one of the cards showing up in battle.
+        if (SceneManager.GetActiveScene().name == "Battle" && BattleController.Instance.GetGameState() == GameState.BATTLE)
         {
             UpdateColorBasedOnPlayability();
         }

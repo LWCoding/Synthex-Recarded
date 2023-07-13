@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Shield Bash
   m_EditorClassIdentifier: 
   cardName: Shield Bash
+  cardDisplayName: Shield Bash
   cardImage: {fileID: 21300000, guid: 4109559418f91c74ab03df255a407495, type: 3}
   cardType: 0
   characterMovement: 1

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Sharpen
   m_EditorClassIdentifier: 
   cardName: Sharpen
+  cardDisplayName: Sharpen
   cardImage: {fileID: 21300000, guid: 640606e92fe49a84fa7622063bb98fa9, type: 3}
   cardType: 4
   characterMovement: 0

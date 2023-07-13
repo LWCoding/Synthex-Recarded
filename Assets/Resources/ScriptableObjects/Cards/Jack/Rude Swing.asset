@@ -13,11 +13,30 @@ MonoBehaviour:
   m_Name: Rude Swing
   m_EditorClassIdentifier: 
   cardName: Rude Swing
+  cardDisplayName: Rude Swing
   cardImage: {fileID: 21300000, guid: 4b841937c66f0e44ab5e37bd5fb5f35c, type: 3}
   cardType: 0
   characterMovement: 1
   projectileSprite: {fileID: 0}
   projectileOffset: {x: 0, y: 0}
+  sourceParticleInfo:
+    particleType: 0
+    particleBurstType: 0
+    particleScale: {x: 1, y: 1}
+    particleLifetime: 0.8
+    particleSpeed: 6
+    particleCount: 10
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
+    affectedByGravity: 0
+  destinationParticleInfo:
+    particleType: 0
+    particleBurstType: 0
+    particleScale: {x: 1, y: 1}
+    particleLifetime: 0.8
+    particleSpeed: 6
+    particleCount: 10
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
+    affectedByGravity: 0
   cardRarity: 0
   cardExclusivity: 1
   onPlaySFX: {fileID: 0}
@@ -30,6 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
+    inflictedEffects: []
     traits: 0c000000
   - cardDesc: Deal [ATK] damage. Exhausts.
     cardCost: 1
@@ -38,4 +58,5 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
+    inflictedEffects: []
     traits: 0c000000

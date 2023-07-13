@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Channel
   m_EditorClassIdentifier: 
   cardName: Channel
+  cardDisplayName: Channel
   cardImage: {fileID: 21300000, guid: 70bb1715b32acd044a3fa7a8c7bf047a, type: 3}
   cardType: 4
   characterMovement: 0

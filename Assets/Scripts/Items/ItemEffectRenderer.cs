@@ -30,7 +30,7 @@ public class ItemEffectRenderer : MonoBehaviour
                 EnergyController.Instance.ChangeEnergy(itemInfo.variables[0]);
                 break;
             case ItemType.PROTEIN_SHAKE:
-                BattleController.Instance.playerBCC.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.STRENGTH, itemInfo.variables[0]));
+                BattleController.Instance.playerBCC.AddStatusEffect(Globals.GetStatus(Effect.STRENGTH, itemInfo.variables[0]));
                 break;
         }
     }

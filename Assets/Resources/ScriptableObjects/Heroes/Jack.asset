@@ -34,7 +34,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 76ff67b524d2e04419cd7919fd48fba4, type: 2}
   - {fileID: 11400000, guid: 28652be1c1eee1f4eade069815693534, type: 2}
   - {fileID: 11400000, guid: 28652be1c1eee1f4eade069815693534, type: 2}
-  - {fileID: 11400000, guid: 17a966e4251ef234f939e09f4d50bc68, type: 2}
   startingRelics:
   - {fileID: 11400000, guid: 0457efb2ba349c247baf074d98c44222, type: 2}
   startingItems: []

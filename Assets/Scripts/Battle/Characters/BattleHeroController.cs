@@ -5,8 +5,6 @@ using UnityEngine;
 public class BattleHeroController : BattleCharacterController
 {
 
-    private Sprite _deathSprite;
-
     public override void Awake()
     {
         base.Awake();
@@ -22,9 +20,7 @@ public class BattleHeroController : BattleCharacterController
 
     public void Initialize(HeroData heroData, int currHP, int maxHP)
     {
-        maxHealth = maxHP;
-        health = currHP;
-        _deathSprite = heroData.deathSprite;
+        base.InitializeHealthData(currHP, maxHP);
         base.Initialize(heroData);
     }
 
@@ -37,9 +33,9 @@ public class BattleHeroController : BattleCharacterController
             StatusEffect combo = statusHandler.GetStatusEffect(Effect.COMBO);
             if (c.cardData.cardType == CardType.ATTACKER || c.cardData.cardType == CardType.SPECIAL_ATTACKER)
             {
-                if (combo == null || c.cardData.cardName == combo.specialValue)
+                if (combo == null || c.cardData.GetCardUniqueName() == combo.specialValue)
                 {
-                    statusHandler.AddStatusEffect(Globals.GetStatus(Effect.COMBO, 2, c.cardData.cardName));
+                    statusHandler.AddStatusEffect(Globals.GetStatus(Effect.COMBO, 2, c.cardData.GetCardUniqueName()));
                     TopBarController.Instance.FlashRelicObject(RelicType.GREEN_SCARF);
                 }
             }
@@ -51,7 +47,7 @@ public class BattleHeroController : BattleCharacterController
     private void HandlePlayerDeath()
     {
         // Play Jack's death animation.
-        SetCharacterSprite(_deathSprite, true);
+        SetCharacterSprite(CharacterState.DEATH, true);
         // Play the death sound effect.
         SoundManager.Instance.PlaySFX(SoundEffect.GAME_OVER);
         // Set the game state and transition back to the title.
@@ -62,7 +58,7 @@ public class BattleHeroController : BattleCharacterController
     // Updates the health text at the top bar, because this is the main hero.
     private void UpdateUIHealthAfterDamaged()
     {
-        GameController.SetHeroHealth(health);
+        GameController.SetHeroHealth(GetHealth());
     }
 
 }

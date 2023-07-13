@@ -10,16 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee86f6c045c704740bca70758d3d2139, type: 3}
-  m_Name: Swipe
+  m_Name: Jack Swipe
   m_EditorClassIdentifier: 
-  cardName: Swipe
+  cardName: Jack Swipe
+  cardDisplayName: Swipe
   cardImage: {fileID: 21300000, guid: 9e179e158874fa9419f2a862abddec5b, type: 3}
   cardType: 0
   characterMovement: 1
   projectileSprite: {fileID: 0}
   projectileOffset: {x: 0, y: 0}
+  sourceParticleInfo:
+    particleType: 0
+    particleBurstType: 0
+    particleScale: {x: 1, y: 1}
+    particleLifetime: 0.8
+    particleSpeed: 6
+    particleCount: 10
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
+    affectedByGravity: 0
+  destinationParticleInfo:
+    particleType: 0
+    particleBurstType: 0
+    particleScale: {x: 1, y: 1}
+    particleLifetime: 0.8
+    particleSpeed: 6
+    particleCount: 10
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
+    affectedByGravity: 0
   cardRarity: 3
   cardExclusivity: 1
+  onPlaySFX: {fileID: 0}
+  onPlaySFXVolume: 1
   cardStats:
   - cardDesc: Deal [ATK] damage.
     cardCost: 1
@@ -28,6 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
+    inflictedEffects: []
     traits: 
   - cardDesc: Deal [ATK] damage.
     cardCost: 1
@@ -36,4 +58,5 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
+    inflictedEffects: []
     traits: 

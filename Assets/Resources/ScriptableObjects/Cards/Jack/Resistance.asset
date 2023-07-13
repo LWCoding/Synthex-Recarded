@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Resistance
   m_EditorClassIdentifier: 
   cardName: Resistance
+  cardDisplayName: Resistance
   cardImage: {fileID: 21300000, guid: 3598fd103e5fb3b42986d0d6e5a56bba, type: 3}
   cardType: 3
   characterMovement: 0
