@@ -64,8 +64,6 @@ public class TopBarController : MonoBehaviour
             Destroy(this);
             return;
         }
-        // Make sure this object isn't destroyed.
-        DontDestroyOnLoad(this.gameObject);
         _topBarRelicController = GetComponent<TopBarRelicController>();
         _topBarCardController = GetComponent<TopBarCardController>();
         _topBarItemController = GetComponent<TopBarItemController>();
@@ -117,6 +115,7 @@ public class TopBarController : MonoBehaviour
     {
         barBGImage.color = color - new Color(0, 0, 0, 0.1f);
         heroFrameImage.color = color;
+        heroHeadshotImage.color = color;
         pauseIconImage.color = color + new Color(0.2f, 0.2f, 0.2f);
         heroHeadshotImage.sprite = headshotSprite;
     }

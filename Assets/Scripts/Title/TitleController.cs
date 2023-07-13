@@ -24,14 +24,14 @@ public class TitleController : MonoBehaviour
         Instance = this;
         SetContinueButtonState();
         trophyObject?.SetActive(PlayerPrefs.GetInt("BeatGame") == 1);
-        // Hide the top bar.
-        TopBarController.Instance?.HideTopBar();
     }
 
     private void Start()
     {
         // Set target frame rate to 60.
         Application.targetFrameRate = 60;
+        // Hide the top bar.
+        TopBarController.Instance?.HideTopBar();
         // Play music.
         SoundManager.Instance.PlayOnLoop(MusicType.TITLE_MUSIC);
         // Make the game fade from black to clear.

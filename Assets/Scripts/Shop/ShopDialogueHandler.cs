@@ -88,12 +88,15 @@ public class ShopDialogueHandler : MonoBehaviour
     // Clears all dialogue already stored.
     public void ClearExistingDialogue()
     {
-        StopCoroutine(_currentDialogueCoroutine);
+        if (_currentDialogueCoroutine != null)
+        {
+            StopCoroutine(_currentDialogueCoroutine);
+        }
         _dialogueStringQueue = new Queue<ShopDialogueLine>();
     }
 
     // Plays an animation to hide the dialogue box.
-    private void HideDialogueBox()
+    public void HideDialogueBox()
     {
         _dialogueBoxAnimator.Play("Hide");
     }
@@ -136,7 +139,7 @@ public class ShopDialogueHandler : MonoBehaviour
             while (Time.time - startTime < timeToWait)
             {
                 // If the player clicks left click, skip the wait times!
-                if (Input.GetMouseButtonDown(0) && _isTextSkippableWhenKeyDown) { break; }
+                if (Input.GetMouseButtonDown(0) && !SettingsManager.Instance.IsGamePaused() && _isTextSkippableWhenKeyDown) { break; }
                 yield return null;
             }
         }
@@ -150,7 +153,7 @@ public class ShopDialogueHandler : MonoBehaviour
         while (Time.time - startTime < timeToWait)
         {
             // If the player clicks left click, skip this wait time!
-            if (Input.GetMouseButtonDown(0) && _isTextSkippableWhenKeyDown)
+            if (Input.GetMouseButtonDown(0) && !SettingsManager.Instance.IsGamePaused() && _isTextSkippableWhenKeyDown)
             {
                 timeToWait = 0;
             }

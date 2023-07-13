@@ -148,7 +148,7 @@ public class BattlePooler : MonoBehaviour
         _inactiveProjectileObjects.Push(projectileObject);
     }
 
-    public void StartProjectileAnimationFromPool(Vector3 positionToSpawnAt, Vector3 targetPosition, Sprite projectileSprite, float timeToReachTarget, bool projectileGoInFront = false)
+    public void StartProjectileAnimationFromPool(Vector3 positionToSpawnAt, Vector3 targetPosition, Sprite projectileSprite, float timeToReachTarget, bool projectileGoInFront = true)
     {
         if (_inactiveProjectileObjects.Count == 0)
         {

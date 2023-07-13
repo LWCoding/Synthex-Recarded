@@ -47,8 +47,6 @@ public class SettingsManager : MonoBehaviour
             return;
         }
         Instance = this;
-        // Make sure this object isn't destroyed.
-        DontDestroyOnLoad(this);
         _pauseUIGroup.SetActive(false);
         _fadeOverlayImage.gameObject.SetActive(false);
     }

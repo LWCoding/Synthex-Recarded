@@ -1583,7 +1583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d3c46fba91e41f4eb337c600d270502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterAlignment: 0
+  _characterAlignment: 1
   _characterSprite: {fileID: 4792568730718147564}
   _characterShadowSprite: {fileID: 4792568730118725957}
   _barIconSprite: {fileID: 4792568730521039317}

@@ -930,7 +930,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 659916642}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
           m_MethodName: PlayButtonHoverSFX
           m_Mode: 1
@@ -946,7 +946,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 659916642}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
           m_MethodName: PlayButtonSelectSFX
           m_Mode: 1
@@ -1669,7 +1669,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.7, y: -2.585}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 87.173, y: 97.17}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &442842411
@@ -1713,7 +1713,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fe39f743084554d41a428c919e5c2ac7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d2772a477616f9546b5e3747239636ad, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2212,8 +2212,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 659916642}
-        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+      - m_Target: {fileID: 682359677}
+        m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
         m_MethodName: AdjustMasterVolume
         m_Mode: 2
         m_Arguments:
@@ -2669,7 +2669,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 659916642}
+      - m_Target: {fileID: 682359677}
         m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
         m_MethodName: ResumeGame
         m_Mode: 2
@@ -2677,7 +2677,7 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 592496050}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
-          m_FloatArgument: 0.5
+          m_FloatArgument: 0.1
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -2736,7 +2736,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 659916642}
+        - m_Target: {fileID: 682359677}
           m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
           m_MethodName: PlayButtonHoverSFX
           m_Mode: 1
@@ -2845,137 +2845,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 629955677}
   m_CullTransparentMesh: 1
---- !u!1 &659916641
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 659916647}
-  - component: {fileID: 659916646}
-  - component: {fileID: 659916645}
-  - component: {fileID: 659916648}
-  - component: {fileID: 659916643}
-  - component: {fileID: 659916642}
-  m_Layer: 5
-  m_Name: GlobalSettingsController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &659916642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 659916641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3813a829b36dc844b02ca7acd693cf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _pauseUICanvasGroup: {fileID: 659916648}
-  _pauseUIGroup: {fileID: 1561839769}
-  _fadeOverlayImage: {fileID: 1316879246}
-  _settingsBackButton: {fileID: 783251103}
-  _settingsScreenObject: {fileID: 57770185}
-  _optionsScreenObject: {fileID: 30643312}
-  _exitScreenObject: {fileID: 6270053}
-  _masterVolumeSlider: {fileID: 504260960}
-  _volumeText: {fileID: 765701360}
-  buttonSelectSFX: {fileID: 8300000, guid: 149360dd224a4a846b9cb61a51923c10, type: 3}
---- !u!114 &659916643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 659916641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c087080c69a5a6478ab894cd637526c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &659916645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 659916641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1280, y: 720}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
---- !u!223 &659916646
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 659916641}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!224 &659916647
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 659916641}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
-  m_Children:
-  - {fileID: 1561839770}
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
---- !u!225 &659916648
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 659916641}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &671447774
 GameObject:
   m_ObjectHideFlags: 0
@@ -3019,11 +2888,13 @@ GameObject:
   - component: {fileID: 682359671}
   - component: {fileID: 682359670}
   - component: {fileID: 682359669}
+  - component: {fileID: 682359676}
   - component: {fileID: 682359668}
   - component: {fileID: 682359674}
   - component: {fileID: 682359673}
   - component: {fileID: 682359675}
-  - component: {fileID: 682359676}
+  - component: {fileID: 682359678}
+  - component: {fileID: 682359677}
   m_Layer: 5
   m_Name: GlobalCanvas
   m_TagString: Untagged
@@ -3132,6 +3003,7 @@ RectTransform:
   - {fileID: 1287673453}
   - {fileID: 317364462}
   - {fileID: 1410639724}
+  - {fileID: 1561839770}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3204,6 +3076,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _saveIconContainer: {fileID: 1287673452}
+--- !u!114 &682359677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682359667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3813a829b36dc844b02ca7acd693cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pauseUICanvasGroup: {fileID: 1561839771}
+  _pauseUIGroup: {fileID: 1561839769}
+  _fadeOverlayImage: {fileID: 1316879246}
+  _settingsBackButton: {fileID: 783251103}
+  _settingsScreenObject: {fileID: 57770185}
+  _optionsScreenObject: {fileID: 30643312}
+  _exitScreenObject: {fileID: 6270053}
+  _masterVolumeSlider: {fileID: 504260960}
+  _volumeText: {fileID: 765701360}
+  buttonSelectSFX: {fileID: 8300000, guid: 149360dd224a4a846b9cb61a51923c10, type: 3}
+--- !u!114 &682359678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682359667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c087080c69a5a6478ab894cd637526c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &706840441
 GameObject:
   m_ObjectHideFlags: 0
@@ -3287,7 +3193,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 659916642}
+      - m_Target: {fileID: 682359677}
         m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
         m_MethodName: ShowOptionsScreen
         m_Mode: 2
@@ -3354,7 +3260,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 659916642}
+        - m_Target: {fileID: 682359677}
           m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
           m_MethodName: PlayButtonHoverSFX
           m_Mode: 1
@@ -3722,7 +3628,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 659916642}
+        - m_Target: {fileID: 682359677}
           m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
           m_MethodName: PlayButtonHoverSFX
           m_Mode: 1
@@ -3778,10 +3684,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 659916642}
+      - m_Target: {fileID: 682359677}
         m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
-        m_MethodName: ShowMainScreenNoAnimateButton
-        m_Mode: 1
+        m_MethodName: ShowMainScreen
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4897,7 +4803,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 659916642}
+      - m_Target: {fileID: 682359677}
         m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
         m_MethodName: ShowMainScreen
         m_Mode: 2
@@ -4964,7 +4870,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 659916642}
+        - m_Target: {fileID: 682359677}
           m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
           m_MethodName: PlayButtonHoverSFX
           m_Mode: 1
@@ -5095,7 +5001,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 659916642}
+      - m_Target: {fileID: 682359677}
         m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
         m_MethodName: ShowQuitScreen
         m_Mode: 2
@@ -5162,7 +5068,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 659916642}
+        - m_Target: {fileID: 682359677}
           m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
           m_MethodName: PlayButtonHoverSFX
           m_Mode: 1
@@ -5985,7 +5891,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 659916642}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
         m_MethodName: TogglePause
         m_Mode: 4
@@ -6416,6 +6322,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1561839770}
+  - component: {fileID: 1561839771}
   m_Layer: 5
   m_Name: PauseUIGroup
   m_TagString: Untagged
@@ -6430,20 +6337,32 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1561839769}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 945729590}
   - {fileID: 1316879244}
-  m_Father: {fileID: 659916647}
-  m_RootOrder: 0
+  m_Father: {fileID: 682359672}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1561839771
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561839769}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1748397590
 GameObject:
   m_ObjectHideFlags: 0
@@ -7212,7 +7131,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 659916642}
+      - m_Target: {fileID: 682359677}
         m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
         m_MethodName: ExitToMenu
         m_Mode: 2
@@ -7279,7 +7198,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 659916642}
+        - m_Target: {fileID: 682359677}
           m_TargetAssemblyTypeName: SettingsManager, Assembly-CSharp
           m_MethodName: PlayButtonHoverSFX
           m_Mode: 1

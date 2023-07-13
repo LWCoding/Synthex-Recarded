@@ -17,7 +17,7 @@ MonoBehaviour:
   cardType: 0
   characterMovement: 2
   projectileSprite: {fileID: 21300000, guid: 35656f55706e9834f983dacd8c16eebb, type: 3}
-  projectileOffset: {x: 1.3, y: 0}
+  projectileOffset: {x: 1.3, y: 0.1}
   sourceParticleInfo:
     particleType: 1
     particleBurstType: 1
@@ -25,6 +25,7 @@ MonoBehaviour:
     particleLifetime: 0.8
     particleSpeed: 6
     particleCount: 8
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
     affectedByGravity: 1
   destinationParticleInfo:
     particleType: 0
@@ -33,6 +34,7 @@ MonoBehaviour:
     particleLifetime: 0.8
     particleSpeed: 7
     particleCount: 10
+    particleColor: {r: 1, g: 1, b: 1, a: 1}
     affectedByGravity: 0
   cardRarity: 3
   cardExclusivity: 0
@@ -46,4 +48,5 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
+    inflictedEffects: []
     traits: 21000000

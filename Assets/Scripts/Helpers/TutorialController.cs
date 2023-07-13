@@ -76,7 +76,7 @@ public class TutorialController : MonoBehaviour
         // Wait until the left click button isn't being held down.
         yield return new WaitUntil(() => { return !Input.GetMouseButton(0); });
         // Wait until the left click button is triggered.
-        yield return new WaitUntil(() => { return Input.GetMouseButton(0); });
+        yield return new WaitUntil(() => { return Input.GetMouseButton(0) && !SettingsManager.Instance.IsGamePaused(); });
         // Make the speaker hide to transition to the next dialogue if the
         // next animation is not the same.
         if (_currAnimationStep == animationsToPlayInOrder.Count - 1 || animationsToPlayInOrder[_currAnimationStep].animationName != animationsToPlayInOrder[_currAnimationStep + 1].animationName)

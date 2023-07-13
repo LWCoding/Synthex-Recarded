@@ -54,7 +54,7 @@ MonoBehaviour:
       amplifier: 2
       renderBehavior: 0
     traits: 0c000000
-  - cardDesc: All attacks apply 1 Bleed.
+  - cardDesc: All attacks apply 2 Bleed.
     cardCost: 2
     damageTarget: 0
     damageValue: 0

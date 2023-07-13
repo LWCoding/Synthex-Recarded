@@ -178,7 +178,7 @@ public partial class DialogueUIController : MonoBehaviour
             while (Time.time - startTime < timeToWait)
             {
                 // If the player clicks left click, skip the wait times!
-                if (Input.GetMouseButtonDown(0)) { skippedDialogue = true; break; }
+                if (!SettingsManager.Instance.IsGamePaused() && Input.GetMouseButtonDown(0)) { skippedDialogue = true; break; }
                 yield return null;
             }
         }

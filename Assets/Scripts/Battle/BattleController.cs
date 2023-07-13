@@ -146,7 +146,7 @@ public partial class BattleController : MonoBehaviour
         bec.SetRewardAmount(Random.Range(enemyData.enemyRewardMin, enemyData.enemyRewardMax));
         bec.maxHealth = generatedHealth;
         bec.health = generatedHealth;
-        bec.gameObject.transform.position += new Vector3(-3.2f * (enemiesStillAlive - 1), 0.3f * (enemiesStillAlive - 1));
+        bec.gameObject.transform.position += new Vector3(-3.3f * (enemiesStillAlive - 1), 0.3f * (enemiesStillAlive - 1));
         bec.Initialize(enemyData);
     }
 

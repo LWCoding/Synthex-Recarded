@@ -675,7 +675,8 @@ public partial class BattleCharacterController : MonoBehaviour
         foreach (BattleCharacterController targetBCC in targetBCCs)
         {
             Vector3 projectileTargetPosition = targetBCC.transform.position;
-            BattlePooler.Instance.StartProjectileAnimationFromPool(transform.position + (Vector3)_storedCard.cardData.projectileOffset, projectileTargetPosition, _storedCard.cardData.projectileSprite, timeToReachTarget);
+            Vector3 adjustedSpawnPosition = transform.position + new Vector3((_characterAlignment == Alignment.HERO ? 1 : -1) * _storedCard.cardData.projectileOffset.x, _storedCard.cardData.projectileOffset.y, 0);
+            BattlePooler.Instance.StartProjectileAnimationFromPool(adjustedSpawnPosition, projectileTargetPosition, _storedCard.cardData.projectileSprite, timeToReachTarget);
         }
 
         // Render particles at the start!
@@ -729,10 +730,9 @@ public partial class BattleCharacterController : MonoBehaviour
     private void RenderStartParticleAnimations()
     {
         // Calculate the spawn position of the particles.
-        Vector3 adjustedSpawnPosition = transform.position + (((_characterAlignment == Alignment.HERO) ? 1 : -1) * (Vector3)_storedCard.cardData.projectileOffset);
+        Vector3 adjustedSpawnPosition = transform.position + new Vector3((_characterAlignment == Alignment.HERO ? 1 : -1) * _storedCard.cardData.projectileOffset.x, _storedCard.cardData.projectileOffset.y, 0);
         // Calculate the burst direction if this is a hero or enemy. Hero = right, enemy = left.
         int burstDirection = (_characterAlignment == Alignment.HERO) ? 1 : -1;
-
         // Spawn the particles at the start!
         ParticleInfo particleInfo = _storedCard.cardData.sourceParticleInfo;
         if (particleInfo.particleType != ParticleType.NONE)

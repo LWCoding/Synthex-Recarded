@@ -27,11 +27,13 @@ public class ShopController : MonoBehaviour
     public AudioClip shopDoorCloseSFX;
 
     private bool _isFirstTimeAtShop;
+    private bool _isPlayerLeavingShop;
 
     private void Awake()
     {
         Instance = GetComponent<ShopController>();
         exitShopButton.interactable = false;
+        _isPlayerLeavingShop = false;
     }
 
     private void Start()
@@ -56,6 +58,9 @@ public class ShopController : MonoBehaviour
     private IEnumerator CloseDoorAfterDelayCoroutine()
     {
         exitShopButton.interactable = false;
+        _isPlayerLeavingShop = true;
+        ShopDialogueHandler.Instance.ClearExistingDialogue();
+        ShopDialogueHandler.Instance.HideDialogueBox();
         yield return new WaitForSeconds(0.4f);
         shopkeeperAnimator.Play("ShopkeepHide");
         yield return new WaitForSeconds(0.8f);
@@ -113,6 +118,7 @@ public class ShopController : MonoBehaviour
 
     public void OnClickedCardsTab()
     {
+        if (_isPlayerLeavingShop) { return; }
         if (_isFirstTimeAtShop)
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
@@ -125,6 +131,7 @@ public class ShopController : MonoBehaviour
 
     public void OnClickedRelicTab()
     {
+        if (_isPlayerLeavingShop) { return; }
         if (_isFirstTimeAtShop)
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
@@ -137,6 +144,7 @@ public class ShopController : MonoBehaviour
 
     public void OnClickedItemTab()
     {
+        if (_isPlayerLeavingShop) { return; }
         if (_isFirstTimeAtShop)
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();

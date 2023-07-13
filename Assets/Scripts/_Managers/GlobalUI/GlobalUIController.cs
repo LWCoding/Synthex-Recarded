@@ -19,7 +19,7 @@ public class GlobalUIController : MonoBehaviour
         }
         else if (Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
             return;
         }
         // Make sure this object isn't destroyed.
