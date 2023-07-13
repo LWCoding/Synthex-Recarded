@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62f5601aebaa11b459cb1729fba4125e, type: 3}
-  m_Name: Loud Megaphone
+  m_Name: Airhorn
   m_EditorClassIdentifier: 
-  relicName: Loud Megaphone
+  relicName: Airhorn
   relicDesc: All enemies deal 1 less damage with direct attacks.
-  relicImage: {fileID: 0}
+  relicImage: {fileID: 21300000, guid: 267d645041d875c4a85f9ec785b07527, type: 3}
   type: 12
   relicRarity: 2

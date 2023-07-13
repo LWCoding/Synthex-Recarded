@@ -37,7 +37,7 @@ public class TopBarController : MonoBehaviour
     private TopBarItemController _topBarItemController;
     public void RenderItems() => _topBarItemController.RenderItems();
     public void FlashItemObject(int idx) => _topBarItemController.FlashItemObject(idx);
-    public void UpdateItemVerifyText(bool hasBeenClicked) => _topBarItemController.UpdateItemVerifyText(hasBeenClicked);
+    public void UpdateItemVerifyText(bool isClickable, bool hasBeenClicked) => _topBarItemController.UpdateItemVerifyText(isClickable, hasBeenClicked);
     public void ShowTopBarItemTooltip(Item item) => _topBarItemController.ShowTopBarItemTooltip(item);
     public void HideTopBarItemTooltip() => _topBarItemController.HideTopBarItemTooltip();
     private TopBarRelicController _topBarRelicController;
@@ -130,6 +130,11 @@ public class TopBarController : MonoBehaviour
         {
             int prevHealth = int.Parse(heroHealthText.text.Split('/')[0]);
             int changeInHealth = newHealth - prevHealth;
+            // If we are healing, play the heal health sound effect.
+            if (changeInHealth > 0)
+            {
+                SoundManager.Instance.PlaySFX(SoundEffect.HEAL_HEALTH);
+            }
             if (changeInHealth != 0)
             {
                 ObjectPooler.Instance.SpawnUIPopup((changeInHealth > 0) ? "+" + changeInHealth.ToString() : changeInHealth.ToString(), 36, heroHealthText.transform.position, (changeInHealth > 0) ? new Color(0.1f, 1, 0.1f) : new Color(1, 0.1f, 0.1f), canvasTransform, 1, 1.4f, false);
@@ -145,29 +150,24 @@ public class TopBarController : MonoBehaviour
         heroXPText.text = GameController.GetXP().ToString() + "/100";
     }
 
-    // Spawn multiple coins that goes from a certain position 
+    // Spawn multiple tokens that goes from a certain position 
     // to the currency icon and adds to the current balance.
-    public void AnimateCoinsToBalance(Vector3 initialCanvasPosition, int totalRewardAmount)
+    public void AnimateTokensToBalance(TokenType tokenType, Vector3 initialCanvasPosition, int totalRewardAmount)
     {
-        int coinAmount = Mathf.Clamp(totalRewardAmount / 15, 4, 15);
+        int tokenAmount = (tokenType == TokenType.COIN) ? Mathf.Clamp(totalRewardAmount / 15, 4, 15) : Mathf.Clamp(totalRewardAmount / 3, 2, 3);
         float displacementAmount = 90;
-        for (int i = 0; i < coinAmount; i++)
+        int rewardedAmount = 0;
+        for (int i = 0; i < tokenAmount; i++)
         {
             Vector3 newPosition = initialCanvasPosition + new Vector3(Random.Range(-displacementAmount, displacementAmount), Random.Range(-displacementAmount, displacementAmount), 0);
-            StartCoroutine(AnimateTokenToBalanceCoroutine(TokenType.COIN, newPosition, totalRewardAmount / coinAmount, i));
+            rewardedAmount += totalRewardAmount / tokenAmount;
+            StartCoroutine(AnimateTokenToBalanceCoroutine(tokenType, newPosition, totalRewardAmount / tokenAmount, i));
         }
-    }
-
-    // Spawn multiple XP tokens that goes from a certain position 
-    // to the XP icon and adds to the current balance.
-    public void AnimateXPToBalance(Vector3 initialCanvasPosition, int totalRewardAmount)
-    {
-        int xpAmount = Mathf.Clamp(totalRewardAmount / 15, 4, 15);
-        float displacementAmount = 90;
-        for (int i = 0; i < xpAmount; i++)
+        // If we haven't rewarded all the currency, do it in a final currency token.
+        if (rewardedAmount < totalRewardAmount)
         {
             Vector3 newPosition = initialCanvasPosition + new Vector3(Random.Range(-displacementAmount, displacementAmount), Random.Range(-displacementAmount, displacementAmount), 0);
-            StartCoroutine(AnimateTokenToBalanceCoroutine(TokenType.XP, newPosition, totalRewardAmount / xpAmount, i));
+            StartCoroutine(AnimateTokenToBalanceCoroutine(tokenType, newPosition, totalRewardAmount - rewardedAmount, tokenAmount));
         }
     }
 

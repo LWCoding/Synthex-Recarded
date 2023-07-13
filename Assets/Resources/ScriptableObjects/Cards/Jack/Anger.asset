@@ -52,7 +52,7 @@ MonoBehaviour:
     - target: 2
       effect: 1
       amplifier: 2
-      renderBehavior: 0
+      renderBehavior: 1
     traits: 
   - cardDesc: Deal [ATK] damage. Gain 2 Strength.
     cardCost: 2

@@ -38,7 +38,11 @@ public static class GameController
     public static void SetMapObject(SerializableMapObject smo) => _mapObject = smo;
     private static List<Encounter> _alreadySeenEnemies = new List<Encounter>();
     public static List<Encounter> GetSeenEnemies() => _alreadySeenEnemies;
-    public static void AddSeenEnemies(Encounter enemyEncounter) => _alreadySeenEnemies.Add(enemyEncounter);
+    public static void AddSeenEnemies(Encounter enemyEncounter)
+    {
+        if (_alreadySeenEnemies.Contains(enemyEncounter)) { return; }
+        _alreadySeenEnemies.Add(enemyEncounter);
+    }
     public static void SetSeenEnemies(List<Encounter> seenEnemies) => _alreadySeenEnemies = seenEnemies;
     // Cards and deck data:
     private const float COMMON_CARD_CHANCE = 0.6f;
@@ -70,8 +74,8 @@ public static class GameController
         _chosenHero.currentItems.Add(item);
     }
 
-    // Uses an item in the player's inventory.
-    public static void UseItemInInventory(int index)
+    // Removes an item in the player's inventory.
+    public static void RemoveItemInInventory(int index)
     {
         _chosenHero.currentItems.RemoveAt(index);
     }
@@ -100,7 +104,7 @@ public static class GameController
 
     /// <summary>
     /// Returns a random card from the pool of all cards, based on the chances of card rarities.
-    /// Excludes any cards that are in the provided blacklist. 
+    /// Excludes any cards that are in the provided blacklist or not part of the current hero. 
     /// If no valid cards are found, returns null.
     /// CANNOT return unobtainable cards.
     /// </summary>
@@ -125,6 +129,50 @@ public static class GameController
             rarity = CardRarity.RARE;
         }
         List<CardData> possibleCards = Globals.allCardData.FindAll((card) => (card.cardRarity == rarity && (card.cardExclusivity == HeroTag.ANY_HERO || card.cardExclusivity == GetHeroData().heroTag)));
+        // Remove any duplicates. Let the player choose only unique
+        // cards from the possibleCards array.
+        for (int i = 0; i < cardBlacklist.Count; i++)
+        {
+            possibleCards.Remove(cardBlacklist[i].cardData);
+        }
+        // If there are no possible cards to draw, don't draw any!
+        if (possibleCards.Count == 0)
+        {
+            Debug.Log("No possible card found when trying to draw in GameController.cs!");
+            return null;
+        }
+        int randomIdx = Random.Range(0, possibleCards.Count);
+        return new Card(possibleCards[randomIdx]);
+    }
+
+    /// <summary>
+    /// Returns a random card from the pool of all cards, based on the chances of card rarities.
+    /// Excludes any cards that are in the provided blacklist. 
+    /// If no valid cards are found, returns null.
+    /// CANNOT return unobtainable cards.
+    /// CAN return cards from other hero classes.
+    /// </summary>
+    public static Card GetTrulyRandomCard(List<Card> cardBlacklist, float commonChance = -1, float uncommonChance = -1, float rareChance = -1)
+    {
+        if (commonChance == -1) { commonChance = COMMON_CARD_CHANCE; }
+        if (uncommonChance == -1) { uncommonChance = UNCOMMON_CARD_CHANCE; }
+        if (rareChance == -1) { rareChance = RARE_CARD_CHANCE; }
+        // Calculate if the cards drawn should be common, uncommon, or rare.
+        CardRarity rarity;
+        float randomCalc = Random.Range(0f, 1f);
+        if (randomCalc < commonChance)
+        {
+            rarity = CardRarity.COMMON;
+        }
+        else if (randomCalc < commonChance + uncommonChance)
+        {
+            rarity = CardRarity.UNCOMMON;
+        }
+        else
+        {
+            rarity = CardRarity.RARE;
+        }
+        List<CardData> possibleCards = Globals.allCardData.FindAll((card) => card.cardRarity == rarity);
         // Remove any duplicates. Let the player choose only unique
         // cards from the possibleCards array.
         for (int i = 0; i < cardBlacklist.Count; i++)
@@ -308,7 +356,8 @@ public static class GameController
     }
 
     /// <summary>
-    /// Changes the chosen hero's health.
+    /// Changes the chosen hero's health. Positive numbers
+    /// will heal, and negative numbers will damage.
     /// </summary>
     public static void ChangeHeroHealth(int health)
     {

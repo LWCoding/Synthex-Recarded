@@ -74,11 +74,7 @@ public partial class BattleController : MonoBehaviour
         InitializeHero();
         foreach (Enemy e in allEnemiesInBattle)
         {
-            GameObject enemyObject = Instantiate(enemyPrefabObject);
-            BattleEnemyController enemyBCC = enemyObject.GetComponent<BattleEnemyController>();
-            enemyBCC.SetEnemyType(e);
-            enemyBCCs.Add(enemyBCC);
-            InitializeEnemy(enemyBCC, e);
+            InitializeEnemy(e);
         }
 #if !UNITY_EDITOR
         // If we haven't played the battle tutorial yet, do that.
@@ -124,9 +120,16 @@ public partial class BattleController : MonoBehaviour
     }
 
     // Initializes the enemy's sprite and health.
-    private void InitializeEnemy(BattleEnemyController bec, Enemy enemyData)
+    private void InitializeEnemy(Enemy enemyData)
     {
+        // Initialize this enemy based on the Enemy scriptable object data.
+        GameObject enemyObject = Instantiate(enemyPrefabObject);
+        BattleEnemyController bec = enemyObject.GetComponent<BattleEnemyController>();
+        bec.SetEnemyType(enemyData);
         enemiesStillAlive++;
+        // Add this enemy to the enemyBCCs list to label as a target.
+        enemyBCCs.Add(bec);
+        // Initialize the rest of the enemy's information.
         int generatedHealth = Random.Range(enemyData.enemyHealthMin, enemyData.enemyHealthMax + 1);
         switch (enemyData.characterName)
         {
@@ -143,7 +146,7 @@ public partial class BattleController : MonoBehaviour
         bec.SetRewardAmount(Random.Range(enemyData.enemyRewardMin, enemyData.enemyRewardMax));
         bec.maxHealth = generatedHealth;
         bec.health = generatedHealth;
-        bec.gameObject.transform.position += new Vector3(-3.5f * (enemiesStillAlive - 1), 0.3f * (enemiesStillAlive - 1));
+        bec.gameObject.transform.position += new Vector3(-3.2f * (enemiesStillAlive - 1), 0.3f * (enemiesStillAlive - 1));
         bec.Initialize(enemyData);
     }
 
@@ -207,24 +210,24 @@ public partial class BattleController : MonoBehaviour
             });
         }
         // If the player has the Vampire Teeth relic, killing an enemy should heal 3 health.
-        if (GameController.HasRelic(RelicType.VAMPIRE_TEETH))
+        if (GameController.HasRelic(RelicType.VAMPIRE_FANGS))
         {
             foreach (BattleEnemyController bec in enemyBCCs)
             {
                 bec.OnDeath.AddListener(() =>
                 {
                     playerBCC.ChangeHealth(3);
-                    TopBarController.Instance.FlashRelicObject(RelicType.VAMPIRE_TEETH);
+                    TopBarController.Instance.FlashRelicObject(RelicType.VAMPIRE_FANGS);
                 });
             }
         }
         // If the player has the Loud Megaphone relic, all enemies start with 1 crippled.
-        if (GameController.HasRelic(RelicType.LOUD_MEGAPHONE))
+        if (GameController.HasRelic(RelicType.AIRHORN))
         {
             foreach (BattleEnemyController bec in enemyBCCs)
             {
                 bec.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.CRIPPLED, 1));
-                TopBarController.Instance.FlashRelicObject(RelicType.LOUD_MEGAPHONE);
+                TopBarController.Instance.FlashRelicObject(RelicType.AIRHORN);
             }
         }
         // If the player has the Catastrophe status effect, deal 4 damage to all enemies
@@ -521,7 +524,7 @@ public partial class BattleController : MonoBehaviour
         // Update energy cost after using card, if applicable.
         if (subtractCost)
         {
-            EnergyController.Instance.UpdateEnergy(-c.GetCardStats().cardCost);
+            EnergyController.Instance.ChangeEnergy(-c.GetCardStats().cardCost);
         }
         // Play animations and perform actions specified on
         // card. (handled in BattleCharacterController)

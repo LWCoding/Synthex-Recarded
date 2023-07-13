@@ -132,7 +132,7 @@ public partial class BattleCharacterController : MonoBehaviour
                 {
                     s.shouldActivate = true;
                     s.ChangeCount(-1);
-                    EnergyController.Instance.UpdateEnergy(1);
+                    EnergyController.Instance.ChangeEnergy(1);
                 }
                 // LUCKY DRAW EFFECT
                 if (_characterAlignment == Alignment.HERO && s.statusInfo.type == Effect.LUCKY_DRAW)

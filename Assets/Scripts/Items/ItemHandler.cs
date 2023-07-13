@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using TMPro;
 
+[RequireComponent(typeof(ItemEffectRenderer))]
 public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
@@ -17,6 +19,7 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private Image verifyChoiceImage;
 
     [HideInInspector] public Item itemInfo;
+    private ItemEffectRenderer _itemEffectRenderer;
     private Image _itemFlashImage;
     private int _timesItemClicked = 0; // 1 = show checkmark, 2 = use item
     private bool _canClickToUse = true;
@@ -34,6 +37,7 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         _itemCanvas = GetComponent<Canvas>();
         _itemFlashImage = itemFlashObject.GetComponent<Image>();
         _tooltipCanvas = tooltipParentObject.GetComponent<Canvas>();
+        _itemEffectRenderer = GetComponent<ItemEffectRenderer>();
     }
 
     // Initialize the item's information.
@@ -56,7 +60,13 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // Set the item information
         itemInfo = item;
         nameText.text = item.itemName;
-        descText.text = item.itemDesc;
+        // Set the description text correctly after replacing variable values.
+        string desc = item.itemDesc;
+        for (int i = 0; i < item.variables.Count; i++)
+        {
+            desc = desc.Replace("[" + i.ToString() + "]", item.variables[i].ToString());
+        }
+        descText.text = desc;
         imageObject.GetComponent<Image>().sprite = item.itemImage;
         _itemFlashImage.sprite = item.itemImage;
     }
@@ -102,7 +112,11 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (itemInfo.type == ItemType.NONE) { return; }
         // Or else, show the local OR UI tooltip depending on the circumstances.
         if (_showLocalTooltipOnHover) { tooltipParentObject.SetActive(true); }
-        if (_showUITooltipOnHover) { TopBarController.Instance.ShowTopBarItemTooltip(itemInfo); }
+        if (_showUITooltipOnHover)
+        {
+            TopBarController.Instance.ShowTopBarItemTooltip(itemInfo);
+            TopBarController.Instance.UpdateItemVerifyText(GetIsItemPlayable(), false);
+        }
         if (_itemFlashCoroutine != null) { return; }
         _desiredScale = _initialScale * 1.1f;
     }
@@ -120,6 +134,7 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!GetIsItemPlayable()) { return; }
         if (itemInfo.type != ItemType.NONE && _canClickToUse)
         {
             _timesItemClicked++;
@@ -127,16 +142,32 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             if (_timesItemClicked == 1)
             {
                 ShowVerifyChoiceImage();
-                TopBarController.Instance.UpdateItemVerifyText(true);
+                TopBarController.Instance.UpdateItemVerifyText(true, true);
                 SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_BUTTON_HOVER, 1.6f);
             }
             // If we've clicked a second time, use the item!
             if (_timesItemClicked >= 2)
             {
-                GameController.UseItemInInventory(_itemIndex);
+                _itemEffectRenderer.RenderEffects(itemInfo);
+                GameController.RemoveItemInInventory(_itemIndex);
                 TopBarController.Instance.RenderItems();
             }
         }
+    }
+
+    public bool GetIsItemPlayable()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        // If the item is a placeholder, don't even work.
+        if (itemInfo.type == ItemType.NONE)
+        {
+            return false;
+        }
+        if (itemInfo.useCase == ItemUseCase.ONLY_IN_BATTLE && sceneName != "Battle")
+        {
+            return false;
+        }
+        return true;
     }
 
     public void SetItemImageScale(float scale, float tooltipScale)

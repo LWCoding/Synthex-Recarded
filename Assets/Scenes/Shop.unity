@@ -211,7 +211,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 15
+  m_SortingOrder: 30
   m_TargetDisplay: 0
 --- !u!114 &155232278
 MonoBehaviour:
@@ -624,6 +624,7 @@ GameObject:
   - component: {fileID: 258836050}
   - component: {fileID: 258836049}
   - component: {fileID: 258836051}
+  - component: {fileID: 258836052}
   m_Layer: 5
   m_Name: RelicIcon
   m_TagString: Untagged
@@ -709,6 +710,35 @@ MonoBehaviour:
   shopTab: 2
   scrollTransform: {fileID: 632990803}
   isInteractable: 0
+--- !u!114 &258836052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258836047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1350748637}
+          m_TargetAssemblyTypeName: ShopController, Assembly-CSharp
+          m_MethodName: OnClickedRelicTab
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &260204222
 GameObject:
   m_ObjectHideFlags: 0
@@ -2004,6 +2034,7 @@ GameObject:
   - component: {fileID: 992042438}
   - component: {fileID: 992042437}
   - component: {fileID: 992042439}
+  - component: {fileID: 992042440}
   m_Layer: 5
   m_Name: CardIcon
   m_TagString: Untagged
@@ -2089,6 +2120,35 @@ MonoBehaviour:
   shopTab: 0
   scrollTransform: {fileID: 280317430}
   isInteractable: 0
+--- !u!114 &992042440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992042435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1350748637}
+          m_TargetAssemblyTypeName: ShopController, Assembly-CSharp
+          m_MethodName: OnClickedCardsTab
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1048941977
 GameObject:
   m_ObjectHideFlags: 0
@@ -2617,6 +2677,7 @@ GameObject:
   - component: {fileID: 1244289142}
   - component: {fileID: 1244289141}
   - component: {fileID: 1244289143}
+  - component: {fileID: 1244289144}
   m_Layer: 5
   m_Name: ItemIcon
   m_TagString: Untagged
@@ -2702,6 +2763,35 @@ MonoBehaviour:
   shopTab: 1
   scrollTransform: {fileID: 984680287}
   isInteractable: 0
+--- !u!114 &1244289144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244289139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1350748637}
+          m_TargetAssemblyTypeName: ShopController, Assembly-CSharp
+          m_MethodName: OnClickedItemTab
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1288827617
 GameObject:
   m_ObjectHideFlags: 0

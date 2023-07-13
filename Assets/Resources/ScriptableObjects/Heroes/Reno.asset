@@ -25,11 +25,9 @@ MonoBehaviour:
   heroUIColor: {r: 0, g: 0.5784782, b: 0.8490566, a: 1}
   deathSprite: {fileID: 21300000, guid: cd565311be47d9444b5d93bcb3cda472, type: 3}
   startingDeck:
-  - {fileID: 11400000, guid: d3115aed8c059fd468267a5b50896031, type: 2}
-  - {fileID: 11400000, guid: 76ff67b524d2e04419cd7919fd48fba4, type: 2}
-  - {fileID: 11400000, guid: 76ff67b524d2e04419cd7919fd48fba4, type: 2}
-  - {fileID: 11400000, guid: 76ff67b524d2e04419cd7919fd48fba4, type: 2}
-  - {fileID: 11400000, guid: 70e27e1b5fb01ac49a9c0acd269d5ed1, type: 2}
+  - {fileID: 11400000, guid: ff4620ddf456d1c4c83708bcac8813f7, type: 2}
+  - {fileID: 11400000, guid: ff4620ddf456d1c4c83708bcac8813f7, type: 2}
+  - {fileID: 11400000, guid: ff4620ddf456d1c4c83708bcac8813f7, type: 2}
   startingRelics:
   - {fileID: 11400000, guid: e779b61f97cdb1548800a8def850b16e, type: 2}
   startingItems: []

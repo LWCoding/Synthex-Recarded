@@ -11,7 +11,7 @@ public partial class BattleCharacterController : MonoBehaviour
     private void RenderCardEffects(BattleCharacterController targetBCC)
     {
         // RENDER ALL CARD INFLICTIONS BEFORE THE ATTACK.
-        RenderInflictionsBeforeAttack(targetBCC, EffectRenderOrder.RENDER_EFFECT_BEFORE_ATTACK);
+        RenderInflictions(targetBCC, EffectRenderOrder.RENDER_EFFECT_BEFORE_ATTACK);
         // RENDER TRAITS.
         if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.DRAW_ONE_CARD))
         {
@@ -26,8 +26,8 @@ public partial class BattleCharacterController : MonoBehaviour
         if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.MATERIALIZE_TWO_CARDS))
         {
             List<Card> cardsToAdd = new List<Card>();
-            cardsToAdd.Add(GameController.GetRandomCard(new List<Card>()));
-            cardsToAdd.Add(GameController.GetRandomCard(new List<Card>()));
+            cardsToAdd.Add(GameController.GetTrulyRandomCard(new List<Card>()));
+            cardsToAdd.Add(GameController.GetTrulyRandomCard(new List<Card>()));
             BattleController.Instance.DrawCards(cardsToAdd);
             BattleController.Instance.UpdateCardsInHand();
         }
@@ -38,7 +38,7 @@ public partial class BattleCharacterController : MonoBehaviour
         }
         if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.GAIN_TWO_ENERGY))
         {
-            EnergyController.Instance.UpdateEnergy(2);
+            EnergyController.Instance.ChangeEnergy(2);
         }
         if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.SALVAGE_NEW_CARDS))
         {
@@ -110,14 +110,14 @@ public partial class BattleCharacterController : MonoBehaviour
         {
             if (!targetBCC.IsAlive())
             {
-                EnergyController.Instance.UpdateEnergy(2);
+                EnergyController.Instance.ChangeEnergy(2);
             }
         }
         // RENDER ALL CARD INFLICTIONS AFTER THE ATTACK.
-        RenderInflictionsBeforeAttack(targetBCC, EffectRenderOrder.RENDER_EFFECT_AFTER_ATTACK);
+        RenderInflictions(targetBCC, EffectRenderOrder.RENDER_EFFECT_AFTER_ATTACK);
     }
 
-    private void RenderInflictionsBeforeAttack(BattleCharacterController targetBCC, EffectRenderOrder currentRenderTime)
+    private void RenderInflictions(BattleCharacterController targetBCC, EffectRenderOrder currentRenderTime)
     {
         foreach (CardInflict infliction in _storedCard.GetCardStats().inflictedEffects)
         {

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62f5601aebaa11b459cb1729fba4125e, type: 3}
   m_Name: Vampire Teeth
   m_EditorClassIdentifier: 
-  relicName: Vampire Teeth
+  relicName: Vampire Fangs
   relicDesc: Whenever you defeat an enemy, heal 3 health.
-  relicImage: {fileID: 0}
+  relicImage: {fileID: 21300000, guid: 63a4f5d9995bb5c4b9cec595d2189429, type: 3}
   type: 10
   relicRarity: 1

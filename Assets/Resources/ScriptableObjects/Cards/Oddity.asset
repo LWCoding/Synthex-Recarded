@@ -41,7 +41,7 @@ MonoBehaviour:
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: Materialize 2 random cards into your hand.
+  - cardDesc: Materialize 2 random cards. Exhausts.
     cardCost: 1
     damageTarget: 0
     damageValue: 0
@@ -49,4 +49,4 @@ MonoBehaviour:
     blockValue: 0
     attackRepeatCount: 1
     inflictedEffects: []
-    traits: 05000000
+    traits: 050000000c000000

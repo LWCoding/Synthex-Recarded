@@ -26,6 +26,8 @@ public class ShopController : MonoBehaviour
     public AudioClip shopDoorOpenSFX;
     public AudioClip shopDoorCloseSFX;
 
+    private bool _isFirstTimeAtShop;
+
     private void Awake()
     {
         Instance = GetComponent<ShopController>();
@@ -86,6 +88,7 @@ public class ShopController : MonoBehaviour
         shopkeeperAnimator.gameObject.SetActive(true);
         shopkeeperAnimator.Play("ShopkeepShow");
         yield return new WaitForSeconds(1f);
+        _isFirstTimeAtShop = !GameController.visitedShopBefore;
         if (GameController.visitedShopBefore)
         {
             // If the player has visited a shop before, just show the UI.
@@ -102,9 +105,45 @@ public class ShopController : MonoBehaviour
             ShopDialogueHandler.Instance.QueueDialogueText("Ah! Howdy. You must be Jack.", "Neutral");
             ShopDialogueHandler.Instance.QueueDialogueText("I'm Shop-Bot. Please take a look at my wares.", "Neutral");
             ShopDialogueHandler.Instance.QueueDialogueText("I have cards, which perform actions during battle, and relics, which give you permanent buffs.", "Glance");
-            ShopDialogueHandler.Instance.QueueDialogueText("I also have some one-time-use items that may help you on your way to what I presume to be Aericho City.", "Glance");
+            ShopDialogueHandler.Instance.QueueDialogueText("I also have some items that may help you on your way to what I presume to be Aericho City.", "Glance");
             ShopDialogueHandler.Instance.QueueDialogueText("I have different materials at every location. So swing by at any time.", "Neutral");
-            ShopDialogueHandler.Instance.RenderDialogueText(true, () => { ShowHologramUI(true); exitShopButton.interactable = true; });
+            ShopDialogueHandler.Instance.RenderDialogueText(true, true, () => { ShowHologramUI(true); exitShopButton.interactable = true; });
+        }
+    }
+
+    public void OnClickedCardsTab()
+    {
+        if (_isFirstTimeAtShop)
+        {
+            ShopDialogueHandler.Instance.ShowDialogueBox();
+            ShopDialogueHandler.Instance.ClearExistingDialogue();
+            ShopDialogueHandler.Instance.QueueDialogueText("Cards. Assembling a good deck helps you develop a better strategy in battle!", "Neutral");
+            ShopDialogueHandler.Instance.QueueDialogueText("If any have a special effect, hover over the card for a while to see what they do.", "Scan");
+            ShopDialogueHandler.Instance.RenderDialogueText(true, false);
+        }
+    }
+
+    public void OnClickedRelicTab()
+    {
+        if (_isFirstTimeAtShop)
+        {
+            ShopDialogueHandler.Instance.ShowDialogueBox();
+            ShopDialogueHandler.Instance.ClearExistingDialogue();
+            ShopDialogueHandler.Instance.QueueDialogueText("Ah, relics. They'll grant you permanent, passive buffs both in and out of battle.", "Neutral");
+            ShopDialogueHandler.Instance.QueueDialogueText("They range in rarity, so some are more expensive than others. If you break it, you buy it.", "Glance");
+            ShopDialogueHandler.Instance.RenderDialogueText(true, false);
+        }
+    }
+
+    public void OnClickedItemTab()
+    {
+        if (_isFirstTimeAtShop)
+        {
+            ShopDialogueHandler.Instance.ShowDialogueBox();
+            ShopDialogueHandler.Instance.ClearExistingDialogue();
+            ShopDialogueHandler.Instance.QueueDialogueText("Items for sale! They're one-time-use, and you can only hold up to three at a time.", "Glance");
+            ShopDialogueHandler.Instance.QueueDialogueText("You can double click an item in your inventory to use it. Some can only be used during battle, though.", "Neutral");
+            ShopDialogueHandler.Instance.RenderDialogueText(true, false);
         }
     }
 

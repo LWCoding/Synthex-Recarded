@@ -35,7 +35,6 @@ public class TopBarItemController : MonoBehaviour
             // Set items to placeholders if they're not actually present in the list.
             Item item = (i >= itemList.Count) ? GetPlaceholderItem() : itemList[i];
             itemObj.GetComponent<ItemHandler>().Initialize(item, false, true, i);
-            if (i >= itemList.Count) { itemObj.GetComponent<ItemHandler>().DisableTooltip(); }
             _itemReferences.Add(itemObj);
         }
     }
@@ -51,8 +50,12 @@ public class TopBarItemController : MonoBehaviour
     public void ShowTopBarItemTooltip(Item item)
     {
         _itemNameText.text = item.itemName;
-        _itemDescText.text = GameController.GetDescriptionWithIcons(item.itemDesc);
-        UpdateItemVerifyText(false);
+        string desc = item.itemDesc;
+        for (int i = 0; i < item.variables.Count; i++)
+        {
+            desc = desc.Replace("[" + i.ToString() + "]", item.variables[i].ToString());
+        }
+        _itemDescText.text = GameController.GetDescriptionWithIcons(desc);
         _itemTooltipContainer.SetActive(true);
     }
 
@@ -63,8 +66,13 @@ public class TopBarItemController : MonoBehaviour
 
     // Prompt the user to either click twice or click again to use the item,
     // depending on its state.
-    public void UpdateItemVerifyText(bool hasBeenClicked)
+    public void UpdateItemVerifyText(bool isClickable = true, bool hasBeenClicked = false)
     {
+        if (!isClickable)
+        {
+            _itemVerifyText.text = "Cannot be used now.";
+            return;
+        }
         if (!hasBeenClicked)
         {
             _itemVerifyText.text = "Click twice to use.";

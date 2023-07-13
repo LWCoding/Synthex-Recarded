@@ -25,10 +25,13 @@ public class ShopDialogueHandler : MonoBehaviour
     public SpriteRenderer shopkeeperSpriteRenderer;
     public TextMeshPro dialogueText;
     public List<CharacterEmotion> shopkeeperDialogueSprites = new List<CharacterEmotion>();
+
     private Animator _dialogueBoxAnimator;
     private Animator _shopkeeperAnimator;
+    private IEnumerator _currentDialogueCoroutine = null;
     private Queue<ShopDialogueLine> _dialogueStringQueue = new Queue<ShopDialogueLine>();
     private Action _funcToRun;
+    private bool _isTextSkippableWhenKeyDown = false;
 
     private void Awake()
     {
@@ -64,13 +67,12 @@ public class ShopDialogueHandler : MonoBehaviour
     // Animates all text in the current queue to show in the dialogue box.
     // Will wait for the dialogue box to finish animating, if it is.
     // Has an optional parameter to hide the dialogue box after all dialogue is printed.
-    public void RenderDialogueText(bool shouldHideWhenFinished, Action functionToRunAfterwards = null)
+    public void RenderDialogueText(bool shouldHideWhenFinished, bool isTextSkippableWhenKeyDown, Action functionToRunAfterwards = null)
     {
-        if (functionToRunAfterwards != null)
-        {
-            _funcToRun = functionToRunAfterwards;
-        }
-        StartCoroutine(RenderDialogueTextCoroutine(shouldHideWhenFinished));
+        _isTextSkippableWhenKeyDown = isTextSkippableWhenKeyDown;
+        _funcToRun = functionToRunAfterwards;
+        _currentDialogueCoroutine = RenderDialogueTextCoroutine(shouldHideWhenFinished);
+        StartCoroutine(_currentDialogueCoroutine);
     }
 
 
@@ -81,6 +83,13 @@ public class ShopDialogueHandler : MonoBehaviour
         dialogueText.text = "";
         gameObject.SetActive(true);
         _dialogueBoxAnimator.Play("Show");
+    }
+
+    // Clears all dialogue already stored.
+    public void ClearExistingDialogue()
+    {
+        StopCoroutine(_currentDialogueCoroutine);
+        _dialogueStringQueue = new Queue<ShopDialogueLine>();
     }
 
     // Plays an animation to hide the dialogue box.
@@ -127,7 +136,7 @@ public class ShopDialogueHandler : MonoBehaviour
             while (Time.time - startTime < timeToWait)
             {
                 // If the player clicks left click, skip the wait times!
-                if (Input.GetMouseButtonDown(0)) { break; }
+                if (Input.GetMouseButtonDown(0) && _isTextSkippableWhenKeyDown) { break; }
                 yield return null;
             }
         }
@@ -141,7 +150,7 @@ public class ShopDialogueHandler : MonoBehaviour
         while (Time.time - startTime < timeToWait)
         {
             // If the player clicks left click, skip this wait time!
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && _isTextSkippableWhenKeyDown)
             {
                 timeToWait = 0;
             }
@@ -154,8 +163,12 @@ public class ShopDialogueHandler : MonoBehaviour
         }
         else if (shouldHideWhenFinished)
         {
+            // Hide the dialogue box.
             HideDialogueBox();
-            _funcToRun();
+            // Set the sprite to the neutral sprite.
+            shopkeeperSpriteRenderer.sprite = FindSpriteByName("Neutral");
+            // Run the function if it exists.
+            if (_funcToRun != null) { _funcToRun(); }
         }
     }
 

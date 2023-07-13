@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Cat Food
   m_EditorClassIdentifier: 
   itemName: Cat Food
-  itemDesc: Heal 10 health.
-  itemImage: {fileID: 0}
+  itemDesc: Heal [0] health.
+  itemImage: {fileID: 21300000, guid: ef06b9bfc87f7a446884230134cadbe1, type: 3}
   type: 0
+  useCase: 1
+  variables: 0a000000
+  itemRarity: 0

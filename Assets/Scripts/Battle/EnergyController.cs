@@ -42,14 +42,14 @@ public class EnergyController : MonoBehaviour
         if (GameController.HasRelic(RelicType.POWERBANK) && GetCurrentEnergy() > 0)
         {
             _currentEnergy = _maxEnergy;
-            UpdateEnergy(1);
+            ChangeEnergy(1);
             TopBarController.Instance.FlashRelicObject(RelicType.POWERBANK);
             return;
         }
         _currentEnergy = _maxEnergy;
     }
 
-    public void UpdateEnergy(int change)
+    public void ChangeEnergy(int change)
     {
         _currentEnergy += change;
         OnEnergyChanged.Invoke(_currentEnergy);
