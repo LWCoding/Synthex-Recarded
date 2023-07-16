@@ -49,14 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 2
-    inflictedEffects: []
-    traits: 01000000
-  - cardDesc: Deal [ATK] damage thrice. Draw 1 card.
-    cardCost: 1
-    damageTarget: 1
-    damageValue: 2
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 3
-    inflictedEffects: []
-    traits: 01000000
+    inflictions: []
+    modifiers:
+    - trait: 1
+      amplifier: 1

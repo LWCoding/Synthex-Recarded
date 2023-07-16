@@ -49,14 +49,9 @@ MonoBehaviour:
     blockTarget: 2
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 130000000c000000
-  - cardDesc: Heal 6 health. Exhausts.
-    cardCost: 0
-    damageTarget: 0
-    damageValue: 0
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 130000000c000000
+    inflictions: []
+    modifiers:
+    - trait: 6
+      amplifier: 6
+    - trait: 12
+      amplifier: 6

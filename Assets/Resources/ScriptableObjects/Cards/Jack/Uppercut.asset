@@ -49,14 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 0c000000
-  - cardDesc: Deal [ATK] damage. Exhausts.
-    cardCost: 2
-    damageTarget: 1
-    damageValue: 24
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 0c000000
+    inflictions: []
+    modifiers:
+    - trait: 12
+      amplifier: 0

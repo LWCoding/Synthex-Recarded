@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MrMushroomPoison
   m_EditorClassIdentifier: 
   cardName: MrMushroom Poison
+  cardDisplayName: 
   cardImage: {fileID: 0}
   cardType: 4
   characterMovement: 1
@@ -48,5 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 1d000000
+    inflictions: []
+    modifiers:
+    - trait: 11
+      amplifier: 2

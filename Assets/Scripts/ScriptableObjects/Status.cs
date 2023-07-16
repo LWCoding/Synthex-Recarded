@@ -21,7 +21,8 @@ public enum Effect
     VOLATILE = 13, // Deal 30 damage to the hero in X turns
     CHARGE = 14, // Do nothing this turn
     BARRIER = 15, // Gain X block when you take unblocked damage
-    REFLECT = 16 // If attacked, deal X damage back to the aggressor
+    REFLECT = 16, // If attacked, deal X damage back to the aggressor
+    LUCK = 17 // Allows Ryan to have special effects with cards
 }
 
 public enum EffectFaction

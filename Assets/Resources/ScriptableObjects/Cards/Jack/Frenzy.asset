@@ -49,22 +49,9 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 1
       effect: 0
       amplifier: 5
       renderBehavior: 0
-    traits: 
-  - cardDesc: Apply 5 Bleed.
-    cardCost: 0
-    damageTarget: 0
-    damageValue: 0
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 1
-    inflictedEffects:
-    - target: 1
-      effect: 0
-      amplifier: 5
-      renderBehavior: 0
-    traits: 
+    modifiers: []

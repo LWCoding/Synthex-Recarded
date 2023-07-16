@@ -85,7 +85,7 @@ public class TopBarController : MonoBehaviour
         InitializeCardController();
         // Set the colors of the UI depending on the current hero.
         HeroData heroData = GameController.GetHeroData();
-        SetUIStyle(heroData.heroUIColor, heroData.heroHeadshotSprite);
+        SetUIStyle(heroData.heroUIColor, heroData.uiHeadshotSprite);
     }
 
     public void HideTopBar()

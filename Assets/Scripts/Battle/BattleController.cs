@@ -74,7 +74,7 @@ public partial class BattleController : MonoBehaviour
         InitializeHero();
         foreach (Enemy e in allEnemiesInBattle)
         {
-            InitializeEnemy(e);
+            SpawnEnemy(e);
         }
 #if !UNITY_EDITOR
         // If we haven't played the battle tutorial yet, do that.
@@ -119,8 +119,8 @@ public partial class BattleController : MonoBehaviour
         playerBCC.Initialize(GameController.GetHeroData(), GameController.GetHeroHealth(), GameController.GetHeroMaxHealth());
     }
 
-    // Initializes the enemy's sprite and health.
-    private void InitializeEnemy(Enemy enemyData)
+    // Initializes an enemy object.
+    public void SpawnEnemy(Enemy enemyData)
     {
         // Initialize this enemy based on the Enemy scriptable object data.
         GameObject enemyObject = Instantiate(enemyPrefabObject);
@@ -312,7 +312,9 @@ public partial class BattleController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         // Make the enemy make a move based on the selected algorithm.
         // This is handled in the partial class `BattleController_AI`.
-        foreach (BattleEnemyController bec in enemyBCCs)
+        // Loop ONLY through original enemies. Not summoned ones mid-way.
+        List<BattleEnemyController> originalEnemyBCCs = new List<BattleEnemyController>(enemyBCCs);
+        foreach (BattleEnemyController bec in originalEnemyBCCs)
         {
             if (!bec.IsAlive()) { continue; }
             yield return bec.PlayCard(bec.GetStoredCard(), new List<BattleCharacterController>() { playerBCC });
@@ -512,6 +514,15 @@ public partial class BattleController : MonoBehaviour
         }
     }
 
+    public void ShuffleCardsIntoDraw(List<Card> cards)
+    {
+        foreach (Card card in cards)
+        {
+            cardsInDrawPile.Insert(Random.Range(0, cardsInDrawPile.Count), card);
+        }
+        UpdateDrawDiscardTexts();
+    }
+
     public void UseCardInHand(Card c, List<BattleCharacterController> collidingBCCs, bool subtractCost = true)
     {
         // Don't let the player use cards if it's not in the battle state.
@@ -538,7 +549,7 @@ public partial class BattleController : MonoBehaviour
         }
         GameObject cardObject = _cardObjectsInHand[idx];
         // If the card shouldn't exhaust, add it to the discard pile.
-        if (!c.HasTrait(Trait._EXHAUST))
+        if (!c.HasTrait(Trait.EXHAUST))
         {
             cardsInDiscard.Add(_cardsInHand[idx]);
         }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BuckarooDisease
   m_EditorClassIdentifier: 
   cardName: Buckaroo Disease
+  cardDisplayName: 
   cardImage: {fileID: 0}
   cardType: 4
   characterMovement: 1
@@ -48,8 +49,9 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 1
       effect: 10
       amplifier: 1
-    traits: 
+      renderBehavior: 0
+    modifiers: []

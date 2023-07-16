@@ -26,6 +26,8 @@ public static class GameController
     public static void SpendXP(int x) => AddXP(-x);
     public static List<Enemy> nextBattleEnemies = new List<Enemy>();
     public static bool visitedShopBefore = false;
+    // Title data:
+    public static bool wasTitleRendered = false;
     // Dialogue data:
     public static List<DialogueName> alreadyPlayedMapDialogues = new List<DialogueName>();
     public static List<string> alreadyPlayedTutorials = new List<string>();

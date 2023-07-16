@@ -11010,6 +11010,7 @@ MonoBehaviour:
   mapOptionPrefab: {fileID: 2206184603078903125, guid: 87a3c98a6aa5f3e43aa819dad5510857, type: 3}
   playerTransform: {fileID: 612686135}
   initialPlayerTransform: {fileID: 537523741}
+  playerIconSpriteRenderer: {fileID: 612686134}
   bossBattleTransform: {fileID: 748652053}
   mapParentObject: {fileID: 1008359464}
   introBannerText: {fileID: 1393203051}

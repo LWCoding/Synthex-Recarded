@@ -49,7 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 1
       effect: 10
       amplifier: 1
@@ -58,4 +58,6 @@ MonoBehaviour:
       effect: 11
       amplifier: 1
       renderBehavior: 0
-    traits: 21000000
+    modifiers:
+    - trait: 33
+      amplifier: 0

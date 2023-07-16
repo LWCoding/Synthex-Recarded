@@ -49,14 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 07000000
-  - cardDesc: Deal damage equal to your block.
-    cardCost: 0
-    damageTarget: 0
-    damageValue: 0
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 07000000
+    inflictions: []
+    modifiers:
+    - trait: 7
+      amplifier: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Ryan Brace
   cardDisplayName: Brace
-  cardImage: {fileID: 0}
+  cardImage: {fileID: 21300000, guid: c8e4474cf1cb54b4da9ce7406c3969c8, type: 3}
   cardType: 1
   characterMovement: 0
   projectileSprite: {fileID: 0}

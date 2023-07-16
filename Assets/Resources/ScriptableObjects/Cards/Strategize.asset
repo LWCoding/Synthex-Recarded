@@ -49,14 +49,7 @@ MonoBehaviour:
     blockTarget: 2
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 02000000
-  - cardDesc: Draw 3 cards.
-    cardCost: 0
-    damageTarget: 0
-    damageValue: 0
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 0d000000
+    inflictions: []
+    modifiers:
+    - trait: 1
+      amplifier: 2

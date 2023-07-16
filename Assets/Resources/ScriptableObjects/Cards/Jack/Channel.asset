@@ -49,14 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 1200000000000000
-  - cardDesc: Gain 2 Energy. Lose [ATK] health.
-    cardCost: 0
-    damageTarget: 2
-    damageValue: 1
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 1200000000000000
+    inflictions: []
+    modifiers:
+    - trait: 5
+      amplifier: 2

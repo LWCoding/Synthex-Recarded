@@ -22,18 +22,20 @@ MonoBehaviour:
   baseHealth: 35
   heroTag: 3
   maxItemStorageSpace: 3
-  heroHeadshotSprite: {fileID: 21300000, guid: 85ebd0d7e2496664da24a235cf033611, type: 3}
-  heroUIColor: {r: 0.8490566, g: 0.05927373, b: 0.06759428, a: 1}
+  uiHeadshotSprite: {fileID: 21300000, guid: 85ebd0d7e2496664da24a235cf033611, type: 3}
+  heroUIColor: {r: 0.79607844, g: 0.08627451, b: 0.09411765, a: 1}
+  mapHeadshotSprite: {fileID: 21300000, guid: aa831d25d47513f4cbc0626c9ba426f8, type: 3}
   startingDeck:
   - {fileID: 11400000, guid: 08c0b23051c54904388aba175a385161, type: 2}
   - {fileID: 11400000, guid: 08c0b23051c54904388aba175a385161, type: 2}
   - {fileID: 11400000, guid: 08c0b23051c54904388aba175a385161, type: 2}
-  - {fileID: 11400000, guid: 08c0b23051c54904388aba175a385161, type: 2}
-  - {fileID: 11400000, guid: 807187de22ba8ea47a0c82597f87c3ed, type: 2}
   - {fileID: 11400000, guid: 807187de22ba8ea47a0c82597f87c3ed, type: 2}
   - {fileID: 11400000, guid: 807187de22ba8ea47a0c82597f87c3ed, type: 2}
   - {fileID: 11400000, guid: 4facd11dc3d291f4b82e2a8d4c6964a0, type: 2}
   - {fileID: 11400000, guid: 4facd11dc3d291f4b82e2a8d4c6964a0, type: 2}
+  - {fileID: 11400000, guid: 2045939275d80e646a536090ab36bd8c, type: 2}
+  - {fileID: 11400000, guid: d7f9b394a619e1a4b9abf59c789ba841, type: 2}
+  - {fileID: 11400000, guid: d30b31dc1964b0040a719fe9883fe751, type: 2}
   startingRelics:
   - {fileID: 11400000, guid: 0457efb2ba349c247baf074d98c44222, type: 2}
   startingItems: []

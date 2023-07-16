@@ -9,15 +9,13 @@ public enum Target
 
 public enum Trait
 {
-    DAMAGE_IGNORES_BLOCK = 0, DRAW_ONE_CARD = 1, DRAW_TWO_CARDS = 2,
-    CLEANSE_ALL_DEBUFFS = 3, SECOND_WIND = 4, MATERIALIZE_TWO_CARDS = 5,
-    DEAL_DAMAGE_EQ_TO_BLOCK = 7,
-    _EXHAUST = 12, DRAW_THREE_CARDS = 13,
-    GAIN_TWO_ENERGY = 18, HEAL_SIX_HEALTH = 19, TURN_ENEMY_BLEED_TO_BLOCK = 20,
-    DOUBLE_ENEMY_BLEED = 21, SALVAGE_NEW_CARDS = 26,
-    POISON_TWO_CARDS = 29,
-    POISON_THREE_CARDS = 30,
-    DRAIN_CHARGE = 33, HEAL_SIXTEEN_HEALTH = 34
+    DAMAGE_IGNORES_BLOCK = 0, DRAW_CARDS = 1, MATERIALIZE_CARDS = 2,
+    CLEANSE_ALL_DEBUFFS = 3, SECOND_WIND = 4, GAIN_ENERGY = 5, GAIN_HEALTH = 6,
+    DEAL_DAMAGE_EQ_TO_BLOCK = 7, SUMMON_ENEMY = 9,
+    CLEAR_CARDS_IN_HAND = 10, POISON_CARDS = 11,
+    EXHAUST = 12, ADDITIONAL_LUCK_DAMAGE = 13, TURN_ENEMY_BLEED_TO_BLOCK = 20,
+    DOUBLE_ENEMY_BLEED = 21,
+    DRAIN_CHARGE = 33
 }
 
 public enum Movement
@@ -69,7 +67,7 @@ public class Card
 
     public bool HasTrait(Trait traitEnum)
     {
-        return GetCardStats().traits.Contains(traitEnum);
+        return GetCardStats().modifiers.Find((m) => m.trait == traitEnum) != null;
     }
 
     public Target GetTarget()
@@ -122,6 +120,13 @@ public class CardInflict
 }
 
 [System.Serializable]
+public class CardModifier
+{
+    public Trait trait;
+    public int amplifier = 0;
+}
+
+[System.Serializable]
 public class CardStats
 {
     public string cardDesc = "Test description";
@@ -131,8 +136,8 @@ public class CardStats
     public Target blockTarget;
     public int blockValue;
     public int attackRepeatCount = 1;
-    public List<CardInflict> inflictedEffects = new List<CardInflict>();
-    public List<Trait> traits = new List<Trait>();
+    public List<CardInflict> inflictions = new List<CardInflict>();
+    public List<CardModifier> modifiers = new List<CardModifier>();
 }
 
 [CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card")]

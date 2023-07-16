@@ -49,14 +49,5 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 
-  - cardDesc: Deal [ATK] damage twice.
-    cardCost: 0
-    damageTarget: 1
-    damageValue: 3
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 2
-    inflictedEffects: []
-    traits: 
+    inflictions: []
+    modifiers: []

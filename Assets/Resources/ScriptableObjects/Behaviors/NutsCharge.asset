@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: NutsCharge
   m_EditorClassIdentifier: 
   cardName: Nuts Charge
+  cardDisplayName: 
   cardImage: {fileID: 0}
   cardType: 4
   characterMovement: 0
@@ -48,8 +49,9 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 2
       effect: 14
       amplifier: 1
-    traits: 
+      renderBehavior: 0
+    modifiers: []

@@ -49,22 +49,11 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 2
       effect: 6
       amplifier: 2
       renderBehavior: 0
-    traits: 0c000000
-  - cardDesc: All attacks apply 2 Bleed.
-    cardCost: 2
-    damageTarget: 0
-    damageValue: 0
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 1
-    inflictedEffects:
-    - target: 2
-      effect: 6
-      amplifier: 2
-      renderBehavior: 0
-    traits: 
+    modifiers:
+    - trait: 12
+      amplifier: 0

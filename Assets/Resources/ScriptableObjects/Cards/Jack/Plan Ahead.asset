@@ -49,22 +49,9 @@ MonoBehaviour:
     blockTarget: 2
     blockValue: 3
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 2
       effect: 3
       amplifier: 1
       renderBehavior: 0
-    traits: 
-  - cardDesc: Gain 6 block. Gain 1 Persevere.
-    cardCost: 1
-    damageTarget: 0
-    damageValue: 0
-    blockTarget: 2
-    blockValue: 6
-    attackRepeatCount: 1
-    inflictedEffects:
-    - target: 2
-      effect: 3
-      amplifier: 1
-      renderBehavior: 0
-    traits: 
+    modifiers: []

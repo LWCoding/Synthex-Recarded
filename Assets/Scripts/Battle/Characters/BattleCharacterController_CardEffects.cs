@@ -13,96 +13,7 @@ public partial class BattleCharacterController : MonoBehaviour
         // RENDER ALL CARD INFLICTIONS BEFORE THE ATTACK.
         RenderInflictions(targetBCC, EffectRenderOrder.RENDER_EFFECT_BEFORE_ATTACK);
         // RENDER TRAITS.
-        if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.DRAW_ONE_CARD))
-        {
-            BattleController.Instance.DrawCards(1);
-            BattleController.Instance.UpdateCardsInHand();
-        }
-        if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.DRAW_TWO_CARDS))
-        {
-            BattleController.Instance.DrawCards(2);
-            BattleController.Instance.UpdateCardsInHand();
-        }
-        if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.MATERIALIZE_TWO_CARDS))
-        {
-            List<Card> cardsToAdd = new List<Card>();
-            cardsToAdd.Add(GameController.GetTrulyRandomCard(new List<Card>()));
-            cardsToAdd.Add(GameController.GetTrulyRandomCard(new List<Card>()));
-            BattleController.Instance.DrawCards(cardsToAdd);
-            BattleController.Instance.UpdateCardsInHand();
-        }
-        if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.DRAW_THREE_CARDS))
-        {
-            BattleController.Instance.DrawCards(3);
-            BattleController.Instance.UpdateCardsInHand();
-        }
-        if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.GAIN_TWO_ENERGY))
-        {
-            EnergyController.Instance.ChangeEnergy(2);
-        }
-        if (_characterAlignment == Alignment.HERO && _storedCard.HasTrait(Trait.SALVAGE_NEW_CARDS))
-        {
-            BattleController.Instance.EmptyHand();
-            BattleController.Instance.DrawCards(3);
-            BattleController.Instance.UpdateCardsInHand();
-        }
-        if (_storedCard.HasTrait(Trait.CLEANSE_ALL_DEBUFFS))
-        {
-            for (int i = statusHandler.statusEffects.Count - 1; i >= 0; i--)
-            {
-                StatusEffect effect = statusHandler.statusEffects[i];
-                if (effect.statusInfo.effectFaction == EffectFaction.DEBUFF)
-                {
-                    statusHandler.RemoveStatusEffect(effect.statusInfo.type);
-                }
-            }
-        }
-        if (_storedCard.HasTrait(Trait.DEAL_DAMAGE_EQ_TO_BLOCK))
-        {
-            targetBCC.ChangeHealth(-GetBlock());
-        }
-        if (_storedCard.HasTrait(Trait.HEAL_SIX_HEALTH))
-        {
-            ChangeHealth(6);
-        }
-        if (_storedCard.HasTrait(Trait.HEAL_SIXTEEN_HEALTH))
-        {
-            ChangeHealth(16);
-        }
-        if (_storedCard.HasTrait(Trait.POISON_TWO_CARDS))
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                BattleController.Instance.InflictRandomCardWithEffect(CardEffectType.POISON);
-            }
-        }
-        if (_storedCard.HasTrait(Trait.POISON_THREE_CARDS))
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                BattleController.Instance.InflictRandomCardWithEffect(CardEffectType.POISON);
-            }
-        }
-        if (_storedCard.HasTrait(Trait.TURN_ENEMY_BLEED_TO_BLOCK))
-        {
-            StatusEffect enemyBleed = targetBCC.statusHandler.GetStatusEffect(Effect.BLEED);
-            if (enemyBleed != null)
-            {
-                ChangeBlock(enemyBleed.amplifier);
-            }
-        }
-        if (_storedCard.HasTrait(Trait.DOUBLE_ENEMY_BLEED))
-        {
-            StatusEffect enemyBleed = targetBCC.statusHandler.GetStatusEffect(Effect.BLEED);
-            if (enemyBleed != null)
-            {
-                targetBCC.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.BLEED, enemyBleed.amplifier));
-            }
-        }
-        if (_storedCard.HasTrait(Trait.DRAIN_CHARGE))
-        {
-            statusHandler.RemoveStatusEffect(Effect.CHARGE);
-        }
+        RenderTraits(targetBCC);
         // Render attack and block values.
         RenderAttackAndBlock(_storedCard, targetBCC);
         // Render traits that should happen after attack/block is calculated
@@ -117,9 +28,99 @@ public partial class BattleCharacterController : MonoBehaviour
         RenderInflictions(targetBCC, EffectRenderOrder.RENDER_EFFECT_AFTER_ATTACK);
     }
 
+    private void RenderTraits(BattleCharacterController targetBCC)
+    {
+        foreach (CardModifier modifier in _storedCard.GetCardStats().modifiers)
+        {
+            switch (modifier.trait)
+            {
+                case Trait.DRAW_CARDS:
+                    if (_characterAlignment == Alignment.HERO)
+                    {
+                        BattleController.Instance.DrawCards(modifier.amplifier);
+                    }
+                    break;
+                case Trait.MATERIALIZE_CARDS:
+                    if (_characterAlignment == Alignment.HERO)
+                    {
+                        List<Card> cardsToAdd = new List<Card>();
+                        for (int i = 0; i < modifier.amplifier; i++)
+                        {
+                            cardsToAdd.Add(GameController.GetTrulyRandomCard(new List<Card>()));
+                        }
+                        BattleController.Instance.DrawCards(cardsToAdd);
+                    }
+                    break;
+                case Trait.GAIN_ENERGY:
+                    if (_characterAlignment == Alignment.HERO)
+                    {
+                        EnergyController.Instance.ChangeEnergy(modifier.amplifier);
+                    }
+                    break;
+                case Trait.CLEAR_CARDS_IN_HAND:
+                    if (_characterAlignment == Alignment.HERO)
+                    {
+                        BattleController.Instance.EmptyHand();
+                    }
+                    break;
+                case Trait.POISON_CARDS:
+                    if (_characterAlignment == Alignment.ENEMY)
+                    {
+                        for (int i = 0; i < modifier.amplifier; i++)
+                        {
+                            BattleController.Instance.InflictRandomCardWithEffect(CardEffectType.POISON);
+                        }
+                    }
+                    break;
+                case Trait.SUMMON_ENEMY:
+                    if (_characterAlignment == Alignment.ENEMY)
+                    {
+                        if (BattleController.Instance.enemiesStillAlive < 2)
+                        {
+                            BattleController.Instance.SpawnEnemy(Globals.GetEnemy("Rottle"));
+                        }
+                    }
+                    break;
+                case Trait.ADDITIONAL_LUCK_DAMAGE:
+                    if (statusHandler.GetStatusEffect(Effect.LUCK) != null)
+                    {
+                        targetBCC.ChangeHealth(-(modifier.amplifier + CalculateDamageModifiers(_storedCard)));
+                    }
+                    break;
+                case Trait.GAIN_HEALTH:
+                    ChangeHealth(modifier.amplifier);
+                    break;
+                case Trait.CLEANSE_ALL_DEBUFFS:
+                    for (int i = statusHandler.statusEffects.Count - 1; i >= 0; i--)
+                    {
+                        StatusEffect effect = statusHandler.statusEffects[i];
+                        if (effect.statusInfo.effectFaction == EffectFaction.DEBUFF)
+                        {
+                            statusHandler.RemoveStatusEffect(effect.statusInfo.type);
+                        }
+                    }
+                    break;
+                case Trait.DEAL_DAMAGE_EQ_TO_BLOCK:
+                    targetBCC.ChangeHealth(-GetBlock());
+                    break;
+                case Trait.TURN_ENEMY_BLEED_TO_BLOCK:
+                    StatusEffect enemyBleedToBlock = targetBCC.statusHandler.GetStatusEffect(Effect.BLEED);
+                    if (enemyBleedToBlock != null) { ChangeBlock(enemyBleedToBlock.amplifier); }
+                    break;
+                case Trait.DOUBLE_ENEMY_BLEED:
+                    StatusEffect enemyBleedToDouble = targetBCC.statusHandler.GetStatusEffect(Effect.BLEED);
+                    if (enemyBleedToDouble != null) { targetBCC.statusHandler.AddStatusEffect(Globals.GetStatus(Effect.BLEED, enemyBleedToDouble.amplifier)); }
+                    break;
+                case Trait.DRAIN_CHARGE:
+                    statusHandler.RemoveStatusEffect(Effect.CHARGE);
+                    break;
+            }
+        }
+    }
+
     private void RenderInflictions(BattleCharacterController targetBCC, EffectRenderOrder currentRenderTime)
     {
-        foreach (CardInflict infliction in _storedCard.GetCardStats().inflictedEffects)
+        foreach (CardInflict infliction in _storedCard.GetCardStats().inflictions)
         {
             if (infliction.renderBehavior == currentRenderTime)
             {

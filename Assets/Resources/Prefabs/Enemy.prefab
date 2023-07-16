@@ -1617,13 +1617,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterAlignment: 1
   _characterSpriteContainer: {fileID: 3042568032946043825}
-  _characterSprite: {fileID: 4792568730718147564}
-  _characterShadowSprite: {fileID: 4792568730118725957}
-  _barIconSprite: {fileID: 4792568730521039317}
-  _shieldOverlaySprite: {fileID: 4792568730731030235}
-  _targetSprite: {fileID: 1064986376258752920}
+  _characterSpriteRenderer: {fileID: 4792568730718147564}
+  _characterShadowSpriteRenderer: {fileID: 4792568730118725957}
+  _targetSpriteRenderer: {fileID: 1064986376258752920}
+  _spriteCollider: {fileID: 4792568730718147562}
   _targetAnimator: {fileID: 8241043656873849121}
-  _healthFillObject: {fileID: 4792568730296871361}
   OnPlayCard:
     m_PersistentCalls:
       m_Calls: []

@@ -49,14 +49,7 @@ MonoBehaviour:
     blockTarget: 2
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 14000000
-  - cardDesc: Gain [DEF] block. Gain block equal to the enemy's Bleed.
-    cardCost: 1
-    damageTarget: 0
-    damageValue: 0
-    blockTarget: 2
-    blockValue: 4
-    attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 14000000
+    inflictions: []
+    modifiers:
+    - trait: 20
+      amplifier: 0

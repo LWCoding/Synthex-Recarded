@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Claws Out
   cardDisplayName: Claws Out
-  cardImage: {fileID: 0}
+  cardImage: {fileID: 21300000, guid: e96a67d4a2c06fc4db4467bef0e1a931, type: 3}
   cardType: 0
   characterMovement: 1
   projectileSprite: {fileID: 0}

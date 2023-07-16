@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: LonePoisonBomb
   m_EditorClassIdentifier: 
   cardName: Lone Poison Bomb
+  cardDisplayName: 
   cardImage: {fileID: 0}
   cardType: 2
   characterMovement: 2
@@ -48,5 +49,7 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 1d000000
+    inflictions: []
+    modifiers:
+    - trait: 11
+      amplifier: 2

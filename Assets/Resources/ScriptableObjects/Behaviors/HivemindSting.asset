@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HivemindSting
   m_EditorClassIdentifier: 
   cardName: Hivemind Sting
+  cardDisplayName: 
   cardImage: {fileID: 0}
   cardType: 2
   characterMovement: 1
@@ -48,8 +49,9 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 1
       effect: 0
       amplifier: 2
-    traits: 
+      renderBehavior: 0
+    modifiers: []

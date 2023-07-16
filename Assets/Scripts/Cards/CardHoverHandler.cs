@@ -19,7 +19,6 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
     private List<BattleCharacterController> collidingBCCs = null;
     private Camera _camera;
     private Transform _canvasTransform;
-    private GameObject[] _locatedBattleEnemies;
     private Vector3 _boxSize = new Vector3(1.5f, 1.5f, 1.5f); // How big the mouse collider is for cards
     private IEnumerator _scaleCoroutine = null;
     private IEnumerator _showTooltipAfterDelayCoroutine = null;
@@ -30,11 +29,6 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
         _parentCardHandler = GetComponent<CardHandler>();
         _camera = GameObject.Find("Main Camera").GetComponent<Camera>();
         _canvasTransform = GameObject.Find("Canvas").transform;
-    }
-
-    private void OnEnable()
-    {
-        _locatedBattleEnemies = GameObject.FindGameObjectsWithTag("Enemy");
     }
 
     private void ResetAllBCCColors()
@@ -52,17 +46,19 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
         Collider2D[] colliders = Physics2D.OverlapBoxAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), _boxSize, 0);
         foreach (Collider2D collider in colliders)
         {
-            foreach (GameObject enemy in _locatedBattleEnemies)
+            foreach (BattleEnemyController bec in BattleController.Instance.enemyBCCs)
             {
+                if (!bec.IsAlive()) { continue; }
+                BoxCollider2D enemyCollider = bec.GetSpriteCollider();
                 // If the enemy isn't active, don't consider it.
-                if (!enemy.activeInHierarchy)
+                if (!enemyCollider.gameObject.activeInHierarchy)
                 {
                     return null;
                 }
                 // If we've matched the collider with the enemy, return the BCC!
-                if (collider.gameObject == enemy)
+                if (collider == enemyCollider)
                 {
-                    BattleCharacterController bcc = enemy.transform.parent.GetComponent<BattleCharacterController>();
+                    BattleCharacterController bcc = enemyCollider.transform.parent.parent.GetComponent<BattleCharacterController>();
                     return bcc;
                 }
             }

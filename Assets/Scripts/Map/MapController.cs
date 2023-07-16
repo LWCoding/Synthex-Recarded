@@ -11,6 +11,7 @@ public class MapController : MonoBehaviour
     public GameObject mapOptionPrefab;
     public Transform playerTransform;
     public Transform initialPlayerTransform;
+    public SpriteRenderer playerIconSpriteRenderer;
     public Transform bossBattleTransform;
     public Transform mapParentObject;
     public TextMeshPro introBannerText;
@@ -216,6 +217,10 @@ public class MapController : MonoBehaviour
     private void InitializeMap()
     {
         InitializeMapBG();
+        // Set the color of the camera background
+        Camera.main.backgroundColor = _currentMapInfo.mapBGColor;
+        // Set the player's headshot sprite
+        playerIconSpriteRenderer.sprite = GameController.GetHeroData().mapHeadshotSprite;
         // Create an empty serializable map object.
         _serializableMapObject = new SerializableMapObject();
         _serializableMapObject.currScene = _currentMapInfo.mapType;

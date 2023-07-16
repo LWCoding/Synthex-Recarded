@@ -91,6 +91,7 @@ public class MapInfo : ScriptableObject
 
     [Header("Base Information")]
     public MapScene mapType;
+    public Color mapBGColor;
     public int numFloors;
     [Header("Map Location Info")]
     public List<MapLocationType> mapLocations;

@@ -57,9 +57,11 @@ public class HeroData : Character
     public int baseHealth;
     public HeroTag heroTag;
     public int maxItemStorageSpace;
-    [Header("Cosmetic Information")]
-    public Sprite heroHeadshotSprite;
+    [Header("UI Information")]
+    public Sprite uiHeadshotSprite;
     public Color heroUIColor;
+    [Header("Other Sprite Assignments")]
+    public Sprite mapHeadshotSprite;
     [Header("Deck")]
     public List<CardData> startingDeck = new List<CardData>();
     [Header("Relics")]

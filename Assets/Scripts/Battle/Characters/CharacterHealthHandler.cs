@@ -5,6 +5,15 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
+public struct BattleTooltip
+{
+    public string text;
+    public int fontSize;
+    public Vector3 position;
+    public Color color;
+    public float speed;
+}
+
 [RequireComponent(typeof(CharacterStatusHandler))]
 public partial class CharacterHealthHandler : MonoBehaviour
 {
@@ -34,6 +43,8 @@ public partial class CharacterHealthHandler : MonoBehaviour
 
     private Vector2 _healthFillMaxValue;
     protected IEnumerator blockOverlayCoroutine = null;
+    private IEnumerator renderTooltipCoroutine = null;
+    private List<BattleTooltip> tooltipsToRender = new List<BattleTooltip>();
     private Color _blockColor = new Color(0.2f, 0.6f, 1);
     private Color _damagedColor = new Color(1, 0.3f, 0.3f);
 
@@ -106,11 +117,11 @@ public partial class CharacterHealthHandler : MonoBehaviour
             SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_DAMAGE_TAKEN, Mathf.Lerp(0.65f, 1.2f, Mathf.Min(Mathf.Abs(val / 20f), 1)));
             if (!ignoresBlock)
             {
-                ObjectPooler.Instance.SpawnPopup(val.ToString(), 8, _characterSprite.transform.position, new Color(1, 0.1f, 0.1f));
+                RenderTooltip(val.ToString(), 8, _characterSprite.transform.position, new Color(1, 0.1f, 0.1f), 1);
             }
             else
             {
-                ObjectPooler.Instance.SpawnPopup(val.ToString(), 8, _characterSprite.transform.position - new Vector3(0, 0.8f), new Color(1, 0.1f, 0.6f));
+                RenderTooltip(val.ToString(), 8, _characterSprite.transform.position - new Vector3(0, 0.8f), new Color(1, 0.1f, 0.6f), 1);
             }
         }
 
@@ -139,7 +150,7 @@ public partial class CharacterHealthHandler : MonoBehaviour
         // Play the heal sound effect.
         SoundManager.Instance.PlaySFX(SoundEffect.HEAL_HEALTH);
         // Spawn a popup text.
-        ObjectPooler.Instance.SpawnPopup("+" + val.ToString(), 8, _characterSprite.transform.position - new Vector3(0, 0.8f), new Color(0.1f, 1, 0.1f));
+        RenderTooltip("+" + val.ToString(), 8, _characterSprite.transform.position - new Vector3(0, 0.8f), new Color(0.1f, 1, 0.1f), 0.5f);
     }
 
     // Adds or removes _block from the character.
@@ -153,7 +164,7 @@ public partial class CharacterHealthHandler : MonoBehaviour
         {
             // If the function call increases _block, show how much _block
             // was added.
-            ObjectPooler.Instance.SpawnPopup("+" + val.ToString(), 4, _barIconSprite.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
+            RenderTooltip("+" + val.ToString(), 4, _barIconSprite.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
             // Play the increase _block sound effect.
             SoundManager.Instance.PlaySFX(SoundEffect.SHIELD_APPLY);
             // Flash the _block overlay and tint the character.
@@ -161,15 +172,43 @@ public partial class CharacterHealthHandler : MonoBehaviour
         }
         else if (val < 0)
         {
-            // If the function call reduces _block, show how much _block
-            // was removed.
-            ObjectPooler.Instance.SpawnPopup((_block < 0) ? (val - _block).ToString() : val.ToString(), 4, _barIconSprite.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
+            // If the function call reduces _block, show how much _block was removed.
+            RenderTooltip((_block < 0) ? (val - _block).ToString() : val.ToString(), 4, _barIconSprite.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
         }
         if (shouldPlayBlockAnim)
         {
             FlashBlockOverlay();
         }
         UpdateHealthAndBlockText();
+    }
+
+    public void RenderTooltip(string text, int fontSize, Vector3 position, Color color, float speed)
+    {
+        BattleTooltip bt = new BattleTooltip();
+        bt.text = text;
+        bt.fontSize = fontSize;
+        bt.position = position;
+        bt.color = color;
+        bt.speed = speed;
+        tooltipsToRender.Add(bt);
+        if (renderTooltipCoroutine == null)
+        {
+            renderTooltipCoroutine = RenderNumberTooltipsCoroutine();
+            StartCoroutine(renderTooltipCoroutine);
+        }
+    }
+
+    private IEnumerator RenderNumberTooltipsCoroutine()
+    {
+        while (tooltipsToRender.Count > 0)
+        {
+            BattleTooltip nextTooltip = tooltipsToRender[0];
+            tooltipsToRender.RemoveAt(0);
+            ObjectPooler.Instance.SpawnPopup(nextTooltip.text, nextTooltip.fontSize, nextTooltip.position, nextTooltip.color, nextTooltip.speed);
+            yield return new WaitForSeconds(0.25f);
+        }
+        yield return new WaitForEndOfFrame();
+        renderTooltipCoroutine = null;
     }
 
     // Update the _health and _block bar and text.

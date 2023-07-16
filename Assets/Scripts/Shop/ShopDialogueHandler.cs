@@ -162,7 +162,8 @@ public class ShopDialogueHandler : MonoBehaviour
         // If there are more dialogue strings to render, render those!
         if (_dialogueStringQueue.Count != 0)
         {
-            StartCoroutine(RenderDialogueTextCoroutine(shouldHideWhenFinished));
+            _currentDialogueCoroutine = RenderDialogueTextCoroutine(shouldHideWhenFinished);
+            StartCoroutine(_currentDialogueCoroutine);
         }
         else if (shouldHideWhenFinished)
         {

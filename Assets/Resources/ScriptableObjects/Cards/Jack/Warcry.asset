@@ -49,22 +49,9 @@ MonoBehaviour:
     blockTarget: 2
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 2
       effect: 1
       amplifier: 1
-      renderBehavior: 0
-    traits: 
-  - cardDesc: 'Gain 1 Strength. '
-    cardCost: 0
-    damageTarget: 0
-    damageValue: 0
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 1
-    inflictedEffects:
-    - target: 2
-      effect: 1
-      amplifier: 1
-      renderBehavior: 0
-    traits: 
+      renderBehavior: 1
+    modifiers: []

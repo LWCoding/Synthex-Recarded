@@ -23,9 +23,11 @@ public partial class BattleCharacterController : MonoBehaviour
     [Header("Object Assignments")]
     [SerializeField] private Alignment _characterAlignment;
     [SerializeField] protected Transform _characterSpriteContainer;
-    [SerializeField] protected SpriteRenderer _characterSprite;
-    [SerializeField] protected SpriteRenderer _characterShadowSprite;
-    [SerializeField] protected SpriteRenderer _targetSprite;
+    [SerializeField] protected SpriteRenderer _characterSpriteRenderer;
+    [SerializeField] protected SpriteRenderer _characterShadowSpriteRenderer;
+    [SerializeField] protected SpriteRenderer _targetSpriteRenderer;
+    [SerializeField] protected BoxCollider2D _spriteCollider;
+    public BoxCollider2D GetSpriteCollider() => _spriteCollider;
     [SerializeField] protected Animator _targetAnimator;
 
     private Sprite idleSprite;
@@ -73,18 +75,18 @@ public partial class BattleCharacterController : MonoBehaviour
         idleSprite = characterInfo.idleSprite;
         damagedSprite = characterInfo.damagedSprite;
         deathSprite = characterInfo.deathSprite;
-        _characterSprite.transform.localScale = characterInfo.spriteScale;
-        _characterSprite.transform.localPosition = characterInfo.spriteOffset;
+        _characterSpriteRenderer.transform.localScale = characterInfo.spriteScale;
+        _characterSpriteRenderer.transform.localPosition = characterInfo.spriteOffset;
         _initialSpritePosition = _characterSpriteContainer.transform.position;
-        _initialSpriteLocalPosition = _characterSprite.transform.localPosition;
+        _initialSpriteLocalPosition = _characterSpriteRenderer.transform.localPosition;
         // Scale the shadow sprite and calculate how much we need to enlarge the
         // target sprite correspondingly.
-        Vector3 initialShadowScale = _characterShadowSprite.transform.localScale;
-        _characterShadowSprite.transform.localScale = characterInfo.shadowScale;
-        Vector3 shadowScaleUpwards = new Vector3(_characterShadowSprite.transform.localScale.x / initialShadowScale.x,
-                                                _characterShadowSprite.transform.localScale.y / _characterShadowSprite.transform.localScale.y, 1);
-        _characterShadowSprite.transform.SetParent(_characterSprite.transform);
-        _targetSprite.transform.localScale = shadowScaleUpwards;
+        Vector3 initialShadowScale = _characterShadowSpriteRenderer.transform.localScale;
+        _characterShadowSpriteRenderer.transform.localScale = characterInfo.shadowScale;
+        Vector3 shadowScaleUpwards = new Vector3(_characterShadowSpriteRenderer.transform.localScale.x / initialShadowScale.x,
+                                                _characterShadowSpriteRenderer.transform.localScale.y / _characterShadowSpriteRenderer.transform.localScale.y, 1);
+        _characterShadowSpriteRenderer.transform.SetParent(_characterSpriteRenderer.transform);
+        _targetSpriteRenderer.transform.localScale = shadowScaleUpwards;
         SetCharacterSprite(CharacterState.IDLE);
         InitializeStatusEffectScripts();
         TurnUnselectedColor();
@@ -385,16 +387,16 @@ public partial class BattleCharacterController : MonoBehaviour
     {
         if (playHurtAnimation) { SetCharacterSprite(CharacterState.DAMAGED); }
         Color targetColor = new Color(1, 1, 1);
-        _characterSprite.color = initialColor;
+        _characterSpriteRenderer.color = initialColor;
         float currTime = 0;
         float targetTime = 0.4f;
         while (currTime < targetTime)
         {
             currTime += Time.deltaTime;
-            _characterSprite.color = Color.Lerp(initialColor, targetColor, currTime / targetTime);
+            _characterSpriteRenderer.color = Color.Lerp(initialColor, targetColor, currTime / targetTime);
             yield return null;
         }
-        _characterSprite.color = targetColor;
+        _characterSpriteRenderer.color = targetColor;
         SetCharacterSprite(CharacterState.IDLE);
     }
 
@@ -404,22 +406,22 @@ public partial class BattleCharacterController : MonoBehaviour
         float maxFrames = 60 * 0.05f * waitTimeMultiplier;
         float distance = 0.7f * moveDistanceMultiplier;
 
-        Vector3 targetPosition = _characterSprite.transform.localPosition + Vector3.right * distance;
+        Vector3 targetPosition = _characterSpriteRenderer.transform.localPosition + Vector3.right * distance;
         while (frames < maxFrames)
         {
             frames++;
-            _characterSprite.transform.localPosition = Vector3.Lerp(_initialSpriteLocalPosition, targetPosition, (float)frames / maxFrames);
+            _characterSpriteRenderer.transform.localPosition = Vector3.Lerp(_initialSpriteLocalPosition, targetPosition, (float)frames / maxFrames);
             yield return null;
         }
 
         frames = 0;
         maxFrames = 60 * 0.07f * waitTimeMultiplier;
         Vector3 initialPosition = targetPosition;
-        targetPosition = _characterSprite.transform.localPosition + Vector3.left * distance * 2;
+        targetPosition = _characterSpriteRenderer.transform.localPosition + Vector3.left * distance * 2;
         while (frames < maxFrames)
         {
             frames++;
-            _characterSprite.transform.localPosition = Vector3.Lerp(initialPosition, targetPosition, (float)frames / maxFrames);
+            _characterSpriteRenderer.transform.localPosition = Vector3.Lerp(initialPosition, targetPosition, (float)frames / maxFrames);
             yield return null;
         }
 
@@ -429,7 +431,7 @@ public partial class BattleCharacterController : MonoBehaviour
         while (frames < maxFrames)
         {
             frames++;
-            _characterSprite.transform.localPosition = Vector3.Lerp(initialPosition, _initialSpriteLocalPosition, (float)frames / maxFrames);
+            _characterSpriteRenderer.transform.localPosition = Vector3.Lerp(initialPosition, _initialSpriteLocalPosition, (float)frames / maxFrames);
             yield return null;
         }
     }
@@ -597,13 +599,13 @@ public partial class BattleCharacterController : MonoBehaviour
         switch (newState)
         {
             case CharacterState.IDLE:
-                _characterSprite.sprite = idleSprite;
+                _characterSpriteRenderer.sprite = idleSprite;
                 break;
             case CharacterState.DAMAGED:
-                _characterSprite.sprite = damagedSprite;
+                _characterSpriteRenderer.sprite = damagedSprite;
                 break;
             case CharacterState.DEATH:
-                _characterSprite.sprite = (deathSprite == null) ? damagedSprite : deathSprite;
+                _characterSpriteRenderer.sprite = (deathSprite == null) ? damagedSprite : deathSprite;
                 break;
         }
         if (lockSprite) { _canSpriteChange = false; }
@@ -612,8 +614,8 @@ public partial class BattleCharacterController : MonoBehaviour
     public void TurnSelectedColor()
     {
         if (!IsAlive()) { return; }
-        _characterSprite.color = new Color(0.8f, 0.8f, 0.8f);
-        _targetSprite.enabled = true;
+        _characterSpriteRenderer.color = new Color(0.8f, 0.8f, 0.8f);
+        _targetSpriteRenderer.enabled = true;
         _targetAnimator.enabled = true;
         _targetAnimator.Play("Pulse");
     }
@@ -621,14 +623,14 @@ public partial class BattleCharacterController : MonoBehaviour
     public void TurnUnselectedColor()
     {
         if (!IsAlive()) { return; }
-        _characterSprite.color = new Color(1, 1, 1);
-        _targetSprite.enabled = false;
+        _characterSpriteRenderer.color = new Color(1, 1, 1);
+        _targetSpriteRenderer.enabled = false;
         _targetAnimator.enabled = false;
     }
 
     public void MakeUninteractable()
     {
-        Destroy(_characterSprite.GetComponent<BoxCollider2D>());
+        Destroy(_characterSpriteRenderer.GetComponent<BoxCollider2D>());
     }
 
 }

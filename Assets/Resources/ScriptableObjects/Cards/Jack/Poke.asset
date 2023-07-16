@@ -49,22 +49,11 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 1
       effect: 0
       amplifier: 3
       renderBehavior: 0
-    traits: 0c000000
-  - cardDesc: Inflict 5 Bleed. Exhausts.
-    cardCost: 0
-    damageTarget: 1
-    damageValue: 0
-    blockTarget: 0
-    blockValue: 0
-    attackRepeatCount: 1
-    inflictedEffects:
-    - target: 1
-      effect: 0
-      amplifier: 5
-      renderBehavior: 0
-    traits: 0c000000
+    modifiers:
+    - trait: 12
+      amplifier: 0

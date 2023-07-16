@@ -7,7 +7,7 @@ public enum EnemyAI
 {
     GARBITCH = 1, DUMMY = 2, LONE = 3,
     BUCKAROO = 4, HIVEMIND = 5, TREE = 6, MR_MUSHROOM = 7, TURTLEIST = 8,
-    NUTS = 9, ROTTLE = 10, BOYKISSER = 99
+    NUTS = 9, ROTTLE = 10, SUMMONER = 11, BOYKISSER = 99
 }
 
 public class BattleEnemyController : BattleCharacterController
@@ -31,6 +31,7 @@ public class BattleEnemyController : BattleCharacterController
     public void Start()
     {
         statusHandler.OnGetStatusEffect.AddListener((e) => AdjustIntentForModifiers(e));
+        _intentHandler.HideIntentIcon();
         OnDeath.AddListener(HandleEnemyDeath);
     }
 
@@ -93,16 +94,16 @@ public class BattleEnemyController : BattleCharacterController
     {
         Color initialColor = new Color(0.6f, 0.6f, 0.6f, 1);
         Color targetColor = new Color(0.6f, 0.6f, 0.6f, 0);
-        Color initialShadowColor = _characterShadowSprite.color;
-        Color targetShadowColor = _characterShadowSprite.color - new Color(0, 0, 0, 1);
+        Color initialShadowColor = _characterShadowSpriteRenderer.color;
+        Color targetShadowColor = _characterShadowSpriteRenderer.color - new Color(0, 0, 0, 1);
         SetCharacterSprite(CharacterState.DEATH);
         float currTime = 0;
         float timeToWait = 1.2f;
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
-            _characterSprite.color = Color.Lerp(initialColor, targetColor, currTime / timeToWait);
-            _characterShadowSprite.color = Color.Lerp(initialShadowColor, targetShadowColor, currTime / timeToWait);
+            _characterSpriteRenderer.color = Color.Lerp(initialColor, targetColor, currTime / timeToWait);
+            _characterShadowSpriteRenderer.color = Color.Lerp(initialShadowColor, targetShadowColor, currTime / timeToWait);
             yield return null;
         }
     }
@@ -247,12 +248,25 @@ public class BattleEnemyController : BattleCharacterController
                 {
                     return Globals.GetCard("Rottle Swipe");
                 }
+            case EnemyAI.SUMMONER:
+                if (statusHandler.GetStatusEffect(Effect.CHARGE) != null)
+                {
+                    return Globals.GetCard("Summoner Summon");
+                }
+                else if (BattleController.Instance.enemiesStillAlive < 2)
+                {
+                    return Globals.GetCard("Summoner Charge");
+                }
+                else
+                {
+                    return Globals.GetCard("Summoner Swipe");
+                }
             case EnemyAI.BOYKISSER:
                 if (statusHandler.GetStatusEffect(Effect.CHARGE) != null && statusHandler.GetStatusEffect(Effect.CHARGE).amplifier >= 2)
                 {
                     return Globals.GetCard("Boykisser Blast");
                 }
-                if (rng < 0.3f || (statusHandler.GetStatusEffect(Effect.CHARGE) != null && statusHandler.GetStatusEffect(Effect.CHARGE).amplifier == 1))
+                else if (rng < 0.3f || (statusHandler.GetStatusEffect(Effect.CHARGE) != null && statusHandler.GetStatusEffect(Effect.CHARGE).amplifier == 1))
                 {
                     return Globals.GetCard("Boykisser Charge");
                 }

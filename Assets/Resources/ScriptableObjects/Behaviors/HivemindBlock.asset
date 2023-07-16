@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HivemindBlock
   m_EditorClassIdentifier: 
   cardName: Hivemind Block
+  cardDisplayName: 
   cardImage: {fileID: 0}
   cardType: 1
   characterMovement: 0
@@ -48,8 +49,9 @@ MonoBehaviour:
     blockTarget: 2
     blockValue: 10
     attackRepeatCount: 1
-    inflictedEffects:
+    inflictions:
     - target: 2
       effect: 3
-      amplifier: 1
-    traits: 
+      amplifier: 0
+      renderBehavior: 0
+    modifiers: []

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Forest
   m_EditorClassIdentifier: 
   mapType: 1
+  mapBGColor: {r: 0.09803922, g: 0.22745098, b: 0.07450981, a: 1}
   numFloors: 16
   mapLocations:
   - name: Monster
@@ -139,6 +140,7 @@ MonoBehaviour:
     minFloorRequired: 1
     maxFloorLimit: 7
   - enemies:
+    - {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
     - {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
     isMiniboss: 0
     isBoss: 0
