@@ -162,11 +162,19 @@ public static class Globals
             return floorNumber >= encounter.minFloorRequired && floorNumber < encounter.maxFloorLimit &&
                     encounter.isBoss == bossOnly && encounter.isMiniboss == minibossOnly;
         });
-        // Ensure that the blacklist isn't null and that it doesn't contain all possible encounters.
-        if (encounterBlacklist != null && encounterBlacklist.Count != possibleEncounters.Count)
+        if (encounterBlacklist != null)
         {
-            // Filter out the encounters list to only include those not in the blacklist.
-            possibleEncounters = possibleEncounters.FindAll((encounter) => !encounterBlacklist.Contains(encounter));
+            // Get all relevant encounters from the list.
+            List<Encounter> relevantBlacklist = encounterBlacklist.FindAll((encounter) =>
+            {
+                return encounter.isBoss == bossOnly && encounter.isMiniboss == minibossOnly;
+            });
+            // Ensure that the relevant blacklist doesn't contain all possible encounters.
+            if (relevantBlacklist.Count != possibleEncounters.Count)
+            {
+                // Filter out the encounters list to only include those not in the blacklist.
+                possibleEncounters = possibleEncounters.FindAll((encounter) => !encounterBlacklist.Contains(encounter));
+            }
         }
         return possibleEncounters[Random.Range(0, possibleEncounters.Count)];
     }

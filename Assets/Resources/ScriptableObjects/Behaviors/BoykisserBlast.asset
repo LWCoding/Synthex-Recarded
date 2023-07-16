@@ -53,11 +53,11 @@ MonoBehaviour:
     - target: 1
       effect: 10
       amplifier: 1
-      renderBehavior: 0
+      renderBehavior: 1
     - target: 1
       effect: 11
       amplifier: 1
-      renderBehavior: 0
+      renderBehavior: 1
     modifiers:
     - trait: 33
       amplifier: 0

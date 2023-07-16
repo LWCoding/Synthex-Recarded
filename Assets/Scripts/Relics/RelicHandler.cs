@@ -129,7 +129,7 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         GetComponent<TreasureRelicHandler>().enabled = true;
         SetRelicImageScale(3, 1.5f);
-        SetSortingOrder(16);
+        SetSortingOrder(30);
         StartSpinShinyObject();
     }
 

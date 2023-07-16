@@ -11130,7 +11130,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 19
+  m_SortingOrder: 31
   m_TargetDisplay: 0
 --- !u!114 &1205133583
 MonoBehaviour:
@@ -11709,7 +11709,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 14
+  m_SortingOrder: 27
   m_TargetDisplay: 0
 --- !u!114 &1441888055
 MonoBehaviour:
@@ -12206,7 +12206,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 13
+  m_SortingOrder: 26
   m_TargetDisplay: 0
 --- !u!114 &1869885459
 MonoBehaviour:

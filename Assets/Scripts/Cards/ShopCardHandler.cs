@@ -91,9 +91,9 @@ IPointerClickHandler
             case CardRarity.COMMON:
                 return 100 + Random.Range(-20, 20); // 80-120 $
             case CardRarity.UNCOMMON:
-                return 180 + Random.Range(-30, 30); // 150-210 $
+                return 170 + Random.Range(-20, 20); // 150-190 $
             case CardRarity.RARE:
-                return 260 + Random.Range(-40, 40); // 220-300 $
+                return 240 + Random.Range(-20, 20); // 220-260 $
         }
         return 99999; // Unobtainable!
     }

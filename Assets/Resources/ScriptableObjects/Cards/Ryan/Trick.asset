@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee86f6c045c704740bca70758d3d2139, type: 3}
-  m_Name: Psych Out
+  m_Name: Trick
   m_EditorClassIdentifier: 
   cardName: Trick
   cardDisplayName: Trick

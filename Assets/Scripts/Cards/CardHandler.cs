@@ -109,7 +109,7 @@ public class CardHandler : MonoBehaviour
     public void UpdateCardDescription(int strengthBuff = 0, int defenseBuff = 0)
     {
         string cardText = descText.text;
-        string strengthBuffText = (strengthBuff == 0) ? "" : " (" + ((strengthBuff > 0) ? "<color=\"green\">+" : "<color=\"red\">") + strengthBuff + "</color>)";
+        string strengthBuffText = (strengthBuff == 0 || card.GetTarget() == Target.SELF) ? "" : " (" + ((strengthBuff > 0) ? "<color=\"green\">+" : "<color=\"red\">") + strengthBuff + "</color>)";
         string defenseBuffText = (defenseBuff == 0) ? "" : " (" + ((defenseBuff > 0) ? "<color=\"green\">+" : "<color=\"red\">") + defenseBuff + "</color>)";
         cardText = card.GetCardStats().cardDesc;
         // Replace the [ATK] and [DEF] placeholders with the actual values.
