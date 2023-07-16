@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class MapController : MonoBehaviour
@@ -124,7 +125,6 @@ public class MapController : MonoBehaviour
     // Enable functionality of all map options as well as the "show all cards in deck" button.
     public void MakeMapOptionsInteractable()
     {
-        TopBarController.Instance.EnableShowAllCardsButton();
         // If the floor we're trying to access doesn't exist, we're at the boss.
         if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
         foreach (MapOptionController moc in _mapOptionDictionary[_currFloor + 1])
@@ -136,7 +136,6 @@ public class MapController : MonoBehaviour
     // Disable functionality of all map options as well as the "show all cards in deck" button.
     public void MakeMapOptionsUninteractable()
     {
-        TopBarController.Instance.DisableShowAllCardsButton();
         // If the floor we're trying to access doesn't exist, we're at the boss.
         if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
         // Or else, disable all the next options until prompted.

@@ -115,6 +115,18 @@ public class TitleController : MonoBehaviour
         FadeTransitionController.Instance.HideScreen("Map", 1.5f);
     }
 
+    // Plays the button hover sound.
+    public void PlaySettingsButtonHoverSFX()
+    {
+        SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_BUTTON_HOVER);
+    }
+
+    // Plays the button hover sound.
+    public void OpenSettingsMenu()
+    {
+        SettingsManager.Instance.TogglePause(0.2f);
+    }
+
     public void QuitGame()
     {
         Application.Quit();

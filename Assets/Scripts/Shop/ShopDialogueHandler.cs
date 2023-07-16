@@ -139,7 +139,7 @@ public class ShopDialogueHandler : MonoBehaviour
             while (Time.time - startTime < timeToWait)
             {
                 // If the player clicks left click, skip the wait times!
-                if (Input.GetMouseButtonDown(0) && !SettingsManager.Instance.IsGamePaused() && _isTextSkippableWhenKeyDown) { break; }
+                if (Input.GetMouseButtonDown(0) && !TopBarController.Instance.IsPlayerInteractingWithTopBar() && !TopBarController.Instance.IsCardPreviewShowing() && !JournalManager.Instance.IsJournalShowing() && !SettingsManager.Instance.IsGamePaused() && _isTextSkippableWhenKeyDown) { break; }
                 yield return null;
             }
         }
@@ -149,11 +149,11 @@ public class ShopDialogueHandler : MonoBehaviour
         yield return new WaitForEndOfFrame();
         startTime = Time.time;
         timeToWait = 1.2f;
-        yield return new WaitUntil(() => { return !SettingsManager.Instance.IsGamePaused() && !Input.GetMouseButton(0); });
+        yield return new WaitUntil(() => { return !Input.GetMouseButton(0) && !TopBarController.Instance.IsPlayerInteractingWithTopBar() && !TopBarController.Instance.IsCardPreviewShowing() && !JournalManager.Instance.IsJournalShowing() && !SettingsManager.Instance.IsGamePaused(); });
         while (Time.time - startTime < timeToWait)
         {
             // If the player clicks left click, skip this wait time!
-            if (Input.GetMouseButtonDown(0) && !SettingsManager.Instance.IsGamePaused() && _isTextSkippableWhenKeyDown)
+            if (Input.GetMouseButtonDown(0) && !TopBarController.Instance.IsPlayerInteractingWithTopBar() && !TopBarController.Instance.IsCardPreviewShowing() && !JournalManager.Instance.IsJournalShowing() && !SettingsManager.Instance.IsGamePaused() && _isTextSkippableWhenKeyDown)
             {
                 timeToWait = 0;
             }

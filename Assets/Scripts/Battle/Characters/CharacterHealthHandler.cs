@@ -205,7 +205,7 @@ public partial class CharacterHealthHandler : MonoBehaviour
             BattleTooltip nextTooltip = tooltipsToRender[0];
             tooltipsToRender.RemoveAt(0);
             ObjectPooler.Instance.SpawnPopup(nextTooltip.text, nextTooltip.fontSize, nextTooltip.position, nextTooltip.color, nextTooltip.speed);
-            yield return new WaitForSeconds(0.18f);
+            yield return new WaitForSeconds(0.15f);
         }
         yield return new WaitForEndOfFrame();
         renderTooltipCoroutine = null;

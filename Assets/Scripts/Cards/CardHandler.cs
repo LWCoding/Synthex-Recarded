@@ -40,17 +40,20 @@ public class CardHandler : MonoBehaviour
     [HideInInspector] public float initialScale;
     [HideInInspector] public int initialSortingOrder;
     [HideInInspector] public Quaternion initialRotation;
+
     private List<CardEffectType> _currentCardEffectTypes;
     private CardHoverHandler _cardHoverController;
     private Transform _canvasTransform;
     private CanvasGroup _cardCanvasGroup;
     private IEnumerator _tooltipShowCoroutine = null;
+    private Vector3 _tooltipInitialLocalPosition;
 
     private void Awake()
     {
         _cardHoverController = GetComponent<CardHoverHandler>();
         _cardCanvasGroup = GetComponent<CanvasGroup>();
         _canvasTransform = GameObject.Find("Canvas").transform;
+        _tooltipInitialLocalPosition = tooltipParentObject.transform.localPosition;
     }
 
     // Usually, this card is animated into frame with the CardAppear coroutine.
@@ -137,6 +140,7 @@ public class CardHandler : MonoBehaviour
         initialScale = transform.localScale.x;
         initialSortingOrder = GetComponent<Canvas>().sortingOrder;
         initialRotation = transform.rotation;
+        tooltipParentObject.transform.localPosition = _tooltipInitialLocalPosition;
     }
 
     // Give this card a card effect.
@@ -396,6 +400,7 @@ public class CardHandler : MonoBehaviour
     // Enable the functionality of the card for the shop scene.
     public void EnableShopFunctionality()
     {
+        tooltipParentObject.transform.localPosition = new Vector3(275, _tooltipInitialLocalPosition.y, 0);
         GetComponent<ShopCardHandler>().enabled = true;
     }
 

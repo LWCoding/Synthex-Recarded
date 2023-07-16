@@ -198,7 +198,7 @@ public class SoundManager : MonoBehaviour
                 PlayOneShot(explosionSFX, (volumeOverride != -1) ? volumeOverride : 1);
                 break;
             case SoundEffect.HEAL_HEALTH:
-                PlayOneShot(healSFX, (volumeOverride != -1) ? volumeOverride : 1.4f);
+                PlayOneShot(healSFX, (volumeOverride != -1) ? volumeOverride : 1.2f);
                 break;
             case SoundEffect.CHARGE_ENERGY:
                 PlayOneShot(energyChargeSFX, (volumeOverride != -1) ? volumeOverride : 0.7f);

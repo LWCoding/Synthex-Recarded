@@ -20,8 +20,9 @@ public class TopBarCardController : MonoBehaviour
 
     private Button drawPileButton;
     private Button discardPileButton;
-    private bool _isShowAllCardsButtonClickable = true;
-    private Button _currentlySelectedDeckPreviewButton = null;
+    private bool _isDeckPreviewButtonClickable = true;
+    private Button _currentlySelectedButton = null;
+    public bool IsCardPreviewShowing() => _currentlySelectedButton != null;
     private List<CardHandler> _cardPreviewControllers = new List<CardHandler>();
     private int _selectedButtonInitialSortingOrder = 0;
 
@@ -41,7 +42,7 @@ public class TopBarCardController : MonoBehaviour
             Destroy(child.gameObject);
         }
         _deckOverlayContainer.SetActive(false);
-        _currentlySelectedDeckPreviewButton = null;
+        _currentlySelectedButton = null;
         _cardPreviewGraphicRaycaster.enabled = false;
         _showDeckButton.interactable = true;
     }
@@ -85,22 +86,22 @@ public class TopBarCardController : MonoBehaviour
         }
         Destroy(cardObject);
     }
-    public void DisableShowAllCardsButton()
+    public void DisableDeckPreviewButton()
     {
-        _isShowAllCardsButtonClickable = false;
+        _isDeckPreviewButtonClickable = false;
     }
 
-    public void EnableShowAllCardsButton()
+    public void EnableDeckPreviewButton()
     {
-        _isShowAllCardsButtonClickable = true;
+        _isDeckPreviewButtonClickable = true;
     }
 
     // Toggles the visibility (on/off) of the card previews for
     // all cards in your deck.
     public void ToggleVisibilityOfCardsInDeck()
     {
-        if (!_isShowAllCardsButtonClickable) { return; }
-        if (_currentlySelectedDeckPreviewButton != null)
+        if (!_isDeckPreviewButtonClickable) { return; }
+        if (_currentlySelectedButton != null)
         {
             // Hide the cards if there is a previously selected button.
             StartCoroutine(HideCardsCoroutine());
@@ -109,7 +110,7 @@ public class TopBarCardController : MonoBehaviour
         else
         {
             // Show the cards if there's no previously selected button.
-            _currentlySelectedDeckPreviewButton = _showDeckButton;
+            _currentlySelectedButton = _showDeckButton;
             StartCoroutine(ShowCardsCoroutine(GameController.GetHeroCards()));
         }
     }
@@ -118,14 +119,14 @@ public class TopBarCardController : MonoBehaviour
     // There are 0 references because it is tied to the button during battle.
     public void ToggleVisibilityOfCardsInDrawPile()
     {
-        if (_currentlySelectedDeckPreviewButton != null)
+        if (_currentlySelectedButton != null)
         {
             StartCoroutine(HideCardsCoroutine());
             return;
         }
         else
         {
-            _currentlySelectedDeckPreviewButton = drawPileButton;
+            _currentlySelectedButton = drawPileButton;
             StartCoroutine(ShowCardsCoroutine(BattleController.Instance.cardsInDrawPile));
         }
     }
@@ -134,14 +135,14 @@ public class TopBarCardController : MonoBehaviour
     // There are 0 references because it is tied to the button during battle.
     public void ToggleVisibilityOfCardsInDiscardPile()
     {
-        if (_currentlySelectedDeckPreviewButton != null)
+        if (_currentlySelectedButton != null)
         {
             StartCoroutine(HideCardsCoroutine());
             return;
         }
         else
         {
-            _currentlySelectedDeckPreviewButton = discardPileButton;
+            _currentlySelectedButton = discardPileButton;
             StartCoroutine(ShowCardsCoroutine(BattleController.Instance.cardsInDiscard));
         }
     }
@@ -151,13 +152,13 @@ public class TopBarCardController : MonoBehaviour
     private IEnumerator ShowCardsCoroutine(List<Card> cardsToShow)
     {
         BattleController.Instance?.ChangeGameState(GameState.IN_MENU); // Only runs if in battle!
-        _selectedButtonInitialSortingOrder = _currentlySelectedDeckPreviewButton.GetComponent<Canvas>().sortingOrder;
+        _selectedButtonInitialSortingOrder = _currentlySelectedButton.GetComponent<Canvas>().sortingOrder;
         // Disable the scroll rect UNTIL all cards have animated in.
         _cardPreviewScrollRect.enabled = false;
-        _currentlySelectedDeckPreviewButton.interactable = false;
+        _currentlySelectedButton.interactable = false;
         // Enable the graphic raycaster so that the scrolling works.
         _cardPreviewGraphicRaycaster.enabled = true;
-        _currentlySelectedDeckPreviewButton.GetComponent<Canvas>().sortingOrder = 23;
+        _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = _deckOverlayImage.GetComponent<Canvas>().sortingOrder + 1;
         _cardPreviewControllers = new List<CardHandler>();
         yield return ToggleDeckOverlayCoroutine(0.2f, true);
         Transform horizontalTransform = null;
@@ -193,7 +194,7 @@ public class TopBarCardController : MonoBehaviour
             yield return wfs;
         }
         _cardPreviewScrollRect.enabled = true;
-        _currentlySelectedDeckPreviewButton.interactable = true;
+        _currentlySelectedButton.interactable = true;
     }
 
     // Creates a new GameObject with a HorizontalLayoutGroup and returns
@@ -211,7 +212,7 @@ public class TopBarCardController : MonoBehaviour
 
     private IEnumerator HideCardsCoroutine()
     {
-        _currentlySelectedDeckPreviewButton.interactable = false;
+        _currentlySelectedButton.interactable = false;
         WaitForSeconds wfs = new WaitForSeconds(0.02f);
         // Disable the horizontal layout groups so that the cards don't teleport
         // together during destruction.
@@ -249,9 +250,9 @@ public class TopBarCardController : MonoBehaviour
         // Disable the graphic raycaster so that the scrolling doesn't block the screen.
         _cardPreviewGraphicRaycaster.enabled = false;
         yield return ToggleDeckOverlayCoroutine(0.2f, false);
-        _currentlySelectedDeckPreviewButton.interactable = true;
-        _currentlySelectedDeckPreviewButton.GetComponent<Canvas>().sortingOrder = _selectedButtonInitialSortingOrder;
-        _currentlySelectedDeckPreviewButton = null;
+        _currentlySelectedButton.interactable = true;
+        _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = _selectedButtonInitialSortingOrder;
+        _currentlySelectedButton = null;
         BattleController.Instance?.ChangeGameState(GameState.BATTLE);
     }
 

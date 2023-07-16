@@ -178,7 +178,7 @@ public partial class DialogueUIController : MonoBehaviour
             while (Time.time - startTime < timeToWait)
             {
                 // If the player clicks left click, skip the wait times!
-                if (!SettingsManager.Instance.IsGamePaused() && Input.GetMouseButtonDown(0)) { skippedDialogue = true; break; }
+                if (!TopBarController.Instance.IsPlayerInteractingWithTopBar() && !TopBarController.Instance.IsCardPreviewShowing() && !JournalManager.Instance.IsJournalShowing() && !SettingsManager.Instance.IsGamePaused() && Input.GetMouseButtonDown(0)) { skippedDialogue = true; break; }
                 yield return null;
             }
         }
@@ -186,7 +186,7 @@ public partial class DialogueUIController : MonoBehaviour
         ChangeDialogueAnimations(dl, true);
         // Wait until the user left-clicks in the next frame.
         if (skippedDialogue) { yield return new WaitUntil(() => { return Input.GetMouseButtonUp(0); }); }
-        yield return new WaitUntil(() => { return !SettingsManager.Instance.IsGamePaused() && Input.GetMouseButtonDown(0); });
+        yield return new WaitUntil(() => { return !TopBarController.Instance.IsPlayerInteractingWithTopBar() && !TopBarController.Instance.IsCardPreviewShowing() && !JournalManager.Instance.IsJournalShowing() && !SettingsManager.Instance.IsGamePaused() && Input.GetMouseButtonDown(0); });
         // If there are more dialogue strings to render, render those!
         if (_dialogueStringQueue.Count != 0)
         {

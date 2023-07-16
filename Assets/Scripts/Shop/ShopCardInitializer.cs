@@ -34,11 +34,9 @@ public class ShopCardInitializer : MonoBehaviour
                 horizontalTransform.SetParent(scrollParentTransform, false);
             }
             // Set the basic information for the card.
-            GameObject cardObject = GetCardObjectFromPool();
+            GameObject cardObject = GetCardObjectFromPool(card);
             CardHandler cardController = cardObject.GetComponent<CardHandler>();
             cardObject.transform.SetParent(horizontalTransform, false);
-            // We want the card to appear immediately, so we set it to true.
-            cardController.Initialize(card, true);
             currCardIdx++;
             _cardPreviewControllers.Add(cardController);
         }
@@ -71,17 +69,19 @@ public class ShopCardInitializer : MonoBehaviour
         return newRow;
     }
 
-    private GameObject GetCardObjectFromPool()
+    private GameObject GetCardObjectFromPool(Card card)
     {
         // Return an already created card object.
         GameObject cardObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD);
         CardHandler cardController = cardObject.GetComponent<CardHandler>();
-        cardController.EnableFunctionality();
-        cardController.EnableShopFunctionality();
         cardObject.GetComponent<Canvas>().sortingOrder = 1;
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
         cardController.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
         cardObject.transform.localScale = new Vector2(0.4f, 0.4f);
+        // We want the card to appear immediately, so we set it to true.
+        cardController.Initialize(card, true);
+        cardController.EnableFunctionality();
+        cardController.EnableShopFunctionality();
         return cardObject;
     }
 

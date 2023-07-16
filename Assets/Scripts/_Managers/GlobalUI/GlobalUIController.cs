@@ -31,6 +31,15 @@ public class GlobalUIController : MonoBehaviour
         _saveIconContainer.SetActive(false);
     }
 
+    private void Update()
+    {
+        // If the player presses ESCAPE, toggle the pause screen.
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SettingsManager.Instance.TogglePause(0.2f);
+        }
+    }
+
     public void PlaySaveIconAnimation()
     {
         StartCoroutine(SaveIconAnimationCoroutine());

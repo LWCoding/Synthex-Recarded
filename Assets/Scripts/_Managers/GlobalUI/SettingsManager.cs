@@ -17,8 +17,8 @@ public class SettingsManager : MonoBehaviour
 
     public static SettingsManager Instance;
     [Header("Object Assignments")]
-    [SerializeField] private CanvasGroup _pauseUICanvasGroup;
-    [SerializeField] private GameObject _pauseUIGroup;
+    [SerializeField] private GameObject _pauseContainer;
+    [SerializeField] private GameObject _overlayContainer;
     [SerializeField] private Image _fadeOverlayImage;
     [SerializeField] private Button _settingsBackButton;
     [Header("Panel Object Assignments")]
@@ -31,10 +31,15 @@ public class SettingsManager : MonoBehaviour
     private void SetVolumeText(float volume) => _volumeText.text = "Volume (" + Mathf.RoundToInt(volume * 100) + ")";
     [Header("Audio Assignments")]
     public AudioClip buttonSelectSFX;
+
+    private CanvasGroup _containerCanvasGroup;
+
     private bool _isGamePaused = false;
     public bool IsGamePaused() => _isGamePaused;
     private bool _isUIAnimating = false;
     private bool _isOptionChosen = false;
+    private void EnableButtonPresses() => _isOptionChosen = false;
+    private void DisableButtonPresses() => _isOptionChosen = true;
 
     // This Awake function runs on the first time the bar is instantiated.
     private void Awake()
@@ -47,8 +52,10 @@ public class SettingsManager : MonoBehaviour
             return;
         }
         Instance = this;
-        _pauseUIGroup.SetActive(false);
         _fadeOverlayImage.gameObject.SetActive(false);
+        _overlayContainer.SetActive(true);
+        _pauseContainer.SetActive(false);
+        _containerCanvasGroup = _pauseContainer.GetComponent<CanvasGroup>();
     }
 
     // Update the text after we're sure that the volume has been properly set
@@ -58,23 +65,28 @@ public class SettingsManager : MonoBehaviour
         SetVolumeText(SoundManager.Instance.GetDesiredVolume());
     }
 
-    private void Update()
+    // Toggle the pause screen from true to false, or false to true.
+    public void TogglePause(float animationTime = 0.5f)
     {
-        // If the player presses ESCAPE, toggle the pause screen.
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // If the UI is currently animating, don't let the user toggle.
+        if (_isUIAnimating) { return; }
+        // Make sure the container is active to begin with.
+        _pauseContainer.SetActive(true);
+        SetSettingsBackBehaviour(SceneManager.GetActiveScene().name);
+        // Toggle the pause state and then animate the UI in.
+        _isGamePaused = !_isGamePaused;
+        if (_isGamePaused)
         {
-            TogglePause(0.1f);
+            StartCoroutine(TogglePauseCoroutine(true, animationTime));
+            if (SceneManager.GetActiveScene().name == "Title")
+            {
+                ToggleSubscreen("Options");
+            }
         }
-    }
-
-    private void EnableButtonPresses()
-    {
-        _isOptionChosen = false;
-    }
-
-    private void DisableButtonPresses()
-    {
-        _isOptionChosen = true;
+        else
+        {
+            StartCoroutine(TogglePauseCoroutine(false, animationTime));
+        }
     }
 
     // Title: Settings button should close the menu
@@ -89,7 +101,7 @@ public class SettingsManager : MonoBehaviour
             _settingsBackButton.onClick.RemoveAllListeners();
             _settingsBackButton.onClick.AddListener(() =>
             {
-                ToggleScreen("Main");
+                ToggleSubscreen("Main");
             });
         }
         else
@@ -134,13 +146,26 @@ public class SettingsManager : MonoBehaviour
         }));
     }
 
-    // Shows the quit game screen.
-    // This should be called by the quit button.
+    // CALLED BY EXIT OPTIONS SCREEN
     public void ShowMainScreen(bool shouldHappenInstantly = false)
     {
         // If we've already chosen an option, don't let the user select.
         if (_isOptionChosen) { return; }
-        ToggleScreen("Main", shouldHappenInstantly);
+        ToggleSubscreen("Main", shouldHappenInstantly);
+    }
+
+    // CALLED BY EXIT "NO" BUTTON.
+    public void ShowMainScreenWithButtonAnimation(Button button)
+    {
+        // If we've already chosen an option, don't let the user select.
+        if (_isOptionChosen) { return; }
+        button.enabled = false;
+        Image buttonImage = button.GetComponent<Image>();
+        StartCoroutine(AnimateButtonBeforeRunningCode(buttonImage, button.spriteState.disabledSprite, button.spriteState.highlightedSprite, () =>
+        {
+            ToggleSubscreen("Main");
+            button.enabled = true;
+        }));
     }
 
     // CALLED BY RESUME UI BUTTON.
@@ -157,7 +182,6 @@ public class SettingsManager : MonoBehaviour
         }));
     }
 
-    // Shows the settings screen.
     // CALLED BY SETTINGS UI BUTTON.
     public void ShowOptionsScreen(Button button)
     {
@@ -167,12 +191,11 @@ public class SettingsManager : MonoBehaviour
         Image buttonImage = button.GetComponent<Image>();
         StartCoroutine(AnimateButtonBeforeRunningCode(buttonImage, button.spriteState.disabledSprite, button.spriteState.highlightedSprite, () =>
         {
-            ToggleScreen("Options");
+            ToggleSubscreen("Options");
             button.enabled = true;
         }));
     }
 
-    // Shows the quit game screen.
     // CALLED BY QUIT UI BUTTON.
     public void ShowQuitScreen(Button button)
     {
@@ -182,55 +205,16 @@ public class SettingsManager : MonoBehaviour
         Image buttonImage = button.GetComponent<Image>();
         StartCoroutine(AnimateButtonBeforeRunningCode(buttonImage, button.spriteState.disabledSprite, button.spriteState.highlightedSprite, () =>
         {
-            ToggleScreen("Exit");
+            ToggleSubscreen("Exit");
             button.enabled = true;
         }));
     }
 
-    // CALLED BY EXIT "NO" BUTTON.
-    public void ShowMainScreen(Button button)
-    {
-        // If we've already chosen an option, don't let the user select.
-        if (_isOptionChosen) { return; }
-        button.enabled = false;
-        Image buttonImage = button.GetComponent<Image>();
-        StartCoroutine(AnimateButtonBeforeRunningCode(buttonImage, button.spriteState.disabledSprite, button.spriteState.highlightedSprite, () =>
-        {
-            ToggleScreen("Main");
-            button.enabled = true;
-        }));
-    }
-
-    // Adjusts the master volume.
-    // This should be called by the volume slider.
+    // CALLED BY MASTER VOLUME SLIDER IN OPTIONS.
     public void AdjustMasterVolume(Slider slider)
     {
         SoundManager.Instance.SetDesiredVolume(slider.value);
         SetVolumeText(slider.value);
-    }
-
-    // Toggle the pause screen from true to false, or false to true.
-    public void TogglePause(float animationTime = 0.5f)
-    {
-        // // If we're on the title screen, also don't let us pause.
-        // if (SceneManager.GetActiveScene().name == "Title") { return; }
-        // If the UI is currently animating, don't let the user toggle.
-        if (_isUIAnimating) { return; }
-        SetSettingsBackBehaviour(SceneManager.GetActiveScene().name);
-        // Toggle the pause state and then animate the UI in.
-        _isGamePaused = !_isGamePaused;
-        if (_isGamePaused)
-        {
-            StartCoroutine(TogglePauseUI(true, animationTime));
-            if (SceneManager.GetActiveScene().name == "Title")
-            {
-                ToggleScreen("Options");
-            }
-        }
-        else
-        {
-            StartCoroutine(TogglePauseUI(false, animationTime));
-        }
     }
 
     private IEnumerator AnimateButtonBeforeRunningCode(Image buttonImage, Sprite buttonDefaultSprite, Sprite buttonAltSprite, Action codeToRunAfter)
@@ -249,7 +233,7 @@ public class SettingsManager : MonoBehaviour
         codeToRunAfter.Invoke();
     }
 
-    private IEnumerator TogglePauseUI(bool shouldPauseUIShow, float animationTime, Action codeToRunAfter = null)
+    private IEnumerator TogglePauseCoroutine(bool shouldPauseUIShow, float animationTime, Action codeToRunAfter = null)
     {
         // Tell this class we're animating so we can't toggle during the animation.
         _isUIAnimating = true;
@@ -258,7 +242,7 @@ public class SettingsManager : MonoBehaviour
         {
             Time.timeScale = 0;
             ShowMainScreen(true);
-            _pauseUIGroup.SetActive(true);
+            _pauseContainer.SetActive(true);
         }
         else
         {
@@ -272,13 +256,13 @@ public class SettingsManager : MonoBehaviour
         while (currTime < timeToWait)
         {
             currTime += Time.unscaledDeltaTime;
-            _pauseUICanvasGroup.alpha = Mathf.Lerp(currAlpha, targetAlpha, currTime / timeToWait);
+            _containerCanvasGroup.alpha = Mathf.Lerp(currAlpha, targetAlpha, currTime / timeToWait);
             yield return null;
         }
         // Hide the pause UI group if we've made it hidden.
         if (!shouldPauseUIShow)
         {
-            _pauseUIGroup.SetActive(false);
+            _pauseContainer.SetActive(false);
         }
         // Tell the class we're not animating anymore.
         EnableButtonPresses();
@@ -287,11 +271,11 @@ public class SettingsManager : MonoBehaviour
         codeToRunAfter?.Invoke();
     }
 
-    private void ToggleScreen(string name, bool shouldHappenInstantly = false)
+    private void ToggleSubscreen(string name, bool shouldHappenInstantly = false)
     {
         if (name != "Main" && name != "Options" && name != "Exit")
         {
-            Debug.Log("Error! SettingsManager.cs couldn't find valid option in ToggleScreen() function.");
+            Debug.Log("Error! SettingsManager.cs couldn't find valid option in ToggleSubscreen() function.");
             return;
         }
         // If it's the options screen, let's set some data first.
@@ -315,6 +299,8 @@ public class SettingsManager : MonoBehaviour
                 screenObject = _exitScreenObject;
                 break;
         }
+        // Only allow the options screen to show if we're on the settings screen.
+        if (SceneManager.GetActiveScene().name == "Title") { screenObject = _optionsScreenObject; }
         screenObject.SetActive(true);
         // We've switched the scene, so set the option chosen to nothing.
         EnableButtonPresses();

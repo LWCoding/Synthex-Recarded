@@ -13,7 +13,14 @@ public class FadeTransitionController : MonoBehaviour
 
     private void Awake()
     {
-        Instance = GetComponent<FadeTransitionController>();
+        // Set this to the Instance if it is the first one.
+        // Or else, destroy this.
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         overlayFadeImage.gameObject.SetActive(false);
     }
 

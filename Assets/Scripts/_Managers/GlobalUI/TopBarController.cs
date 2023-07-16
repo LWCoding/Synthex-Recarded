@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public enum TokenType
@@ -14,7 +15,7 @@ public enum TokenType
 [RequireComponent(typeof(TopBarRelicController))]
 [RequireComponent(typeof(TopBarCardController))]
 [RequireComponent(typeof(TopBarItemController))]
-public class TopBarController : MonoBehaviour
+public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
     public static TopBarController Instance { get; private set; }
@@ -34,6 +35,9 @@ public class TopBarController : MonoBehaviour
     [SerializeField] private Image pauseIconImage;
     [SerializeField] private Transform canvasTransform;
 
+    private bool _isMouseOverTopBar = false;
+    public bool IsPlayerInteractingWithTopBar() => _isMouseOverTopBar;
+
     private TopBarItemController _topBarItemController;
     public void RenderItems() => _topBarItemController.RenderItems();
     public void FlashItemObject(int idx) => _topBarItemController.FlashItemObject(idx);
@@ -44,8 +48,9 @@ public class TopBarController : MonoBehaviour
     public void RenderRelics() => _topBarRelicController.RenderRelics();
     public void FlashRelicObject(RelicType r) => _topBarRelicController.FlashRelicObject(r);
     private TopBarCardController _topBarCardController;
-    public void EnableShowAllCardsButton() => _topBarCardController.EnableShowAllCardsButton();
-    public void DisableShowAllCardsButton() => _topBarCardController.DisableShowAllCardsButton();
+    public bool IsCardPreviewShowing() => _topBarCardController.IsCardPreviewShowing();
+    public void EnableDeckPreviewButton() => _topBarCardController.EnableDeckPreviewButton();
+    public void DisableDeckPreviewButton() => _topBarCardController.DisableDeckPreviewButton();
     public void AnimateCardsToDeck(Vector3 initialCanvasPosition, List<Card> cards, Vector3 initialScale) => _topBarCardController.AnimateCardsToDeck(initialCanvasPosition, cards, initialScale);
 
     public void InitializeCardController() => _topBarCardController.Initialize();
@@ -146,13 +151,15 @@ public class TopBarController : MonoBehaviour
     public void UpdateCurrencyText()
     {
         heroCurrencyText.text = GameController.GetMoney().ToString();
-        heroXPText.text = GameController.GetXP().ToString() + "/100";
+        // TODO: Enable XP value when it's back!
+        // heroXPText.text = GameController.GetXP().ToString() + "/100";
     }
 
     // Spawn multiple tokens that goes from a certain position 
     // to the currency icon and adds to the current balance.
     public void AnimateTokensToBalance(TokenType tokenType, Vector3 initialCanvasPosition, int totalRewardAmount)
     {
+        if (tokenType == TokenType.XP) { return; } // TODO: Enable XP value when it's back!
         int tokenAmount = (tokenType == TokenType.COIN) ? Mathf.Clamp(totalRewardAmount / 15, 4, 15) : Mathf.Clamp(totalRewardAmount / 3, 2, 3);
         float displacementAmount = 90;
         int rewardedAmount = 0;
@@ -193,6 +200,16 @@ public class TopBarController : MonoBehaviour
         if (tokenType == TokenType.XP) { GameController.AddXP(amount); }
         UpdateCurrencyText();
         Destroy(tokenObject);
+    }
+
+    public void OnPointerEnter(PointerEventData ped)
+    {
+        _isMouseOverTopBar = true;
+    }
+
+    public void OnPointerExit(PointerEventData ped)
+    {
+        _isMouseOverTopBar = false;
     }
 
 }
