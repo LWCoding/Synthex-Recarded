@@ -21,7 +21,7 @@ MonoBehaviour:
   shadowScale: {x: 3.3, y: 0.77}
   enemyHealthMin: 55
   enemyHealthMax: 65
-  enemyRewardMin: 10
-  enemyRewardMax: 10
+  enemyRewardMin: 160
+  enemyRewardMax: 200
   enemyXPReward: 5
   enemyAI: 11

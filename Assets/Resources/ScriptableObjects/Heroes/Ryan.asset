@@ -19,7 +19,7 @@ MonoBehaviour:
   spriteOffset: {x: 0, y: 0}
   spriteScale: {x: 1, y: 1}
   shadowScale: {x: 3.11, y: 0.77}
-  baseHealth: 35
+  baseHealth: 40
   heroTag: 3
   maxItemStorageSpace: 3
   uiHeadshotSprite: {fileID: 21300000, guid: 85ebd0d7e2496664da24a235cf033611, type: 3}
