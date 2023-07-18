@@ -52,7 +52,7 @@ MonoBehaviour:
     inflictions:
     - target: 2
       effect: 1
-      amplifier: 2
+      amplifier: 1
       renderBehavior: 1
     - target: 2
       effect: 3
