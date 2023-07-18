@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Summoner
   m_EditorClassIdentifier: 
   characterName: Summoner
-  idleSprite: {fileID: 21300000, guid: 9dfb79fd5a110df40bc4b985b01117fc, type: 3}
-  damagedSprite: {fileID: 21300000, guid: 7c118e130f2604141b8aa6a0f34558e0, type: 3}
+  idleSprite: {fileID: 21300000, guid: 719d4d14991cd55479b67db17cab96ab, type: 3}
+  damagedSprite: {fileID: 21300000, guid: cb3552d1fef170547855fc745156199a, type: 3}
   deathSprite: {fileID: 0}
-  spriteOffset: {x: 0, y: -0.35}
-  spriteScale: {x: 0.7, y: 0.7}
+  spriteOffset: {x: 0, y: 0.53}
+  spriteScale: {x: 1.12, y: 1.12}
   shadowScale: {x: 3.3, y: 0.77}
   enemyHealthMin: 55
   enemyHealthMax: 65
