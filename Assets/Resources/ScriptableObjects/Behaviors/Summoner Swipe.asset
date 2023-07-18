@@ -45,9 +45,9 @@ MonoBehaviour:
   - cardDesc: Used by the Summoner enemy.
     cardCost: 0
     damageTarget: 1
-    damageValue: 6
+    damageValue: 8
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 
+    inflictions: []
+    modifiers: []

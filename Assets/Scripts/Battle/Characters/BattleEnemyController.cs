@@ -264,9 +264,13 @@ public class BattleEnemyController : BattleCharacterController
                 {
                     return Globals.GetCard("Summoner Charge");
                 }
-                else
+                else if (rng < 0.5f)
                 {
                     return Globals.GetCard("Summoner Swipe");
+                }
+                else
+                {
+                    return Globals.GetCard("Summoner Buff");
                 }
             case EnemyAI.SUMMINION:
                 if (_turnNumber % 2 == 1)

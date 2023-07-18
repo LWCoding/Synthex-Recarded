@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee86f6c045c704740bca70758d3d2139, type: 3}
-  m_Name: SummonerSummon
+  m_Name: SummonerBuff
   m_EditorClassIdentifier: 
-  cardName: Summoner Summon
+  cardName: Summoner Buff
   cardDisplayName: 
   cardImage: {fileID: 0}
-  cardType: 4
-  characterMovement: 1
+  cardType: 3
+  characterMovement: 0
   projectileSprite: {fileID: 0}
   projectileOffset: {x: 0, y: 0}
   sourceParticleInfo:
@@ -39,21 +39,23 @@ MonoBehaviour:
     affectedByGravity: 0
   cardRarity: 3
   cardExclusivity: 0
-  onPlaySFX: {fileID: 8300000, guid: ab67c38934a72ae43be80ccf8be9e275, type: 3}
-  onPlaySFXVolume: 2
+  onPlaySFX: {fileID: 0}
+  onPlaySFXVolume: 1
   cardStats:
   - cardDesc: Used by the Summoner enemy.
     cardCost: 0
     damageTarget: 0
     damageValue: 0
-    blockTarget: 0
-    blockValue: 0
+    blockTarget: 2
+    blockValue: 6
     attackRepeatCount: 1
-    inflictions: []
-    modifiers:
-    - trait: 9
-      amplifier: 0
-      special: Summinion
-    - trait: 33
-      amplifier: 0
-      special: 
+    inflictions:
+    - target: 2
+      effect: 1
+      amplifier: 2
+      renderBehavior: 1
+    - target: 2
+      effect: 3
+      amplifier: 1
+      renderBehavior: 0
+    modifiers: []

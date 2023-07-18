@@ -77,6 +77,16 @@ public partial class BattleCharacterController : MonoBehaviour
                     {
                         if (BattleController.Instance.enemiesStillAlive < 2)
                         {
+                            ParticleInfo pInfo = new ParticleInfo();
+                            pInfo.particleType = ParticleType.SMOKE_PARTICLES;
+                            pInfo.particleBurstType = ParticleBurstType.OUTWARDS_FROM_CENTER;
+                            pInfo.particleColor = new Color(0.7f, 0.7f, 0.7f);
+                            pInfo.particleScale = new Vector2(4, 4);
+                            pInfo.particleLifetime = 1f;
+                            pInfo.particleSpeed = 0.7f;
+                            pInfo.particleCount = 18;
+                            Vector3 spawnPos = BattleController.Instance.GetNextAvailableEnemyLocation().position + (Vector3)Globals.GetEnemy(modifier.special).spriteOffset;
+                            BattlePooler.Instance.StartParticleAnimationFromPool(pInfo, spawnPos, -1);
                             BattleController.Instance.SpawnEnemy(Globals.GetEnemy(modifier.special));
                         }
                     }
