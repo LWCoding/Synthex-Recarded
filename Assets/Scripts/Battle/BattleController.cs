@@ -10,6 +10,13 @@ public enum GameState
     IN_MENU, BATTLE, GAME_OVER
 }
 
+[System.Serializable]
+public class SpawnableEnemyLocation
+{
+    public Vector3 position;
+    public bool isTaken;
+}
+
 public partial class BattleController : MonoBehaviour
 {
 
@@ -21,13 +28,18 @@ public partial class BattleController : MonoBehaviour
     public TextMeshProUGUI drawText;
     public TextMeshProUGUI discardText;
     public Transform deckParentTransform;
-    public int enemiesStillAlive = 0;
-    [SerializeField] private GameState _gameState;
-    [HideInInspector] public UnityEvent OnNextTurnStart = new UnityEvent();
-    [HideInInspector] public UnityEvent OnTurnEnd = new UnityEvent();
+
+    [HideInInspector] public int enemiesStillAlive = 0;
+    [SerializeField] private List<SpawnableEnemyLocation> _spawnableEnemyLocations = new List<SpawnableEnemyLocation>();
+    public SpawnableEnemyLocation GetNextAvailableEnemyLocation() => _spawnableEnemyLocations.Find((loc) => !loc.isTaken);
+    public void TakeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = true;
+    public void FreeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = false;
+
+    private GameState _gameState;
+    private UnityEvent OnNextTurnStart = new UnityEvent();
+    private UnityEvent OnTurnEnd = new UnityEvent();
     [HideInInspector] public BattleHeroController playerBCC;
     [HideInInspector] public List<BattleEnemyController> enemyBCCs = new List<BattleEnemyController>();
-    [HideInInspector] public List<Enemy> allEnemiesInBattle = new List<Enemy>();
     [HideInInspector] public List<Card> cardsInDiscard = new List<Card>();
     [HideInInspector] public List<Card> cardsInDrawPile = new List<Card>();
 
@@ -46,8 +58,6 @@ public partial class BattleController : MonoBehaviour
         Instance = this;
         _turnNumber = 0;
         ChangeGameState(GameState.BATTLE);
-        // Find the enemies that should be in the battle and set them.
-        allEnemiesInBattle = GameController.nextBattleEnemies;
     }
 
     private void SetListenersOnStart()
@@ -72,7 +82,7 @@ public partial class BattleController : MonoBehaviour
         // Initialize the hero and all enemies!
         playerBCC = playerObject.GetComponent<BattleHeroController>();
         InitializeHero();
-        foreach (Enemy e in allEnemiesInBattle)
+        foreach (Enemy e in GameController.nextBattleEnemies)
         {
             SpawnEnemy(e);
         }
@@ -122,6 +132,8 @@ public partial class BattleController : MonoBehaviour
     // Initializes an enemy object.
     public void SpawnEnemy(Enemy enemyData)
     {
+        // Don't let the game spawn more than three enemies at a time.
+        if (enemiesStillAlive > 3) { return; }
         // Initialize this enemy based on the Enemy scriptable object data.
         GameObject enemyObject = Instantiate(enemyPrefabObject);
         BattleEnemyController bec = enemyObject.GetComponent<BattleEnemyController>();
@@ -144,7 +156,9 @@ public partial class BattleController : MonoBehaviour
                 break;
         }
         bec.SetRewardAmount(Random.Range(enemyData.enemyRewardMin, enemyData.enemyRewardMax));
-        bec.gameObject.transform.position += new Vector3(-3.3f * (enemiesStillAlive - 1), 0.3f * (enemiesStillAlive - 1));
+        SpawnableEnemyLocation enemyLocationToSpawnAt = GetNextAvailableEnemyLocation();
+        TakeUpEnemyLocation(enemyLocationToSpawnAt.position);
+        bec.gameObject.transform.position = enemyLocationToSpawnAt.position;
         bec.InitializeHealthData(generatedHealth, generatedHealth);
         bec.Initialize(enemyData);
     }
@@ -219,7 +233,7 @@ public partial class BattleController : MonoBehaviour
                 });
             }
         }
-        // If the player has the Loud Megaphone relic, all enemies start with 1 crippled.
+        // If the player has the Airhorn relic, all enemies start with 1 crippled.
         if (GameController.HasRelic(RelicType.AIRHORN))
         {
             foreach (BattleEnemyController bec in enemyBCCs)

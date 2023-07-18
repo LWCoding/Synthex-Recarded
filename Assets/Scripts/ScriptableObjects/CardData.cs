@@ -4,14 +4,14 @@ using UnityEngine;
 
 public enum Target
 {
-    NONE = 0, OTHER = 1, SELF = 2, PLAYER_AND_ENEMY = 3, OTHER_ALL = 4
+    NONE = 0, OTHER = 1, SELF = 2, PLAYER_AND_ENEMY = 3, ENEMY_ALL = 4
 }
 
 public enum Trait
 {
     DAMAGE_IGNORES_BLOCK = 0, DRAW_CARDS = 1, MATERIALIZE_CARDS = 2,
     CLEANSE_ALL_DEBUFFS = 3, SECOND_WIND = 4, GAIN_ENERGY = 5, GAIN_HEALTH = 6,
-    DEAL_DAMAGE_EQ_TO_BLOCK = 7, SUMMON_ENEMY = 9,
+    DEAL_DAMAGE_EQ_TO_BLOCK = 7, HEAL_ALL_ENEMIES = 8, SUMMON_ENEMY = 9,
     CLEAR_CARDS_IN_HAND = 10, POISON_CARDS = 11,
     EXHAUST = 12, ADDITIONAL_LUCK_DAMAGE = 13, TURN_ENEMY_BLEED_TO_BLOCK = 20,
     DOUBLE_ENEMY_BLEED = 21,
@@ -76,10 +76,10 @@ public class Card
         Target blockTarget = GetCardStats().blockTarget;
         int damageValue = GetCardStats().damageValue;
         int blockValue = GetCardStats().blockValue;
-        // If the card is targeting other all, return OTHER ALL.
-        if (damageTarget == Target.OTHER_ALL)
+        // If the card is targeting enemy all, return ENEMY_ALL.
+        if (damageTarget == Target.ENEMY_ALL)
         {
-            return Target.OTHER_ALL;
+            return Target.ENEMY_ALL;
         }
         // If either target is targeting all, return ALL.
         if (damageTarget == Target.PLAYER_AND_ENEMY || blockTarget == Target.PLAYER_AND_ENEMY)
@@ -124,6 +124,7 @@ public class CardModifier
 {
     public Trait trait;
     public int amplifier = 0;
+    public string special = "";
 }
 
 [System.Serializable]

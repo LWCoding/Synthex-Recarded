@@ -335,7 +335,7 @@ public partial class BattleCharacterController : MonoBehaviour
             // If we're targeting ourselves, don't try to render any modifiers.
             int damageInc = (cardStats.damageTarget == Target.SELF) ? 0 : CalculateDamageModifiers(c);
             // Deal damage based on what the card displays.
-            if (cardStats.damageTarget == Target.OTHER_ALL || cardStats.damageTarget == Target.OTHER || cardStats.damageTarget == Target.PLAYER_AND_ENEMY)
+            if (cardStats.damageTarget == Target.ENEMY_ALL || cardStats.damageTarget == Target.OTHER || cardStats.damageTarget == Target.PLAYER_AND_ENEMY)
             {
                 targetBCC.ChangeHealth(Mathf.Min(0, -(cardStats.damageValue + damageInc)), c.HasTrait(Trait.DAMAGE_IGNORES_BLOCK));
             }
@@ -352,7 +352,7 @@ public partial class BattleCharacterController : MonoBehaviour
             {
                 statusHandler.GetStatusEffect(Effect.DEFENSE).shouldActivate = true;
             }
-            if (cardStats.damageTarget == Target.OTHER_ALL || cardStats.blockTarget == Target.OTHER || cardStats.blockTarget == Target.PLAYER_AND_ENEMY)
+            if (cardStats.damageTarget == Target.ENEMY_ALL || cardStats.blockTarget == Target.OTHER || cardStats.blockTarget == Target.PLAYER_AND_ENEMY)
             {
                 targetBCC.ChangeBlock(cardStats.blockValue + defenseBuff);
             }

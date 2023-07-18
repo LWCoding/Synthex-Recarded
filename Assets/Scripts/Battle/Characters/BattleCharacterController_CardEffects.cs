@@ -77,7 +77,7 @@ public partial class BattleCharacterController : MonoBehaviour
                     {
                         if (BattleController.Instance.enemiesStillAlive < 2)
                         {
-                            BattleController.Instance.SpawnEnemy(Globals.GetEnemy("Rottle"));
+                            BattleController.Instance.SpawnEnemy(Globals.GetEnemy(modifier.special));
                         }
                     }
                     break;
@@ -89,6 +89,12 @@ public partial class BattleCharacterController : MonoBehaviour
                     break;
                 case Trait.GAIN_HEALTH:
                     ChangeHealth(modifier.amplifier);
+                    break;
+                case Trait.HEAL_ALL_ENEMIES:
+                    foreach (BattleEnemyController enemyBCC in BattleController.Instance.enemyBCCs)
+                    {
+                        enemyBCC.ChangeHealth(modifier.amplifier);
+                    }
                     break;
                 case Trait.CLEANSE_ALL_DEBUFFS:
                     for (int i = statusHandler.statusEffects.Count - 1; i >= 0; i--)

@@ -160,7 +160,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
                     collidingBCCs = null;
                 }
                 break;
-            case Target.OTHER_ALL:
+            case Target.ENEMY_ALL:
                 collidingBCCs = new List<BattleCharacterController>();
                 foreach (BattleEnemyController bec in BattleController.Instance.enemyBCCs)
                 {

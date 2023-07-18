@@ -3785,16 +3785,15 @@ MonoBehaviour:
   discardText: {fileID: 1201428740}
   deckParentTransform: {fileID: 1710647192}
   enemiesStillAlive: 0
-  _gameState: 0
-  OnNextTurnStart:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTurnEnd:
-    m_PersistentCalls:
-      m_Calls: []
+  _spawnableEnemyLocations:
+  - position: {x: 5.5, y: 0.2, z: 0}
+    isTaken: 0
+  - position: {x: 2.2, y: 0.5, z: 0}
+    isTaken: 0
+  - position: {x: -1.1, y: 0.8, z: 0}
+    isTaken: 0
   playerBCC: {fileID: 0}
   enemyBCCs: []
-  allEnemiesInBattle: []
   cardsInDiscard: []
   cardsInDrawPile: []
 --- !u!4 &1713571435

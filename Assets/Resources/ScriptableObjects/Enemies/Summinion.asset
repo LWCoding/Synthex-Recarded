@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c91ec1c3f7dc8f44a715dc426b553f7, type: 3}
+  m_Name: Summinion
+  m_EditorClassIdentifier: 
+  characterName: Summinion
+  idleSprite: {fileID: 21300000, guid: 9b8eedcc9cb07a743b299953774acaa7, type: 3}
+  damagedSprite: {fileID: 21300000, guid: e052b509e416f0f4aa4a712a9dde10c2, type: 3}
+  deathSprite: {fileID: 0}
+  spriteOffset: {x: 0, y: -0.9}
+  spriteScale: {x: 0.5, y: 0.5}
+  shadowScale: {x: 2.9, y: 0.77}
+  enemyHealthMin: 20
+  enemyHealthMax: 20
+  enemyRewardMin: 0
+  enemyRewardMax: 0
+  enemyXPReward: 0
+  enemyAI: 12

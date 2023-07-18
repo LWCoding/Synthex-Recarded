@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee86f6c045c704740bca70758d3d2139, type: 3}
-  m_Name: SummonerSummon
+  m_Name: SumminionHealAll
   m_EditorClassIdentifier: 
-  cardName: Summoner Summon
+  cardName: Summinion Heal All
   cardDisplayName: 
   cardImage: {fileID: 0}
   cardType: 4
@@ -42,7 +42,7 @@ MonoBehaviour:
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: Used by the Summoner enemy.
+  - cardDesc: Used by the Summinion enemy.
     cardCost: 0
     damageTarget: 0
     damageValue: 0
@@ -51,9 +51,6 @@ MonoBehaviour:
     attackRepeatCount: 1
     inflictions: []
     modifiers:
-    - trait: 9
-      amplifier: 0
-      special: Summinion
-    - trait: 33
-      amplifier: 0
+    - trait: 8
+      amplifier: 8
       special: 

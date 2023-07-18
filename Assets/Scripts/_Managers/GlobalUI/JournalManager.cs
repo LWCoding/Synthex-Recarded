@@ -40,18 +40,19 @@ public class JournalManager : MonoBehaviour
     // Toggle the journal popup.
     public void TogglePopup(Button button)
     {
+        if (_isUIAnimating) { return; }
         // Make sure the container is active to begin with.
         _journalContainer.SetActive(true);
         // Make sure the game knows we're animating and then animate the UI in.
         _isUIAnimating = true;
-        _isJournalShowing = !_isJournalShowing;
-        StartCoroutine(TogglePopupCoroutine(button, _isJournalShowing));
+        StartCoroutine(TogglePopupCoroutine(button, !_isJournalShowing));
     }
 
     private IEnumerator TogglePopupCoroutine(Button buttonClicked, bool shouldUIShow)
     {
         // Tell this class we're animating so we can't toggle during the animation.
         _isUIAnimating = true;
+        buttonClicked.interactable = false;
         // Push this button's sorting order to the front or send it back to the regular order.
         if (shouldUIShow)
         {
@@ -64,7 +65,7 @@ public class JournalManager : MonoBehaviour
         }
         // Animate the canvas group to toggle.
         float currTime = 0;
-        float timeToWait = 0.2f;
+        float timeToWait = 0.3f;
         int currAlpha = (shouldUIShow) ? 0 : 1;
         float targetAlpha = (shouldUIShow) ? 1 : 0;
         while (currTime < timeToWait)
@@ -80,6 +81,8 @@ public class JournalManager : MonoBehaviour
         }
         // Tell the class we're not animating anymore.
         _isUIAnimating = false;
+        _isJournalShowing = !_isJournalShowing;
+        buttonClicked.interactable = true;
     }
 
 }

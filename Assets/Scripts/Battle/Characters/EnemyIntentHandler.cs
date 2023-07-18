@@ -66,11 +66,11 @@ public class EnemyIntentHandler : MonoBehaviour
             case CardType.SPECIAL_ATTACKER:
                 intentIconRenderer.sprite = specialAttackerImage;
                 SetIntentTextValue(_futureBehavior.damageValue, repeatTimes, true);
-                enemyIntentIconHandler.SetText("This enemy intends to perform a special attack with <b>" + (_futureBehavior.damageValue + _strengthBuff) + "</b> damage.");
+                enemyIntentIconHandler.SetText("This enemy intends to perform a special attack for <b>" + (_futureBehavior.damageValue + _strengthBuff) + "</b> damage.");
                 break;
             case CardType.SPECIAL_BLOCKER:
                 intentIconRenderer.sprite = specialBlockerImage;
-                enemyIntentIconHandler.SetText("This enemy intends to protect itself for the next turn and perform a special move.");
+                enemyIntentIconHandler.SetText("This enemy intends to protect itself for the next turn with special effects.");
                 SetIntentTextValue(0);
                 break;
             case CardType.SPECIAL_MISC:

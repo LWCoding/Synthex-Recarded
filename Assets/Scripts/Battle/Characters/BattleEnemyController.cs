@@ -7,7 +7,7 @@ public enum EnemyAI
 {
     GARBITCH = 1, DUMMY = 2, LONE = 3,
     BUCKAROO = 4, HIVEMIND = 5, TREE = 6, MR_MUSHROOM = 7, TURTLEIST = 8,
-    NUTS = 9, ROTTLE = 10, SUMMONER = 11, BOYKISSER = 99
+    NUTS = 9, ROTTLE = 10, SUMMONER = 11, SUMMINION = 12, BOYKISSER = 99
 }
 
 public class BattleEnemyController : BattleCharacterController
@@ -64,6 +64,7 @@ public class BattleEnemyController : BattleCharacterController
         DamageShake(3, 1.7f);
         StartCoroutine(DeathDisappearCoroutine());
         MakeUninteractable();
+        BattleController.Instance.FreeUpEnemyLocation(transform.position);
         battleController.enemiesStillAlive--;
         DisableEnemyUI();
         // Animate some coins going to the player's balance.
@@ -72,8 +73,14 @@ public class BattleEnemyController : BattleCharacterController
             SetRewardAmount(Mathf.FloorToInt(_rewardAmount * 1.35f));
             TopBarController.Instance.FlashRelicObject(RelicType.GOLDEN_PAW);
         }
-        TopBarController.Instance.AnimateTokensToBalance(TokenType.COIN, Camera.main.WorldToScreenPoint(gameObject.transform.position), _rewardAmount);
-        TopBarController.Instance.AnimateTokensToBalance(TokenType.XP, Camera.main.WorldToScreenPoint(gameObject.transform.position), _xpRewardAmount);
+        if (_rewardAmount > 0)
+        {
+            TopBarController.Instance.AnimateTokensToBalance(TokenType.COIN, Camera.main.WorldToScreenPoint(gameObject.transform.position), _rewardAmount);
+        }
+        if (_xpRewardAmount > 0)
+        {
+            TopBarController.Instance.AnimateTokensToBalance(TokenType.XP, Camera.main.WorldToScreenPoint(gameObject.transform.position), _xpRewardAmount);
+        }
         // If the player died too, stop here.
         if (!BattleController.Instance.playerBCC.IsAlive()) { return; }
         // Only IF there are no remaining enemies, end the battle.
@@ -260,6 +267,15 @@ public class BattleEnemyController : BattleCharacterController
                 else
                 {
                     return Globals.GetCard("Summoner Swipe");
+                }
+            case EnemyAI.SUMMINION:
+                if (_turnNumber % 2 == 1)
+                {
+                    return Globals.GetCard("Summinion Swipe");
+                }
+                else
+                {
+                    return Globals.GetCard("Summinion Heal All");
                 }
             case EnemyAI.BOYKISSER:
                 if (statusHandler.GetStatusEffect(Effect.CHARGE) != null && statusHandler.GetStatusEffect(Effect.CHARGE).amplifier >= 2)

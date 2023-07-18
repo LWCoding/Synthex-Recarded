@@ -49,8 +49,6 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void FlashRelicObject(RelicType r) => _topBarRelicController.FlashRelicObject(r);
     private TopBarCardController _topBarCardController;
     public bool IsCardPreviewShowing() => _topBarCardController.IsCardPreviewShowing();
-    public void EnableDeckPreviewButton() => _topBarCardController.EnableDeckPreviewButton();
-    public void DisableDeckPreviewButton() => _topBarCardController.DisableDeckPreviewButton();
     public void AnimateCardsToDeck(Vector3 initialCanvasPosition, List<Card> cards, Vector3 initialScale) => _topBarCardController.AnimateCardsToDeck(initialCanvasPosition, cards, initialScale);
 
     public void InitializeCardController() => _topBarCardController.Initialize();
