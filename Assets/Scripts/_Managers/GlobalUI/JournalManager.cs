@@ -46,8 +46,9 @@ public class JournalManager : MonoBehaviour
         // Make sure the game knows we're animating and then animate the UI in.
         _isUIAnimating = true;
         StartCoroutine(TogglePopupCoroutine(button, !_isJournalShowing));
-        // Initialize the journal enemy controller.
+        // Initialize the journal enemy controller, and set the preview to the first enemy.
         JournalEnemyController.Instance.InitializeEnemySelections(Globals.allEnemies);
+        JournalEnemyController.Instance.SetEnemyInfo(Globals.allEnemies[0]);
     }
 
     private IEnumerator TogglePopupCoroutine(Button buttonClicked, bool shouldUIShow)

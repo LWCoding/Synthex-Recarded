@@ -8,6 +8,8 @@ public class Character : ScriptableObject
 
     [Header("Base Information")]
     public string characterName;
+    [TextArea(3, 10)]
+    public string characterDesc;
     public Sprite idleSprite;
     public Sprite damagedSprite;
     public Sprite deathSprite;

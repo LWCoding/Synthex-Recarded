@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c91ec1c3f7dc8f44a715dc426b553f7, type: 3}
-  m_Name: Tree
+  m_Name: Treevil
   m_EditorClassIdentifier: 
-  characterName: Tree?
+  characterName: Treevil
+  characterDesc: 
   idleSprite: {fileID: 21300000, guid: 1651437f2d5b24b4bb65b6ffaf152aba, type: 3}
   damagedSprite: {fileID: 21300000, guid: 0ac14e79b71b72f4d87b561e46efe4a3, type: 3}
-  spriteOffset: {x: 0, y: 1.25}
+  deathSprite: {fileID: 0}
+  spriteOffset: {x: 0, y: -0.15}
   spriteScale: {x: 1.25, y: 1.25}
   shadowScale: {x: 3.3, y: 0.77}
   enemyHealthMin: 45
@@ -23,4 +25,5 @@ MonoBehaviour:
   enemyRewardMin: 50
   enemyRewardMax: 65
   enemyXPReward: 5
+  locationFound: Forest
   enemyAI: 6

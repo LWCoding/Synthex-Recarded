@@ -6,12 +6,14 @@ using UnityEngine;
 public class Enemy : Character
 {
 
-    [Header("Base Information")]
+    [Header("Battle Information")]
     public int enemyHealthMin;
     public int enemyHealthMax;
     public int enemyRewardMin;
     public int enemyRewardMax;
     public int enemyXPReward;
+    [Header("Journal Information")]
+    public string locationFound;
     [Header("AI")]
     public EnemyAI enemyAI;
 

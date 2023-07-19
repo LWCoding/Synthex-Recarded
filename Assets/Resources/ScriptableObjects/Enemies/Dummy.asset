@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: Dummy
   m_EditorClassIdentifier: 
   characterName: Dummy
+  characterDesc: 
   idleSprite: {fileID: 21300000, guid: 17c1234e98d564f40982fa3c4ed36043, type: 3}
   damagedSprite: {fileID: 21300000, guid: dd731b16c09a39644b07ad1156a39a8c, type: 3}
-  spriteOffset: {x: 0, y: 0.15}
+  deathSprite: {fileID: 0}
+  spriteOffset: {x: 0, y: 0}
   spriteScale: {x: -0.9, y: 0.9}
-  shadowScale: {x: 3.3, y: 0.77}
+  shadowScale: {x: 2.8, y: 0.77}
   enemyHealthMin: 30
   enemyHealthMax: 30
   enemyRewardMin: 50
   enemyRewardMax: 50
   enemyXPReward: 5
+  locationFound: Forest
   enemyAI: 2

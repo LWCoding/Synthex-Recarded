@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: MrMushroom
   m_EditorClassIdentifier: 
   characterName: Mr. Mushroom
+  characterDesc: 
   idleSprite: {fileID: 21300000, guid: f81861a1b2b70f24a88850bb39611bf6, type: 3}
   damagedSprite: {fileID: 21300000, guid: ba3dde3cc0686c548b652557d869fb79, type: 3}
-  spriteOffset: {x: 0.25, y: 0.55}
+  deathSprite: {fileID: 0}
+  spriteOffset: {x: 0.25, y: -0.1}
   spriteScale: {x: 1.4, y: 1.4}
-  shadowScale: {x: 3.6, y: 0.77}
+  shadowScale: {x: 4.5, y: 0.77}
   enemyHealthMin: 65
   enemyHealthMax: 75
   enemyRewardMin: 160
   enemyRewardMax: 200
   enemyXPReward: 10
+  locationFound: Forest
   enemyAI: 7

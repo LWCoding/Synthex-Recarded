@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: Buckaroo
   m_EditorClassIdentifier: 
   characterName: Buckaroo
+  characterDesc: It's hard to say how it got moss and grime all over itself, but
+    it sure has quite an appetite!
   idleSprite: {fileID: 21300000, guid: c85887b77abea094bac3e50997158610, type: 3}
   damagedSprite: {fileID: 21300000, guid: 327555f5421f40545b3ea17782860c0c, type: 3}
+  deathSprite: {fileID: 0}
   spriteOffset: {x: 0.15, y: -0.1}
   spriteScale: {x: 1, y: 1}
   shadowScale: {x: 3.3, y: 0.77}
@@ -23,4 +26,5 @@ MonoBehaviour:
   enemyRewardMin: 55
   enemyRewardMax: 65
   enemyXPReward: 5
+  locationFound: Forest
   enemyAI: 4

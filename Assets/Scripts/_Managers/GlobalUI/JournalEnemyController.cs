@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class JournalEnemyController : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class JournalEnemyController : MonoBehaviour
     public GameObject enemySelectionPrefab;
     [Header("Object Assignments")]
     public Transform selectionContainerVertTransform;
+    public TextMeshProUGUI enemyNameText;
+    public TextMeshProUGUI enemySubtextText;
+    public TextMeshProUGUI enemyDescText;
+    public RawImage enemyImage;
+    public Transform enemyShadowTransform;
 
     private List<Transform> renderedEnemySelections = new List<Transform>();
 
@@ -53,7 +59,12 @@ public class JournalEnemyController : MonoBehaviour
                 renderedEnemySelections.Add(newEnemyObject.transform);
                 if (enemy != null)
                 {
-                    newEnemyObject.transform.Find("Preview").GetComponent<Image>().sprite = enemy.idleSprite;
+                    GameObject previewObject = newEnemyObject.transform.Find("Preview").gameObject;
+                    previewObject.GetComponent<Image>().sprite = enemy.idleSprite;
+                    previewObject.GetComponent<Button>().onClick.AddListener(() =>
+                    {
+                        SetEnemyInfo(enemy);
+                    });
                 }
             }
         }
@@ -81,6 +92,23 @@ public class JournalEnemyController : MonoBehaviour
             renderedEnemySelections.RemoveAt(0);
             Destroy(objToDelete);
         }
+    }
+
+    // Sets an enemy to be currently active in the enemy preview.
+    public void SetEnemyInfo(Enemy enemy)
+    {
+        enemyNameText.SetText(enemy.characterName);
+        enemyDescText.SetText(enemy.characterDesc);
+        enemySubtextText.SetText("Location found: <color=\"green\">" + enemy.locationFound + "</color>");
+        enemyImage.texture = enemy.idleSprite.texture;
+        enemyImage.transform.localScale = enemy.spriteScale;
+        enemyShadowTransform.localScale = enemy.shadowScale;
+        float aspect = (float)Screen.width / Screen.height;
+        float worldHeight = Camera.main.orthographicSize * 2;
+        float worldWidth = worldHeight * aspect;
+        enemyImage.transform.localPosition = enemy.spriteOffset * new Vector2(Screen.width / worldWidth, Screen.height / worldHeight);
+        // Set the native size of the sprite.
+        enemyImage.SetNativeSize();
     }
 
 }

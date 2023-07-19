@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Turtleist
   m_EditorClassIdentifier: 
   characterName: Turtleist
+  characterDesc: 
   idleSprite: {fileID: 21300000, guid: 8d2fdadb891d78841a54a690058807b4, type: 3}
   damagedSprite: {fileID: 21300000, guid: c0a47ed4c4d4945479a8e1a62d74fc72, type: 3}
-  spriteOffset: {x: 0, y: -1.15}
+  deathSprite: {fileID: 0}
+  spriteOffset: {x: 0, y: -0.1}
   spriteScale: {x: 1.1, y: 1.1}
   shadowScale: {x: 3.3, y: 0.77}
   enemyHealthMin: 30
@@ -23,4 +25,5 @@ MonoBehaviour:
   enemyRewardMin: 45
   enemyRewardMax: 55
   enemyXPReward: 3
+  locationFound: Forest
   enemyAI: 8

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Garbitch
   m_EditorClassIdentifier: 
   characterName: Garbitch
+  characterDesc: 
   idleSprite: {fileID: 21300000, guid: 3cea2baa73f583d4db2468fed5cb5620, type: 3}
   damagedSprite: {fileID: 21300000, guid: 328822cbfdeffc04da4d50dc9971ef8e, type: 3}
-  spriteOffset: {x: 0, y: -0.5}
+  deathSprite: {fileID: 0}
+  spriteOffset: {x: 0, y: -0.1}
   spriteScale: {x: 1.2, y: 1.2}
   shadowScale: {x: 3.3, y: 0.77}
   enemyHealthMin: 30
@@ -23,4 +25,5 @@ MonoBehaviour:
   enemyRewardMin: 50
   enemyRewardMax: 60
   enemyXPReward: 3
+  locationFound: Forest
   enemyAI: 1
