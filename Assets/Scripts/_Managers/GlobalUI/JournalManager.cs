@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+[RequireComponent(typeof(JournalEnemyController))]
 public class JournalManager : MonoBehaviour
 {
 
@@ -21,7 +22,6 @@ public class JournalManager : MonoBehaviour
     private bool _isUIAnimating = false;
     private int _initialButtonSortingOrder;
 
-    // This Awake function runs on the first time the bar is instantiated.
     private void Awake()
     {
         // Set this to the Instance if it is the first one.
@@ -46,6 +46,8 @@ public class JournalManager : MonoBehaviour
         // Make sure the game knows we're animating and then animate the UI in.
         _isUIAnimating = true;
         StartCoroutine(TogglePopupCoroutine(button, !_isJournalShowing));
+        // Initialize the journal enemy controller.
+        JournalEnemyController.Instance.InitializeEnemySelections(Globals.allEnemies);
     }
 
     private IEnumerator TogglePopupCoroutine(Button buttonClicked, bool shouldUIShow)
