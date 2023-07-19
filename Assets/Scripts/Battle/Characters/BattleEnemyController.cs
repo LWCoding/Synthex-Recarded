@@ -7,7 +7,7 @@ public enum EnemyAI
 {
     GARBITCH = 1, DUMMY = 2, LONE = 3,
     BUCKAROO = 4, HIVEMIND = 5, TREE = 6, MR_MUSHROOM = 7, TURTLEIST = 8,
-    NUTS = 9, ROTTLE = 10, SUMMONER = 11, SUMMINION = 12, BOYKISSER = 99
+    NUTS = 9, ROTTLE = 10, SUMMONER = 11, SLIMINION = 12, BOYKISSER = 99
 }
 
 public class BattleEnemyController : BattleCharacterController
@@ -272,14 +272,14 @@ public class BattleEnemyController : BattleCharacterController
                 {
                     return Globals.GetCard("Summoner Buff");
                 }
-            case EnemyAI.SUMMINION:
+            case EnemyAI.SLIMINION:
                 if (_turnNumber % 2 == 1)
                 {
-                    return Globals.GetCard("Summinion Swipe");
+                    return Globals.GetCard("Sliminion Swipe");
                 }
                 else
                 {
-                    return Globals.GetCard("Summinion Heal All");
+                    return Globals.GetCard("Sliminion Heal All");
                 }
             case EnemyAI.BOYKISSER:
                 if (statusHandler.GetStatusEffect(Effect.CHARGE) != null && statusHandler.GetStatusEffect(Effect.CHARGE).amplifier >= 2)

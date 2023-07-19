@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee86f6c045c704740bca70758d3d2139, type: 3}
-  m_Name: SumminionHealAll
+  m_Name: SliminionSwipe
   m_EditorClassIdentifier: 
-  cardName: Summinion Heal All
+  cardName: Sliminion Swipe
   cardDisplayName: 
   cardImage: {fileID: 0}
-  cardType: 4
-  characterMovement: 0
+  cardType: 0
+  characterMovement: 1
   projectileSprite: {fileID: 0}
   projectileOffset: {x: 0, y: 0}
   sourceParticleInfo:
@@ -44,13 +44,10 @@ MonoBehaviour:
   cardStats:
   - cardDesc: Used by the Summinion enemy.
     cardCost: 0
-    damageTarget: 0
-    damageValue: 0
+    damageTarget: 1
+    damageValue: 6
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
     inflictions: []
-    modifiers:
-    - trait: 8
-      amplifier: 8
-      special: 
+    modifiers: []

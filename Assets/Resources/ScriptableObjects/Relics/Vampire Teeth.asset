@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Vampire Teeth
   m_EditorClassIdentifier: 
   relicName: Vampire Fangs
-  relicDesc: Whenever you defeat an enemy, heal 3 health.
+  relicDesc: Whenever you defeat a non-minion enemy, heal 3 health.
   relicImage: {fileID: 21300000, guid: 63a4f5d9995bb5c4b9cec595d2189429, type: 3}
   type: 10
   relicRarity: 1

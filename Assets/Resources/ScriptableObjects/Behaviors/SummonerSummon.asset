@@ -53,7 +53,7 @@ MonoBehaviour:
     modifiers:
     - trait: 9
       amplifier: 0
-      special: Summinion
+      special: Sliminion
     - trait: 33
       amplifier: 0
       special: 

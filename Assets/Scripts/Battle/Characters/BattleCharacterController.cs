@@ -389,11 +389,11 @@ public partial class BattleCharacterController : MonoBehaviour
         Color targetColor = new Color(1, 1, 1);
         _characterSpriteRenderer.color = initialColor;
         float currTime = 0;
-        float targetTime = 0.4f;
-        while (currTime < targetTime)
+        float timeToWait = 0.4f;
+        while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
-            _characterSpriteRenderer.color = Color.Lerp(initialColor, targetColor, currTime / targetTime);
+            _characterSpriteRenderer.color = Color.Lerp(initialColor, targetColor, currTime / timeToWait);
             yield return null;
         }
         _characterSpriteRenderer.color = targetColor;
@@ -402,36 +402,36 @@ public partial class BattleCharacterController : MonoBehaviour
 
     private IEnumerator DamageShakeCoroutine(float waitTimeMultiplier, float moveDistanceMultiplier)
     {
-        float frames = 0;
-        float maxFrames = 60 * 0.05f * waitTimeMultiplier;
+        float currTime = 0;
+        float timeToWait = 0.05f * waitTimeMultiplier;
         float distance = 0.7f * moveDistanceMultiplier;
 
         Vector3 targetPosition = _characterSpriteRenderer.transform.localPosition + Vector3.right * distance;
-        while (frames < maxFrames)
+        while (currTime < timeToWait)
         {
-            frames++;
-            _characterSpriteRenderer.transform.localPosition = Vector3.Lerp(_initialSpriteLocalPosition, targetPosition, (float)frames / maxFrames);
+            currTime += Time.deltaTime;
+            _characterSpriteRenderer.transform.localPosition = Vector3.Lerp(_initialSpriteLocalPosition, targetPosition, currTime / timeToWait);
             yield return null;
         }
 
-        frames = 0;
-        maxFrames = 60 * 0.07f * waitTimeMultiplier;
+        currTime = 0;
+        timeToWait = 0.07f * waitTimeMultiplier;
         Vector3 initialPosition = targetPosition;
         targetPosition = _characterSpriteRenderer.transform.localPosition + Vector3.left * distance * 2;
-        while (frames < maxFrames)
+        while (currTime < timeToWait)
         {
-            frames++;
-            _characterSpriteRenderer.transform.localPosition = Vector3.Lerp(initialPosition, targetPosition, (float)frames / maxFrames);
+            currTime += Time.deltaTime;
+            _characterSpriteRenderer.transform.localPosition = Vector3.Lerp(initialPosition, targetPosition, currTime / timeToWait);
             yield return null;
         }
 
-        frames = 0;
-        maxFrames = 60 * 0.12f * waitTimeMultiplier;
+        currTime = 0;
+        timeToWait = 0.12f * waitTimeMultiplier;
         initialPosition = targetPosition;
-        while (frames < maxFrames)
+        while (currTime < timeToWait)
         {
-            frames++;
-            _characterSpriteRenderer.transform.localPosition = Vector3.Lerp(initialPosition, _initialSpriteLocalPosition, (float)frames / maxFrames);
+            currTime += Time.deltaTime;
+            _characterSpriteRenderer.transform.localPosition = Vector3.Lerp(initialPosition, _initialSpriteLocalPosition, currTime / timeToWait);
             yield return null;
         }
     }
