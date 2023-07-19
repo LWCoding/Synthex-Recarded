@@ -26,6 +26,6 @@ MonoBehaviour:
   enemyRewardMin: 0
   enemyRewardMax: 0
   enemyXPReward: 0
-  enemyIcon: {fileID: 21300000, guid: 933c6cbfe3423c14aa6af852d52f0d9f, type: 3}
+  enemyIcon: {fileID: 21300000, guid: 1d5db784e6b3ef54a829de7be439308e, type: 3}
   locationFound: Forest
   enemyAI: 12

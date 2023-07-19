@@ -56,7 +56,7 @@ public class MapOptionController : MonoBehaviour
         }
         if (!_isInteractable) { return; }
         // Prevent the player from selecting another option.
-        MapController.Instance.DisallowChoiceSelection();
+        MapController.Instance.DisableMapOptionColliders();
         // Make sure this is marked as visited.
         _wasVisited = true;
         // Choose the option in the MapController.

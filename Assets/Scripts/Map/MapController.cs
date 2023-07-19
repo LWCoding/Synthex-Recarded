@@ -69,13 +69,13 @@ public class MapController : MonoBehaviour
         // Move the camera up to show the player.
         MapScroll.Instance.SetCameraPosition(new Vector3(0, playerTransform.position.y + 2, -10));
         // Make all map options and the show cards button uninteractable.
-        MakeMapOptionsUninteractable();
+        DisableMapOptionColliders();
         // Make the game fade from black to clear.
         FadeTransitionController.Instance.ShowScreen(1.25f);
         // Play game music!
         SoundManager.Instance.PlayOnLoop(MusicType.MAP_MUSIC);
         // Allow the player to select an option.
-        AllowChoiceSelection();
+        UpdateMapIconTransparencies();
         // If there is a dialogue to play, play it!
         // However, if the current floor is the first, play the camera panning animation before showing dialogue.
         Dialogue dialogueToPlay = Globals.GetDialogueByMapInfoAndFloor(_serializableMapObject.currScene, _currFloor);
@@ -89,7 +89,7 @@ public class MapController : MonoBehaviour
         }
         else
         {
-            MakeMapOptionsInteractable();
+            EnableMapOptionColliders();
         }
         // Save the game.
         GameController.SetMapObject(_serializableMapObject);
@@ -106,7 +106,7 @@ public class MapController : MonoBehaviour
                 introBannerText.text = "<color=\"black\"><size=13>The Forest</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
                 break;
             case MapScene.SECRET:
-                introBannerText.text = "<color=\"black\"><size=13>The SECRET</size></color>\n<color=#282E27><i><size=5>Hello from Selenium :)</size></i></color>";
+                introBannerText.text = "<color=\"black\"><size=13>The Secret</size></color>\n<color=#282E27><i><size=5>Hello from Selenium :)</size></i></color>";
                 break;
         }
         yield return MapScroll.Instance.PanCameraAcrossMapCoroutine();
@@ -118,30 +118,7 @@ public class MapController : MonoBehaviour
         }
         else
         {
-            MakeMapOptionsInteractable();
-        }
-    }
-
-    // Enable functionality of all map options as well as the "show all cards in deck" button.
-    public void MakeMapOptionsInteractable()
-    {
-        // If the floor we're trying to access doesn't exist, we're at the boss.
-        if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
-        foreach (MapOptionController moc in _mapOptionDictionary[_currFloor + 1])
-        {
-            moc.GetComponent<BoxCollider2D>().enabled = true;
-        }
-    }
-
-    // Disable functionality of all map options as well as the "show all cards in deck" button.
-    public void MakeMapOptionsUninteractable()
-    {
-        // If the floor we're trying to access doesn't exist, we're at the boss.
-        if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
-        // Or else, disable all the next options until prompted.
-        foreach (MapOptionController moc in _mapOptionDictionary[_currFloor + 1])
-        {
-            moc.GetComponent<BoxCollider2D>().enabled = false;
+            EnableMapOptionColliders();
         }
     }
 
@@ -157,12 +134,12 @@ public class MapController : MonoBehaviour
             switch (dialogue.actionToPlayAfterDialogue)
             {
                 case DialogueAction.NONE:
-                    MakeMapOptionsInteractable();
+                    EnableMapOptionColliders();
                     break;
                 case DialogueAction.HEAL_TO_FULL_HP:
                     GameController.SetHeroHealth(GameController.GetHeroMaxHealth());
                     SoundManager.Instance.PlaySFX(SoundEffect.HEAL_HEALTH);
-                    MakeMapOptionsInteractable();
+                    EnableMapOptionColliders();
                     break;
                 case DialogueAction.SECRET_WIN_SEND_TO_TITLE:
                     PlayerPrefs.SetInt("BeatBoykisser", 1);
@@ -564,10 +541,10 @@ public class MapController : MonoBehaviour
         }
     }
 
-    // Allows the user to select an option to enter.
+    // Modifies the transparencies of all icons on the map.
     // The user should ONLY be able to interact with locations
     // that are ONE floor above them.
-    public void AllowChoiceSelection()
+    public void UpdateMapIconTransparencies()
     {
         // Find all of the valid paths that include the current position
         // as the path's starting position.
@@ -590,12 +567,26 @@ public class MapController : MonoBehaviour
         }
     }
 
-    // Prevents the user from selecting an option to enter.
-    public void DisallowChoiceSelection()
+    // Enable functionality of all map options as well as the "show all cards in deck" button.
+    public void EnableMapOptionColliders()
     {
-        foreach (GameObject moc in _mapOptions)
+        // If the floor we're trying to access doesn't exist, we're at the boss.
+        if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
+        foreach (MapOptionController moc in _mapOptionDictionary[_currFloor + 1])
         {
-            moc.GetComponent<MapOptionController>().SetInteractable(false, false);
+            moc.GetComponent<BoxCollider2D>().enabled = true;
+        }
+    }
+
+    // Disable functionality of all map options as well as the "show all cards in deck" button.
+    public void DisableMapOptionColliders()
+    {
+        // If the floor we're trying to access doesn't exist, we're at the boss.
+        if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
+        // Or else, disable all the next options until prompted.
+        foreach (MapOptionController moc in _mapOptionDictionary[_currFloor + 1])
+        {
+            moc.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 
