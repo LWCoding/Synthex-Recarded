@@ -13,6 +13,7 @@ public class Enemy : Character
     public int enemyRewardMax;
     public int enemyXPReward;
     [Header("Journal Information")]
+    public Sprite enemyIcon;
     public string locationFound;
     [Header("AI")]
     public EnemyAI enemyAI;

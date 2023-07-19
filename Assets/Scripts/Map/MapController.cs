@@ -624,7 +624,7 @@ public class MapController : MonoBehaviour
             case MapChoice.BASIC_ENCOUNTER:
             case MapChoice.MINIBOSS_ENCOUNTER:
             case MapChoice.BOSS:
-                Encounter allEnemiesToRender = Globals.GetEnemyEncounterByScene(GameController.GetMapObject().currScene, _currFloor, mapChoice == MapChoice.MINIBOSS_ENCOUNTER, mapChoice == MapChoice.BOSS, GameController.GetSeenEnemies());
+                Encounter allEnemiesToRender = Globals.GetEnemyEncounterByScene(GameController.GetMapObject().currScene, _currFloor, mapChoice == MapChoice.MINIBOSS_ENCOUNTER, mapChoice == MapChoice.BOSS, GameController.GetLoadedEncounters());
                 GameController.AddSeenEnemies(allEnemiesToRender);
                 GameController.nextBattleEnemies = allEnemiesToRender.enemies;
                 FadeTransitionController.Instance.HideScreen("Battle", 0.75f);

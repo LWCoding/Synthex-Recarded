@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Dummy
   m_EditorClassIdentifier: 
   characterName: Dummy
-  characterDesc: 
+  characterDesc: A cloth monster(?) that Ryan found in the forest. For some reason,
+    it packs a punch.
   idleSprite: {fileID: 21300000, guid: 17c1234e98d564f40982fa3c4ed36043, type: 3}
   damagedSprite: {fileID: 21300000, guid: dd731b16c09a39644b07ad1156a39a8c, type: 3}
   deathSprite: {fileID: 0}
@@ -25,5 +26,6 @@ MonoBehaviour:
   enemyRewardMin: 50
   enemyRewardMax: 50
   enemyXPReward: 5
+  enemyIcon: {fileID: 21300000, guid: d564012bdb6edb04f8f45ce29658ff41, type: 3}
   locationFound: Forest
   enemyAI: 2

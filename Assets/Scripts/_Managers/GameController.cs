@@ -38,14 +38,14 @@ public static class GameController
     private static SerializableMapObject _mapObject = null;
     public static SerializableMapObject GetMapObject() => _mapObject;
     public static void SetMapObject(SerializableMapObject smo) => _mapObject = smo;
-    private static List<Encounter> _alreadySeenEnemies = new List<Encounter>();
-    public static List<Encounter> GetSeenEnemies() => _alreadySeenEnemies;
+    private static List<Encounter> _alreadyLoadedEncounters = new List<Encounter>();
+    public static List<Encounter> GetLoadedEncounters() => _alreadyLoadedEncounters;
     public static void AddSeenEnemies(Encounter enemyEncounter)
     {
-        if (_alreadySeenEnemies.Contains(enemyEncounter)) { return; }
-        _alreadySeenEnemies.Add(enemyEncounter);
+        if (_alreadyLoadedEncounters.Contains(enemyEncounter)) { return; }
+        _alreadyLoadedEncounters.Add(enemyEncounter);
     }
-    public static void SetSeenEnemies(List<Encounter> seenEnemies) => _alreadySeenEnemies = seenEnemies;
+    public static void SetSeenEnemies(List<Encounter> seenEnemies) => _alreadyLoadedEncounters = seenEnemies;
     // Cards and deck data:
     private const float COMMON_CARD_CHANCE = 0.6f;
     private const float UNCOMMON_CARD_CHANCE = 0.3f;
@@ -95,7 +95,7 @@ public static class GameController
         so.hero = _chosenHero;
         so.money = GetMoney();
         so.mapObject = GetMapObject();
-        so.seenEnemies = GetSeenEnemies();
+        so.loadedEncounters = GetLoadedEncounters();
         so.xp = GetXP();
         so.mapDialoguesPlayed = alreadyPlayedMapDialogues;
         so.tutorialsPlayed = alreadyPlayedTutorials;

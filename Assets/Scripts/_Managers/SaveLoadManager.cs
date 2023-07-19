@@ -16,7 +16,7 @@ public class SaveObject
     public bool visitedShopBefore;
     public List<string> tutorialsPlayed;
     public List<DialogueName> mapDialoguesPlayed;
-    public List<Encounter> seenEnemies;
+    public List<Encounter> loadedEncounters;
 
 }
 
@@ -68,7 +68,7 @@ public static class SaveLoadManager
         GameController.SetXP(so.xp);
         GameController.SetMapObject(so.mapObject);
         GameController.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed, so.visitedShopBefore);
-        GameController.SetSeenEnemies(so.seenEnemies);
+        GameController.SetSeenEnemies(so.loadedEncounters);
 
         if (debugLoadSequence != "")
         {

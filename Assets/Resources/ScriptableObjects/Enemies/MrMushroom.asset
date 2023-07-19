@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: MrMushroom
   m_EditorClassIdentifier: 
   characterName: Mr. Mushroom
-  characterDesc: 
+  characterDesc: A dapper fellow who doesn't take well to outsiders. Poisons cards
+    with tacky spores and fashions an extremely fancy monocle.
   idleSprite: {fileID: 21300000, guid: f81861a1b2b70f24a88850bb39611bf6, type: 3}
   damagedSprite: {fileID: 21300000, guid: ba3dde3cc0686c548b652557d869fb79, type: 3}
   deathSprite: {fileID: 0}
@@ -25,5 +26,6 @@ MonoBehaviour:
   enemyRewardMin: 160
   enemyRewardMax: 200
   enemyXPReward: 10
+  enemyIcon: {fileID: 21300000, guid: 65fed78bcdca04e4c8e41048562259e6, type: 3}
   locationFound: Forest
   enemyAI: 7

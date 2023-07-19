@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Treevil
   m_EditorClassIdentifier: 
   characterName: Treevil
-  characterDesc: 
+  characterDesc: After witnessing many deforestations, finally decided to take a
+    stand. Gets angrier with every hit.
   idleSprite: {fileID: 21300000, guid: 1651437f2d5b24b4bb65b6ffaf152aba, type: 3}
   damagedSprite: {fileID: 21300000, guid: 0ac14e79b71b72f4d87b561e46efe4a3, type: 3}
   deathSprite: {fileID: 0}
@@ -25,5 +26,6 @@ MonoBehaviour:
   enemyRewardMin: 50
   enemyRewardMax: 65
   enemyXPReward: 5
+  enemyIcon: {fileID: 21300000, guid: daea46c4fd0b2d948af7bc0c25bcc0d0, type: 3}
   locationFound: Forest
   enemyAI: 6

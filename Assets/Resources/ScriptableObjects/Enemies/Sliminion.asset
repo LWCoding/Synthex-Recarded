@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Sliminion
   m_EditorClassIdentifier: 
   characterName: Sliminion
-  characterDesc: 
+  characterDesc: It's really only here for the ride. Wears a beautiful thorn crown
+    that grants it mystical healing powers.
   idleSprite: {fileID: 21300000, guid: 933c6cbfe3423c14aa6af852d52f0d9f, type: 3}
   damagedSprite: {fileID: 21300000, guid: eb64ff5a41e939a49819375b48cb1721, type: 3}
   deathSprite: {fileID: 0}
@@ -25,5 +26,6 @@ MonoBehaviour:
   enemyRewardMin: 0
   enemyRewardMax: 0
   enemyXPReward: 0
+  enemyIcon: {fileID: 21300000, guid: 933c6cbfe3423c14aa6af852d52f0d9f, type: 3}
   locationFound: Forest
   enemyAI: 12

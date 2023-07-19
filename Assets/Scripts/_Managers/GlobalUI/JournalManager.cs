@@ -48,7 +48,11 @@ public class JournalManager : MonoBehaviour
         StartCoroutine(TogglePopupCoroutine(button, !_isJournalShowing));
         // Initialize the journal enemy controller, and set the preview to the first enemy.
         JournalEnemyController.Instance.InitializeEnemySelections(Globals.allEnemies);
-        JournalEnemyController.Instance.SetEnemyInfo(Globals.allEnemies[0]);
+        // Always show the first enemy by default when opened.
+        if (!_isJournalShowing)
+        {
+            JournalEnemyController.Instance.SetEnemyInfo(Globals.allEnemies[0]);
+        }
     }
 
     private IEnumerator TogglePopupCoroutine(Button buttonClicked, bool shouldUIShow)

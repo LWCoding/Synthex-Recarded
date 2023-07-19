@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Garbitch
   m_EditorClassIdentifier: 
   characterName: Garbitch
-  characterDesc: 
+  characterDesc: Didn't choose its name, but sure wishes it could be called something
+    less... unlikeable.
   idleSprite: {fileID: 21300000, guid: 3cea2baa73f583d4db2468fed5cb5620, type: 3}
   damagedSprite: {fileID: 21300000, guid: 328822cbfdeffc04da4d50dc9971ef8e, type: 3}
   deathSprite: {fileID: 0}
@@ -25,5 +26,6 @@ MonoBehaviour:
   enemyRewardMin: 50
   enemyRewardMax: 60
   enemyXPReward: 3
+  enemyIcon: {fileID: 21300000, guid: 9f2e0875039badf4f93305229271ad25, type: 3}
   locationFound: Forest
   enemyAI: 1

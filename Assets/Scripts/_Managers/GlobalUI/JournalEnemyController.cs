@@ -55,13 +55,22 @@ public class JournalEnemyController : MonoBehaviour
                 Enemy enemy = (currIdx >= enemies.Count) ? null : enemies[currIdx];
                 // If the enemy exists, initialize the square with the enemy's information.
                 // Or else, just leave it empty.
-                GameObject newEnemyObject = Instantiate(enemySelectionPrefab, newRowObject.transform);
-                renderedEnemySelections.Add(newEnemyObject.transform);
                 if (enemy != null)
                 {
-                    GameObject previewObject = newEnemyObject.transform.Find("Preview").gameObject;
-                    previewObject.GetComponent<Image>().sprite = enemy.idleSprite;
-                    previewObject.GetComponent<Button>().onClick.AddListener(() =>
+                    GameObject newEnemyObject = Instantiate(enemySelectionPrefab, newRowObject.transform);
+                    renderedEnemySelections.Add(newEnemyObject.transform);
+                    RectTransform maskTransform = (RectTransform)newEnemyObject.transform.Find("Mask");
+                    GameObject previewObject = maskTransform.Find("Preview").gameObject;
+                    previewObject.GetComponent<RawImage>().texture = enemy.enemyIcon.texture;
+                    // Check if the enemy has been discovered yet. If not, change the enemy's
+                    // icon and change the information when the button is clicked.
+                    bool hasBeenDiscovered = PlayerPrefs.GetInt(enemy.characterName) == 1;
+                    if (!hasBeenDiscovered)
+                    {
+                        previewObject.GetComponent<RawImage>().color = new Color(0, 0, 0);
+                    }
+                    // Add a listener so that, when clicked, it'll set the enemy information.
+                    maskTransform.GetComponent<Button>().onClick.AddListener(() =>
                     {
                         SetEnemyInfo(enemy);
                     });
@@ -74,7 +83,7 @@ public class JournalEnemyController : MonoBehaviour
     // it. This is a helper function to organize objects in a layout.
     private GameObject CreateNewEnemySelectionRow(int spacing)
     {
-        GameObject newRow = new GameObject("CardRow", typeof(HorizontalLayoutGroup));
+        GameObject newRow = new GameObject("EnemyRow", typeof(HorizontalLayoutGroup));
         HorizontalLayoutGroup newRowHLG = newRow.GetComponent<HorizontalLayoutGroup>();
         newRowHLG.childControlWidth = false;
         newRowHLG.childControlHeight = false;
@@ -97,9 +106,23 @@ public class JournalEnemyController : MonoBehaviour
     // Sets an enemy to be currently active in the enemy preview.
     public void SetEnemyInfo(Enemy enemy)
     {
-        enemyNameText.SetText(enemy.characterName);
-        enemyDescText.SetText(enemy.characterDesc);
-        enemySubtextText.SetText("Location found: <color=\"green\">" + enemy.locationFound + "</color>");
+        bool hasBeenDiscovered = PlayerPrefs.GetInt(enemy.characterName) == 1;
+        // If we've discovered the enemy, set the appropriate data. 
+        // Or else, make the enemy's information unknown.
+        if (hasBeenDiscovered)
+        {
+            enemyNameText.SetText(enemy.characterName);
+            enemyDescText.SetText(enemy.characterDesc);
+            enemySubtextText.SetText("Location found: <color=\"green\">" + enemy.locationFound + "</color>");
+            enemyImage.color = new Color(1, 1, 1);
+        }
+        else
+        {
+            enemyNameText.SetText("???");
+            enemyDescText.SetText("This enemy hasn't been discovered yet. Play the game and encounter it to learn more.");
+            enemySubtextText.SetText("Location found: <color=#A9A9A9>Undiscovered</color>");
+            enemyImage.color = new Color(0, 0, 0);
+        }
         enemyImage.texture = enemy.idleSprite.texture;
         enemyImage.transform.localScale = enemy.spriteScale;
         enemyShadowTransform.localScale = enemy.shadowScale;

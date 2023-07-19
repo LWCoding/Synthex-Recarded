@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Turtleist
   m_EditorClassIdentifier: 
   characterName: Turtleist
-  characterDesc: 
+  characterDesc: Make sure to watch your step in the forest. You may never know what
+    you could- oh hey, it's a turtle!
   idleSprite: {fileID: 21300000, guid: 8d2fdadb891d78841a54a690058807b4, type: 3}
   damagedSprite: {fileID: 21300000, guid: c0a47ed4c4d4945479a8e1a62d74fc72, type: 3}
   deathSprite: {fileID: 0}
@@ -25,5 +26,6 @@ MonoBehaviour:
   enemyRewardMin: 45
   enemyRewardMax: 55
   enemyXPReward: 3
+  enemyIcon: {fileID: 21300000, guid: af0c285bd960c1e46bf7af4dc2488f33, type: 3}
   locationFound: Forest
   enemyAI: 8

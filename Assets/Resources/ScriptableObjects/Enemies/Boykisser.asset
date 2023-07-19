@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Boykisser
   m_EditorClassIdentifier: 
   characterName: Boykisser
-  characterDesc: 
+  characterDesc: You like kissing boys don't you? Yeah, you're a silly little boykisser.
   idleSprite: {fileID: 21300000, guid: 81fd451e00771c04ca01cebfe588a6d4, type: 3}
   damagedSprite: {fileID: 21300000, guid: 263f3d0c5b53e994fbc17400a4ee457e, type: 3}
   deathSprite: {fileID: 0}
@@ -25,5 +25,6 @@ MonoBehaviour:
   enemyRewardMin: 400
   enemyRewardMax: 500
   enemyXPReward: 5
+  enemyIcon: {fileID: 21300000, guid: eecd30a49b9455247a6dc3a6ad174be7, type: 3}
   locationFound: Secret
   enemyAI: 99

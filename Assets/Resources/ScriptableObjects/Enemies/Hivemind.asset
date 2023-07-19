@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Hivemind
   m_EditorClassIdentifier: 
   characterName: Hivemind
-  characterDesc: 
+  characterDesc: After months of dealing with smoke and rampant bears, it developed
+    a fight <i>and</i> flight response.
   idleSprite: {fileID: 21300000, guid: c98debba891733445b7c58d48e20ecf5, type: 3}
   damagedSprite: {fileID: 21300000, guid: 00dc162c7e1298049880c453fcb1c293, type: 3}
   deathSprite: {fileID: 0}
@@ -25,5 +26,6 @@ MonoBehaviour:
   enemyRewardMin: 60
   enemyRewardMax: 70
   enemyXPReward: 5
+  enemyIcon: {fileID: 21300000, guid: 38c8348aa615dad469a8c8a2397a5b02, type: 3}
   locationFound: Forest
   enemyAI: 5
