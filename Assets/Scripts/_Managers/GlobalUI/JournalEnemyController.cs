@@ -45,7 +45,7 @@ public class JournalEnemyController : MonoBehaviour
         {
             // Create a horizontal layout group for every row that we render.
             GameObject newRowObject = CreateNewEnemySelectionRow(12);
-            newRowObject.transform.SetParent(selectionContainerVertTransform);
+            newRowObject.transform.SetParent(selectionContainerVertTransform, false);
             renderedEnemySelections.Add(newRowObject.transform);
             // Now, loop five times, creating five columns in each row.
             for (int column = 0; column < 5; column++)
@@ -129,7 +129,7 @@ public class JournalEnemyController : MonoBehaviour
         float aspect = (float)Screen.width / Screen.height;
         float worldHeight = Camera.main.orthographicSize * 2;
         float worldWidth = worldHeight * aspect;
-        enemyImage.transform.localPosition = enemy.spriteOffset * new Vector2(Screen.width / worldWidth, Screen.height / worldHeight);
+        enemyImage.transform.localPosition = enemy.spriteOffset * new Vector2(1280 / worldWidth, 720 / worldHeight);
         // Set the native size of the sprite.
         enemyImage.SetNativeSize();
     }

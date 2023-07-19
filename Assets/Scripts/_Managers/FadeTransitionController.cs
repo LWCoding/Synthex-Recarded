@@ -85,6 +85,11 @@ public class FadeTransitionController : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.1f);
+        // If the journal is showing, hide it.
+        if (JournalManager.Instance.IsJournalShowing())
+        {
+            JournalManager.Instance.HidePopup();
+        }
         // Load the next scene.
         SceneManager.LoadScene(desiredSceneName);
     }

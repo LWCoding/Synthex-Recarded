@@ -21,6 +21,7 @@ public class JournalManager : MonoBehaviour
     public bool IsJournalShowing() => _isJournalShowing;
     private bool _isUIAnimating = false;
     private int _initialButtonSortingOrder;
+    private Button _storedButton = null;
 
     private void Awake()
     {
@@ -55,11 +56,25 @@ public class JournalManager : MonoBehaviour
         }
     }
 
+    // Immediately hide the journal popup.
+    public void HidePopup()
+    {
+        // Simply hide the UI and the container.
+        _isUIAnimating = false;
+        _journalContainer.SetActive(false);
+        _isJournalShowing = false;
+        if (_storedButton != null)
+        {
+            _storedButton.GetComponent<Canvas>().sortingOrder = _initialButtonSortingOrder;
+        }
+    }
+
     private IEnumerator TogglePopupCoroutine(Button buttonClicked, bool shouldUIShow)
     {
         // Tell this class we're animating so we can't toggle during the animation.
         _isUIAnimating = true;
         buttonClicked.interactable = false;
+        _storedButton = buttonClicked;
         // Push this button's sorting order to the front or send it back to the regular order.
         if (shouldUIShow)
         {

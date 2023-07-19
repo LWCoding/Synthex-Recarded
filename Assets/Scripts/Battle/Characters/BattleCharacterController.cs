@@ -510,6 +510,8 @@ public partial class BattleCharacterController : MonoBehaviour
         {
             Vector3 projectileTargetPosition = targetBCC.transform.position;
             Vector3 adjustedSpawnPosition = _characterSpriteContainer.transform.position + new Vector3((_characterAlignment == Alignment.HERO ? 1 : -1) * _storedCard.cardData.projectileOffset.x, _storedCard.cardData.projectileOffset.y, 0);
+            Debug.Log(adjustedSpawnPosition);
+            Debug.Log(projectileTargetPosition);
             BattlePooler.Instance.StartProjectileAnimationFromPool(adjustedSpawnPosition, projectileTargetPosition, _storedCard.cardData.projectileSprite, timeToReachTarget);
         }
 

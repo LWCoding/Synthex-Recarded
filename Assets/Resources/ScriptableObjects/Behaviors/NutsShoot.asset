@@ -18,7 +18,7 @@ MonoBehaviour:
   cardType: 0
   characterMovement: 2
   projectileSprite: {fileID: 21300000, guid: 35656f55706e9834f983dacd8c16eebb, type: 3}
-  projectileOffset: {x: 1.3, y: 0.1}
+  projectileOffset: {x: 1.3, y: 1.45}
   sourceParticleInfo:
     particleType: 1
     particleBurstType: 1
@@ -53,3 +53,4 @@ MonoBehaviour:
     modifiers:
     - trait: 33
       amplifier: 0
+      special: 
