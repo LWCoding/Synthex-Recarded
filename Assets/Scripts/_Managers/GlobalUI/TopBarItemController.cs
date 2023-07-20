@@ -35,6 +35,7 @@ public class TopBarItemController : MonoBehaviour
             // Set items to placeholders if they're not actually present in the list.
             Item item = (i >= itemList.Count) ? GetPlaceholderItem() : itemList[i];
             itemObj.GetComponent<ItemHandler>().Initialize(item, false, true, i);
+            itemObj.GetComponent<ItemHandler>().SetSortingOrder(TopBarController.Instance.GetTopBarSortingOrder() + 1);
             _itemReferences.Add(itemObj);
         }
     }

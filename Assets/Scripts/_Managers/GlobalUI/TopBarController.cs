@@ -23,6 +23,7 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField] private GameObject tokenPrefabObject;
     [Header("Object Assignments")]
     [SerializeField] private Transform topBarParentTransform;
+    public int GetTopBarSortingOrder() => GetComponent<Canvas>().sortingOrder;
     [SerializeField] private Image barBGImage;
     [SerializeField] private Image heroFrameImage;
     [SerializeField] private Image heroHeadshotImage;
@@ -33,7 +34,6 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField] private TextMeshProUGUI heroCurrencyText;
     [SerializeField] private TextMeshProUGUI heroXPText;
     [SerializeField] private Image pauseIconImage;
-    [SerializeField] private Transform canvasTransform;
 
     private bool _isMouseOverTopBar = false;
     public bool IsPlayerInteractingWithTopBar() => _isMouseOverTopBar;
@@ -48,6 +48,8 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void RenderRelics() => _topBarRelicController.RenderRelics();
     public void FlashRelicObject(RelicType r) => _topBarRelicController.FlashRelicObject(r);
     private TopBarCardController _topBarCardController;
+    public int GetDeckButtonSortingOrder() => _topBarCardController.GetDeckButtonSortingOrder();
+    public void SetDeckButtonSortingOrder(int order) => _topBarCardController.SetDeckButtonSortingOrder(order);
     public bool IsCardPreviewShowing() => _topBarCardController.IsCardPreviewShowing();
     public void AnimateCardsToDeck(Vector3 initialCanvasPosition, List<Card> cards, Vector3 initialScale) => _topBarCardController.AnimateCardsToDeck(initialCanvasPosition, cards, initialScale);
 
@@ -105,7 +107,7 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     // currency, etc.
     public void UpdateUIInformation()
     {
-        topBarParentTransform.SetParent(canvasTransform);
+        topBarParentTransform.SetParent(GlobalUIController.Instance.GlobalCanvas.transform);
         topBarParentTransform.localScale = new Vector3(1, 1, 1);
         topBarParentTransform.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
         heroNameText.text = GameController.GetHeroData().characterName.ToUpper();
@@ -139,7 +141,7 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
             }
             if (changeInHealth != 0)
             {
-                ObjectPooler.Instance.SpawnUIPopup((changeInHealth > 0) ? "+" + changeInHealth.ToString() : changeInHealth.ToString(), 36, heroHealthText.transform.position, (changeInHealth > 0) ? new Color(0.1f, 1, 0.1f) : new Color(1, 0.1f, 0.1f), canvasTransform, 1, 1.4f, false);
+                ObjectPooler.Instance.SpawnUIPopup((changeInHealth > 0) ? "+" + changeInHealth.ToString() : changeInHealth.ToString(), 36, heroHealthText.transform.position, (changeInHealth > 0) ? new Color(0.1f, 1, 0.1f) : new Color(1, 0.1f, 0.1f), GlobalUIController.Instance.GlobalCanvas.transform, 1, 1.4f, false);
             }
         }
         heroHealthText.text = newHealth.ToString() + "/" + maxHealth;
@@ -179,7 +181,7 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private IEnumerator AnimateTokenToBalanceCoroutine(TokenType tokenType, Vector3 initialPosition, int amount, int delayInc = 0)
     {
         yield return new WaitForSeconds(delayInc * 0.08f);
-        GameObject tokenObject = Instantiate(tokenPrefabObject, canvasTransform);
+        GameObject tokenObject = Instantiate(tokenPrefabObject, GlobalUIController.Instance.GlobalCanvas.transform);
         tokenObject.transform.position = initialPosition;
         tokenObject.GetComponent<Image>().sprite = (tokenType == TokenType.COIN) ? coinIconImage.sprite : xpIconImage.sprite;
         Vector3 targetPosition = (tokenType == TokenType.COIN) ? coinIconImage.transform.position : xpIconImage.transform.position;

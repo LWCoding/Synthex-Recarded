@@ -45,6 +45,8 @@ public class CardChoiceController : MonoBehaviour
 
     private IEnumerator ShowCardChoicesCoroutine(List<Card> cardsToShow, Action codeToRunAfter)
     {
+        // Make sure the deck preview icon is overlayed on top of the fade bg.
+        TopBarController.Instance.SetDeckButtonSortingOrder(bgFadeImage.GetComponent<Canvas>().sortingOrder + 1);
         // Make the background fade out to black (slightly).
         bgFadeImage.gameObject.SetActive(true);
         bgText.gameObject.SetActive(true);

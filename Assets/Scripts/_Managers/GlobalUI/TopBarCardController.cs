@@ -16,6 +16,8 @@ public class TopBarCardController : MonoBehaviour
     [SerializeField] private GraphicRaycaster _cardPreviewGraphicRaycaster;
     [SerializeField] private Transform _cardPreviewParentTransform;
     [SerializeField] private Button _showDeckButton;
+    public int GetDeckButtonSortingOrder() => _showDeckButton.GetComponent<Canvas>().sortingOrder;
+    public void SetDeckButtonSortingOrder(int order) => _showDeckButton.GetComponent<Canvas>().sortingOrder = order;
     [SerializeField] private Transform canvasTransform;
 
     private Button drawPileButton;
@@ -68,7 +70,7 @@ public class TopBarCardController : MonoBehaviour
         CanvasGroup cardCanvasGroup = cardObject.GetComponent<CanvasGroup>();
         cardObject.transform.position = initialPosition;
         cardObject.transform.localScale = initialScale;
-        cardObject.GetComponent<Canvas>().sortingOrder = 17;
+        cardObject.GetComponent<Canvas>().sortingOrder = GetDeckButtonSortingOrder() + 1;
         cardObject.GetComponent<CardHandler>().Initialize(cardType);
         cardObject.GetComponent<CardHandler>().DisableFunctionality();
         // Animate the card towards the deck icon.

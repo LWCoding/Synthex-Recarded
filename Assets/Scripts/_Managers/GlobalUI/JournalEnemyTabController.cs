@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class JournalEnemyController : MonoBehaviour
+public class JournalEnemyTabController : MonoBehaviour
 {
 
-    public static JournalEnemyController Instance;
+    public static JournalEnemyTabController Instance;
     [Header("Prefab Assignments")]
     public GameObject enemySelectionPrefab;
     [Header("Object Assignments")]

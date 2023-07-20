@@ -6,7 +6,8 @@ public class GlobalUIController : MonoBehaviour
 {
 
     public static GlobalUIController Instance;
-    public GameObject _saveIconContainer;
+    public GameObject GlobalCanvas;
+    [SerializeField] private GameObject _saveIconContainer;
 
     // This Awake function runs on the first time the bar is instantiated.
     private void Awake()

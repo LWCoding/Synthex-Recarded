@@ -47,7 +47,6 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         _itemIndex = itemIndex;
         // Make item show properly.
         SetItemImageScale(1, 1);
-        SetSortingOrder(11);
         // Set all of the basic properties
         tooltipParentObject.SetActive(false);
         itemFlashObject.SetActive(false);

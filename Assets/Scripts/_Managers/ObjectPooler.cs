@@ -7,7 +7,7 @@ using TMPro;
 public enum PoolableType
 {
     CARD = 0, RELIC = 1, CARD_EFFECT = 2, TEXT_POPUP = 3, UI_TEXT_POPUP = 4,
-    ITEM = 5
+    ITEM = 5, UI_IMAGE = 6
 }
 
 public class ObjectPooler : MonoBehaviour
@@ -18,6 +18,7 @@ public class ObjectPooler : MonoBehaviour
     public GameObject cardPrefab;
     public GameObject relicPrefab;
     public GameObject itemPrefab;
+    public GameObject uiImagePrefab;
     public GameObject textPopupPrefab;
     public GameObject uiTextPopupPrefab;
     public Dictionary<PoolableType, Stack<GameObject>> inactiveObjects = new Dictionary<PoolableType, Stack<GameObject>>();
@@ -62,6 +63,9 @@ public class ObjectPooler : MonoBehaviour
             case PoolableType.UI_TEXT_POPUP:
                 obj = Instantiate(uiTextPopupPrefab);
                 break;
+            case PoolableType.UI_IMAGE:
+                obj = Instantiate(uiImagePrefab);
+                break;
         }
         // Set default properties for the GameObject.
         obj.tag = "Pooled";
@@ -75,7 +79,7 @@ public class ObjectPooler : MonoBehaviour
         inactiveObjects[objectType].Push(obj);
     }
 
-    public GameObject GetObjectFromPool(PoolableType objectType)
+    public GameObject GetObjectFromPool(PoolableType objectType, Transform parentTransform = null)
     {
         // If the object doesn't exist, create it.
         if (!inactiveObjects.ContainsKey(objectType) || inactiveObjects[objectType].Count == 0)
@@ -85,6 +89,11 @@ public class ObjectPooler : MonoBehaviour
         // Get the already created object.
         GameObject obj = inactiveObjects[objectType].Pop();
         obj.SetActive(true);
+        // If we specified a parent transform, parent this to that transform.
+        if (parentTransform != null)
+        {
+            obj.transform.SetParent(parentTransform, false);
+        }
         // Return the created object.
         return obj;
     }
