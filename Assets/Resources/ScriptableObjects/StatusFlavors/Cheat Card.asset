@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e20b8ec526ae2c4ea9d84e7806594b0, type: 3}
-  m_Name: Energy
+  m_Name: Cheat Card
   m_EditorClassIdentifier: 
-  statusName: Energy
-  statusDescription: Used to play cards. Reset to its max at the beginning of every
-    turn.
-  statusIcon: {fileID: 21300000, guid: da5a4984f97c1ec49aeb16eace8761cf, type: 3}
+  statusName: Cheat
+  statusDescription: If space allows, this card will always appear in your starting
+    hand.
+  statusIcon: {fileID: 0}

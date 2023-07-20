@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee86f6c045c704740bca70758d3d2139, type: 3}
-  m_Name: Sanitize
+  m_Name: Vest Up
   m_EditorClassIdentifier: 
-  cardName: Sanitize
-  cardDisplayName: Sanitize
-  cardImage: {fileID: 21300000, guid: 499fbc7c4523b6d4bbd33e78cbbde59b, type: 3}
-  cardType: 4
+  cardName: Vest Up
+  cardDisplayName: Vest Up
+  cardImage: {fileID: 21300000, guid: 0b91ea10fa681f54f88d51cf0ea01bf1, type: 3}
+  cardType: 3
   characterMovement: 0
   projectileSprite: {fileID: 0}
   projectileOffset: {x: 0, y: 0}
@@ -37,23 +37,24 @@ MonoBehaviour:
     particleCount: 10
     particleColor: {r: 1, g: 1, b: 1, a: 1}
     affectedByGravity: 0
-  cardRarity: 1
-  cardExclusivity: 0
-  onPlaySFX: {fileID: 8300000, guid: f7f14a4f80c117f40a466b54edcc08ea, type: 3}
-  onPlaySFXVolume: 2
+  cardRarity: 0
+  cardExclusivity: 3
+  onPlaySFX: {fileID: 0}
+  onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: Remove all debuffs. Exhausts.
+  - cardDesc: Gain [DEF] block. Gain 1 Defense. Cheat.
     cardCost: 1
     damageTarget: 0
     damageValue: 0
     blockTarget: 2
-    blockValue: 0
+    blockValue: 4
     attackRepeatCount: 1
-    inflictions: []
+    inflictions:
+    - target: 2
+      effect: 2
+      amplifier: 1
+      renderBehavior: 1
     modifiers:
-    - trait: 3
-      amplifier: 0
-      special: 
-    - trait: 12
+    - trait: 22
       amplifier: 0
       special: 

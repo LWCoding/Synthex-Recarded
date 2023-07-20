@@ -279,10 +279,30 @@ public partial class BattleController : MonoBehaviour
         }
         // Update energy and health text values.
         EnergyController.Instance.UpdateEnergyText();
-        // Draw five random cards from the draw pile.
+        // Draw random cards from the draw pile.
         // Potentially draw more from Lucky Draw effect.
         StatusEffect luckyDraw = playerBCC.GetStatusEffect(Effect.LUCKY_DRAW);
-        yield return DrawCardsCoroutine(5 + ((luckyDraw != null) ? luckyDraw.amplifier : 0));
+        int cardsToDraw = 5 + ((luckyDraw != null) ? luckyDraw.amplifier : 0);
+        // If it's the first turn, check if the player has any Cheat Cards.
+        // If yes, then decrement the cards to draw and draw one of these at random.
+        if (_turnNumber == 1)
+        {
+            List<Card> cheatCards = GameController.GetHeroCards().FindAll((card) =>
+            {
+                return card.HasTrait(Trait.CHEAT_CARD);
+            });
+            // If we have any cheat cards, draw them into the hand one at a time.
+            // Don't let the player draw more than five cards.
+            while (cardsToDraw > 0 && cheatCards.Count > 0)
+            {
+                int randomIdx = Random.Range(0, cheatCards.Count);
+                Card cheatCard = cheatCards[randomIdx];
+                cheatCards.RemoveAt(randomIdx);
+                DrawCards(new List<Card> { cheatCard });
+                cardsToDraw--;
+            }
+        }
+        yield return DrawCardsCoroutine(cardsToDraw);
         // Run after additional code.
         OnNextTurnStart.Invoke();
         OnNextTurnStart = new UnityEvent();

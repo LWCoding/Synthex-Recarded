@@ -53,3 +53,4 @@ MonoBehaviour:
     modifiers:
     - trait: 13
       amplifier: 5
+      special: 
