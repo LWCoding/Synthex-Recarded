@@ -70,7 +70,8 @@ public class BattleEnemyController : BattleCharacterController
         }
         enemyAI = e.enemyAI;
         _xpRewardAmount = e.enemyXPReward;
-        RenderEnemyDialogue(e, "Hi I'm talking lol");
+        // TODO: Remove this when we have actual enemy dialogue!
+        // RenderEnemyDialogue(e, "Hi I'm talking lol");
     }
 
     // Adjust the intent value depending on any modifiers they may have gained.

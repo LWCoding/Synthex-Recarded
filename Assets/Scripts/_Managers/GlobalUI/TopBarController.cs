@@ -151,7 +151,8 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void UpdateCurrencyText()
     {
         heroCurrencyText.text = GameController.GetMoney().ToString();
-        heroXPText.text = GameController.GetXP().ToString() + "/100";
+        // TODO: Update this when XP is back!
+        // heroXPText.text = GameController.GetXP().ToString() + "/100";
     }
 
     // Spawn multiple tokens that goes from a certain position 
@@ -178,6 +179,8 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     // Animates a single token going to one of the icon transforms.
     private IEnumerator AnimateTokenToBalanceCoroutine(TokenType tokenType, Vector3 initialPosition, int amount, int delayInc = 0)
     {
+        // TODO: Update this when XP is back!
+        if (tokenType == TokenType.XP) { yield break; }
         yield return new WaitForSeconds(delayInc * 0.08f);
         GameObject tokenObject = Instantiate(tokenPrefabObject, GlobalUIController.Instance.GlobalCanvas.transform);
         tokenObject.transform.position = initialPosition;

@@ -141,7 +141,6 @@ MonoBehaviour:
     maxFloorLimit: 7
   - enemies:
     - {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
-    - {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
     isMiniboss: 0
     isBoss: 0
     minFloorRequired: 0
