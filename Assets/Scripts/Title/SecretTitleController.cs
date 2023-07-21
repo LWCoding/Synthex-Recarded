@@ -42,6 +42,7 @@ public class SecretTitleController : MonoBehaviour
         GameController.SetMapScene(MapScene.SECRET);
         GameController.SetMapObject(null);
         GameController.SetMoney(150);
+        GameController.saveFileName = "Save.ass"; // TODO: Make this vary!
         GameController.alreadyPlayedTutorials.Add("Battle");
         // Start the game.
         StartGame();
