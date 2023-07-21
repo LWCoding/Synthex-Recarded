@@ -151,15 +151,13 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void UpdateCurrencyText()
     {
         heroCurrencyText.text = GameController.GetMoney().ToString();
-        // TODO: Enable XP value when it's back!
-        // heroXPText.text = GameController.GetXP().ToString() + "/100";
+        heroXPText.text = GameController.GetXP().ToString() + "/100";
     }
 
     // Spawn multiple tokens that goes from a certain position 
     // to the currency icon and adds to the current balance.
     public void AnimateTokensToBalance(TokenType tokenType, Vector3 initialCanvasPosition, int totalRewardAmount)
     {
-        if (tokenType == TokenType.XP) { return; } // TODO: Enable XP value when it's back!
         int tokenAmount = (tokenType == TokenType.COIN) ? Mathf.Clamp(totalRewardAmount / 15, 4, 15) : Mathf.Clamp(totalRewardAmount / 3, 2, 3);
         float displacementAmount = 90;
         int rewardedAmount = 0;

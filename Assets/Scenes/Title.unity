@@ -1463,7 +1463,7 @@ Canvas:
   m_OverrideSorting: 1
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 16
   m_TargetDisplay: 0
@@ -7110,7 +7110,6 @@ MonoBehaviour:
   _journalContainer: {fileID: 2017847079}
   _overlayContainer: {fileID: 1283201043}
   _buttonToToggleJournal: {fileID: 306932039}
-  _newJournalEnemyAnimationPopup: {fileID: 21300000, guid: 2668b74f229dd9a4daef831fee938b32, type: 3}
 --- !u!1 &1424230903
 GameObject:
   m_ObjectHideFlags: 0
@@ -9464,7 +9463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3605924805877751046
 RectTransform:
   m_ObjectHideFlags: 0

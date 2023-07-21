@@ -39,8 +39,10 @@ public class BattleEnemyController : BattleCharacterController
     {
         // This is for the journal to know we've encountered the enemy before.
         // TODO: Change this so it's not based on PlayerPrefs!
-        PlayerPrefs.SetInt(e.characterName, 1);
-        // JournalManager.Instance.AnimateNewEnemyToJournal(this, e);
+        if (!PlayerPrefs.HasKey(e.characterName))
+        {
+            PlayerPrefs.SetInt(e.characterName, 1);
+        }
         enemyAI = e.enemyAI;
         _xpRewardAmount = e.enemyXPReward;
     }

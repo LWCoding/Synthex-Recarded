@@ -82,7 +82,7 @@ public class TitleController : MonoBehaviour
     // If there is NO save file, don't make the Continue button clickable.
     private void SetContinueButtonState()
     {
-        continueButtonObject.GetComponent<TitleUIButtonHandler>().SetIsClickable(SaveLoadManager.DoesSaveExist());
+        continueButtonObject.GetComponent<TitleUIButtonHandler>().SetIsClickable(SaveLoadManager.DoesSaveExist("Save.ass"));
     }
 
     // Starts a new game by setting all of the variables in GameController
@@ -97,6 +97,7 @@ public class TitleController : MonoBehaviour
         GameController.SetMapScene(MapScene.FOREST);
         GameController.SetMapObject(null);
         GameController.SetMoney(150);
+        GameController.saveFileName = "Save.ass"; // TODO: Make this vary!
         // Start the game.
         StartGame();
     }
@@ -104,7 +105,7 @@ public class TitleController : MonoBehaviour
     public void ContinueGame()
     {
         // Load the game. This will populate the GameController information.
-        SaveLoadManager.Load();
+        SaveLoadManager.Load("Save.ass"); // TODO: Make this vary!
         // Start the game.
         StartGame();
     }

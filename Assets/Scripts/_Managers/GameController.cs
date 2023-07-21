@@ -5,6 +5,9 @@ using UnityEngine;
 public static class GameController
 {
 
+    // Save data:
+    public static string saveFileName;
+    // Hero data:
     private static Hero _chosenHero;
     public static void SetChosenHero(Hero h) => _chosenHero = h;
     public static List<Card> GetHeroCards() => _chosenHero.currentDeck;
@@ -14,6 +17,7 @@ public static class GameController
     public static HeroData GetHeroData() => _chosenHero.heroData;
     public static int GetHeroHealth() => _chosenHero.currentHealth;
     public static int GetHeroMaxHealth() => _chosenHero.maxHealth;
+    // Currency data:
     private static int _money;
     public static int GetMoney() => _money;
     public static void SetMoney(int m) => _money = m;
@@ -24,6 +28,7 @@ public static class GameController
     public static void SetXP(int x) => _xp = Mathf.Min(100, x);
     public static void AddXP(int x) => _xp = Mathf.Min(100, _xp + x);
     public static void SpendXP(int x) => AddXP(-x);
+    // Meta data:
     public static List<Enemy> nextBattleEnemies = new List<Enemy>();
     public static bool visitedShopBefore = false;
     // Title data:
@@ -101,7 +106,7 @@ public static class GameController
         so.tutorialsPlayed = alreadyPlayedTutorials;
         so.visitedShopBefore = visitedShopBefore;
         GlobalUIController.Instance.PlaySaveIconAnimation();
-        SaveLoadManager.Save(so);
+        SaveLoadManager.Save(so, saveFileName);
     }
 
     /// <summary>

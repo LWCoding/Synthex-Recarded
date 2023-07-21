@@ -24,9 +24,8 @@ public static class SaveLoadManager
 {
 
     private static string savePath = Application.persistentDataPath + "/SaveInfo/";
-    private static string fileName = "Save.ass";
 
-    public static void Save(SaveObject saveObject)
+    public static void Save(SaveObject saveObject, string fileName)
     {
 
         if (!Directory.Exists(savePath))
@@ -40,10 +39,10 @@ public static class SaveLoadManager
 
     }
 
-    public static void Load()
+    public static void Load(string fileName)
     {
 
-        if (!DoesSaveExist())
+        if (!DoesSaveExist(fileName))
         {
             Debug.Log("Error: Save slot not found, but Load() function was still called in SaveLoadManager.cs!");
             return;
@@ -69,6 +68,7 @@ public static class SaveLoadManager
         GameController.SetMapObject(so.mapObject);
         GameController.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed, so.visitedShopBefore);
         GameController.SetSeenEnemies(so.loadedEncounters);
+        GameController.saveFileName = fileName;
 
         if (debugLoadSequence != "")
         {
@@ -78,7 +78,7 @@ public static class SaveLoadManager
     }
 
     // Returns true if a save file already exists; else false.
-    public static bool DoesSaveExist()
+    public static bool DoesSaveExist(string fileName)
     {
         // If we don't have a save file, we don't have a save.
         if (!File.Exists(savePath + fileName)) { return false; }
