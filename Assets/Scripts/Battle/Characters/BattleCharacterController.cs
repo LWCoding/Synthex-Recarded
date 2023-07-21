@@ -70,11 +70,25 @@ public partial class BattleCharacterController : MonoBehaviour
         healthHandler = GetComponent<CharacterHealthHandler>();
     }
 
+    // Reset the sprite's box collider by destroying it and re-adding it.
+    // Then, increase the box collider slightly to allow for better detection.
+    private IEnumerator ResetBoxCollider()
+    {
+        GameObject colliderObject = _spriteCollider.gameObject;
+        Destroy(_spriteCollider);
+        yield return new WaitForEndOfFrame();
+        _spriteCollider = colliderObject.AddComponent<BoxCollider2D>();
+        _spriteCollider.size += new Vector2(1, 1);
+    }
+
     public void Initialize(Character characterInfo)
     {
         idleSprite = characterInfo.idleSprite;
         damagedSprite = characterInfo.damagedSprite;
         deathSprite = characterInfo.deathSprite;
+        // Initialize the box collider.
+        StartCoroutine(ResetBoxCollider());
+        // Set the positions and scales.
         _characterSpriteRenderer.transform.localScale = characterInfo.spriteScale;
         _characterSpriteRenderer.transform.localPosition = characterInfo.spriteOffset;
         _initialSpritePosition = _characterSpriteContainer.transform.position;

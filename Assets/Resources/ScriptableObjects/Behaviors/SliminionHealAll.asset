@@ -52,5 +52,5 @@ MonoBehaviour:
     inflictions: []
     modifiers:
     - trait: 8
-      amplifier: 8
+      amplifier: 6
       special: 

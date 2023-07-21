@@ -47,7 +47,7 @@ MonoBehaviour:
     damageTarget: 0
     damageValue: 0
     blockTarget: 2
-    blockValue: 8
+    blockValue: 10
     attackRepeatCount: 1
     inflictions: []
     modifiers:

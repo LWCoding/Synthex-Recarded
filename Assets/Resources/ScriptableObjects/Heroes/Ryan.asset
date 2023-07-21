@@ -37,8 +37,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2045939275d80e646a536090ab36bd8c, type: 2}
   - {fileID: 11400000, guid: d7f9b394a619e1a4b9abf59c789ba841, type: 2}
   - {fileID: 11400000, guid: b55533f82156a0e458077a4e7c86e5df, type: 2}
-  - {fileID: 11400000, guid: 562b488ac87fa5144b5007d4a07859be, type: 2}
-  - {fileID: 11400000, guid: 203a7ea30da4c7d448abc5dd6ea52915, type: 2}
   startingRelics:
   - {fileID: 11400000, guid: 3ba90a75e1c27584c8b4acad11e327d7, type: 2}
   startingItems: []

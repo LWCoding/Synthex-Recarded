@@ -154,7 +154,7 @@ public partial class BattleController : MonoBehaviour
         int generatedHealth = Random.Range(enemyData.enemyHealthMin, enemyData.enemyHealthMax + 1);
         switch (enemyData.characterName)
         {
-            case "Tree?":
+            case "Treevil":
                 bec.AddStatusEffect(Globals.GetStatus(Effect.GROWTH, 1));
                 break;
             case "Lone":

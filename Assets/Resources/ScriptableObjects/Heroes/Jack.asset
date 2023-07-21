@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Jack
   m_EditorClassIdentifier: 
   characterName: Jack
+  characterDesc: 
   idleSprite: {fileID: 21300000, guid: 862e4965d66d5f34890aa933469de06f, type: 3}
   damagedSprite: {fileID: 21300000, guid: cdd023e96036bbb43bfd55416a5ac293, type: 3}
   deathSprite: {fileID: 21300000, guid: cd565311be47d9444b5d93bcb3cda472, type: 3}
@@ -37,4 +38,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 28652be1c1eee1f4eade069815693534, type: 2}
   startingRelics:
   - {fileID: 11400000, guid: 0457efb2ba349c247baf074d98c44222, type: 2}
-  startingItems: []
+  startingItems:
+  - {fileID: 11400000, guid: ba2a8273ae98b0341ada89305924c384, type: 2}

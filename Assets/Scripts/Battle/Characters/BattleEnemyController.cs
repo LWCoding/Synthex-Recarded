@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public enum EnemyAI
 {
@@ -13,7 +14,12 @@ public enum EnemyAI
 public class BattleEnemyController : BattleCharacterController
 {
 
+    [Header("Object Assignments")]
     [SerializeField] private Transform _intentParentTransform;
+    [SerializeField] private Animator dialogueAnimator;
+    [SerializeField] private TextMeshPro dialogueText;
+
+
     private EnemyAI enemyAI;
     private int _rewardAmount;
     public void SetRewardAmount(int amt) => _rewardAmount = amt;
@@ -35,6 +41,25 @@ public class BattleEnemyController : BattleCharacterController
         OnDeath.AddListener(HandleEnemyDeath);
     }
 
+    public void RenderEnemyDialogue(Enemy e, string textToRender)
+    {
+        dialogueAnimator.transform.localPosition = new Vector2(-e.idleSprite.bounds.size.x - 1, e.idleSprite.bounds.size.y / 3);
+        dialogueText.text = textToRender;
+        StartCoroutine(RenderEnemyDialogueCoroutine());
+    }
+
+    private IEnumerator RenderEnemyDialogueCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => !FadeTransitionController.Instance.IsScreenTransitioning());
+        dialogueAnimator.Play("Show");
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => dialogueAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+        dialogueAnimator.Play("Idle");
+        yield return new WaitForSeconds(5);
+        dialogueAnimator.Play("Hide");
+    }
+
     public void SetEnemyType(Enemy e)
     {
         // This is for the journal to know we've encountered the enemy before.
@@ -45,6 +70,7 @@ public class BattleEnemyController : BattleCharacterController
         }
         enemyAI = e.enemyAI;
         _xpRewardAmount = e.enemyXPReward;
+        RenderEnemyDialogue(e, "Hi I'm talking lol");
     }
 
     // Adjust the intent value depending on any modifiers they may have gained.

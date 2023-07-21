@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 364907131
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -271,7 +271,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 364907131
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3597148264545133969
@@ -376,7 +376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5506827165995410332}
   - component: {fileID: 20360057846158285}
-  - component: {fileID: 7744845282113727891}
+  - component: {fileID: 6948492400768627626}
   m_Layer: 0
   m_Name: StatusEffect
   m_TagString: StatusIcon
@@ -414,12 +414,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a8f60ca93750494fa6ef765323d233e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusIconSprite: {fileID: 8315203161563671771}
-  statusIconAnimationSprite: {fileID: 9144901941462568929}
-  statusCountText: {fileID: 797509160639635675}
-  tooltipParentObject: {fileID: 2153344075441788316}
-  statusDescription: {fileID: 3597148264545133969}
---- !u!61 &7744845282113727891
+  effectType: 0
+  _statusIconSprite: {fileID: 8315203161563671771}
+  _statusIconAnimationSprite: {fileID: 9144901941462568929}
+  _statusCountText: {fileID: 797509160639635675}
+  _tooltipParentObject: {fileID: 2153344075441788316}
+  _statusDescription: {fileID: 3597148264545133969}
+--- !u!61 &6948492400768627626
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,10 +430,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.01420331, y: 0.02840662}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -443,7 +444,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6496501, y: 0.6023059}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &4661967878241848919
 GameObject:

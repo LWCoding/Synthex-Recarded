@@ -11,6 +11,9 @@ public class FadeTransitionController : MonoBehaviour
     [Header("Object Assignments")]
     public Image overlayFadeImage;
 
+    private bool _isScreenTransitioning = false;
+    public bool IsScreenTransitioning() => _isScreenTransitioning;
+
     private void Awake()
     {
         // Set this to the Instance if it is the first one.
@@ -38,6 +41,7 @@ public class FadeTransitionController : MonoBehaviour
     // to black to clear.
     private IEnumerator ShowScreenCoroutine(float time)
     {
+        _isScreenTransitioning = true;
         overlayFadeImage.gameObject.SetActive(true);
         overlayFadeImage.color = new Color(0, 0, 0, 1);
         Color initialColor = overlayFadeImage.color;
@@ -59,6 +63,7 @@ public class FadeTransitionController : MonoBehaviour
         // In case the desired volume was changed, let's set it again here.
         SoundManager.Instance.SetVolume(SoundManager.Instance.GetDesiredVolume());
         overlayFadeImage.gameObject.SetActive(false);
+        _isScreenTransitioning = false;
     }
 
     // This coroutine is called when the screen should fade
@@ -66,6 +71,7 @@ public class FadeTransitionController : MonoBehaviour
     // used when transitioning to a scene.
     private IEnumerator HideScreenCoroutine(string desiredSceneName, float time)
     {
+        _isScreenTransitioning = true;
         overlayFadeImage.gameObject.SetActive(true);
         overlayFadeImage.color = new Color(0, 0, 0, 0);
         Color initialColor = overlayFadeImage.color;
@@ -85,6 +91,7 @@ public class FadeTransitionController : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.1f);
+        _isScreenTransitioning = false;
         // If the journal is showing, hide it.
         if (JournalManager.Instance.IsJournalShowing())
         {
