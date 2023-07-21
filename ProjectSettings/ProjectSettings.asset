@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: Selenium Inc
   productName: Project ASS Recarded
-  defaultCursor: {fileID: 0}
+  defaultCursor: {fileID: 2800000, guid: a1dff7060ed76dd4d8b9ba8f9a3a7e46, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
