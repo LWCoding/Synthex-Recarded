@@ -7,7 +7,7 @@ using TMPro;
 
 public enum GameState
 {
-    IN_MENU, BATTLE, GAME_OVER
+    IN_MENU, PLAYER_TURN, ENEMY_TURN, GAME_OVER
 }
 
 [System.Serializable]
@@ -57,7 +57,16 @@ public partial class BattleController : MonoBehaviour
         }
         Instance = this;
         _turnNumber = 0;
-        ChangeGameState(GameState.BATTLE);
+        ChangeGameState(GameState.PLAYER_TURN);
+        // Make the screen refresh cards if the screen is resized.
+        ResizeAspectRatioController.OnScreenResize -= () =>
+        {
+            if (GetGameState() == GameState.PLAYER_TURN) { UpdateCardsInHand(true); }
+        };
+        ResizeAspectRatioController.OnScreenResize += () =>
+        {
+            if (GetGameState() == GameState.PLAYER_TURN) { UpdateCardsInHand(true); }
+        };
     }
 
     private void SetListenersOnStart()
@@ -393,7 +402,8 @@ public partial class BattleController : MonoBehaviour
 
     // Renders all cards in the hand based on the _cardsInHand list.
     // Creates any new card objects for cards which don't have object representations.
-    public void UpdateCardsInHand()
+    // If shouldBeInteractable is set to true, cards will immediately be useable.
+    public void UpdateCardsInHand(bool shouldBeInteractable = false)
     {
         int totalCards = _cardsInHand.Count;
         float rotationDifference = 7;
@@ -415,7 +425,14 @@ public partial class BattleController : MonoBehaviour
             float squeezeTogether = (totalCards % 2 == 0) ? (i - (Mathf.Floor(totalCards / 2) - 0.5f)) * (squeezeAmount * totalCards) : (i - Mathf.Floor(totalCards / 2)) * (squeezeAmount * totalCards);
             cardObject.transform.position = deckParentTransform.position;
             cardObject.transform.position += new Vector3(startPosition + i * positionDifference - squeezeTogether, ((totalCards % 2 == 0) ? -Mathf.Abs(-(Mathf.Floor(totalCards / 2) - 0.5f) + i) : -Mathf.Abs(-Mathf.Floor(totalCards / 2) + i)) * verticalDifference, 0);
-            cardHandler.DisableFunctionality();
+            if (shouldBeInteractable)
+            {
+                cardHandler.EnableFunctionality();
+            }
+            else
+            {
+                cardHandler.DisableFunctionality();
+            }
             cardHandler.InitializeStartingData();
         }
     }
@@ -559,8 +576,8 @@ public partial class BattleController : MonoBehaviour
 
     public void UseCardInHand(Card c, List<BattleCharacterController> collidingBCCs, bool subtractCost = true)
     {
-        // Don't let the player use cards if it's not in the battle state.
-        if (GetGameState() != GameState.BATTLE)
+        // Don't let the player use cards if it's not their turn.
+        if (GetGameState() != GameState.PLAYER_TURN)
         {
             return;
         }

@@ -42,7 +42,7 @@ MonoBehaviour:
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: Discard your hand. Draw 3 cards.
+  - cardDesc: Discard your hand. Draw 4 cards.
     cardCost: 0
     damageTarget: 2
     damageValue: 0
@@ -53,8 +53,10 @@ MonoBehaviour:
     modifiers:
     - trait: 10
       amplifier: 0
+      special: 
     - trait: 1
-      amplifier: 3
+      amplifier: 4
+      special: 
   - cardDesc: Discard your hand. Draw 3 cards.
     cardCost: 0
     damageTarget: 0

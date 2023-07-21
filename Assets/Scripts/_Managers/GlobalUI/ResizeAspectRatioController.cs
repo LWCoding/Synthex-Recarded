@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class ResizeAspectRatioController : MonoBehaviour
 {
 
-#if UNITY_STANDALONE
+    public static Action OnScreenResize = null;
     private int _lastWidth = 0;
     private int _lastHeight = 0;
 
@@ -16,19 +17,31 @@ public class ResizeAspectRatioController : MonoBehaviour
 
         if (_lastWidth != width) // if the user is changing the width
         {
-            // update the height
+#if UNITY_STANDALONE
+            // Update the application window to maintain proper resolution
             float heightAccordingToWidth = width / 16.0f * 9.0f;
             Screen.SetResolution(width, (int)Mathf.Round(heightAccordingToWidth), false, 0);
+#endif
+            StartCoroutine(InvokeAfterFrame());
         }
         else if (_lastHeight != height) // if the user is changing the height
         {
-            // update the width
+#if UNITY_STANDALONE
+            // Update the application window to maintain proper resolution
             float widthAccordingToHeight = height / 9.0f * 16.0f;
             Screen.SetResolution((int)Mathf.Round(widthAccordingToHeight), height, false, 0);
+#endif
+            StartCoroutine(InvokeAfterFrame());
         }
 
         _lastWidth = width;
         _lastHeight = height;
     }
-#endif
+
+    private IEnumerator InvokeAfterFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        if (OnScreenResize != null) { OnScreenResize.Invoke(); }
+    }
+
 }

@@ -75,7 +75,7 @@ public class CardHandler : MonoBehaviour
         HideTooltip();
         // If we're in a battle, update this card's appearance based on its cost
         // if it's one of the cards showing up in battle.
-        if (SceneManager.GetActiveScene().name == "Battle" && BattleController.Instance.GetGameState() == GameState.BATTLE)
+        if (SceneManager.GetActiveScene().name == "Battle" && BattleController.Instance.GetGameState() == GameState.PLAYER_TURN)
         {
             UpdateColorBasedOnPlayability();
         }
