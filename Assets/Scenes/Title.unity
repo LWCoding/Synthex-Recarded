@@ -3585,7 +3585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'BETA v1.2
+  m_text: 'BETA v1.1
 
 '
   m_isRightToLeft: 0
