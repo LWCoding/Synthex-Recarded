@@ -33,9 +33,9 @@ public class BattleHeroController : BattleCharacterController
             StatusEffect combo = statusHandler.GetStatusEffect(Effect.COMBO);
             if (c.cardData.cardType == CardType.ATTACKER || c.cardData.cardType == CardType.SPECIAL_ATTACKER)
             {
-                if (combo == null || c.cardData.GetCardUniqueName() == combo.specialValue)
+                if (combo == null || c.cardData.GetCardDisplayName() == combo.specialValue)
                 {
-                    statusHandler.AddStatusEffect(Globals.GetStatus(Effect.COMBO, 2, c.cardData.GetCardUniqueName()));
+                    statusHandler.AddStatusEffect(Globals.GetStatus(Effect.COMBO, 2, c.cardData.GetCardDisplayName()));
                     TopBarController.Instance.FlashRelicObject(RelicType.GREEN_SCARF);
                 }
             }

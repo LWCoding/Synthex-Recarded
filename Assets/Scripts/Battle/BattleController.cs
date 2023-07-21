@@ -215,7 +215,7 @@ public partial class BattleController : MonoBehaviour
             playerBCC.OnPlayCard.AddListener((c) =>
             {
                 StatusEffect combo = playerBCC.GetStatusEffect(Effect.COMBO);
-                if (combo != null && c.cardData.GetCardUniqueName() != combo.specialValue)
+                if (combo != null && c.cardData.GetCardDisplayName() != combo.specialValue)
                 {
                     playerBCC.RemoveStatusEffect(Effect.COMBO);
                 }
@@ -242,7 +242,7 @@ public partial class BattleController : MonoBehaviour
                 TopBarController.Instance.FlashRelicObject(RelicType.AIRHORN);
             }
         }
-        // If the player has the Catastrophe status effect, deal 4 damage to all enemies
+        // If the player has the Catastrophe status effect, deal 3 damage to all enemies
         // when a card is played.
         playerBCC.OnPlayCard.AddListener((card) =>
         {
@@ -251,7 +251,7 @@ public partial class BattleController : MonoBehaviour
             {
                 foreach (BattleEnemyController bec in enemyBCCs)
                 {
-                    bec.ChangeHealth(-4 * catastropheEffect.amplifier);
+                    bec.ChangeHealth(-3 * catastropheEffect.amplifier);
                 }
             }
         });

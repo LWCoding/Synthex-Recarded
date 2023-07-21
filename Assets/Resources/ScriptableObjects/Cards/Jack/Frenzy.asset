@@ -42,16 +42,12 @@ MonoBehaviour:
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: Apply 5 Bleed.
+  - cardDesc: Deal [ATK] damage three times.
     cardCost: 1
     damageTarget: 1
     damageValue: 0
     blockTarget: 0
     blockValue: 0
-    attackRepeatCount: 1
-    inflictions:
-    - target: 1
-      effect: 0
-      amplifier: 5
-      renderBehavior: 0
+    attackRepeatCount: 3
+    inflictions: []
     modifiers: []

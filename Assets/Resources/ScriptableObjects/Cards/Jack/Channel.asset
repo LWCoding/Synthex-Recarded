@@ -42,10 +42,10 @@ MonoBehaviour:
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: Gain 2 Energy. Lose [ATK] health.
+  - cardDesc: Gain 2 Energy but lose [ATK] health.
     cardCost: 0
     damageTarget: 2
-    damageValue: 2
+    damageValue: 4
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
@@ -53,5 +53,7 @@ MonoBehaviour:
     modifiers:
     - trait: 5
       amplifier: 2
+      special: 
     - trait: 0
       amplifier: 0
+      special: 

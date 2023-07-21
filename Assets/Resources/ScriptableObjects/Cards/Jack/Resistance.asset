@@ -42,16 +42,16 @@ MonoBehaviour:
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: Gain [DEF] block. Gain 2 Defense.
+  - cardDesc: Gain [DEF] block. Gain 1 Defense.
     cardCost: 2
     damageTarget: 0
     damageValue: 0
     blockTarget: 2
-    blockValue: 5
+    blockValue: 8
     attackRepeatCount: 1
     inflictions:
     - target: 2
       effect: 2
-      amplifier: 2
+      amplifier: 1
       renderBehavior: 1
     modifiers: []

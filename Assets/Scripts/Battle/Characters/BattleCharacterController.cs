@@ -274,7 +274,7 @@ public partial class BattleCharacterController : MonoBehaviour
         int damageInc = 0;
         // Add damage based on the current combo.
         StatusEffect combo = statusHandler.GetStatusEffect(Effect.COMBO);
-        if (combo != null && combo.specialValue == c.cardData.GetCardUniqueName())
+        if (combo != null && combo.specialValue == c.cardData.GetCardDisplayName())
         {
             damageInc += combo.amplifier;
         }
