@@ -29,3 +29,7 @@ MonoBehaviour:
   enemyIcon: {fileID: 21300000, guid: 65fed78bcdca04e4c8e41048562259e6, type: 3}
   locationFound: Forest
   enemyAI: 7
+  _possibleEncounterDialogues:
+  - By jove! A commoner? Eat my poison!
+  - Hmm? Who are you? Fancy a poisonous spore or two?
+  - Harumph. I will not tolerate half-wits in this fine forest.

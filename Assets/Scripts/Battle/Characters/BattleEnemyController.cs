@@ -21,6 +21,7 @@ public class BattleEnemyController : BattleCharacterController
 
 
     private EnemyAI enemyAI;
+    private bool _isDialoguePlaying = false;
     private int _rewardAmount;
     public void SetRewardAmount(int amt) => _rewardAmount = amt;
     private int _xpRewardAmount;
@@ -39,17 +40,19 @@ public class BattleEnemyController : BattleCharacterController
         statusHandler.OnGetStatusEffect.AddListener((e) => AdjustIntentForModifiers(e));
         _intentHandler.HideIntentIcon();
         OnDeath.AddListener(HandleEnemyDeath);
+        OnPlayCard.AddListener((c) => HideActiveDialogue());
     }
 
     public void RenderEnemyDialogue(Enemy e, string textToRender)
     {
-        dialogueAnimator.transform.localPosition = new Vector2(-e.idleSprite.bounds.size.x - 1, e.idleSprite.bounds.size.y / 3);
+        dialogueAnimator.transform.localPosition = new Vector2(-e.idleSprite.bounds.size.x / 2 - 1, e.idleSprite.bounds.size.y / 2 - 0.5f);
         dialogueText.text = textToRender;
         StartCoroutine(RenderEnemyDialogueCoroutine());
     }
 
     private IEnumerator RenderEnemyDialogueCoroutine()
     {
+        _isDialoguePlaying = true;
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !FadeTransitionController.Instance.IsScreenTransitioning());
         dialogueAnimator.Play("Show");
@@ -57,7 +60,16 @@ public class BattleEnemyController : BattleCharacterController
         yield return new WaitUntil(() => dialogueAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
         dialogueAnimator.Play("Idle");
         yield return new WaitForSeconds(5);
-        dialogueAnimator.Play("Hide");
+        HideActiveDialogue();
+    }
+
+    private void HideActiveDialogue()
+    {
+        if (_isDialoguePlaying)
+        {
+            dialogueAnimator.Play("Hide");
+            _isDialoguePlaying = false;
+        }
     }
 
     public void SetEnemyType(Enemy e)
@@ -70,8 +82,11 @@ public class BattleEnemyController : BattleCharacterController
         }
         enemyAI = e.enemyAI;
         _xpRewardAmount = e.enemyXPReward;
-        // TODO: Remove this when we have actual enemy dialogue!
-        // RenderEnemyDialogue(e, "Hi I'm talking lol");
+        // Render any starting dialogues if the enemy has any.
+        if (e.HasEncounterDialogues())
+        {
+            RenderEnemyDialogue(e, e.GetRandomEncounterDialogue());
+        }
     }
 
     // Adjust the intent value depending on any modifiers they may have gained.
@@ -94,12 +109,17 @@ public class BattleEnemyController : BattleCharacterController
         {
             StopCoroutine(_flashColorCoroutine);
         }
+        // Make this enemy disappear.
         DamageShake(3, 1.7f);
         StartCoroutine(DeathDisappearCoroutine());
+        // Make the enemy uninteractable and hide its UI.
         MakeUninteractable();
+        DisableEnemyUI();
+        // Free up space after this enemy is dead for other enemies.
         BattleController.Instance.FreeUpEnemyLocation(transform.position);
         battleController.enemiesStillAlive--;
-        DisableEnemyUI();
+        // If any dialogue for this enemy is playing, hide it.
+        HideActiveDialogue();
         // Animate some coins going to the player's balance.
         if (GameController.HasRelic(RelicType.GOLDEN_PAW))
         {

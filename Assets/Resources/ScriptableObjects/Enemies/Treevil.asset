@@ -29,3 +29,4 @@ MonoBehaviour:
   enemyIcon: {fileID: 21300000, guid: daea46c4fd0b2d948af7bc0c25bcc0d0, type: 3}
   locationFound: Forest
   enemyAI: 6
+  _possibleEncounterDialogues: []

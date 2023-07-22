@@ -29,3 +29,7 @@ MonoBehaviour:
   enemyIcon: {fileID: 21300000, guid: 78938ba0cef649645a79c596553d6080, type: 3}
   locationFound: Forest
   enemyAI: 11
+  _possibleEncounterDialogues:
+  - The forest doesn't welcome trespassers...
+  - You're not supposed to be here...
+  - Hisss... go away... Or I'll send you to the afterlife.

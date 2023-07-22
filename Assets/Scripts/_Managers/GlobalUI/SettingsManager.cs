@@ -326,6 +326,7 @@ public class SettingsManager : MonoBehaviour
 
     private IEnumerator LoadSceneWithUnscaledTimeCoroutine(string sceneName)
     {
+        _isUIAnimating = true;
         _fadeOverlayImage.gameObject.SetActive(true);
         _fadeOverlayImage.color = new Color(0, 0, 0, 0);
         Color initialColor = _fadeOverlayImage.color;
@@ -338,6 +339,7 @@ public class SettingsManager : MonoBehaviour
             _fadeOverlayImage.color = Color.Lerp(initialColor, targetColor, currTime / timeToWait);
             yield return null;
         }
+        _isUIAnimating = false;
         // Load the next scene.
         SceneManager.LoadScene(sceneName);
         yield return new WaitForEndOfFrame();

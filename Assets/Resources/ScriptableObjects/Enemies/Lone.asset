@@ -29,3 +29,7 @@ MonoBehaviour:
   enemyIcon: {fileID: 21300000, guid: fc090ae44f10e424fa2f6255f34df13f, type: 3}
   locationFound: Forest
   enemyAI: 3
+  _possibleEncounterDialogues:
+  - Hey, you! You're getting too close to the premises...
+  - Grrr... solicitors are NOT WELCOME!
+  - Hey, you idiot! Get out of here, or I'll make you.
