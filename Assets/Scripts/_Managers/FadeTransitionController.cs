@@ -92,6 +92,11 @@ public class FadeTransitionController : MonoBehaviour
         }
         yield return new WaitForSeconds(0.1f);
         _isScreenTransitioning = false;
+        // If the deck is showing, hide it.
+        if (TopBarController.Instance.IsCardPreviewShowing())
+        {
+            TopBarController.Instance.HideDeckOverlay();
+        }
         // If the journal is showing, hide it.
         if (JournalManager.Instance.IsJournalShowing())
         {

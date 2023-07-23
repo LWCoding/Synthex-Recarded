@@ -42,7 +42,7 @@ MonoBehaviour:
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: rd, deal 3 damage. Exhausts. damage. Exhausts.
+  - cardDesc: When you play a card, deal 3 damage. Exhausts.
     cardCost: 1
     damageTarget: 0
     damageValue: 0

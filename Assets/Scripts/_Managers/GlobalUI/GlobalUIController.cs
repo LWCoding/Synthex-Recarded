@@ -46,6 +46,12 @@ public class GlobalUIController : MonoBehaviour
         StartCoroutine(SaveIconAnimationCoroutine());
     }
 
+    public void InitializeUI()
+    {
+        TopBarController.Instance.Initialize();
+        JournalManager.Instance.Initialize();
+    }
+
     private IEnumerator SaveIconAnimationCoroutine()
     {
         _saveIconContainer.SetActive(true);

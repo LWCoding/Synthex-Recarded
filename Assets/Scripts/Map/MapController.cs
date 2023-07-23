@@ -39,7 +39,8 @@ public class MapController : MonoBehaviour
 
     private void Start()
     {
-        TopBarController.Instance.InitializeTopBar();
+        // Initialize the UI.
+        GlobalUIController.Instance.InitializeUI();
         // Initialize the total number of floors from the map info.
         _numFloors = _currentMapInfo.numFloors;
         // Initialize the map ONLY if they haven't already

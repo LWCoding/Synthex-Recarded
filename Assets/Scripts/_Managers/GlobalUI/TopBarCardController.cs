@@ -11,6 +11,8 @@ public class TopBarCardController : MonoBehaviour
     [SerializeField] private GameObject cardPrefabObject;
     [Header("Object Assignments")]
     [SerializeField] private GameObject _deckOverlayContainer;
+    public void HideDeckOverlay() => _deckOverlayContainer.SetActive(false);
+    public void ShowDeckOverlay() => _deckOverlayContainer.SetActive(true);
     [SerializeField] private Image _deckOverlayImage;
     [SerializeField] private ScrollRect _cardPreviewScrollRect;
     [SerializeField] private GraphicRaycaster _cardPreviewGraphicRaycaster;
@@ -44,7 +46,7 @@ public class TopBarCardController : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        _deckOverlayContainer.SetActive(false);
+        HideDeckOverlay();
         _currentlySelectedButton = null;
         _cardPreviewGraphicRaycaster.enabled = false;
         _showDeckButton.interactable = true;
@@ -274,7 +276,7 @@ public class TopBarCardController : MonoBehaviour
     private IEnumerator ToggleDeckOverlayCoroutine(float timeInSeconds, bool shouldShow)
     {
         // Set all of the initial values of the card to be partially visible.
-        _deckOverlayContainer.SetActive(true);
+        ShowDeckOverlay();
         Color initialColor = new Color(0, 0, 0, (shouldShow) ? 0 : 0.5f);
         Color targetColor = new Color(0, 0, 0, (shouldShow) ? 0.5f : 0);
         float frames = 0;
@@ -290,7 +292,7 @@ public class TopBarCardController : MonoBehaviour
         // Set active to false if the purpose is to hide.
         if (!shouldShow)
         {
-            _deckOverlayContainer.SetActive(false);
+            HideDeckOverlay();
         }
     }
 

@@ -42,7 +42,7 @@ MonoBehaviour:
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: Gain [DEF] block. Cheat. Exhaust.
+  - cardDesc: Gain [DEF] block. Cheat. Exhausts.
     cardCost: 1
     damageTarget: 0
     damageValue: 0

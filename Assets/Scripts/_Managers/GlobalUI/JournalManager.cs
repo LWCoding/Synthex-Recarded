@@ -16,13 +16,19 @@ public class JournalManager : MonoBehaviour
     [SerializeField] private GameObject _overlayContainer;
     [SerializeField] private Button _buttonToToggleJournal;
     public int GetJournalButtonSortingOrder() => _buttonToToggleJournal.GetComponent<Canvas>().sortingOrder;
+    [Header("Sound Assignments")]
+    [SerializeField] private AudioClip bookmarkShowSFX;
 
     private CanvasGroup _containerCanvasGroup;
 
     private bool _isJournalShowing = false;
     public bool IsJournalShowing() => _isJournalShowing;
     private bool _isUIAnimating = false;
+    private Animator _journalIconAnimator;
     private int _initialButtonSortingOrder;
+
+    private JournalEnemyTabController _journalEnemyTabController;
+    public void UnlockNewEnemy(Enemy e) => _journalEnemyTabController.UnlockNewEnemy(e);
 
     private void Awake()
     {
@@ -37,11 +43,68 @@ public class JournalManager : MonoBehaviour
         _overlayContainer.SetActive(true);
         _journalContainer.SetActive(false);
         _containerCanvasGroup = _journalContainer.GetComponent<CanvasGroup>();
+        _journalIconAnimator = _buttonToToggleJournal.GetComponent<Animator>();
+        _journalEnemyTabController = GetComponent<JournalEnemyTabController>();
     }
 
     private void Start()
     {
         _initialButtonSortingOrder = _buttonToToggleJournal.GetComponent<Canvas>().sortingOrder;
+    }
+
+    public void Initialize()
+    {
+        UpdateAnimationStatus();
+    }
+
+    public void UpdateAnimationStatus()
+    {
+        // Check if any enemies have been discovered but not checked
+        // in the journal. If yes, then play the alert idle animation.
+        bool anyEnemyNotCheckedInJournal = false;
+        foreach (Enemy e in Globals.allEnemies)
+        {
+            if (PlayerPrefs.GetInt(e.characterName) == 1)
+            {
+                anyEnemyNotCheckedInJournal = true;
+                break;
+            }
+        }
+        // Or else, just have the journal icon remain idle.
+        _journalIconAnimator.Play((anyEnemyNotCheckedInJournal) ? "IdleAlert" : "Idle");
+    }
+
+    // TODO: This is just a test for unlocking new things
+    private void Update()
+    {
+        // Refresh
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            foreach (Enemy e in Globals.allEnemies)
+            {
+                PlayerPrefs.DeleteKey(e.characterName);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            List<Enemy> allLockedEnemies = Globals.allEnemies.FindAll((enemy) => PlayerPrefs.GetInt(enemy.characterName) == 0);
+            UnlockNewEnemy(allLockedEnemies[UnityEngine.Random.Range(0, allLockedEnemies.Count)]);
+        }
+    }
+
+    // Play the alert animation IF the journal tab isn't currently showing.
+    // Or else, just go to the idle alert.
+    public void PlayAlertAnimation()
+    {
+        if (!IsJournalShowing())
+        {
+            _journalIconAnimator.Play("Alert");
+            SoundManager.Instance.PlayOneShot(bookmarkShowSFX, 2);
+        }
+        else
+        {
+            _journalIconAnimator.Play("IdleAlert");
+        }
     }
 
     // Toggle the journal popup.
@@ -53,13 +116,13 @@ public class JournalManager : MonoBehaviour
         // Make sure the game knows we're animating and then animate the UI in.
         _isUIAnimating = true;
         StartCoroutine(TogglePopupCoroutine(button, !_isJournalShowing));
-        // Initialize the journal enemy controller, and set the preview to the first enemy.
-        JournalEnemyTabController.Instance.InitializeEnemySelections(Globals.allEnemies);
         // Always show the first enemy by default when opened.
         if (!_isJournalShowing)
         {
-            JournalEnemyTabController.Instance.SetEnemyInfo(Globals.allEnemies[0]);
+            _journalEnemyTabController.SetEnemyInfo(Globals.allEnemies[0]);
         }
+        // Initialize the journal enemy controller, and set the preview to the first enemy.
+        _journalEnemyTabController.InitializeEnemySelections(Globals.allEnemies);
     }
 
     // Immediately hide the journal popup.

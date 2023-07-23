@@ -86,8 +86,8 @@ public partial class BattleController : MonoBehaviour
     {
         // Set any listeners to be played in the start function.
         SetListenersOnStart();
-        // Initialize the top bar.
-        TopBarController.Instance.InitializeTopBar();
+        // Initialize the UI.
+        GlobalUIController.Instance.InitializeUI();
         // Initialize the hero and all enemies!
         playerBCC = playerObject.GetComponent<BattleHeroController>();
         InitializeHero();

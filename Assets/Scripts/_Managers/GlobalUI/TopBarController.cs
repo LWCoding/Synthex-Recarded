@@ -48,6 +48,7 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void RenderRelics() => _topBarRelicController.RenderRelics();
     public void FlashRelicObject(RelicType r) => _topBarRelicController.FlashRelicObject(r);
     private TopBarCardController _topBarCardController;
+    public void HideDeckOverlay() => _topBarCardController.HideDeckOverlay();
     public int GetDeckButtonSortingOrder() => _topBarCardController.GetDeckButtonSortingOrder();
     public void SetDeckButtonSortingOrder(int order) => _topBarCardController.SetDeckButtonSortingOrder(order);
     public bool IsCardPreviewShowing() => _topBarCardController.IsCardPreviewShowing();
@@ -75,8 +76,7 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     }
 
     // Initializes all of the information in the top bar.
-    // This should be called when a scene is first loaded.
-    public void InitializeTopBar()
+    public void Initialize()
     {
         ShowTopBar();
         StopAllCoroutines();

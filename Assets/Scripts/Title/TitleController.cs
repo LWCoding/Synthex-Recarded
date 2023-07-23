@@ -33,8 +33,15 @@ public class TitleController : MonoBehaviour
     {
         // Set target frame rate to 60.
         Application.targetFrameRate = 60;
-        // Hide the top bar.
-        TopBarController.Instance?.HideTopBar();
+        // Hide top bar stuff if it exists.
+        if (TopBarController.Instance != null)
+        {
+            // If the deck is showing, hide it.
+            TopBarController.Instance.HideDeckOverlay();
+            // If the journal is showing, hide it.
+            JournalManager.Instance.HidePopup();
+            TopBarController.Instance.HideTopBar();
+        }
 #if !UNITY_WEBGL || UNITY_EDITOR
         // If we're not using the website version, just skip the warning screen.
         InitializeGame();

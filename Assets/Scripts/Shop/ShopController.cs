@@ -38,7 +38,8 @@ public class ShopController : MonoBehaviour
 
     private void Start()
     {
-        TopBarController.Instance.InitializeTopBar();
+        // Initialize the UI.
+        GlobalUIController.Instance.InitializeUI();
         // Randomize the shop BG objects.
         RandomizeShopBGObjects();
         // Make the game fade from black to clear.

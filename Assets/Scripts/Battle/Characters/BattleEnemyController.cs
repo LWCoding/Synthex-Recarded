@@ -78,7 +78,7 @@ public class BattleEnemyController : BattleCharacterController
         // TODO: Change this so it's not based on PlayerPrefs!
         if (!PlayerPrefs.HasKey(e.characterName))
         {
-            PlayerPrefs.SetInt(e.characterName, 1);
+            JournalManager.Instance.UnlockNewEnemy(e);
         }
         enemyAI = e.enemyAI;
         _xpRewardAmount = e.enemyXPReward;
