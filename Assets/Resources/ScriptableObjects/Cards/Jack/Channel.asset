@@ -57,3 +57,18 @@ MonoBehaviour:
     - trait: 0
       amplifier: 0
       special: 
+  - cardDesc: Gain 2 Energy but lose [ATK] health.
+    cardCost: 0
+    damageTarget: 2
+    damageValue: 2
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 5
+      amplifier: 2
+      special: 
+    - trait: 0
+      amplifier: 0
+      special: 

@@ -42,7 +42,7 @@ MonoBehaviour:
   onPlaySFX: {fileID: 0}
   onPlaySFXVolume: 1
   cardStats:
-  - cardDesc: Draw an extra card per turn. Exhausts.
+  - cardDesc: Draw one more card per turn. Exhausts.
     cardCost: 1
     damageTarget: 0
     damageValue: 0
@@ -57,3 +57,20 @@ MonoBehaviour:
     modifiers:
     - trait: 12
       amplifier: 0
+      special: 
+  - cardDesc: Draw two more cards per turn. Exhausts.
+    cardCost: 1
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions:
+    - target: 2
+      effect: 7
+      amplifier: 2
+      renderBehavior: 0
+    modifiers:
+    - trait: 12
+      amplifier: 0
+      special: 

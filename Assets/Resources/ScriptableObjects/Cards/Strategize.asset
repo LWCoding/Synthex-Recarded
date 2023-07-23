@@ -53,3 +53,16 @@ MonoBehaviour:
     modifiers:
     - trait: 1
       amplifier: 2
+      special: 
+  - cardDesc: Draw 3 cards.
+    cardCost: 0
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 1
+      amplifier: 3
+      special: 

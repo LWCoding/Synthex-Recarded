@@ -267,7 +267,7 @@ public partial class BattleController : MonoBehaviour
                 TopBarController.Instance.FlashRelicObject(RelicType.AIRHORN);
             }
         }
-        // If the player has the Catastrophe status effect, deal 3 damage to all enemies
+        // If the player has the Catastrophe status effect, deal X damage to all enemies
         // when a card is played.
         playerBCC.OnPlayCard.AddListener((card) =>
         {
@@ -276,7 +276,7 @@ public partial class BattleController : MonoBehaviour
             {
                 foreach (BattleEnemyController bec in enemyBCCs)
                 {
-                    bec.ChangeHealth(-3 * catastropheEffect.amplifier);
+                    bec.ChangeHealth(-catastropheEffect.amplifier);
                 }
             }
         });

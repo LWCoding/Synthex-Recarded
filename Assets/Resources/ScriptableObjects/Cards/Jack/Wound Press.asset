@@ -53,5 +53,19 @@ MonoBehaviour:
     modifiers:
     - trait: 21
       amplifier: 0
+      special: 
     - trait: 12
       amplifier: 0
+      special: 
+  - cardDesc: Double the enemy's Bleed.
+    cardCost: 1
+    damageTarget: 1
+    damageValue: 0
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 21
+      amplifier: 0
+      special: 

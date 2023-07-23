@@ -27,7 +27,7 @@ public class TopBarCardController : MonoBehaviour
     private bool _isDeckPreviewButtonClickable = true;
     private Button _currentlySelectedButton = null;
     public bool IsCardPreviewShowing() => _currentlySelectedButton != null;
-    private List<CardHandler> _cardPreviewControllers = new List<CardHandler>();
+    private List<CardHandler> _cardPreviewHandlers = new List<CardHandler>();
     private int _selectedButtonInitialSortingOrder = 0;
     private GameState _gameStateBeforeToggle;
 
@@ -128,7 +128,7 @@ public class TopBarCardController : MonoBehaviour
         // Enable the graphic raycaster so that the scrolling works.
         _cardPreviewGraphicRaycaster.enabled = true;
         _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = _deckOverlayImage.GetComponent<Canvas>().sortingOrder + 1;
-        _cardPreviewControllers = new List<CardHandler>();
+        _cardPreviewHandlers = new List<CardHandler>();
         yield return ToggleDeckOverlayCoroutine(0.2f, true);
         Transform horizontalTransform = null;
         int currCardIdx = 0;
@@ -153,11 +153,11 @@ public class TopBarCardController : MonoBehaviour
             // initial showing to false.
             cardController.Initialize(card, false);
             currCardIdx++;
-            _cardPreviewControllers.Add(cardController);
+            _cardPreviewHandlers.Add(cardController);
         }
         // After all cards are created, animate them one-by-one.
         WaitForSeconds wfs = new WaitForSeconds(0.04f);
-        foreach (CardHandler cc in _cardPreviewControllers)
+        foreach (CardHandler cc in _cardPreviewHandlers)
         {
             cc.CardAppear();
             yield return wfs;
@@ -190,14 +190,14 @@ public class TopBarCardController : MonoBehaviour
             child.GetComponent<HorizontalLayoutGroup>().enabled = false;
         }
         // Hide each card, if any exist.
-        if (_cardPreviewControllers.Count > 0)
+        if (_cardPreviewHandlers.Count > 0)
         {
-            GameObject lastCardToAnimate = _cardPreviewControllers[0].gameObject;
-            for (int i = _cardPreviewControllers.Count - 1; i >= 0; i--)
+            GameObject lastCardToAnimate = _cardPreviewHandlers[0].gameObject;
+            for (int i = _cardPreviewHandlers.Count - 1; i >= 0; i--)
             {
-                CardHandler cardObjectRef = _cardPreviewControllers[i];
+                CardHandler cardObjectRef = _cardPreviewHandlers[i];
                 GameObject cardObject = cardObjectRef.gameObject;
-                _cardPreviewControllers.RemoveAt(i);
+                _cardPreviewHandlers.RemoveAt(i);
                 StartCoroutine(cardObject.gameObject.GetComponent<CardHandler>().CardDisappearCoroutine(0.15f, CardAnimation.SHRINK, () =>
                 {
                     ObjectPooler.Instance.ReturnObjectToPool(PoolableType.CARD, cardObject.gameObject);
@@ -259,13 +259,12 @@ public class TopBarCardController : MonoBehaviour
     {
         // Return an already created card object.
         GameObject cardObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD);
-        CardHandler cardController = cardObject.GetComponent<CardHandler>();
+        CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
         cardObject.transform.localScale = new Vector2(0.55f, 0.55f);
-        cardObject.GetComponent<Canvas>().sortingOrder = 22;
-        cardController.initialSortingOrder = 22;
-        cardController.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
-        cardController.HideCardInstantly(); // Hide the card instantly so we can animate it after.
+        cardHandler.SetSortingOrder(22);
+        cardHandler.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
+        cardHandler.HideCardInstantly(); // Hide the card instantly so we can animate it after.
         return cardObject;
     }
 

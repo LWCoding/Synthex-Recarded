@@ -55,3 +55,16 @@ MonoBehaviour:
       amplifier: 1
       renderBehavior: 0
     modifiers: []
+  - cardDesc: Gain 5 block. Gain 1 Persevere.
+    cardCost: 1
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 5
+    attackRepeatCount: 1
+    inflictions:
+    - target: 2
+      effect: 3
+      amplifier: 1
+      renderBehavior: 0
+    modifiers: []

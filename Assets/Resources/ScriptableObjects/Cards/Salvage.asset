@@ -57,7 +57,7 @@ MonoBehaviour:
     - trait: 1
       amplifier: 4
       special: 
-  - cardDesc: Discard your hand. Draw 3 cards.
+  - cardDesc: Discard your hand. Draw 5 cards.
     cardCost: 0
     damageTarget: 0
     damageValue: 0

@@ -57,3 +57,20 @@ MonoBehaviour:
     modifiers:
     - trait: 12
       amplifier: 0
+      special: 
+  - cardDesc: Inflict 4 Bleed. Exhausts.
+    cardCost: 0
+    damageTarget: 1
+    damageValue: 0
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions:
+    - target: 1
+      effect: 0
+      amplifier: 4
+      renderBehavior: 0
+    modifiers:
+    - trait: 12
+      amplifier: 0
+      special: 

@@ -53,5 +53,22 @@ MonoBehaviour:
     modifiers:
     - trait: 6
       amplifier: 6
+      special: 
     - trait: 12
       amplifier: 6
+      special: 
+  - cardDesc: Heal 8 health. Exhausts.
+    cardCost: 1
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 6
+      amplifier: 6
+      special: 
+    - trait: 12
+      amplifier: 6
+      special: 

@@ -55,3 +55,16 @@ MonoBehaviour:
       amplifier: 2
       renderBehavior: 1
     modifiers: []
+  - cardDesc: Deal [ATK] damage. Gain 2 Strength.
+    cardCost: 2
+    damageTarget: 1
+    damageValue: 11
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions:
+    - target: 2
+      effect: 1
+      amplifier: 2
+      renderBehavior: 1
+    modifiers: []

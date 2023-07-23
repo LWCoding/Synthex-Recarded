@@ -73,15 +73,15 @@ public class ShopCardInitializer : MonoBehaviour
     {
         // Return an already created card object.
         GameObject cardObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD);
-        CardHandler cardController = cardObject.GetComponent<CardHandler>();
-        cardObject.GetComponent<Canvas>().sortingOrder = 1;
+        CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
+        cardHandler.SetSortingOrder(1);
+        cardHandler.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
-        cardController.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
         cardObject.transform.localScale = new Vector2(0.4f, 0.4f);
-        // We want the card to appear immediately, so we set it to true.
-        cardController.Initialize(card, true);
-        cardController.EnableInteractions();
-        cardController.EnableShopFunctionality();
+        // We want the card to appear and function immediately.
+        cardHandler.Initialize(card, true);
+        cardHandler.EnableInteractions();
+        cardHandler.EnableShopFunctionality();
         return cardObject;
     }
 

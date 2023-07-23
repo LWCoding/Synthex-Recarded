@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Sharpen
   m_EditorClassIdentifier: 
   statusName: Sharpen
-  statusDescription: All direct attacks inflict [X] extra Bleed to the enemy.
+  statusDescription: All direct attacks inflict [X] Bleed to the enemy.
   type: 6
   statusIcon: {fileID: 21300000, guid: 4beae5cba59df894bb1fccb302439a45, type: 3}
   iconSpriteScale: {x: 0.33, y: 0.33}
   effectFaction: 1
+  decrementEveryTurn: 0
+  canGoNegative: 0

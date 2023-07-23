@@ -57,3 +57,18 @@ MonoBehaviour:
     - trait: 12
       amplifier: 0
       special: 
+  - cardDesc: Remove all debuffs. Exhausts.
+    cardCost: 0
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 3
+      amplifier: 0
+      special: 
+    - trait: 12
+      amplifier: 0
+      special: 

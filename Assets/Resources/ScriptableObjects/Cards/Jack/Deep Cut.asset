@@ -55,3 +55,16 @@ MonoBehaviour:
       amplifier: 2
       renderBehavior: 0
     modifiers: []
+  - cardDesc: Deal [ATK] damage. Apply 3 Bleed.
+    cardCost: 1
+    damageTarget: 1
+    damageValue: 3
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions:
+    - target: 1
+      effect: 0
+      amplifier: 3
+      renderBehavior: 0
+    modifiers: []

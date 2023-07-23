@@ -53,3 +53,16 @@ MonoBehaviour:
     modifiers:
     - trait: 1
       amplifier: 1
+      special: 
+  - cardDesc: Deal [ATK] damage twice. Draw 1 card.
+    cardCost: 1
+    damageTarget: 1
+    damageValue: 3
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 2
+    inflictions: []
+    modifiers:
+    - trait: 1
+      amplifier: 1
+      special: 

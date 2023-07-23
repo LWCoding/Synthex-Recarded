@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Persevere
   m_EditorClassIdentifier: 
   statusName: Persevere
-  statusDescription: Don't lose block at the start of your next [X] turns.
+  statusDescription: Block does not reset for the next [X] turns.
   type: 3
   statusIcon: {fileID: 21300000, guid: c73e90aace85b55479613db0b4cde9d7, type: 3}
   iconSpriteScale: {x: 0.33, y: 0.33}

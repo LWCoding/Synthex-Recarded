@@ -53,3 +53,16 @@ MonoBehaviour:
     modifiers:
     - trait: 20
       amplifier: 0
+      special: 
+  - cardDesc: Gain [DEF] block, plus block equal to the enemy's Bleed.
+    cardCost: 1
+    damageTarget: 1
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 4
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 20
+      amplifier: 0
+      special: 

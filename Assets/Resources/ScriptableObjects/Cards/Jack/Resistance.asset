@@ -47,7 +47,20 @@ MonoBehaviour:
     damageTarget: 0
     damageValue: 0
     blockTarget: 2
-    blockValue: 8
+    blockValue: 7
+    attackRepeatCount: 1
+    inflictions:
+    - target: 2
+      effect: 2
+      amplifier: 1
+      renderBehavior: 1
+    modifiers: []
+  - cardDesc: Gain [DEF] block. Gain 1 Defense.
+    cardCost: 2
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 9
     attackRepeatCount: 1
     inflictions:
     - target: 2

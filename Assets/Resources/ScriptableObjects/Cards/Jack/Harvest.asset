@@ -45,6 +45,18 @@ MonoBehaviour:
   - cardDesc: Deal [ATK] damage. If the target dies, gain 2 Energy.
     cardCost: 2
     damageTarget: 1
+    damageValue: 11
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 4
+      amplifier: 0
+      special: 
+  - cardDesc: Deal [ATK] damage. If the target dies, gain 2 Energy.
+    cardCost: 2
+    damageTarget: 1
     damageValue: 14
     blockTarget: 0
     blockValue: 0
@@ -53,3 +65,4 @@ MonoBehaviour:
     modifiers:
     - trait: 4
       amplifier: 0
+      special: 

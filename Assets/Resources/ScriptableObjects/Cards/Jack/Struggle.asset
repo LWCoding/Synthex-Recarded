@@ -45,7 +45,16 @@ MonoBehaviour:
   - cardDesc: Deal [ATK] damage.
     cardCost: 0
     damageTarget: 1
-    damageValue: 4
+    damageValue: 3
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers: []
+  - cardDesc: Deal [ATK] damage.
+    cardCost: 0
+    damageTarget: 1
+    damageValue: 5
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1

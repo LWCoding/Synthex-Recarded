@@ -53,3 +53,16 @@ MonoBehaviour:
     modifiers:
     - trait: 7
       amplifier: 0
+      special: 
+  - cardDesc: Deal damage equal to your block.
+    cardCost: 0
+    damageTarget: 1
+    damageValue: 0
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 7
+      amplifier: 0
+      special: 

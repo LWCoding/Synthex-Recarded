@@ -55,3 +55,16 @@ MonoBehaviour:
       amplifier: 2
       renderBehavior: 0
     modifiers: []
+  - cardDesc: Gain 3 Focus.
+    cardCost: 1
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions:
+    - target: 2
+      effect: 4
+      amplifier: 3
+      renderBehavior: 0
+    modifiers: []

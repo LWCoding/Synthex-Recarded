@@ -77,10 +77,7 @@ public class Card
         int damageValue = GetCardStats().damageValue;
         int blockValue = GetCardStats().blockValue;
         // If the card is targeting enemy all, return ENEMY_ALL.
-        if (damageTarget == Target.ENEMY_ALL)
-        {
-            return Target.ENEMY_ALL;
-        }
+        if (damageTarget == Target.ENEMY_ALL) { return Target.ENEMY_ALL; }
         // If either target is targeting all, return ALL.
         if (damageTarget == Target.PLAYER_AND_ENEMY || blockTarget == Target.PLAYER_AND_ENEMY)
         {
@@ -92,14 +89,8 @@ public class Card
             return Target.PLAYER_AND_ENEMY;
         }
         // Or else, return the selected target.
-        if (damageTarget != Target.NONE)
-        {
-            return damageTarget;
-        }
-        if (blockTarget != Target.NONE)
-        {
-            return blockTarget;
-        }
+        if (damageTarget != Target.NONE) { return damageTarget; }
+        if (blockTarget != Target.NONE) { return blockTarget; }
         return Target.NONE;
     }
 }

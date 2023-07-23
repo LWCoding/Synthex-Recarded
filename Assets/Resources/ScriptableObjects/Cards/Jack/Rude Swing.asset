@@ -53,3 +53,16 @@ MonoBehaviour:
     modifiers:
     - trait: 12
       amplifier: 0
+      special: 
+  - cardDesc: Deal [ATK] damage. Exhausts.
+    cardCost: 1
+    damageTarget: 1
+    damageValue: 12
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 12
+      amplifier: 0
+      special: 

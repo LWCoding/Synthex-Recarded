@@ -49,5 +49,14 @@ MonoBehaviour:
     blockTarget: 0
     blockValue: 0
     attackRepeatCount: 1
-    inflictedEffects: []
-    traits: 
+    inflictions: []
+    modifiers: []
+  - cardDesc: Deal [ATK] damage to all enemies.
+    cardCost: 1
+    damageTarget: 4
+    damageValue: 7
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers: []

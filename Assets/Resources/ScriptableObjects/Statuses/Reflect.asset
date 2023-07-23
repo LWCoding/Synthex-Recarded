@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Reflect
   m_EditorClassIdentifier: 
   statusName: Reflect
-  statusDescription: Upon taking damage, attackers take [X] damage. Lowers by 1 each
+  statusDescription: When hurt, deal [X] damage back to attackers. Lowers by 1 each
     turn.
   type: 16
   statusIcon: {fileID: 21300000, guid: fb6a72301d1c87349a68b68e753fe7a8, type: 3}

@@ -13,7 +13,7 @@ public enum Effect
     DOUBLE_TAKE = 5, // The next card will play twice
     SHARPEN = 6, // All attacks inflict extra bleed each turn.
     LUCKY_DRAW = 7, // Draw extra cards at the start of each turn.
-    CATASTROPHE = 8, // Deal 8 * X damage to enemy after exhausting a card.
+    CATASTROPHE = 8, // Deal X damage to enemy after playing a card.
     COMBO = 9, // Deal +3 damage per duplicated attack card
     DISEASE = 10, // Take X more damage from all sources,
     CRIPPLED = 11, // Deal X less damage with all direct attacks
