@@ -3778,12 +3778,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea1b18d939c30b4d9d4b2c691b1871d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 987096959}
   enemyPrefabObject: {fileID: 4792568731130291040, guid: e9045286d9098c748bd44545a01b581c, type: 3}
+  playerObject: {fileID: 987096959}
   endTurnButton: {fileID: 819488464}
   drawText: {fileID: 1053511965}
   discardText: {fileID: 1201428740}
   deckParentTransform: {fileID: 1710647192}
+  _drawPileButton: {fileID: 793840997}
+  _discardPileButton: {fileID: 325598452}
   enemiesStillAlive: 0
   _spawnableEnemyLocations:
   - position: {x: 5.5, y: 0.2, z: 0}

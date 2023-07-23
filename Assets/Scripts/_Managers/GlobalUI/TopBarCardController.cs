@@ -33,14 +33,6 @@ public class TopBarCardController : MonoBehaviour
 
     public void Initialize()
     {
-        // Set the buttons if they're found in the scene.
-        if (GameObject.Find("DrawIcon") != null)
-        {
-            drawPileButton = GameObject.Find("DrawIcon").GetComponent<Button>();
-            discardPileButton = GameObject.Find("DiscardIcon").GetComponent<Button>();
-            drawPileButton.onClick.AddListener(ToggleVisibilityOfCardsInDrawPile);
-            discardPileButton.onClick.AddListener(ToggleVisibilityOfCardsInDiscardPile);
-        }
         // Reset all child GameObjects in the card preview to their defaults.
         foreach (Transform child in _cardPreviewParentTransform)
         {
@@ -283,20 +275,6 @@ public class TopBarCardController : MonoBehaviour
     {
         if (!_isDeckPreviewButtonClickable) { return; }
         ToggleCardOverlay(GameController.GetHeroCards(), _showDeckButton);
-    }
-
-    // Toggles the visibility of all of the cards in your draw pile.
-    // There are 0 references because it is tied to the button during battle.
-    public void ToggleVisibilityOfCardsInDrawPile()
-    {
-        ToggleCardOverlay(BattleController.Instance.cardsInDrawPile, drawPileButton);
-    }
-
-    // Toggles the visibility of all of the cards in your discard pile.
-    // There are 0 references because it is tied to the button during battle.
-    public void ToggleVisibilityOfCardsInDiscardPile()
-    {
-        ToggleCardOverlay(BattleController.Instance.cardsInDiscard, discardPileButton);
     }
 
 }

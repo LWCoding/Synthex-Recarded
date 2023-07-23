@@ -21,13 +21,16 @@ public partial class BattleController : MonoBehaviour
 {
 
     public static BattleController Instance;
+    [Header("Prefab Assignments")]
+    [SerializeField] private GameObject enemyPrefabObject;
     [Header("Object Assignments")]
-    public GameObject playerObject;
-    public GameObject enemyPrefabObject;
-    public Button endTurnButton;
-    public TextMeshProUGUI drawText;
-    public TextMeshProUGUI discardText;
-    public Transform deckParentTransform;
+    [SerializeField] private GameObject playerObject;
+    [SerializeField] private Button endTurnButton;
+    [SerializeField] private TextMeshProUGUI drawText;
+    [SerializeField] private TextMeshProUGUI discardText;
+    [SerializeField] private Transform deckParentTransform;
+    [SerializeField] private Button _drawPileButton;
+    [SerializeField] private Button _discardPileButton;
 
     [HideInInspector] public int enemiesStillAlive = 0;
     [SerializeField] private List<SpawnableEnemyLocation> _spawnableEnemyLocations = new List<SpawnableEnemyLocation>();
@@ -36,6 +39,8 @@ public partial class BattleController : MonoBehaviour
     public void FreeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = false;
 
     private GameState _gameState;
+    public void ChangeGameState(GameState newState) => _gameState = newState;
+    public GameState GetGameState() => _gameState;
     private UnityEvent OnNextTurnStart = new UnityEvent();
     private UnityEvent OnTurnEnd = new UnityEvent();
     [HideInInspector] public BattleHeroController playerBCC;
@@ -69,6 +74,8 @@ public partial class BattleController : MonoBehaviour
         };
     }
 
+    // Add logic that pertains to the battle actually functioning properly, outside
+    // of player/enemy logic.
     private void SetListenersOnStart()
     {
         // Make energy updates change the displays of cards in the player's hand.
@@ -95,6 +102,9 @@ public partial class BattleController : MonoBehaviour
         {
             SpawnEnemy(e);
         }
+        // Initialize the buttons.
+        _drawPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(cardsInDrawPile, _drawPileButton));
+        _discardPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(cardsInDiscard, _discardPileButton));
 #if !UNITY_EDITOR
         // If we haven't played the battle tutorial yet, do that.
         if (!GameController.alreadyPlayedTutorials.Contains("Battle"))
@@ -113,16 +123,6 @@ public partial class BattleController : MonoBehaviour
         RunOnBattleStart();
         // Start game loop!
         RunGameLoop();
-    }
-
-    public void ChangeGameState(GameState newState)
-    {
-        _gameState = newState;
-    }
-
-    public GameState GetGameState()
-    {
-        return _gameState;
     }
 
     // Initializes the hero's deck, sprite, and health.
@@ -239,7 +239,7 @@ public partial class BattleController : MonoBehaviour
         {
             playerBCC.OnPlayCard.AddListener((c) =>
             {
-                foreach (BattleCharacterController bcc in BattleController.Instance.enemyBCCs)
+                foreach (BattleCharacterController bcc in enemyBCCs)
                 {
                     bcc.ChangeHealth(-1);
                 }

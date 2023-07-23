@@ -149,7 +149,6 @@ public class BattleEnemyController : BattleCharacterController
             {
                 cardObject.GetComponent<CardHandler>().DisableInteractions();
             }
-            Destroy(battleController.endTurnButton.GetComponent<Button>());
         }
     }
 

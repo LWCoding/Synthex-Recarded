@@ -182,8 +182,9 @@ public partial class BattleCharacterController : MonoBehaviour
             }
         }
         // Decrement all status effects that should decrement every turn.
-        foreach (StatusEffect s in statusHandler.statusEffects)
+        for (int i = statusHandler.statusEffects.Count - 1; i >= 0; i--)
         {
+            StatusEffect s = statusHandler.statusEffects[i];
             if (s.statusInfo.decrementEveryTurn)
             {
                 statusHandler.DecrementStatusEffect(s.statusInfo.type, 1);
