@@ -18,6 +18,7 @@ public class UpgradeController : MonoBehaviour
     {
         // Initialize the buttons that should modify UI elements.
         _upgradeButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(GameController.GetHeroCards(), _upgradeButton));
+        _exitButton.onClick.AddListener(() => FadeTransitionController.Instance.HideScreen("Map", 0.75f));
         // Initialize the cards in the deck.
         StartCoroutine(InitializeDeckCardsCoroutine());
         // Make the game fade from black to clear.
