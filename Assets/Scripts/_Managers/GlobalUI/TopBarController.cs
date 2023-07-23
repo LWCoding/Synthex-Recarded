@@ -48,6 +48,7 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void RenderRelics() => _topBarRelicController.RenderRelics();
     public void FlashRelicObject(RelicType r) => _topBarRelicController.FlashRelicObject(r);
     private TopBarCardController _topBarCardController;
+    public void ToggleCardOverlay(List<Card> cards, Button btn) => _topBarCardController.ToggleCardOverlay(cards, btn);
     public void HideDeckOverlay() => _topBarCardController.HideDeckOverlay();
     public int GetDeckButtonSortingOrder() => _topBarCardController.GetDeckButtonSortingOrder();
     public void SetDeckButtonSortingOrder(int order) => _topBarCardController.SetDeckButtonSortingOrder(order);

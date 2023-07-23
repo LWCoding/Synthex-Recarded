@@ -101,9 +101,8 @@ public class TopBarCardController : MonoBehaviour
         _isDeckPreviewButtonClickable = true;
     }
 
-    // Toggles the visibility (on/off) of the card previews for
-    // all cards in your deck.
-    public void ToggleVisibilityOfCardsInDeck()
+    // Toggle the card preview.
+    public void ToggleCardOverlay(List<Card> cardsToShow, Button currButton)
     {
         if (!_isDeckPreviewButtonClickable) { return; }
         if (_currentlySelectedButton != null)
@@ -115,40 +114,8 @@ public class TopBarCardController : MonoBehaviour
         else
         {
             // Show the cards if there's no previously selected button.
-            _currentlySelectedButton = _showDeckButton;
-            StartCoroutine(ShowCardsCoroutine(GameController.GetHeroCards()));
-        }
-    }
-
-    // Toggles the visibility of all of the cards in your draw pile.
-    // There are 0 references because it is tied to the button during battle.
-    public void ToggleVisibilityOfCardsInDrawPile()
-    {
-        if (_currentlySelectedButton != null)
-        {
-            StartCoroutine(HideCardsCoroutine());
-            return;
-        }
-        else
-        {
-            _currentlySelectedButton = drawPileButton;
-            StartCoroutine(ShowCardsCoroutine(BattleController.Instance.cardsInDrawPile));
-        }
-    }
-
-    // Toggles the visibility of all of the cards in your discard pile.
-    // There are 0 references because it is tied to the button during battle.
-    public void ToggleVisibilityOfCardsInDiscardPile()
-    {
-        if (_currentlySelectedButton != null)
-        {
-            StartCoroutine(HideCardsCoroutine());
-            return;
-        }
-        else
-        {
-            _currentlySelectedButton = discardPileButton;
-            StartCoroutine(ShowCardsCoroutine(BattleController.Instance.cardsInDiscard));
+            _currentlySelectedButton = currButton;
+            StartCoroutine(ShowCardsCoroutine(cardsToShow));
         }
     }
 
@@ -308,6 +275,28 @@ public class TopBarCardController : MonoBehaviour
         cardController.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
         cardController.HideCardInstantly(); // Hide the card instantly so we can animate it after.
         return cardObject;
+    }
+
+    // Toggles the visibility (on/off) of the card previews for
+    // all cards in your deck.
+    public void ToggleVisibilityOfCardsInDeck()
+    {
+        if (!_isDeckPreviewButtonClickable) { return; }
+        ToggleCardOverlay(GameController.GetHeroCards(), _showDeckButton);
+    }
+
+    // Toggles the visibility of all of the cards in your draw pile.
+    // There are 0 references because it is tied to the button during battle.
+    public void ToggleVisibilityOfCardsInDrawPile()
+    {
+        ToggleCardOverlay(BattleController.Instance.cardsInDrawPile, drawPileButton);
+    }
+
+    // Toggles the visibility of all of the cards in your discard pile.
+    // There are 0 references because it is tied to the button during battle.
+    public void ToggleVisibilityOfCardsInDiscardPile()
+    {
+        ToggleCardOverlay(BattleController.Instance.cardsInDiscard, discardPileButton);
     }
 
 }
