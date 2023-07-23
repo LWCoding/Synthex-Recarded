@@ -80,7 +80,7 @@ public class ShopCardInitializer : MonoBehaviour
         cardObject.transform.localScale = new Vector2(0.4f, 0.4f);
         // We want the card to appear immediately, so we set it to true.
         cardController.Initialize(card, true);
-        cardController.EnableFunctionality();
+        cardController.EnableInteractions();
         cardController.EnableShopFunctionality();
         return cardObject;
     }

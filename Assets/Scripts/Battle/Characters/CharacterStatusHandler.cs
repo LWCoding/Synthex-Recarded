@@ -30,24 +30,20 @@ public partial class CharacterStatusHandler : MonoBehaviour
     // already have the effect, increments it instead.
     public void AddStatusEffect(StatusEffect e)
     {
-        bool foundStatusEffect = false;
-        // If we can find the status, increment it.
-        for (int i = 0; i < statusEffects.Count; i++)
-        {
-            if (statusEffects[i].statusInfo.type == e.statusInfo.type)
-            {
-                foundStatusEffect = true;
-                statusEffects[i].shouldActivate = true;
-                statusEffects[i].ChangeCount(e.amplifier);
-                break;
-            }
-        }
+        // Try to find the status effect.
+        StatusEffect currEffect = GetStatusEffect(e.statusInfo.type);
         // If the status wasn't found, add it.
-        if (!foundStatusEffect)
+        // Or else, increment it.
+        if (currEffect == null)
         {
             e.shouldActivate = true;
             statusEffects.Add(e);
             InitializeNewStatusObject(e);
+        }
+        else
+        {
+            currEffect.shouldActivate = true;
+            currEffect.ChangeCount(e.amplifier);
         }
         // Play the corresponding sound if this is a buff or debuff.
         switch (e.statusInfo.effectFaction)
@@ -67,6 +63,22 @@ public partial class CharacterStatusHandler : MonoBehaviour
         OnGetStatusEffect.Invoke(e);
     }
 
+    // Decrements a status effect from the current character.
+    // A positive amp will reduce the status effect's count by that much.
+    // If they do not have it, does nothing.
+    public void DecrementStatusEffect(Effect e, int amp)
+    {
+        // Try to find the status effect.
+        StatusEffect currEffect = GetStatusEffect(e);
+        // If the status wasn't found, stop here.
+        if (currEffect == null) { return; }
+        // Or else, decrement it.
+        currEffect.shouldActivate = true;
+        currEffect.ChangeCount(-amp);
+        // Update all status effect icons afterwards.
+        UpdateStatusIcons();
+    }
+
     // Removes a status effect from the current character.
     public void RemoveStatusEffect(Effect e)
     {
@@ -79,7 +91,7 @@ public partial class CharacterStatusHandler : MonoBehaviour
                 break;
             }
         }
-        // If we can find the status, return its corresponding object to the pool.
+        // If we can find the status icon, return its corresponding object to the pool.
         for (int i = 0; i < statusIconObjects.Count; i++)
         {
             if (statusIconObjects[i].GetComponent<StatusController>().effectType == e)
@@ -92,21 +104,8 @@ public partial class CharacterStatusHandler : MonoBehaviour
         UpdateStatusIcons();
     }
 
-    // Removes all status effects that have reached a count of 0.
-    public void RemoveEmptyStatusEffects()
-    {
-        // Remove all status effects that have worn off.
-        for (int i = statusEffects.Count - 1; i >= 0; i--)
-        {
-            if (!statusEffects[i].IsActive())
-            {
-                RemoveStatusEffect(statusEffects[i].statusInfo.type);
-            }
-        }
-    }
-
     // Updates all status effect icons shown under health bar.
-    public void UpdateStatusIcons()
+    private void UpdateStatusIcons()
     {
         RemoveEmptyStatusEffects();
         for (int i = 0; i < statusIconObjects.Count; i++)
@@ -115,6 +114,19 @@ public partial class CharacterStatusHandler : MonoBehaviour
             iconObject.transform.SetParent(statusParentTransform);
             iconObject.transform.position = statusParentTransform.position + new Vector3(0.6f * i, 0);
             iconObject.GetComponent<StatusController>().UpdateStatus(statusEffects[i]);
+        }
+    }
+
+    // Removes all status effects that have reached a count of 0.
+    private void RemoveEmptyStatusEffects()
+    {
+        // Remove all status effects that have worn off.
+        for (int i = statusEffects.Count - 1; i >= 0; i--)
+        {
+            if (!statusEffects[i].IsActive())
+            {
+                RemoveStatusEffect(statusEffects[i].statusInfo.type);
+            }
         }
     }
 

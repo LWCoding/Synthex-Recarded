@@ -205,18 +205,7 @@ public partial class BattleController : MonoBehaviour
             playerBCC.AddStatusEffect(Globals.GetStatus(Effect.LUCKY_DRAW, 1));
             TopBarController.Instance.FlashRelicObject(RelicType.GRAPPLING_HOOK);
         }
-        // If the player has the The Thinker relic, deal 1 damage to enemies for every card.
-        if (GameController.HasRelic(RelicType.THE_THINKER))
-        {
-            playerBCC.OnPlayCard.AddListener((c) =>
-            {
-                foreach (BattleCharacterController bcc in enemyBCCs)
-                {
-                    bcc.ChangeHealth(-1);
-                }
-                TopBarController.Instance.FlashRelicObject(RelicType.THE_THINKER);
-            });
-        }
+
         // If the player has the Green Scarf relic, remove combo if the card isn't identical.
         if (GameController.HasRelic(RelicType.GREEN_SCARF))
         {
@@ -227,6 +216,34 @@ public partial class BattleController : MonoBehaviour
                 {
                     playerBCC.RemoveStatusEffect(Effect.COMBO);
                 }
+            });
+        }
+        // If the player has the Green Scarf relic, build up combos for every attack card.
+        if (GameController.HasRelic(RelicType.GREEN_SCARF))
+        {
+            playerBCC.OnPlayedCard.AddListener((c) =>
+            {
+                StatusEffect combo = playerBCC.GetStatusEffect(Effect.COMBO);
+                if (c.cardData.cardType == CardType.ATTACKER || c.cardData.cardType == CardType.SPECIAL_ATTACKER)
+                {
+                    if (combo == null || c.cardData.GetCardDisplayName() == combo.specialValue)
+                    {
+                        playerBCC.AddStatusEffect(Globals.GetStatus(Effect.COMBO, 2, c.cardData.GetCardDisplayName()));
+                        TopBarController.Instance.FlashRelicObject(RelicType.GREEN_SCARF);
+                    }
+                }
+            });
+        }
+        // If the player has the The Thinker relic, deal 1 damage to enemies for every card.
+        if (GameController.HasRelic(RelicType.THE_THINKER))
+        {
+            playerBCC.OnPlayCard.AddListener((c) =>
+            {
+                foreach (BattleCharacterController bcc in BattleController.Instance.enemyBCCs)
+                {
+                    bcc.ChangeHealth(-1);
+                }
+                TopBarController.Instance.FlashRelicObject(RelicType.THE_THINKER);
             });
         }
         // If the player has the Vampire Teeth relic, killing an enemy should heal 3 health.
@@ -423,11 +440,11 @@ public partial class BattleController : MonoBehaviour
             cardObject.transform.position += new Vector3(startPosition + i * positionDifference - squeezeTogether, ((totalCards % 2 == 0) ? -Mathf.Abs(-(Mathf.Floor(totalCards / 2) - 0.5f) + i) : -Mathf.Abs(-Mathf.Floor(totalCards / 2) + i)) * verticalDifference, 0);
             if (shouldBeInteractable)
             {
-                cardHandler.EnableFunctionality();
+                cardHandler.EnableInteractions();
             }
             else
             {
-                cardHandler.DisableFunctionality();
+                cardHandler.DisableInteractions();
             }
             cardHandler.InitializeStartingData();
         }
@@ -487,7 +504,7 @@ public partial class BattleController : MonoBehaviour
         for (int i = 0; i < _cardObjectsInHand.Count; i++)
         {
             CardHandler cardHandler = _cardObjectsInHand[i].GetComponent<CardHandler>();
-            cardHandler.EnableFunctionality();
+            cardHandler.EnableInteractions();
         }
     }
 
@@ -609,7 +626,7 @@ public partial class BattleController : MonoBehaviour
         for (int i = 0; i < _cardObjectsInHand.Count; i++)
         {
             CardHandler cardHandler = _cardObjectsInHand[i].GetComponent<CardHandler>();
-            cardHandler.EnableFunctionality();
+            cardHandler.EnableInteractions();
         }
     }
 
@@ -622,6 +639,8 @@ public partial class BattleController : MonoBehaviour
     // Triggers whenever the hero wins the fight. (All monsters go to zero health.)
     public void HandleBattleWin()
     {
+        // If the player isn't alive, don't even consider the win logic.
+        if (!playerBCC.IsAlive()) { return; }
         StartCoroutine(HandleBattleWinCoroutine());
     }
 
@@ -635,18 +654,14 @@ public partial class BattleController : MonoBehaviour
         // Allot some time to animate the coins going to the player's balance.
         yield return new WaitForSeconds(1.4f);
         // Let the player add a new card to their deck (out of 3).
-        // ONLY do this if the player is alive.
-        if (playerBCC.IsAlive())
+        CardChoiceController.Instance.ShowCardChoices(3, () =>
         {
-            CardChoiceController.Instance.ShowCardChoices(3, () =>
-            {
-                FadeTransitionController.Instance.HideScreen("Map", 0.75f);
-            });
-        }
+            FadeTransitionController.Instance.HideScreen("Map", 0.75f);
+        });
     }
 
     // Update the attack and defense values of all cards in your hand.
-    public void UpdateHandDescriptionInfo()
+    public void UpdateAllCardDescriptions()
     {
         foreach (GameObject obj in _cardObjectsInHand)
         {

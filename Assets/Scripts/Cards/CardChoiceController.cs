@@ -111,7 +111,7 @@ public class CardChoiceController : MonoBehaviour
         {
             GameObject c = _cardChoiceObjects[i];
             CardHandler cc = c.GetComponent<CardHandler>();
-            cc.DisableFunctionality();
+            cc.DisableInteractions();
             if (cc.gameObject != _cardObjectChosen)
             {
                 StartCoroutine(c.GetComponent<CardHandler>().CardDisappearCoroutine(0.35f, CardAnimation.TRANSLATE_DOWN, () =>

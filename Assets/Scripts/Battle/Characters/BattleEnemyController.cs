@@ -147,7 +147,7 @@ public class BattleEnemyController : BattleCharacterController
             // Render all of the available options unusable.
             foreach (GameObject cardObject in GameObject.FindGameObjectsWithTag("CardUI"))
             {
-                cardObject.GetComponent<CardHandler>().DisableFunctionality();
+                cardObject.GetComponent<CardHandler>().DisableInteractions();
             }
             Destroy(battleController.endTurnButton.GetComponent<Button>());
         }

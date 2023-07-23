@@ -76,7 +76,7 @@ IPointerClickHandler
             _isInteractable = false;
             cardCostText.text = "";
             _parentCardHandler.SetSortingOrder(1);
-            _parentCardHandler.DisableFunctionality();
+            _parentCardHandler.DisableInteractions();
             // Play the card chosen SFX.
             SoundManager.Instance.PlaySFX(SoundEffect.SHOP_PURCHASE);
             // Add the card to the deck.

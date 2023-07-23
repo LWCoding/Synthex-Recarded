@@ -186,12 +186,10 @@ public partial class BattleCharacterController : MonoBehaviour
         {
             if (s.statusInfo.decrementEveryTurn)
             {
-                s.ChangeCount(-1);
+                statusHandler.DecrementStatusEffect(s.statusInfo.type, 1);
                 s.shouldActivate = true;
             }
         }
-        // Update all status effect icons.
-        statusHandler.UpdateStatusIcons();
     }
 
     // This function will be run at the end of the turn.
@@ -234,8 +232,7 @@ public partial class BattleCharacterController : MonoBehaviour
         StatusEffect doubleTakeEffect = statusHandler.GetStatusEffect(Effect.DOUBLE_TAKE);
         if (doubleTakeEffect != null)
         {
-            doubleTakeEffect.ChangeCount(-1);
-            statusHandler.UpdateStatusIcons();
+            statusHandler.DecrementStatusEffect(Effect.DOUBLE_TAKE, 1);
             yield return PlayCardCoroutine(c, 2);
         }
         else

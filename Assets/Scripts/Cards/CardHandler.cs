@@ -64,7 +64,7 @@ public class CardHandler : MonoBehaviour
         _currentCardEffectTypes = new List<CardEffectType>();
         // Set all of the basic properties
         InitializeStartingData();
-        EnableFunctionality();
+        EnableInteractions();
         // Set the card information
         card = c;
         nameText.text = c.cardData.GetCardDisplayName();
@@ -386,13 +386,13 @@ public class CardHandler : MonoBehaviour
     }
 
     // This function enables the functionality (playability) of this card.
-    public void EnableFunctionality()
+    public void EnableInteractions()
     {
         _graphicRaycaster.enabled = true;
     }
 
     // This function disables the functionality (playability) of this card.
-    public void DisableFunctionality()
+    public void DisableInteractions()
     {
         _graphicRaycaster.enabled = false;
     }

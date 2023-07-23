@@ -75,7 +75,7 @@ public class TopBarCardController : MonoBehaviour
         cardObject.transform.localScale = initialScale;
         cardObject.GetComponent<Canvas>().sortingOrder = GetDeckButtonSortingOrder() + 1;
         cardObject.GetComponent<CardHandler>().Initialize(cardType);
-        cardObject.GetComponent<CardHandler>().DisableFunctionality();
+        cardObject.GetComponent<CardHandler>().DisableInteractions();
         // Animate the card towards the deck icon.
         Vector3 targetPosition = _showDeckButton.transform.position;
         Vector3 targetScale = new Vector3(0.1f, 0.1f, 1); // Scale when the card reaches the deck icon.
