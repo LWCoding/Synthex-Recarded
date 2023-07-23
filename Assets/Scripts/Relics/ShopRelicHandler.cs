@@ -83,7 +83,7 @@ public class ShopRelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
         switch (relicRarity)
         {
             case RelicRarity.COMMON:
-                return 150 + Random.Range(-20, 20); // 130-170 $
+                return 160 + Random.Range(-20, 20); // 140-180 $
             case RelicRarity.UNCOMMON:
                 return 200 + Random.Range(-20, 20); // 180-220 $
             case RelicRarity.RARE:

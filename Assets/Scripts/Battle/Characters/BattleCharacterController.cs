@@ -202,8 +202,7 @@ public partial class BattleCharacterController : MonoBehaviour
             switch (s.statusInfo.type)
             {
                 case Effect.VOLATILE:
-                    s.ChangeCount(-1);
-                    s.shouldActivate = true;
+                    statusHandler.DecrementStatusEffect(Effect.VOLATILE, 1);
                     // If the amplifier is zero, then this character explodes.
                     if (s.amplifier == 0)
                     {
