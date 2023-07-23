@@ -21,11 +21,12 @@ MonoBehaviour:
   spriteOffset: {x: 0.1, y: -0.1}
   spriteScale: {x: 0.85, y: 0.85}
   shadowScale: {x: 3.3, y: 0.77}
-  enemyHealthMin: 20
-  enemyHealthMax: 20
+  enemyHealthMin: 15
+  enemyHealthMax: 15
   enemyRewardMin: 0
   enemyRewardMax: 0
   enemyXPReward: 0
   enemyIcon: {fileID: 21300000, guid: 1d5db784e6b3ef54a829de7be439308e, type: 3}
   locationFound: Forest
   enemyAI: 12
+  _possibleEncounterDialogues: []

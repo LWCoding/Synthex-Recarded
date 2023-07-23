@@ -74,24 +74,6 @@ public class JournalManager : MonoBehaviour
         _journalIconAnimator.Play((anyEnemyNotCheckedInJournal) ? "IdleAlert" : "Idle");
     }
 
-    // TODO: This is just a test for unlocking new things
-    private void Update()
-    {
-        // Refresh
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            foreach (Enemy e in Globals.allEnemies)
-            {
-                PlayerPrefs.DeleteKey(e.characterName);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            List<Enemy> allLockedEnemies = Globals.allEnemies.FindAll((enemy) => PlayerPrefs.GetInt(enemy.characterName) == 0);
-            UnlockNewEnemy(allLockedEnemies[UnityEngine.Random.Range(0, allLockedEnemies.Count)]);
-        }
-    }
-
     // Play the alert animation IF the journal tab isn't currently showing.
     // Or else, just go to the idle alert.
     public void PlayAlertAnimation()

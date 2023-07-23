@@ -43,11 +43,31 @@ public class BattleEnemyController : BattleCharacterController
         OnPlayCard.AddListener((c) => HideActiveDialogue());
     }
 
-    public void RenderEnemyDialogue(Enemy e, string textToRender)
+    // Render some dialogue being spoken by the enemy.
+    // The Enemy parameter is necessary ON THE FIRST CALL
+    public void RenderEnemyDialogue(string textToRender)
     {
-        dialogueAnimator.transform.localPosition = new Vector2(-e.idleSprite.bounds.size.x / 2 - 1, e.idleSprite.bounds.size.y / 2 - 0.5f);
         dialogueText.text = textToRender;
         StartCoroutine(RenderEnemyDialogueCoroutine());
+    }
+
+    public void SetEnemyType(Enemy e)
+    {
+        // This is for the journal to know we've encountered the enemy before.
+        // TODO: Change this so it's not based on PlayerPrefs!
+        if (!PlayerPrefs.HasKey(e.characterName))
+        {
+            JournalManager.Instance.UnlockNewEnemy(e);
+        }
+        enemyAI = e.enemyAI;
+        _xpRewardAmount = e.enemyXPReward;
+        // Set the dialogue position.
+        dialogueAnimator.transform.localPosition = new Vector2(-e.idleSprite.bounds.size.x / 2 * e.spriteScale.x - 1, e.idleSprite.bounds.size.y * e.spriteScale.y / 2 - 0.5f);
+        // Render any starting dialogues if the enemy has any.
+        if (e.HasEncounterDialogues())
+        {
+            RenderEnemyDialogue(e.GetRandomEncounterDialogue());
+        }
     }
 
     private IEnumerator RenderEnemyDialogueCoroutine()
@@ -69,23 +89,6 @@ public class BattleEnemyController : BattleCharacterController
         {
             dialogueAnimator.Play("Hide");
             _isDialoguePlaying = false;
-        }
-    }
-
-    public void SetEnemyType(Enemy e)
-    {
-        // This is for the journal to know we've encountered the enemy before.
-        // TODO: Change this so it's not based on PlayerPrefs!
-        if (!PlayerPrefs.HasKey(e.characterName))
-        {
-            JournalManager.Instance.UnlockNewEnemy(e);
-        }
-        enemyAI = e.enemyAI;
-        _xpRewardAmount = e.enemyXPReward;
-        // Render any starting dialogues if the enemy has any.
-        if (e.HasEncounterDialogues())
-        {
-            RenderEnemyDialogue(e, e.GetRandomEncounterDialogue());
         }
     }
 

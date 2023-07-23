@@ -28,3 +28,7 @@ MonoBehaviour:
   enemyIcon: {fileID: 21300000, guid: eecd30a49b9455247a6dc3a6ad174be7, type: 3}
   locationFound: Secret
   enemyAI: 99
+  _possibleEncounterDialogues:
+  - B-boys? I-is that a boy I smell..? uwu~
+  - You're a girlkisser? Nah, you like kissing boys~
+  - '*passionately makes out with other boykisser*'

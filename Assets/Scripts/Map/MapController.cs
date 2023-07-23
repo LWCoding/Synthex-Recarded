@@ -621,6 +621,9 @@ public class MapController : MonoBehaviour
                 GameController.nextBattleEnemies = allEnemiesToRender.enemies;
                 FadeTransitionController.Instance.HideScreen("Battle", 0.75f);
                 break;
+            case MapChoice.UPGRADE_MACHINE:
+                FadeTransitionController.Instance.HideScreen("Upgrade", 0.75f);
+                break;
         }
     }
 

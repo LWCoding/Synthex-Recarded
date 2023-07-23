@@ -125,7 +125,7 @@ public partial class BattleController : MonoBehaviour
         return _gameState;
     }
 
-    // Initializes the hero's sprite and health.
+    // Initializes the hero's deck, sprite, and health.
     private void InitializeHero()
     {
         for (int i = 0; i < GameController.GetHeroCards().Count; i++)
@@ -146,9 +146,7 @@ public partial class BattleController : MonoBehaviour
         // Initialize this enemy based on the Enemy scriptable object data.
         GameObject enemyObject = Instantiate(enemyPrefabObject);
         BattleEnemyController bec = enemyObject.GetComponent<BattleEnemyController>();
-        bec.SetEnemyType(enemyData);
         enemiesStillAlive++;
-        // Add this enemy to the enemyBCCs list to label as a target.
         enemyBCCs.Add(bec);
         // Initialize the rest of the enemy's information.
         int generatedHealth = Random.Range(enemyData.enemyHealthMin, enemyData.enemyHealthMax + 1);
@@ -170,6 +168,7 @@ public partial class BattleController : MonoBehaviour
         bec.gameObject.transform.position = enemyLocationToSpawnAt.position;
         bec.InitializeHealthData(generatedHealth, generatedHealth);
         bec.Initialize(enemyData);
+        bec.SetEnemyType(enemyData);
     }
 
     // Sometimes there are some initial actions we want to perform at the very
@@ -375,6 +374,7 @@ public partial class BattleController : MonoBehaviour
         RunGameLoop();
     }
 
+    // Inflict a random card in the player's hand with an effect.
     public void InflictRandomCardWithEffect(CardEffectType type)
     {
         switch (type)
@@ -386,17 +386,13 @@ public partial class BattleController : MonoBehaviour
         }
         OnNextTurnStart.AddListener(() =>
         {
-            if (_cardObjectsInHand.Count == 0) { return; }
-            GameObject randomCardObject = _cardObjectsInHand[Random.Range(0, _cardObjectsInHand.Count)];
-            CardHandler randomCardHandler = randomCardObject.GetComponent<CardHandler>();
-            int attempts = 0;
-            while (attempts < 10 && randomCardHandler.HasCardEffect(CardEffectType.POISON))
-            {
-                randomCardObject = _cardObjectsInHand[Random.Range(0, _cardObjectsInHand.Count)];
-                randomCardHandler = randomCardObject.GetComponent<CardHandler>();
-                attempts++;
-            }
-            if (attempts != 10) { randomCardHandler.InflictCardEffect(type); }
+            // Find all cards that do not have the specified effect.
+            List<GameObject> cardsWithoutEffect = _cardObjectsInHand.FindAll((c) => c.GetComponent<CardHandler>().HasCardEffect(type));
+            // If no cards without the effect exist, stop here.
+            if (cardsWithoutEffect.Count == 0) { return; }
+            // Or else, get that card's CardHandler and inflict the status.
+            CardHandler randomCardHandler = cardsWithoutEffect[Random.Range(0, cardsWithoutEffect.Count)].GetComponent<CardHandler>();
+            randomCardHandler.InflictCardEffect(type);
         });
     }
 

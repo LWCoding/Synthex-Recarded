@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Shop.unity
     guid: bd67fe3ee2dd50f4994314312d53a977
+  - enabled: 1
+    path: Assets/Scenes/Upgrade.unity
+    guid: 49967046b60b4fc4b8b862c553ab1e37
   m_configObjects: {}
