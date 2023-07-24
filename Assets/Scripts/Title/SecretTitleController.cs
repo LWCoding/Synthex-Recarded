@@ -37,11 +37,12 @@ public class SecretTitleController : MonoBehaviour
     public void StartNewGame()
     {
         // Initialize the hero with base information.
-        GameController.SetChosenHero(Globals.GetBaseHero(HeroTag.RYAN));
+        GameController.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
         GameController.SetSeenEnemies(new List<Encounter>());
         GameController.SetMapScene(MapScene.SECRET);
         GameController.SetMapObject(null);
         GameController.SetMoney(150);
+        GameController.SetXP(15);
         GameController.saveFileName = "Save.ass"; // TODO: Make this vary!
         GameController.alreadyPlayedTutorials.Add("Battle");
         // Start the game.

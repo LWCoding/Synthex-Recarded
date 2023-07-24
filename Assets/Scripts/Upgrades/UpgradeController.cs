@@ -7,12 +7,22 @@ using UnityEngine.UI;
 public class UpgradeController : MonoBehaviour
 {
 
+    public static UpgradeController Instance;
     [Header("Object Assignments")]
     [SerializeField] private Transform _cardVertLayoutTransform;
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private Button _exitButton;
 
     private List<CardHandler> _cardPreviewHandlers = new List<CardHandler>();
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(this);
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -25,13 +35,22 @@ public class UpgradeController : MonoBehaviour
         FadeTransitionController.Instance.ShowScreen(1.25f);
     }
 
+    public void RefreshCardPreviews()
+    {
+        List<Card> heroCards = GameController.GetHeroCards();
+        for (int i = 0; i < _cardPreviewHandlers.Count; i++)
+        {
+            _cardPreviewHandlers[i].UpdateCardVisuals();
+        }
+    }
+
     private IEnumerator InitializeDeckCardsCoroutine()
     {
         Transform horizontalTransform = null;
         int currCardIdx = 0;
         // Order the cards in alphabetical order, so the player
         // can't cheat and see the exact order.
-        List<Card> cardsToShow = GameController.GetHeroCards().OrderBy((c) => c.GetCardStats().cardCost).ToList();
+        List<Card> cardsToShow = GameController.GetHeroCards();
         // Recover a pooled object for each card.
         foreach (Card card in cardsToShow)
         {
@@ -48,7 +67,7 @@ public class UpgradeController : MonoBehaviour
             cardObject.transform.SetParent(horizontalTransform, false);
             // We want the card to appear from nothing, so set the
             // initial showing to false.
-            cardController.Initialize(card, false);
+            cardController.Initialize(card, false, 0, 0, currCardIdx);
             currCardIdx++;
             _cardPreviewHandlers.Add(cardController);
         }
@@ -70,9 +89,9 @@ public class UpgradeController : MonoBehaviour
         CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
         cardObject.transform.localScale = new Vector2(0.4f, 0.4f);
-        cardHandler.SetSortingOrder(22);
         cardHandler.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
         cardHandler.HideCardInstantly(); // Hide the card instantly so we can animate it after.
+        cardHandler.EnableUpgradeFunctionality();
         return cardObject;
     }
 

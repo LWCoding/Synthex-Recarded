@@ -16,6 +16,7 @@ public class CardHandler : MonoBehaviour
 {
 
     [HideInInspector] public Card card;
+    [HideInInspector] public int cardIdx; // Index in deck, if necessary
     [Header("Object Assignments")]
     public GameObject CardObject;
     [SerializeField] private TextMeshProUGUI nameText;
@@ -58,7 +59,7 @@ public class CardHandler : MonoBehaviour
 
     // Usually, this card is animated into frame with the CardAppear coroutine.
     // There is a second parameter to make it show instantly instead.
-    public void Initialize(Card c, bool shouldShowInstantly = true, int strengthBuff = 0, int defenseBuff = 0)
+    public void Initialize(Card c, bool shouldShowInstantly = true, int strengthBuff = 0, int defenseBuff = 0, int idx = 0)
     {
         NullifyCardEffects();
         _currentCardEffectTypes = new List<CardEffectType>();
@@ -67,11 +68,8 @@ public class CardHandler : MonoBehaviour
         EnableInteractions();
         // Set the card information
         card = c;
-        nameText.text = c.cardData.GetCardDisplayName();
-        UpdateCardDescription(strengthBuff, defenseBuff);
-        costText.text = c.GetCardStats().cardCost.ToString();
-        levelText.text = "LV." + c.level;
-        previewImage.sprite = c.cardData.cardImage;
+        cardIdx = idx;
+        UpdateCardVisuals(strengthBuff, defenseBuff);
         HideTooltip();
         // If we're in a battle, update this card's appearance based on its cost
         // if it's one of the cards showing up in battle.
@@ -105,6 +103,17 @@ public class CardHandler : MonoBehaviour
         {
             SetPreviewColor(new Color(1, 1, 1));
         }
+    }
+
+    // Updates the card information based on the current stored card.
+    // This is because the card may change for this CardHandler.
+    public void UpdateCardVisuals(int strengthBuff = 0, int defenseBuff = 0)
+    {
+        nameText.text = card.cardData.GetCardDisplayName() + new String('+', card.level - 1);
+        UpdateCardDescription(strengthBuff, defenseBuff);
+        costText.text = card.GetCardStats().cardCost.ToString();
+        levelText.text = "LV." + card.level;
+        previewImage.sprite = card.cardData.cardImage;
     }
 
     // Update the values of the card depending on any strength or defense
@@ -402,6 +411,12 @@ public class CardHandler : MonoBehaviour
     {
         tooltipParentObject.transform.localPosition = new Vector3(275, _tooltipInitialLocalPosition.y, 0);
         GetComponent<ShopCardHandler>().enabled = true;
+    }
+
+    public void EnableUpgradeFunctionality()
+    {
+        tooltipParentObject.transform.localPosition = new Vector3(275, _tooltipInitialLocalPosition.y, 0);
+        GetComponent<UpgradeCardHandler>().enabled = true;
     }
 
     // Modify the behavior of this card based on mouse inputs.

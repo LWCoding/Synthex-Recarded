@@ -280,6 +280,7 @@ public partial class BattleController : MonoBehaviour
                 }
             }
         });
+        playerBCC.OnPlayedCard.AddListener((e) => UpdateAllCardDescriptions());
     }
 
     private void RunGameLoop()

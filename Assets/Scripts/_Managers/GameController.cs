@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public static class GameController
     // Hero data:
     private static Hero _chosenHero;
     public static void SetChosenHero(Hero h) => _chosenHero = h;
-    public static List<Card> GetHeroCards() => _chosenHero.currentDeck;
+    public static List<Card> GetHeroCards() => _chosenHero.currentDeck.OrderBy((c) => c.GetCardStats().cardCost).ToList();
     public static List<Relic> GetRelics() => _chosenHero.currentRelics;
     public static List<Item> GetItems() => _chosenHero.currentItems;
     public static bool IsItemBagFull() => _chosenHero.currentItems.Count >= GetHeroData().maxItemStorageSpace;
@@ -66,6 +67,12 @@ public static class GameController
     public static void AddCardToDeck(Card card)
     {
         _chosenHero.currentDeck.Add(card);
+    }
+
+    // Upgrades a specific card in the deck.
+    public static void UpgradeCardInDeck(int cardIdx)
+    {
+        GetHeroCards()[cardIdx].UpgradeLevel();
     }
 
     // Adds a relic to the player's inventory, if they don't have it already.

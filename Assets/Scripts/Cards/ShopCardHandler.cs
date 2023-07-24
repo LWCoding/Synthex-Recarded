@@ -11,10 +11,10 @@ IPointerClickHandler
 {
 
     [Header("Object Assignments")]
-    public GameObject shopOverlayObject;
+    public GameObject purchaseOverlayObject;
     public TextMeshProUGUI cardCostText;
 
-    public CardHandler _parentCardHandler;
+    private CardHandler _parentCardHandler;
     private bool _isInteractable;
     private Transform _parentCardTransform;
     private Card _card;
@@ -39,10 +39,10 @@ IPointerClickHandler
         _parentCardHandler.SetSortingOrder(2);
         // Show price on mouse enter!
         cardCostText.text = "$" + _cardCost.ToString();
-        shopOverlayObject.SetActive(true);
+        purchaseOverlayObject.SetActive(true);
         // Set the color of the overlay text depending on if
         // the player can afford it or not.
-        if (_cardCost < GameController.GetMoney())
+        if (_cardCost <= GameController.GetMoney())
         {
             // Can afford the card!
             cardCostText.color = new Color(0.3f, 1, 0);
@@ -59,7 +59,7 @@ IPointerClickHandler
         if (!_isInteractable) { return; }
         _parentCardHandler.SetSortingOrder(1);
         // Hide price on mouse exit!
-        shopOverlayObject.SetActive(false);
+        purchaseOverlayObject.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)

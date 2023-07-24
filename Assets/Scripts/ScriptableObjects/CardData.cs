@@ -55,7 +55,7 @@ public class Card
 
     // Upgrades the card, if possible. Returns a boolean
     // representing whether the operation was successful or not.
-    public bool Upgrade()
+    public bool UpgradeLevel()
     {
         if (level < cardData.GetMaxLevel())
         {
@@ -64,6 +64,8 @@ public class Card
         }
         return false;
     }
+
+    public bool IsMaxLevel() => level == cardData.GetMaxLevel();
 
     public bool HasTrait(Trait traitEnum)
     {

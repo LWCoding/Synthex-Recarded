@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4724038534953988771}
   - component: {fileID: 467106806787827298}
   - component: {fileID: 931482084799514959}
+  - component: {fileID: 688747193634192533}
   m_Layer: 5
   m_Name: Card
   m_TagString: CardUI
@@ -148,9 +149,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02a385aa1d7350a439c1476ae7d01663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopOverlayObject: {fileID: 1359376959608060932}
+  purchaseOverlayObject: {fileID: 1359376959608060932}
   cardCostText: {fileID: 4992026476271778170}
-  _parentCardHandler: {fileID: 0}
+--- !u!114 &688747193634192533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572404941624521553}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf653df4b19d8c544b194f48c4768728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  purchaseOverlayObject: {fileID: 1359376959608060932}
+  cardCostText: {fileID: 4992026476271778170}
 --- !u!1 &1187988967937288055
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +212,7 @@ GameObject:
   - component: {fileID: 8307831896253149862}
   - component: {fileID: 7232283496678098638}
   m_Layer: 5
-  m_Name: ShopOverlay
+  m_Name: PurchaseOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

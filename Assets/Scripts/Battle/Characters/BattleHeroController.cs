@@ -12,7 +12,6 @@ public class BattleHeroController : BattleCharacterController
 
     public void Start()
     {
-        OnPlayedCard.AddListener((e) => BattleController.Instance.UpdateAllCardDescriptions());
         OnDeath.AddListener(HandlePlayerDeath);
         // Update the actual stored health (affects UI) after the health of the hero updates.
         OnUpdateHealthText.AddListener(() => GameController.SetHeroHealth(GetHealth()));
