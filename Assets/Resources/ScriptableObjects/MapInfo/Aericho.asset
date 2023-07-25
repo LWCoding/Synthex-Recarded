@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5f2bdf7180af494e8b0750dc7264b10, type: 3}
-  m_Name: Secret
+  m_Name: Aericho
   m_EditorClassIdentifier: 
   mapType: 2
-  mapBGColor: {r: 0.21960784, g: 0.14509805, b: 0.07058824, a: 1}
+  mapBGColor: {r: 0.40784314, g: 0.49019608, b: 0.49411765, a: 1}
   numFloors: 10
   mapLocations:
   - name: Monster

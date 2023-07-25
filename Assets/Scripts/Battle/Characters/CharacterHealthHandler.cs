@@ -19,9 +19,9 @@ public partial class CharacterHealthHandler : MonoBehaviour
 {
 
     [Header("Object Assignments")]
-    [SerializeField] private SpriteRenderer _characterSprite;
-    [SerializeField] private SpriteRenderer _barIconSprite;
-    [SerializeField] private SpriteRenderer _shieldOverlaySprite;
+    [SerializeField] private SpriteRenderer _characterSpriteRenderer;
+    [SerializeField] private SpriteRenderer _barIconSpriteRenderer;
+    [SerializeField] private SpriteRenderer _shieldOverlaySpriteRenderer;
     [SerializeField] private TextMeshPro _healthText;
     [SerializeField] private TextMeshPro _blockText;
     [SerializeField] private GameObject _healthFillObject;
@@ -117,11 +117,11 @@ public partial class CharacterHealthHandler : MonoBehaviour
             SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_DAMAGE_TAKEN, Mathf.Lerp(0.65f, 1.2f, Mathf.Min(Mathf.Abs(val / 20f), 1)));
             if (!ignoresBlock)
             {
-                RenderTooltip(val.ToString(), 8, _characterSprite.transform.position, new Color(1, 0.1f, 0.1f), 1);
+                RenderTooltip(val.ToString(), 8, _characterSpriteRenderer.transform.position + new Vector3(0, _characterSpriteRenderer.bounds.size.y / 2), new Color(1, 0.1f, 0.1f), 1);
             }
             else
             {
-                RenderTooltip(val.ToString(), 8, _characterSprite.transform.position - new Vector3(0, 0.8f), new Color(1, 0.1f, 0.6f), 1);
+                RenderTooltip(val.ToString(), 8, _characterSpriteRenderer.transform.position + new Vector3(0, _characterSpriteRenderer.bounds.size.y / 2) - new Vector3(0, 0.8f), new Color(1, 0.1f, 0.6f), 1);
             }
         }
 
@@ -150,7 +150,7 @@ public partial class CharacterHealthHandler : MonoBehaviour
         // Play the heal sound effect.
         SoundManager.Instance.PlaySFX(SoundEffect.HEAL_HEALTH);
         // Spawn a popup text.
-        RenderTooltip("+" + val.ToString(), 8, _characterSprite.transform.position - new Vector3(0, 0.8f), new Color(0.1f, 1, 0.1f), 0.5f);
+        RenderTooltip("+" + val.ToString(), 8, _characterSpriteRenderer.transform.position + new Vector3(0, _characterSpriteRenderer.bounds.size.y / 2) - new Vector3(0, 0.8f), new Color(0.1f, 1, 0.1f), 0.5f);
     }
 
     // Adds or removes _block from the character.
@@ -164,7 +164,7 @@ public partial class CharacterHealthHandler : MonoBehaviour
         {
             // If the function call increases _block, show how much _block
             // was added.
-            RenderTooltip("+" + val.ToString(), 4, _barIconSprite.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
+            RenderTooltip("+" + val.ToString(), 4, _barIconSpriteRenderer.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
             // Play the increase _block sound effect.
             SoundManager.Instance.PlaySFX(SoundEffect.SHIELD_APPLY);
             // Flash the _block overlay and tint the character.
@@ -173,7 +173,7 @@ public partial class CharacterHealthHandler : MonoBehaviour
         else if (val < 0)
         {
             // If the function call reduces _block, show how much _block was removed.
-            RenderTooltip((_block < 0) ? (val - _block).ToString() : val.ToString(), 4, _barIconSprite.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
+            RenderTooltip((_block < 0) ? (val - _block).ToString() : val.ToString(), 4, _barIconSpriteRenderer.transform.position + new Vector3(0, 0.5f), new Color(0.9f, 0.95f, 1), 0.5f);
         }
         if (shouldPlayBlockAnim)
         {
@@ -222,7 +222,7 @@ public partial class CharacterHealthHandler : MonoBehaviour
         // Update _block values.
         _blockText.text = _block.ToString();
         _blockText.gameObject.SetActive(IsAlive() && _block > 0);
-        _barIconSprite.sprite = (_block > 0) ? _blockIcon : _healthIcon;
+        _barIconSpriteRenderer.sprite = (_block > 0) ? _blockIcon : _healthIcon;
     }
 
     public void FlashBlockOverlay()
@@ -237,20 +237,20 @@ public partial class CharacterHealthHandler : MonoBehaviour
 
     public IEnumerator FlashBlockOverlayCoroutine()
     {
-        _shieldOverlaySprite.color = new Color(1, 1, 1, 0.8f);
-        _shieldOverlaySprite.transform.localPosition = new Vector3(0, 0.4f, 0);
+        _shieldOverlaySpriteRenderer.color = new Color(1, 1, 1, 0.8f);
+        _shieldOverlaySpriteRenderer.transform.localPosition = new Vector3(0, 0.4f, 0);
         WaitForSeconds wfs = new WaitForSeconds(0.025f);
         for (int i = 0; i < 20; i++)
         {
-            _shieldOverlaySprite.color -= new Color(0, 0, 0, 0.04f);
-            _shieldOverlaySprite.transform.localPosition = Vector3.Lerp(_shieldOverlaySprite.transform.localPosition, new Vector3(0, -0.4f, 0), 0.05f);
+            _shieldOverlaySpriteRenderer.color -= new Color(0, 0, 0, 0.04f);
+            _shieldOverlaySpriteRenderer.transform.localPosition = Vector3.Lerp(_shieldOverlaySpriteRenderer.transform.localPosition, new Vector3(0, -0.4f, 0), 0.05f);
             yield return wfs;
         }
     }
 
     public void DisableCharacterUI()
     {
-        _barIconSprite.gameObject.SetActive(false);
+        _barIconSpriteRenderer.gameObject.SetActive(false);
         _healthBoxTransform.gameObject.SetActive(false);
         _healthText.gameObject.SetActive(false);
         _blockText.gameObject.SetActive(false);

@@ -5,12 +5,12 @@ using UnityEngine;
 
 public enum ParticleType
 {
-    NONE = 0, SPIT_PARTICLES = 1, SMOKE_PARTICLES = 2
+    NONE = 0, SPIT_PARTICLES = 1, SMOKE_PARTICLES = 2, HEAL_PARTICLES = 3
 }
 
 public enum ParticleBurstType
 {
-    NONE = 0, ANGLED_BURST = 1, OUTWARDS_FROM_CENTER = 2
+    NONE = 0, ANGLED_BURST_TO_TARGET = 1, ANGLED_BURST_UP = 2, OUTWARDS_FROM_CENTER = 3
 }
 
 [System.Serializable]
@@ -32,6 +32,7 @@ public class ProjectileParticleHandler : MonoBehaviour
 
     public Material spitParticleMaterial;
     public Material smokeParticleMaterial;
+    public Material healParticleMaterial;
     private ParticleSystem _pSystem;
     private ParticleSystemRenderer _pRenderer;
 
@@ -61,17 +62,26 @@ public class ProjectileParticleHandler : MonoBehaviour
             case ParticleType.SMOKE_PARTICLES:
                 _pRenderer.GetComponent<ParticleSystemRenderer>().material = smokeParticleMaterial;
                 break;
+            case ParticleType.HEAL_PARTICLES:
+                _pRenderer.GetComponent<ParticleSystemRenderer>().material = healParticleMaterial;
+                break;
         }
         // Switch up the burst type of the particles based on the ParticleBurstType.
         ParticleSystem.ShapeModule shapeModule = _pSystem.shape;
         transform.localScale = new Vector2(burstDirectionX, 1);
         switch (particleInfo.particleBurstType)
         {
-            case ParticleBurstType.ANGLED_BURST:
+            case ParticleBurstType.ANGLED_BURST_TO_TARGET:
                 shapeModule.shapeType = ParticleSystemShapeType.Cone;
                 shapeModule.angle = 38.0f;
                 shapeModule.radius = 0.25f;
                 shapeModule.rotation = new Vector3(0, burstDirectionX * 90, 0);
+                break;
+            case ParticleBurstType.ANGLED_BURST_UP:
+                shapeModule.shapeType = ParticleSystemShapeType.Cone;
+                shapeModule.angle = 38.0f;
+                shapeModule.radius = 0.25f;
+                shapeModule.rotation = new Vector3(-90, 0, 0);
                 break;
             case ParticleBurstType.OUTWARDS_FROM_CENTER:
                 shapeModule.shapeType = ParticleSystemShapeType.Sphere;

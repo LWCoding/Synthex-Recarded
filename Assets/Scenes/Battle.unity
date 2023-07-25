@@ -2273,9 +2273,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467070d87a0a1aa459014a4cd52910bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterSprite: {fileID: 1485899164}
-  _barIconSprite: {fileID: 1831679015}
-  _shieldOverlaySprite: {fileID: 1701841096}
+  _characterSpriteRenderer: {fileID: 1485899164}
+  _barIconSpriteRenderer: {fileID: 1831679015}
+  _shieldOverlaySpriteRenderer: {fileID: 1701841096}
   _healthText: {fileID: 1837215142}
   _blockText: {fileID: 2077348326}
   _healthFillObject: {fileID: 1816212778}

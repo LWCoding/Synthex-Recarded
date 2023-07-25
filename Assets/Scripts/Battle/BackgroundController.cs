@@ -38,7 +38,7 @@ public class BackgroundController : MonoBehaviour
                 StartCoroutine(CloudMoveCoroutine(4));
                 StartCoroutine(CloudMoveCoroutine(9));
                 break;
-            case MapScene.SECRET:
+            case MapScene.AERICHO_CITY:
                 warzoneBGObject.SetActive(true);
                 break;
         }

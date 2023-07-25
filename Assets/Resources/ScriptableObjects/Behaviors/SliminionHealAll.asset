@@ -18,16 +18,16 @@ MonoBehaviour:
   cardType: 4
   characterMovement: 0
   projectileSprite: {fileID: 0}
-  projectileOffset: {x: 0, y: 0}
+  projectileOffset: {x: 0, y: 0.8}
   sourceParticleInfo:
-    particleType: 0
-    particleBurstType: 0
-    particleScale: {x: 1, y: 1}
-    particleLifetime: 0.8
-    particleSpeed: 6
+    particleType: 3
+    particleBurstType: 2
+    particleScale: {x: 1.8, y: 1.8}
+    particleLifetime: 1
+    particleSpeed: 2
     particleCount: 10
-    particleColor: {r: 1, g: 1, b: 1, a: 1}
-    affectedByGravity: 0
+    particleColor: {r: 0.11859596, g: 0.8679245, b: 0, a: 1}
+    affectedByGravity: 1
   destinationParticleInfo:
     particleType: 0
     particleBurstType: 0

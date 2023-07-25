@@ -10,7 +10,6 @@ public class UpgradeController : MonoBehaviour
     public static UpgradeController Instance;
     [Header("Object Assignments")]
     [SerializeField] private Transform _cardVertLayoutTransform;
-    [SerializeField] private Button _upgradeButton;
     [SerializeField] private Button _exitButton;
 
     private List<CardHandler> _cardPreviewHandlers = new List<CardHandler>();
@@ -27,7 +26,6 @@ public class UpgradeController : MonoBehaviour
     private void Start()
     {
         // Initialize the buttons that should modify UI elements.
-        _upgradeButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(GameController.GetHeroCards(), _upgradeButton));
         _exitButton.onClick.AddListener(() => FadeTransitionController.Instance.HideScreen("Map", 0.75f));
         // Initialize the cards in the deck.
         StartCoroutine(InitializeDeckCardsCoroutine());

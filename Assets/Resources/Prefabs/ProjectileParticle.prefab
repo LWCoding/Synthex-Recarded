@@ -4819,3 +4819,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spitParticleMaterial: {fileID: 2100000, guid: 8cd8795fcf3921549870fa57e0e4b233, type: 2}
   smokeParticleMaterial: {fileID: 2100000, guid: 4ec60fd93ab38a944a93a41abc094d5b, type: 2}
+  healParticleMaterial: {fileID: 2100000, guid: 887fd19882a8ba94eae11af49a6d2eac, type: 2}

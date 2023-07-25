@@ -106,9 +106,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingLayerID: 364907131
+  m_SortingLayer: 2
+  m_SortingOrder: 4
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &674885408385577889
 MonoBehaviour:
@@ -574,8 +574,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 364907131
+  m_SortingLayer: 2
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 4181fcfa8c6a5594e90494ab4c5278ad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -599,6 +599,7 @@ GameObject:
   - component: {fileID: 4792568729325286500}
   - component: {fileID: 8092869864362230509}
   - component: {fileID: 8246558996517533553}
+  - component: {fileID: 6392435782905203357}
   m_Layer: 0
   m_Name: Intent
   m_TagString: Untagged
@@ -663,6 +664,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
+--- !u!95 &6392435782905203357
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4792568729325286501}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a6a68684745dd3c44988381b2de48f50, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4792568729537167561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,9 +1989,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467070d87a0a1aa459014a4cd52910bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterSprite: {fileID: 4792568730718147564}
-  _barIconSprite: {fileID: 4792568730521039317}
-  _shieldOverlaySprite: {fileID: 4792568730731030235}
+  _characterSpriteRenderer: {fileID: 4792568730718147564}
+  _barIconSpriteRenderer: {fileID: 4792568730521039317}
+  _shieldOverlaySpriteRenderer: {fileID: 4792568730731030235}
   _healthText: {fileID: 4792568731328639640}
   _blockText: {fileID: 4792568729626147682}
   _healthFillObject: {fileID: 4792568730296871361}
