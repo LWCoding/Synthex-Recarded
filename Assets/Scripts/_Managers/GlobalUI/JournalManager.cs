@@ -81,7 +81,7 @@ public class JournalManager : MonoBehaviour
         if (!IsJournalShowing())
         {
             _journalIconAnimator.Play("Alert");
-            SoundManager.Instance.PlayOneShot(bookmarkShowSFX, 2);
+            SoundManager.Instance.PlayOneShot(bookmarkShowSFX, 1.4f);
         }
         else
         {

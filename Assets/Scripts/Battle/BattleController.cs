@@ -405,7 +405,7 @@ public partial class BattleController : MonoBehaviour
         OnNextTurnStart.AddListener(() =>
         {
             // Find all cards that do not have the specified effect.
-            List<GameObject> cardsWithoutEffect = _cardObjectsInHand.FindAll((c) => c.GetComponent<CardHandler>().HasCardEffect(type));
+            List<GameObject> cardsWithoutEffect = _cardObjectsInHand.FindAll((c) => !c.GetComponent<CardHandler>().HasCardEffect(type));
             // If no cards without the effect exist, stop here.
             if (cardsWithoutEffect.Count == 0) { return; }
             // Or else, get that card's CardHandler and inflict the status.

@@ -17,7 +17,7 @@ MonoBehaviour:
   idleSprite: {fileID: 21300000, guid: 862e4965d66d5f34890aa933469de06f, type: 3}
   damagedSprite: {fileID: 21300000, guid: cdd023e96036bbb43bfd55416a5ac293, type: 3}
   deathSprite: {fileID: 21300000, guid: cd565311be47d9444b5d93bcb3cda472, type: 3}
-  spriteOffset: {x: 0, y: 0}
+  spriteOffset: {x: 0, y: -2}
   spriteScale: {x: 1, y: 1}
   shadowScale: {x: 3.11, y: 0.77}
   baseHealth: 50

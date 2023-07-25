@@ -116,6 +116,8 @@ public class BattleEnemyController : BattleCharacterController
         DamageShake(3, 1.7f);
         StartCoroutine(DeathDisappearCoroutine());
         // Make the enemy uninteractable and hide its UI.
+        _targetSpriteRenderer.enabled = false;
+        _targetAnimator.enabled = false;
         MakeUninteractable();
         DisableEnemyUI();
         // Free up space after this enemy is dead for other enemies.
