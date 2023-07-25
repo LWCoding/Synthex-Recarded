@@ -85,34 +85,52 @@ MonoBehaviour:
     isObstacle: 1
   possibleEncounters:
   - enemies:
+    - {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 0
+    maxFloorLimit: 1
+  - enemies:
+    - {fileID: 11400000, guid: 9764447be14e0454ea880c1b9666b89a, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 1
+    maxFloorLimit: 7
+  - enemies:
+    - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 1
+    maxFloorLimit: 7
+  - enemies:
+    - {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 1
+    maxFloorLimit: 7
+  - enemies:
     - {fileID: 11400000, guid: dbf3bcfd32467fe428c68fa0fca73f1d, type: 2}
     isMiniboss: 0
     isBoss: 0
-    minFloorRequired: 3
+    minFloorRequired: 4
     maxFloorLimit: 10
   - enemies:
     - {fileID: 11400000, guid: e6538a40b623fe24d8ff8c3b7d667d95, type: 2}
     isMiniboss: 0
     isBoss: 0
-    minFloorRequired: 3
+    minFloorRequired: 4
     maxFloorLimit: 10
-  - enemies:
-    - {fileID: 11400000, guid: e33846f0e5ac11248a538d43bebc0519, type: 2}
-    isMiniboss: 0
-    isBoss: 1
-    minFloorRequired: 0
-    maxFloorLimit: 999
-  - enemies:
-    - {fileID: 11400000, guid: 22838726721beff4d86a20999061ebb5, type: 2}
-    isMiniboss: 1
-    isBoss: 0
-    minFloorRequired: 0
-    maxFloorLimit: 999
   - enemies:
     - {fileID: 11400000, guid: a46ddb76ec58c5741a930b8912f36c2d, type: 2}
     isMiniboss: 0
     isBoss: 0
-    minFloorRequired: 3
+    minFloorRequired: 4
+    maxFloorLimit: 10
+  - enemies:
+    - {fileID: 11400000, guid: 5cae8c7e34be05e41a29ffbf2aa7c541, type: 2}
+    isMiniboss: 0
+    isBoss: 0
+    minFloorRequired: 4
     maxFloorLimit: 10
   - enemies:
     - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
@@ -122,30 +140,6 @@ MonoBehaviour:
     minFloorRequired: 6
     maxFloorLimit: 999
   - enemies:
-    - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
-    isMiniboss: 0
-    isBoss: 0
-    minFloorRequired: 1
-    maxFloorLimit: 7
-  - enemies:
-    - {fileID: 11400000, guid: 5cae8c7e34be05e41a29ffbf2aa7c541, type: 2}
-    isMiniboss: 0
-    isBoss: 0
-    minFloorRequired: 3
-    maxFloorLimit: 10
-  - enemies:
-    - {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
-    isMiniboss: 0
-    isBoss: 0
-    minFloorRequired: 1
-    maxFloorLimit: 7
-  - enemies:
-    - {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
-    isMiniboss: 0
-    isBoss: 0
-    minFloorRequired: 0
-    maxFloorLimit: 1
-  - enemies:
     - {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
     - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
     isMiniboss: 0
@@ -157,14 +151,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: dbf3bcfd32467fe428c68fa0fca73f1d, type: 2}
     isMiniboss: 0
     isBoss: 0
-    minFloorRequired: 10
+    minFloorRequired: 13
     maxFloorLimit: 999
-  - enemies:
-    - {fileID: 11400000, guid: 9764447be14e0454ea880c1b9666b89a, type: 2}
-    isMiniboss: 0
-    isBoss: 0
-    minFloorRequired: 1
-    maxFloorLimit: 6
   - enemies:
     - {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
     - {fileID: 11400000, guid: 5cae8c7e34be05e41a29ffbf2aa7c541, type: 2}
@@ -180,9 +168,21 @@ MonoBehaviour:
     minFloorRequired: 13
     maxFloorLimit: 999
   - enemies:
+    - {fileID: 11400000, guid: 22838726721beff4d86a20999061ebb5, type: 2}
+    isMiniboss: 1
+    isBoss: 0
+    minFloorRequired: 0
+    maxFloorLimit: 999
+  - enemies:
     - {fileID: 11400000, guid: 1119245e1e535014ca5e940b603d3769, type: 2}
     isMiniboss: 1
     isBoss: 0
+    minFloorRequired: 0
+    maxFloorLimit: 999
+  - enemies:
+    - {fileID: 11400000, guid: e33846f0e5ac11248a538d43bebc0519, type: 2}
+    isMiniboss: 0
+    isBoss: 1
     minFloorRequired: 0
     maxFloorLimit: 999
   mapDialogues:

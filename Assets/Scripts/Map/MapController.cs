@@ -106,6 +106,9 @@ public class MapController : MonoBehaviour
             case MapScene.FOREST:
                 introBannerText.text = "<color=\"black\"><size=13>The Forest</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
                 break;
+            case MapScene.AERICHO_CITY:
+                introBannerText.text = "<color=\"black\"><size=13>Aericho City</size></color>\n<color=#282E27><i><size=5>Chapter 2</size></i></color>";
+                break;
             case MapScene.SECRET:
                 introBannerText.text = "<color=\"black\"><size=13>The Secret</size></color>\n<color=#282E27><i><size=5>Hello from Selenium :)</size></i></color>";
                 break;
@@ -279,6 +282,38 @@ public class MapController : MonoBehaviour
                     else
                     {
                         MapLocationType mapLocationType = _currentMapInfo.mapLocations.Find((m) => m.type == MapChoice.SHOP);
+                        optionObject.GetComponent<MapOptionController>().SetType(mapLocationType, floor + 1);
+                        if (!_mapOptionDictionary.ContainsKey(floor))
+                        {
+                            _mapOptionDictionary[floor] = new List<MapOptionController>();
+                        }
+                        _mapOptionDictionary[floor].Add(optionObject.GetComponent<MapOptionController>());
+                        // Add the serializable map location to the map object.
+                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                    }
+                }
+                continue;
+            }
+            if (_serializableMapObject.currScene == MapScene.AERICHO_CITY && floor == 0)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    GameObject optionObject = Instantiate(mapOptionPrefab);
+                    optionObject.transform.SetParent(mapParentObject);
+                    optionObject.transform.position = mapParentObject.position;
+                    optionObject.transform.position += new Vector3(startPosition + i * xPositionDifference, 0, 0);
+                    optionObject.transform.position += new Vector3(0, floor * yPositionDifference, 0);
+                    optionObject.transform.position += new Vector3(Random.Range(-positionVariation, positionVariation), Random.Range(-positionVariation, positionVariation) / 2, 0);
+                    if (i != 2)
+                    {
+                        MapLocationType mapLocationType = GetRandomMapLocation(_currentMapInfo.mapObstacles);
+                        optionObject.GetComponent<MapOptionController>().SetType(GetRandomMapLocation(_currentMapInfo.mapObstacles), floor + 1);
+                        // Add the serializable map location to the map object.
+                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                    }
+                    else
+                    {
+                        MapLocationType mapLocationType = _currentMapInfo.mapLocations.Find((m) => m.type == MapChoice.UPGRADE_MACHINE);
                         optionObject.GetComponent<MapOptionController>().SetType(mapLocationType, floor + 1);
                         if (!_mapOptionDictionary.ContainsKey(floor))
                         {

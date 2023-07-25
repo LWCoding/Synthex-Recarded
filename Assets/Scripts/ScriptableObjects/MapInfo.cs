@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum MapScene
 {
-    NONE, FOREST, CITY, FACTORY, SECRET
+    NONE, FOREST, AERICHO_CITY, FACTORY, SECRET
 }
 
 public enum MapChoice
