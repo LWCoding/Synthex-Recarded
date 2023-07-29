@@ -30,7 +30,7 @@ MonoBehaviour:
     affectedByGravity: 1
   destinationParticleInfo:
     particleType: 2
-    particleBurstType: 2
+    particleBurstType: 3
     particleScale: {x: 3, y: 3}
     particleLifetime: 0.9
     particleSpeed: 1
