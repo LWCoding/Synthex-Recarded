@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Exhausts
   m_EditorClassIdentifier: 
   statusName: Exhausts
-  statusDescription: Card can only be played once per battle. Removed after played.
-  type: 0
+  statusDescription: Only playable once every battle. Not shuffled into draw pile
+    when played.
   statusIcon: {fileID: 0}
-  iconSpriteScale: {x: 0.5, y: 0.5}
