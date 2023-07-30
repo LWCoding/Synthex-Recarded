@@ -175,7 +175,6 @@ public partial class BattleController : MonoBehaviour
     // start of the battle. Do those here.
     private void RunOnBattleStart()
     {
-        playerBCC.AddStatusEffect(Globals.GetStatus(Effect.CRIPPLED, 8));
         // If the character has the SCALE OF JUSTICE relic, they can play their first card twice.
         if (GameController.HasRelic(RelicType.SCALE_OF_JUSTICE))
         {
