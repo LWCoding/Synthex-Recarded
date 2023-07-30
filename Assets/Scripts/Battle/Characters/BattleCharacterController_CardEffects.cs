@@ -94,7 +94,9 @@ public partial class BattleCharacterController : MonoBehaviour
                 case Trait.ADDITIONAL_LUCK_DAMAGE:
                     if (statusHandler.GetStatusEffect(Effect.LUCK) != null)
                     {
-                        targetBCC.ChangeHealth(-(modifier.amplifier + CalculateDamageModifiers(_storedCard)));
+                        // Calculate the damage to deal. If it's less than zero, just deal zero.
+                        int calcDamage = Mathf.Min(0, -(modifier.amplifier + CalculateDamageModifiers(_storedCard)));
+                        targetBCC.ChangeHealth(calcDamage);
                     }
                     break;
                 case Trait.GAIN_HEALTH:

@@ -125,13 +125,15 @@ public class CardHandler : MonoBehaviour
         string defenseBuffText = (defenseBuff == 0) ? "" : " (" + ((defenseBuff > 0) ? "<color=\"green\">+" : "<color=\"red\">") + defenseBuff + "</color>)";
         cardText = card.GetCardStats().cardDesc;
         // Replace the [ATK] and [DEF] placeholders with the actual values.
-        cardText = cardText.Replace("[ATK]", (card.GetCardStats().damageValue + strengthBuff).ToString() + strengthBuffText);
+        int calcDamageValue = Mathf.Max(0, card.GetCardStats().damageValue + strengthBuff);
+        cardText = cardText.Replace("[ATK]", calcDamageValue.ToString() + strengthBuffText);
         cardText = cardText.Replace("[DEF]", (card.GetCardStats().blockValue + defenseBuff).ToString() + defenseBuffText);
         // Replace the [ATKLUCK] placeholders with the actual values
         CardModifier luckAtkModifier = card.GetCardStats().modifiers.Find((m) => m.trait == Trait.ADDITIONAL_LUCK_DAMAGE);
         if (luckAtkModifier != null)
         {
-            cardText = cardText.Replace("[ATKLUCK]", (luckAtkModifier.amplifier + strengthBuff).ToString() + strengthBuffText);
+            int calcLuckDamageValue = Mathf.Max(0, luckAtkModifier.amplifier + strengthBuff);
+            cardText = cardText.Replace("[ATKLUCK]", calcLuckDamageValue.ToString() + strengthBuffText);
         }
         // Update the status effect texts with their actual icons.
         cardText = GameController.GetDescriptionWithIcons(cardText);
