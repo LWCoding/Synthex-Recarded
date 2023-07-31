@@ -58,6 +58,7 @@ MonoBehaviour:
   card:
     cardData: {fileID: 0}
     level: 0
+  cardIdx: 0
   CardObject: {fileID: 3514456962687259586}
   nameText: {fileID: 6909210478600302550}
   descText: {fileID: 6896044068343448925}

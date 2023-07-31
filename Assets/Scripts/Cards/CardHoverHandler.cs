@@ -240,7 +240,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
 
     private IEnumerator ShowTooltipAfterDelayCoroutine()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.5f);
         _parentCardHandler.ShowTooltip();
     }
 
