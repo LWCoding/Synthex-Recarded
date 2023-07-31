@@ -502,6 +502,24 @@ public partial class BattleController : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         // Allow the user to mess with cards.
+        EnableInteractionsForCardsInHand();
+    }
+
+    // Allows the players to use cards in their hand.
+    public void DisableInteractionsForCardsInHand()
+    {
+        // Allow the user to mess with cards.
+        for (int i = 0; i < _cardObjectsInHand.Count; i++)
+        {
+            CardHandler cardHandler = _cardObjectsInHand[i].GetComponent<CardHandler>();
+            cardHandler.DisableInteractions();
+        }
+    }
+
+    // Allows the players to use cards in their hand.
+    public void EnableInteractionsForCardsInHand()
+    {
+        // Allow the user to mess with cards.
         for (int i = 0; i < _cardObjectsInHand.Count; i++)
         {
             CardHandler cardHandler = _cardObjectsInHand[i].GetComponent<CardHandler>();
@@ -624,11 +642,7 @@ public partial class BattleController : MonoBehaviour
         BattlePooler.Instance.ReturnCardObjectToPool(cardObject);
         UpdateCardsInHand();
         // Allow the user to mess with cards.
-        for (int i = 0; i < _cardObjectsInHand.Count; i++)
-        {
-            CardHandler cardHandler = _cardObjectsInHand[i].GetComponent<CardHandler>();
-            cardHandler.EnableInteractions();
-        }
+        EnableInteractionsForCardsInHand();
     }
 
     public void UpdateDrawDiscardTexts()

@@ -246,6 +246,8 @@ public partial class BattleCharacterController : MonoBehaviour
     // be impacted by status effects like Effect.DOUBLE_TAKE.
     private IEnumerator PlayCardCoroutine(Card c, int timesPlayed = 1)
     {
+        // Make it so the player can't play cards while this is animating.
+        BattleController.Instance.DisableInteractionsForCardsInHand();
         _storedCard = c;
         for (int i = 0; i < timesPlayed; i++)
         {
@@ -273,9 +275,14 @@ public partial class BattleCharacterController : MonoBehaviour
                         yield return ShootProjectileCoroutine();
                         break;
                 }
+                // If all targets are dead, just ignore rendering.
+                List<BattleCharacterController> aliveTargets = targetBCCs.FindAll((e) => e.IsAlive());
+                if (aliveTargets.Count == 0) { break; }
             }
         }
         OnPlayedCard.Invoke(c);
+        // Let the player play cards again.
+        BattleController.Instance.EnableInteractionsForCardsInHand();
     }
 
     // Returns an integer that should be added to damage when calculated

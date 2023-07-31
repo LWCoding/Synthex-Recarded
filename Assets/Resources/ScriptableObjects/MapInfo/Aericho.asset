@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapType: 2
   mapBGColor: {r: 0.40784314, g: 0.49019608, b: 0.49411765, a: 1}
-  numFloors: 10
+  numFloors: 4
   mapLocations:
   - name: Monster
     type: 1
