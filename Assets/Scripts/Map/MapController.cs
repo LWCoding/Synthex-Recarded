@@ -606,6 +606,7 @@ public class MapController : MonoBehaviour
     // Enable functionality of all map options as well as the "show all cards in deck" button.
     public void EnableMapOptionColliders()
     {
+        bossBattleTransform.GetComponent<BoxCollider2D>().enabled = true;
         // If the floor we're trying to access doesn't exist, we're at the boss.
         if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
         foreach (MapOptionController moc in _mapOptionDictionary[_currFloor + 1])
@@ -617,6 +618,7 @@ public class MapController : MonoBehaviour
     // Disable functionality of all map options as well as the "show all cards in deck" button.
     public void DisableMapOptionColliders()
     {
+        bossBattleTransform.GetComponent<BoxCollider2D>().enabled = false;
         // If the floor we're trying to access doesn't exist, we're at the boss.
         if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
         // Or else, disable all the next options until prompted.
@@ -635,6 +637,9 @@ public class MapController : MonoBehaviour
 
     private IEnumerator ChooseOptionCoroutine(SerializableMapLocation chosenMapLocation)
     {
+        // Prevent the player from selecting another option.
+        MapController.Instance.DisableMapOptionColliders();
+        // Make the character animate towards the next thing.
         yield return HeroTraverseToPositionCoroutine(chosenMapLocation.position);
         MapChoice mapChoice = chosenMapLocation.mapLocationType.type;
         // Change the player's current location.

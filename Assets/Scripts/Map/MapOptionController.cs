@@ -44,7 +44,7 @@ public class MapOptionController : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (!_isInteractable) { return; }
+        if (!_isInteractable || _wasVisited) { return; }
         _desiredScale = _initialScale;
     }
 
@@ -55,8 +55,6 @@ public class MapOptionController : MonoBehaviour
             return;
         }
         if (!_isInteractable) { return; }
-        // Prevent the player from selecting another option.
-        MapController.Instance.DisableMapOptionColliders();
         // Make sure this is marked as visited.
         _wasVisited = true;
         // Choose the option in the MapController.
