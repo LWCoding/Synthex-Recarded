@@ -174,6 +174,11 @@ public class UpgradeController : MonoBehaviour
         {
             changeInfo += (currentStats.blockValue > afterStats.blockValue ? "-" : "+") + Mathf.Abs(afterStats.blockValue - currentStats.blockValue) + " <sprite name=\"block\">\n";
         }
+        // If the attack repeat count isn't the same, register that difference.
+        if (currentStats.attackRepeatCount != afterStats.attackRepeatCount)
+        {
+            changeInfo += (currentStats.attackRepeatCount > afterStats.attackRepeatCount ? "-" : "+") + Mathf.Abs(afterStats.attackRepeatCount - currentStats.attackRepeatCount) + " repeat count\n";
+        }
         // Register differences regarding status effects.
         foreach (CardInflict infliction in afterStats.inflictions)
         {
@@ -196,7 +201,7 @@ public class UpgradeController : MonoBehaviour
             // If there is a new modifier, register that difference.
             if (currentStats.modifiers.Find(m => m.trait == modifier.trait) == null)
             {
-                changeInfo += "Gains <color=\"yellow\">" + (modifier.trait + "</color>\n");
+                changeInfo += "+ Gains <color=\"yellow\">" + (modifier.trait + "</color>\n");
             }
         }
         // Register differences regarding removing modifiers.
@@ -205,7 +210,7 @@ public class UpgradeController : MonoBehaviour
             // If there is a new modifier, register that difference.
             if (afterStats.modifiers.Find(m => m.trait == modifier.trait) == null)
             {
-                changeInfo += "Loses <color=\"yellow\">" + (modifier.trait + "</color>\n");
+                changeInfo += "- Loses <color=\"yellow\">" + (modifier.trait + "</color>\n");
             }
         }
         return changeInfo;
