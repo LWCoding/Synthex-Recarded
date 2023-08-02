@@ -33,7 +33,8 @@ public class UpgradeInfoHandler : MonoBehaviour
         Card cardAfterUpgrade = Globals.GetCard(c.GetCardUniqueName(), c.level + 1);
         _cardAfterUpgradeHandler.Initialize(cardAfterUpgrade);
         _cardAfterUpgradeHandler.DisableInteractions();
-        _upgradeCostText.text = cost.ToString() + " XP TO UPGRADE";
+        _upgradeInfoText.text = "Upgrade Details:\n" + UpgradeController.Instance.FindDifferenceInCards(c, cardAfterUpgrade);
+        _upgradeCostText.text = "Cost: " + cost.ToString() + " XP";
     }
 
     // Delete the current card (that this UpgradeInfoHandler is representing)

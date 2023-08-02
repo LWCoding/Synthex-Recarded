@@ -78,6 +78,7 @@ public class UpgradeController : MonoBehaviour
         bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
         _insufficientFundsObject.SetActive(!doesPlayerHaveEnoughXP);
         Card cardAfterUpgrade = Globals.GetCard(c.GetCardUniqueName(), c.level + 1);
+        Debug.Log(FindDifferenceInCards(c, cardAfterUpgrade));
         _cardPreviewText.text = "Upgrade card from <color=#FB4BC7>" + c.GetCardDisplayName() + "</color> to <color=#FB4BC7>" + cardAfterUpgrade.GetCardDisplayName() + "</color>?\n\nCost: <color=\"green\">" + upgradeCost.ToString() + " XP</color>\n\nClick card to " + ((isSelected) ? "deselect" : "select") + ".";
         _totalCostText.text = "TOTAL: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
     }
@@ -149,6 +150,66 @@ public class UpgradeController : MonoBehaviour
     public void SwitchUpgradeScreens(string animationName)
     {
         StartCoroutine(SwitchUpgradeScreensCoroutine(animationName));
+    }
+
+    ///<summary>
+    /// Given two cards, determines the difference between the two cards and
+    /// returns the description as a string. Shows difference FROM c1 TO c2.
+    ///</summary>
+    public string FindDifferenceInCards(Card c1, Card c2)
+    {
+        string changeInfo = "";
+        CardStats currentStats = c1.GetCardStats();
+        CardStats afterStats = c2.GetCardStats();
+        // If the costs aren't the same, register that difference.
+        if (currentStats.cardCost != afterStats.cardCost)
+        {
+            changeInfo += (currentStats.cardCost > afterStats.cardCost ? "-" : "+") + Mathf.Abs(afterStats.cardCost - currentStats.cardCost) + " <sprite name=\"energy\">\n";
+        }
+        // If the attack or block levels aren't the same, register that difference.
+        if (currentStats.damageValue != afterStats.damageValue)
+        {
+            changeInfo += (currentStats.damageValue > afterStats.damageValue ? "-" : "+") + Mathf.Abs(afterStats.damageValue - currentStats.damageValue) + " <sprite name=\"damage\">\n";
+        }
+        if (currentStats.blockValue != afterStats.blockValue)
+        {
+            changeInfo += (currentStats.blockValue > afterStats.blockValue ? "-" : "+") + Mathf.Abs(afterStats.blockValue - currentStats.blockValue) + " <sprite name=\"block\">\n";
+        }
+        // Register differences regarding status effects.
+        foreach (CardInflict infliction in afterStats.inflictions)
+        {
+            string statusName = Globals.GetStatus(infliction.effect).statusInfo.statusName;
+            // If there is a new status effect, register that difference.
+            if (currentStats.inflictions.Find(i => i.effect == infliction.effect) == null)
+            {
+                changeInfo += "+" + (statusName + (infliction.amplifier == 0 ? "" : " " + infliction.amplifier) + "\n");
+            }
+            // If there are any existing status effects that were changed, register those differences.
+            CardInflict currentInfliction = currentStats.inflictions.Find(i => i.effect == infliction.effect);
+            if (currentInfliction != null && currentInfliction.amplifier != infliction.amplifier)
+            {
+                changeInfo += (currentInfliction.amplifier > infliction.amplifier ? "-" : "+") + Mathf.Abs(currentInfliction.amplifier - infliction.amplifier) + " <sprite name=\"" + statusName.ToLower() + "\">";
+            }
+        }
+        // Register differences regarding new modifiers.
+        foreach (CardModifier modifier in afterStats.modifiers)
+        {
+            // If there is a new modifier, register that difference.
+            if (currentStats.modifiers.Find(m => m.trait == modifier.trait) == null)
+            {
+                changeInfo += "Gains <color=\"yellow\">" + (modifier.trait + "</color>\n");
+            }
+        }
+        // Register differences regarding removing modifiers.
+        foreach (CardModifier modifier in currentStats.modifiers)
+        {
+            // If there is a new modifier, register that difference.
+            if (afterStats.modifiers.Find(m => m.trait == modifier.trait) == null)
+            {
+                changeInfo += "Loses <color=\"yellow\">" + (modifier.trait + "</color>\n");
+            }
+        }
+        return changeInfo;
     }
 
     private IEnumerator SwitchUpgradeScreensCoroutine(string animationName)
