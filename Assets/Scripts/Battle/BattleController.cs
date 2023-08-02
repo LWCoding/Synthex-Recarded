@@ -212,7 +212,7 @@ public partial class BattleController : MonoBehaviour
             playerBCC.OnPlayCard.AddListener((c) =>
             {
                 StatusEffect combo = playerBCC.GetStatusEffect(Effect.COMBO);
-                if (combo != null && c.cardData.GetCardDisplayName() != combo.specialValue)
+                if (combo != null && c.GetCardDisplayName() != combo.specialValue)
                 {
                     playerBCC.RemoveStatusEffect(Effect.COMBO);
                 }
@@ -226,9 +226,9 @@ public partial class BattleController : MonoBehaviour
                 StatusEffect combo = playerBCC.GetStatusEffect(Effect.COMBO);
                 if (c.cardData.cardType == CardType.ATTACKER || c.cardData.cardType == CardType.SPECIAL_ATTACKER)
                 {
-                    if (combo == null || c.cardData.GetCardDisplayName() == combo.specialValue)
+                    if (combo == null || c.GetCardDisplayName() == combo.specialValue)
                     {
-                        playerBCC.AddStatusEffect(Globals.GetStatus(Effect.COMBO, 2, c.cardData.GetCardDisplayName()));
+                        playerBCC.AddStatusEffect(Globals.GetStatus(Effect.COMBO, 2, c.GetCardDisplayName()));
                         TopBarController.Instance.FlashRelicObject(RelicType.GREEN_SCARF);
                     }
                 }

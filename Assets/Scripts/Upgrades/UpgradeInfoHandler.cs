@@ -14,14 +14,16 @@ public class UpgradeInfoHandler : MonoBehaviour
 
     private Card _card;
     private int _cardCost;
+    private int _cardIdx;
 
     ///<summary>
     /// Initialize the information of this current card.
     ///</summary>
-    public void Initialize(Card c, int cost)
+    public void Initialize(Card c, int cost, int ci)
     {
         _card = c;
         _cardCost = cost;
+        _cardIdx = ci;
         // We need to manually call awake because these prefabs were NOT instantiated.
         _cardBeforeUpgradeHandler.Awake();
         _cardAfterUpgradeHandler.Awake();
@@ -38,7 +40,7 @@ public class UpgradeInfoHandler : MonoBehaviour
     // and destroy the current object.
     public void DeleteCardFromList()
     {
-        UpgradeController.Instance.RemoveCardFromUpgradeList(_card, _cardCost);
+        UpgradeController.Instance.RemoveCardFromUpgradeList(_card, _cardCost, _cardIdx);
         UpgradeController.Instance.UpdateSummaryConsole();
         Destroy(gameObject);
     }

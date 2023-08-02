@@ -45,6 +45,23 @@ public class Card
         level = lvl;
     }
 
+    // Get the names of the card.
+    public string GetCardUniqueName() => cardData.GetCardUniqueName();
+    public string GetCardDisplayName()
+    {
+        string cardName = (cardData.cardDisplayName == "") ? GetCardDisplayName() : cardData.cardDisplayName;
+        // If the level is not the first, calculate the level as a roman numeral.
+        // Add it to the end of the card name.
+        if (level != 1)
+        {
+            string numeral = "";
+            for (int i = 0; i < level; i++) { numeral += "I"; }
+            cardName += " " + numeral;
+        }
+        // Otherwise, return the display name.
+        return cardName;
+    }
+
     // Returns the CardStats that correspond to the card's
     // current level. We subtract by one because level one
     // technically means the zero-th indexed CardStats.
@@ -164,6 +181,5 @@ public class CardData : ScriptableObject
     public CardStats GetCardStats(int level) => cardStats[level];
     public int GetMaxLevel() => cardStats.Count;
     public string GetCardUniqueName() => cardName;
-    public string GetCardDisplayName() => cardDisplayName == "" ? GetCardUniqueName() : cardDisplayName;
 
 }

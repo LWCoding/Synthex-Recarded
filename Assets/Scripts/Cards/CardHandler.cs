@@ -21,7 +21,6 @@ public class CardHandler : MonoBehaviour
 {
 
     [HideInInspector] public Card card;
-    [HideInInspector] public int cardIdx; // Index in deck, if necessary
     [Header("Object Assignments")]
     public GameObject CardObject;
     [SerializeField] private TextMeshProUGUI nameText;
@@ -31,13 +30,6 @@ public class CardHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI tooltipText;
     [SerializeField] private Image previewImage;
     [SerializeField] private Image frameImage;
-    public void ResetCardColor() => SetPreviewColor(new Color(1, 1, 1));
-    // Sets the card's color.
-    public void SetPreviewColor(Color color)
-    {
-        previewImage.color = color;
-        frameImage.color = color;
-    }
     [SerializeField] private GameObject tooltipParentObject;
     [SerializeField] private Transform cardEffectOverlayTransform;
     [SerializeField] private GraphicRaycaster _graphicRaycaster;
@@ -47,6 +39,16 @@ public class CardHandler : MonoBehaviour
     [HideInInspector] public int initialSortingOrder;
     [HideInInspector] public Quaternion initialRotation;
 
+    // Resets the card's color to normal.
+    public void ResetCardColor() => SetPreviewColor(new Color(1, 1, 1));
+    // Sets the card's color.
+    public void SetPreviewColor(Color color) { previewImage.color = color; frameImage.color = color; }
+    // Sets the card's unique identifier.
+    public int GetCardIdx() => _cardIdx;
+    // Gets the card's unique identifier.
+    public void SetCardIdx(int c) => _cardIdx = c;
+
+    private int _cardIdx; // Index in deck, if necessary
     private List<CardEffectType> _currentCardEffectTypes;
     private CardHoverHandler _cardHoverController;
     private Transform _canvasTransform;
@@ -64,7 +66,7 @@ public class CardHandler : MonoBehaviour
 
     // Usually, this card is animated into frame with the CardAppear coroutine.
     // There is a second parameter to make it show instantly instead.
-    public void Initialize(Card c, bool shouldShowInstantly = true, int strengthBuff = 0, int defenseBuff = 0, int idx = 0)
+    public void Initialize(Card c, bool shouldShowInstantly = true, int strengthBuff = 0, int defenseBuff = 0)
     {
         NullifyCardEffects();
         _currentCardEffectTypes = new List<CardEffectType>();
@@ -75,7 +77,6 @@ public class CardHandler : MonoBehaviour
         SetTooltipPosition(TooltipPosition.CENTER);
         // Set the card information
         card = c;
-        cardIdx = idx;
         UpdateCardVisuals(strengthBuff, defenseBuff);
         HideTooltip();
         // If we're in a battle, update this card's appearance based on its cost
@@ -133,7 +134,7 @@ public class CardHandler : MonoBehaviour
     // This is because the card may change for this CardHandler.
     public void UpdateCardVisuals(int strengthBuff = 0, int defenseBuff = 0)
     {
-        nameText.text = card.cardData.GetCardDisplayName() + new String('+', card.level - 1);
+        nameText.text = card.GetCardDisplayName();
         UpdateCardDescription(strengthBuff, defenseBuff);
         costText.text = card.GetCardStats().cardCost.ToString();
         levelText.text = "LV." + card.level;

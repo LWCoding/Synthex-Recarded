@@ -35,7 +35,7 @@ IPointerClickHandler
     private void Start()
     {
         _card = _parentCardHandler.card;
-        _cardIdx = _parentCardHandler.cardIdx;
+        _cardIdx = _parentCardHandler.GetCardIdx();
         _upgradeCost = _card.level * 3;
         _isInteractable = true;
         _upgradeContainerObject.SetActive(true);
@@ -69,6 +69,7 @@ IPointerClickHandler
 
     public void SetIsSelected(bool isSelected)
     {
+        _isSelected = isSelected;
         _upgradeOverlayObject.SetActive(isSelected);
         _checkmarkOverlayObject.SetActive(isSelected);
     }
@@ -95,18 +96,16 @@ IPointerClickHandler
     {
         if (!_isInteractable) { return; }
         // Toggle the selected property and play SFX.
-        _isSelected = !_isSelected;
+        SetIsSelected(!_isSelected);
         SoundManager.Instance.PlaySFX(SoundEffect.CARD_HOVER);
-        // Make the checkmark show or hide depending on the selected property.
-        SetIsSelected(_isSelected);
         // Add or remove the card from the upgrade list.
         if (_isSelected)
         {
-            UpgradeController.Instance.AddCardToUpgradeList(_card, GetCost());
+            UpgradeController.Instance.AddCardToUpgradeList(_card, GetCost(), _cardIdx);
         }
         else
         {
-            UpgradeController.Instance.RemoveCardFromUpgradeList(_card, GetCost());
+            UpgradeController.Instance.RemoveCardFromUpgradeList(_card, GetCost(), _cardIdx);
         }
         // Update the console information.
         UpgradeController.Instance.UpdatePreviewConsole(_card, GetCost(), _isSelected);

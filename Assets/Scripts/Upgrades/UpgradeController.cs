@@ -9,10 +9,12 @@ public struct CardAndCost
 {
     public Card card;
     public int cardCost;
-    public CardAndCost(Card c, int cc)
+    public int cardIdx;
+    public CardAndCost(Card c, int cc, int ci)
     {
         card = c;
         cardCost = cc;
+        cardIdx = ci;
     }
 }
 
@@ -74,7 +76,7 @@ public class UpgradeController : MonoBehaviour
     {
         bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
         _insufficientFundsObject.SetActive(!doesPlayerHaveEnoughXP);
-        _cardPreviewText.text = "Upgrade card from <color=#FB4BC7>" + c.cardData.GetCardDisplayName() + "</color> to <color=#FB4BC7>" + c.cardData.GetCardDisplayName() + "</color>?\n\nCost: <color=\"green\">" + upgradeCost.ToString() + " XP</color>\n\nClick card to " + ((isSelected) ? "deselect" : "select") + ".";
+        _cardPreviewText.text = "Upgrade card from <color=#FB4BC7>" + c.GetCardDisplayName() + "</color> to <color=#FB4BC7>" + c.GetCardDisplayName() + "</color>?\n\nCost: <color=\"green\">" + upgradeCost.ToString() + " XP</color>\n\nClick card to " + ((isSelected) ? "deselect" : "select") + ".";
         _totalCostText.text = "TOTAL: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
     }
 
@@ -87,7 +89,7 @@ public class UpgradeController : MonoBehaviour
         for (int i = 0; i < Mathf.Min(3, _selectedCardsToUpgrade.Count); i++)
         {
             Card card = _selectedCardsToUpgrade[i].card;
-            listOfCardsString += "<color=#FB4BC7>" + card.cardData.GetCardDisplayName() + "</color>\n";
+            listOfCardsString += "<color=#FB4BC7>" + card.GetCardDisplayName() + "</color>\n";
         }
         if (_selectedCardsToUpgrade.Count > 3)
         {
@@ -101,9 +103,9 @@ public class UpgradeController : MonoBehaviour
     /// the player is intending to buy. This does NOT update the console preview;
     /// that must be done separately.
     ///</summary>
-    public void AddCardToUpgradeList(Card c, int upgradeCost)
+    public void AddCardToUpgradeList(Card c, int upgradeCost, int cardIdx)
     {
-        _selectedCardsToUpgrade.Add(new CardAndCost(c, upgradeCost));
+        _selectedCardsToUpgrade.Add(new CardAndCost(c, upgradeCost, cardIdx));
         _totalCost += upgradeCost;
     }
 
@@ -112,10 +114,11 @@ public class UpgradeController : MonoBehaviour
     /// the player is intending to buy. This does NOT update the console preview;
     /// that must be done separately.
     ///</summary>
-    public void RemoveCardFromUpgradeList(Card c, int upgradeCost)
+    public void RemoveCardFromUpgradeList(Card c, int upgradeCost, int cardIdx)
     {
-        _selectedCardsToUpgrade.Remove(new CardAndCost(c, upgradeCost));
+        _selectedCardsToUpgrade.Remove(new CardAndCost(c, upgradeCost, cardIdx));
         _totalCost -= upgradeCost;
+        _cardPreviewHandlers[cardIdx].GetComponent<UpgradeCardHandler>().SetIsSelected(false);
     }
 
     ///<summary>
@@ -133,7 +136,7 @@ public class UpgradeController : MonoBehaviour
         foreach (CardAndCost cardAndCost in _selectedCardsToUpgrade)
         {
             GameObject cardInfo = Instantiate(_upgradeInfoPrefab, _cardInfoVertLayoutTransform);
-            cardInfo.GetComponent<UpgradeInfoHandler>().Initialize(cardAndCost.card, cardAndCost.cardCost);
+            cardInfo.GetComponent<UpgradeInfoHandler>().Initialize(cardAndCost.card, cardAndCost.cardCost, cardAndCost.cardIdx);
         }
     }
 
@@ -213,7 +216,8 @@ public class UpgradeController : MonoBehaviour
             cardObject.transform.SetParent(horizontalTransform, false);
             // We want the card to appear from nothing, so set the
             // initial showing to false.
-            cardController.Initialize(card, false, 0, 0, currCardIdx);
+            cardController.Initialize(card, false);
+            cardController.SetCardIdx(currCardIdx);
             currCardIdx++;
             _cardPreviewHandlers.Add(cardController);
         }
