@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+[System.Serializable]
 public struct CardAndCost
 {
     public Card card;
@@ -76,7 +77,8 @@ public class UpgradeController : MonoBehaviour
     {
         bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
         _insufficientFundsObject.SetActive(!doesPlayerHaveEnoughXP);
-        _cardPreviewText.text = "Upgrade card from <color=#FB4BC7>" + c.GetCardDisplayName() + "</color> to <color=#FB4BC7>" + c.GetCardDisplayName() + "</color>?\n\nCost: <color=\"green\">" + upgradeCost.ToString() + " XP</color>\n\nClick card to " + ((isSelected) ? "deselect" : "select") + ".";
+        Card cardAfterUpgrade = Globals.GetCard(c.GetCardUniqueName(), c.level + 1);
+        _cardPreviewText.text = "Upgrade card from <color=#FB4BC7>" + c.GetCardDisplayName() + "</color> to <color=#FB4BC7>" + cardAfterUpgrade.GetCardDisplayName() + "</color>?\n\nCost: <color=\"green\">" + upgradeCost.ToString() + " XP</color>\n\nClick card to " + ((isSelected) ? "deselect" : "select") + ".";
         _totalCostText.text = "TOTAL: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
     }
 
@@ -93,7 +95,7 @@ public class UpgradeController : MonoBehaviour
         }
         if (_selectedCardsToUpgrade.Count > 3)
         {
-            listOfCardsString += "<i><color=#9F9F9F>(...and " + (_selectedCardsToUpgrade.Count - 3).ToString() + " others)</color></i>\n";
+            listOfCardsString += "<i><color=#9F9F9F>(...and " + (_selectedCardsToUpgrade.Count - 3).ToString() + " other" + (_selectedCardsToUpgrade.Count - 3 == 1 ? "" : "s") + ")</color></i>\n";
         }
         _cardSummaryText.text = "Upgrading cards:\n" + listOfCardsString + "\nTotal Cost: <color=\"green\">" + _totalCost.ToString() + " XP</color>";
     }

@@ -29,8 +29,9 @@ public class UpgradeInfoHandler : MonoBehaviour
         _cardAfterUpgradeHandler.Awake();
         // Initialize both cards.
         _cardBeforeUpgradeHandler.Initialize(c);
-        _cardAfterUpgradeHandler.Initialize(c);
         _cardBeforeUpgradeHandler.DisableInteractions();
+        Card cardAfterUpgrade = Globals.GetCard(c.GetCardUniqueName(), c.level + 1);
+        _cardAfterUpgradeHandler.Initialize(cardAfterUpgrade);
         _cardAfterUpgradeHandler.DisableInteractions();
         _upgradeCostText.text = cost.ToString() + " XP TO UPGRADE";
     }

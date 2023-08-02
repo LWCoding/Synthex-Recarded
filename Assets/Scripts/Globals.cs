@@ -199,7 +199,7 @@ public static class Globals
     }
 
     // Gets a card by name.
-    public static Card GetCard(string name, bool exceptionAllowed = false)
+    public static Card GetCard(string name, int level = 1)
     {
         if (!globalsInitialized)
         {
@@ -214,11 +214,11 @@ public static class Globals
                 return;
             }
         });
-        if (!foundCardData && !exceptionAllowed)
+        if (!foundCardData)
         {
             Debug.Log("Could not find card (" + name + ") in Globals.cs!");
         }
-        return new Card(foundCardData);
+        return new Card(foundCardData, level);
     }
 
     // Gets map info by scene.
