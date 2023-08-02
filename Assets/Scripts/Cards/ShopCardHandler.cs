@@ -31,6 +31,7 @@ IPointerClickHandler
         _card = _parentCardHandler.card;
         _cardCost = GetRandomCost(_card.cardData.cardRarity);
         _isInteractable = true;
+        _parentCardHandler.SetTooltipPosition(TooltipPosition.RIGHT);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

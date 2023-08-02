@@ -11,15 +11,20 @@ IPointerClickHandler
 {
 
     [Header("Object Assignments")]
-    public GameObject purchaseOverlayObject;
-    public TextMeshProUGUI cardCostText;
+    [SerializeField] private GameObject _upgradeContainerObject;
+    [SerializeField] private GameObject _upgradeOverlayObject;
+    [SerializeField] private GameObject _checkmarkOverlayObject;
+    [SerializeField] private TextMeshProUGUI cardCostText;
 
     private CardHandler _parentCardHandler;
     private bool _isInteractable;
+    public void SetInteractable(bool isInteractable) => _isInteractable = isInteractable;
+    private bool _isSelected = false;
     private Transform _parentCardTransform;
     private Card _card;
     private int _cardIdx;
-    private int _cardCost;
+    private int _upgradeCost;
+    public int GetCost() => _upgradeCost;
 
     private void Awake()
     {
@@ -31,12 +36,16 @@ IPointerClickHandler
     {
         _card = _parentCardHandler.card;
         _cardIdx = _parentCardHandler.cardIdx;
+        _upgradeCost = _card.level * 3;
         _isInteractable = true;
+        _upgradeContainerObject.SetActive(true);
+        SetIsSelected(false);
+        _parentCardHandler.SetTooltipPosition(TooltipPosition.LEFT);
     }
 
     private void SetPreviewInfo()
     {
-        _cardCost = _card.level * 2;
+        _upgradeCost = _card.level * 3;
         if (_card.IsMaxLevel())
         {
             cardCostText.text = "MAX";
@@ -44,8 +53,8 @@ IPointerClickHandler
         }
         else
         {
-            cardCostText.text = _cardCost.ToString() + " XP";
-            if (_cardCost <= GameController.GetXP())
+            cardCostText.text = GetCost().ToString() + " XP";
+            if (GetCost() <= GameController.GetXP())
             {
                 // Can afford the card!
                 cardCostText.color = new Color(0.3f, 1, 0);
@@ -58,42 +67,49 @@ IPointerClickHandler
         }
     }
 
+    public void SetIsSelected(bool isSelected)
+    {
+        _upgradeOverlayObject.SetActive(isSelected);
+        _checkmarkOverlayObject.SetActive(isSelected);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!_isInteractable) { return; }
         _parentCardHandler.SetSortingOrder(2);
         // Set the text it should show based on the card's info.
         SetPreviewInfo();
-        // Show price on mouse enter!
-        purchaseOverlayObject.SetActive(true);
+        // Update the console information.
+        UpgradeController.Instance.UpdatePreviewConsole(_card, GetCost(), _isSelected);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (!_isInteractable) { return; }
         _parentCardHandler.SetSortingOrder(1);
-        // Hide price on mouse exit!
-        purchaseOverlayObject.SetActive(false);
+        // Reset the console information to its default.
+        UpgradeController.Instance.ResetConsolePreview();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!_isInteractable) { return; }
-        // If you can buy the card, buy the card.
-        if (!_card.IsMaxLevel() && _cardCost <= GameController.GetXP())
+        // Toggle the selected property and play SFX.
+        _isSelected = !_isSelected;
+        SoundManager.Instance.PlaySFX(SoundEffect.CARD_HOVER);
+        // Make the checkmark show or hide depending on the selected property.
+        SetIsSelected(_isSelected);
+        // Add or remove the card from the upgrade list.
+        if (_isSelected)
         {
-            // Subtract the GetMoney() and update the top bar.
-            GameController.SpendXP(_cardCost);
-            TopBarController.Instance.UpdateCurrencyText();
-            // Play the card chosen SFX.
-            SoundManager.Instance.PlaySFX(SoundEffect.SHOP_PURCHASE);
-            // Upgrade the card in the deck.
-            GameController.UpgradeCardInDeck(_cardIdx);
-            UpgradeController.Instance.RefreshCardPreviews();
-            // Set the information for this card after the upgrade.
-            // This will run for other cards, only when they're hovered.
-            SetPreviewInfo();
+            UpgradeController.Instance.AddCardToUpgradeList(_card, GetCost());
         }
+        else
+        {
+            UpgradeController.Instance.RemoveCardFromUpgradeList(_card, GetCost());
+        }
+        // Update the console information.
+        UpgradeController.Instance.UpdatePreviewConsole(_card, GetCost(), _isSelected);
     }
 
 }

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Vanguard intro logo.png">
+	<!-- Created with Adobe Animate version 23.0.2.103 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="Vanguard Matrix Intro0000" x="10" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0001" x="10" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0002" x="383" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0003" x="756" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0004" x="756" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0005" x="756" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0006" x="756" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0007" x="1129" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0008" x="1129" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0009" x="1502" y="10" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0010" x="10" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0011" x="10" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0012" x="10" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0013" x="10" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0014" x="10" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0015" x="383" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0016" x="383" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0017" x="756" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0018" x="1129" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0019" x="1502" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0020" x="1502" y="495" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0021" x="10" y="980" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0022" x="383" y="980" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0023" x="383" y="980" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0024" x="383" y="980" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0025" x="383" y="980" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0026" x="756" y="980" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0027" x="1129" y="980" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0028" x="1502" y="980" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0029" x="10" y="1465" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0030" x="383" y="1465" width="363" height="475"/>
+	<SubTexture name="Vanguard Matrix Intro0031" x="756" y="1465" width="363" height="475"/>
+</TextureAtlas>

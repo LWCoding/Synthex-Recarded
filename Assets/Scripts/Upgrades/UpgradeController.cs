@@ -3,16 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
+public struct CardAndCost
+{
+    public Card card;
+    public int cardCost;
+    public CardAndCost(Card c, int cc)
+    {
+        card = c;
+        cardCost = cc;
+    }
+}
 
 public class UpgradeController : MonoBehaviour
 {
 
     public static UpgradeController Instance;
-    [Header("Object Assignments")]
+    [Header("Prefab Assignments")]
+    [SerializeField] private GameObject _upgradeInfoPrefab;
+    [Header("Preview Object Assignments")]
     [SerializeField] private Transform _cardVertLayoutTransform;
     [SerializeField] private Button _exitButton;
+    [SerializeField] private TextMeshProUGUI _cardPreviewText;
+    [SerializeField] private TextMeshProUGUI _totalCostText;
+    [SerializeField] private GameObject _insufficientFundsObject;
+    [Header("Summary Object Assignments")]
+    [SerializeField] private Transform _cardInfoVertLayoutTransform;
+    [SerializeField] private TextMeshProUGUI _cardSummaryText;
+    [SerializeField] private Animator _screenSwitcherAnimator;
 
     private List<CardHandler> _cardPreviewHandlers = new List<CardHandler>();
+    private List<CardAndCost> _selectedCardsToUpgrade = new List<CardAndCost>();
+    private int _totalCost = 0;
 
     private void Awake()
     {
@@ -29,19 +52,144 @@ public class UpgradeController : MonoBehaviour
         _exitButton.onClick.AddListener(() => FadeTransitionController.Instance.HideScreen("Map", 0.75f));
         // Initialize the cards in the deck.
         StartCoroutine(InitializeDeckCardsCoroutine());
+        // Set the console text to have nothing at first.
+        ResetConsolePreview();
         // Make the game fade from black to clear.
         FadeTransitionController.Instance.ShowScreen(1.25f);
     }
 
-    public void RefreshCardPreviews()
+    public void ResetConsolePreview()
     {
-        List<Card> heroCards = GameController.GetHeroCards();
-        for (int i = 0; i < _cardPreviewHandlers.Count; i++)
+        bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
+        _insufficientFundsObject.SetActive(!doesPlayerHaveEnoughXP);
+        _cardPreviewText.text = "Hover over a card to view its upgrade information.";
+        _totalCostText.text = "TOTAL: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
+    }
+
+    ///<summary>
+    /// Updates the text on the preview console as a card is hovered over.
+    /// Requires the card, cost of the card to upgrade, and whether it is selected/deselected.
+    ///</summary>
+    public void UpdatePreviewConsole(Card c, int upgradeCost, bool isSelected)
+    {
+        bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
+        _insufficientFundsObject.SetActive(!doesPlayerHaveEnoughXP);
+        _cardPreviewText.text = "Upgrade card from <color=#FB4BC7>" + c.cardData.GetCardDisplayName() + "</color> to <color=#FB4BC7>" + c.cardData.GetCardDisplayName() + "</color>?\n\nCost: <color=\"green\">" + upgradeCost.ToString() + " XP</color>\n\nClick card to " + ((isSelected) ? "deselect" : "select") + ".";
+        _totalCostText.text = "TOTAL: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
+    }
+
+    ///<summary>
+    /// Updates the text on the summary console.
+    ///</summary>
+    public void UpdateSummaryConsole()
+    {
+        string listOfCardsString = _selectedCardsToUpgrade.Count == 0 ? "<color=#9F9F9F>None</color>\n" : "";
+        for (int i = 0; i < Mathf.Min(3, _selectedCardsToUpgrade.Count); i++)
         {
-            _cardPreviewHandlers[i].UpdateCardVisuals();
+            Card card = _selectedCardsToUpgrade[i].card;
+            listOfCardsString += "<color=#FB4BC7>" + card.cardData.GetCardDisplayName() + "</color>\n";
+        }
+        if (_selectedCardsToUpgrade.Count > 3)
+        {
+            listOfCardsString += "<i><color=#9F9F9F>(...and " + (_selectedCardsToUpgrade.Count - 3).ToString() + " others)</color></i>\n";
+        }
+        _cardSummaryText.text = "Upgrading cards:\n" + listOfCardsString + "\nTotal Cost: <color=\"green\">" + _totalCost.ToString() + " XP</color>";
+    }
+
+    ///<summary>
+    /// Adds a card (given itself and its upgrade cost) to the list of cards
+    /// the player is intending to buy. This does NOT update the console preview;
+    /// that must be done separately.
+    ///</summary>
+    public void AddCardToUpgradeList(Card c, int upgradeCost)
+    {
+        _selectedCardsToUpgrade.Add(new CardAndCost(c, upgradeCost));
+        _totalCost += upgradeCost;
+    }
+
+    ///<summary>
+    /// Removes a card (given itself and its upgrade cost) from the list of cards
+    /// the player is intending to buy. This does NOT update the console preview;
+    /// that must be done separately.
+    ///</summary>
+    public void RemoveCardFromUpgradeList(Card c, int upgradeCost)
+    {
+        _selectedCardsToUpgrade.Remove(new CardAndCost(c, upgradeCost));
+        _totalCost -= upgradeCost;
+    }
+
+    ///<summary>
+    /// Erases all pre-existing card info in the summary screen before creating all 
+    /// of the card info prefabs in the summary screen (using current list of cards).
+    ///</summary>
+    public void UpdateCardInfosInSummaryScreen()
+    {
+        // Destroy all pre-existing card infos.
+        foreach (Transform t in _cardInfoVertLayoutTransform)
+        {
+            Destroy(t.gameObject);
+        }
+        // For every card in the current cards list, create a new prefab.
+        foreach (CardAndCost cardAndCost in _selectedCardsToUpgrade)
+        {
+            GameObject cardInfo = Instantiate(_upgradeInfoPrefab, _cardInfoVertLayoutTransform);
+            cardInfo.GetComponent<UpgradeInfoHandler>().Initialize(cardAndCost.card, cardAndCost.cardCost);
         }
     }
 
+    ///<summary>
+    /// Switches the upgrade screen from the card preview to the order summary screen,
+    /// or vice versa. Throws error if animation is not one of the expected results.
+    ///</summary>
+    public void SwitchUpgradeScreens(string animationName)
+    {
+        StartCoroutine(SwitchUpgradeScreensCoroutine(animationName));
+    }
+
+    private IEnumerator SwitchUpgradeScreensCoroutine(string animationName)
+    {
+        if (animationName != "Switch1To2" && animationName != "Switch2To1")
+        {
+            Debug.LogError("Didn't provide proper animation name to SwitchUpgradeScreens() in UpgradeController.cs!");
+            yield break;
+        }
+        if (animationName == "Switch1To2")
+        {
+            // Make all cards uninteractable.
+            foreach (CardHandler cardHandler in _cardPreviewHandlers)
+            {
+                cardHandler?.GetComponent<UpgradeCardHandler>()?.SetInteractable(false);
+            }
+            // Update card infos on the next screen.
+            UpdateCardInfosInSummaryScreen();
+            // Update console on the next screen.
+            UpdateSummaryConsole();
+        }
+        else if (animationName == "Switch2To1")
+        {
+            ResetConsolePreview();
+        }
+        // Play the animation and wait for it to finish.
+        _screenSwitcherAnimator.Play(animationName);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => _screenSwitcherAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+        if (animationName == "Switch1To2")
+        {
+
+        }
+        else if (animationName == "Switch2To1")
+        {
+            // Make cards interactable again.
+            foreach (CardHandler cardHandler in _cardPreviewHandlers)
+            {
+                cardHandler?.GetComponent<UpgradeCardHandler>()?.SetInteractable(true);
+            }
+
+        }
+    }
+
+    // Initializes all of the cards in the player's deck on the preview screen.
+    // We only need to do this once because the player's deck won't change.
     private IEnumerator InitializeDeckCardsCoroutine()
     {
         Transform horizontalTransform = null;
@@ -52,8 +200,8 @@ public class UpgradeController : MonoBehaviour
         // Recover a pooled object for each card.
         foreach (Card card in cardsToShow)
         {
-            // If divisible by 5, create a new row of cards.
-            if (currCardIdx % 5 == 0)
+            // If divisible by 4, create a new row of cards.
+            if (currCardIdx % 4 == 0)
             {
                 GameObject newRow = CreateNewCardRow();
                 horizontalTransform = newRow.transform;
@@ -86,7 +234,7 @@ public class UpgradeController : MonoBehaviour
         GameObject cardObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD);
         CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
-        cardObject.transform.localScale = new Vector2(0.4f, 0.4f);
+        cardObject.transform.localScale = new Vector2(0.45f, 0.45f);
         cardHandler.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
         cardHandler.HideCardInstantly(); // Hide the card instantly so we can animate it after.
         cardHandler.EnableUpgradeFunctionality();
@@ -101,7 +249,7 @@ public class UpgradeController : MonoBehaviour
         HorizontalLayoutGroup newRowHLG = newRow.GetComponent<HorizontalLayoutGroup>();
         newRowHLG.childControlWidth = true;
         newRowHLG.childForceExpandWidth = true;
-        newRowHLG.spacing = 40;
+        newRowHLG.spacing = 25;
         newRow.GetComponent<RectTransform>().sizeDelta = new Vector2(800, 0);
         return newRow;
     }

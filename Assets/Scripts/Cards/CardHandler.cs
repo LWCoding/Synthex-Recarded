@@ -7,9 +7,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+public enum TooltipPosition
+{
+    LEFT = 0, CENTER = 1, RIGHT = 2
+}
+
 public enum CardAnimation
 {
-    SHRINK, TRANSLATE_DOWN
+    SHRINK = 0, TRANSLATE_DOWN = 1
 }
 
 public class CardHandler : MonoBehaviour
@@ -49,7 +54,7 @@ public class CardHandler : MonoBehaviour
     private IEnumerator _tooltipShowCoroutine = null;
     private Vector3 _tooltipInitialLocalPosition;
 
-    private void Awake()
+    public void Awake()
     {
         _cardHoverController = GetComponent<CardHoverHandler>();
         _cardCanvasGroup = GetComponent<CanvasGroup>();
@@ -66,6 +71,8 @@ public class CardHandler : MonoBehaviour
         // Set all of the basic properties
         InitializeStartingData();
         EnableInteractions();
+        // Set tooltip initial position
+        SetTooltipPosition(TooltipPosition.CENTER);
         // Set the card information
         card = c;
         cardIdx = idx;
@@ -87,6 +94,23 @@ public class CardHandler : MonoBehaviour
         if (shouldShowInstantly)
         {
             ShowCardInstantly();
+        }
+    }
+
+    // Updates the position of a tooltip when the card is hovered over.
+    public void SetTooltipPosition(TooltipPosition tooltipPosition)
+    {
+        switch (tooltipPosition)
+        {
+            case TooltipPosition.LEFT:
+                tooltipParentObject.transform.localPosition = new Vector3(-275, _tooltipInitialLocalPosition.y, 0);
+                break;
+            case TooltipPosition.CENTER:
+                tooltipParentObject.transform.localPosition = _tooltipInitialLocalPosition;
+                break;
+            case TooltipPosition.RIGHT:
+                tooltipParentObject.transform.localPosition = new Vector3(275, _tooltipInitialLocalPosition.y, 0);
+                break;
         }
     }
 
@@ -412,13 +436,11 @@ public class CardHandler : MonoBehaviour
     // Enable the functionality of the card for the shop scene.
     public void EnableShopFunctionality()
     {
-        tooltipParentObject.transform.localPosition = new Vector3(275, _tooltipInitialLocalPosition.y, 0);
         GetComponent<ShopCardHandler>().enabled = true;
     }
 
     public void EnableUpgradeFunctionality()
     {
-        tooltipParentObject.transform.localPosition = new Vector3(275, _tooltipInitialLocalPosition.y, 0);
         GetComponent<UpgradeCardHandler>().enabled = true;
     }
 
