@@ -78,7 +78,6 @@ public class UpgradeController : MonoBehaviour
         bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
         _insufficientFundsObject.SetActive(!doesPlayerHaveEnoughXP);
         Card cardAfterUpgrade = Globals.GetCard(c.GetCardUniqueName(), c.level + 1);
-        Debug.Log(FindDifferenceInCards(c, cardAfterUpgrade));
         _cardPreviewText.text = "Upgrade card from <color=#FB4BC7>" + c.GetCardDisplayName() + "</color> to <color=#FB4BC7>" + cardAfterUpgrade.GetCardDisplayName() + "</color>?\n\nCost: <color=\"green\">" + upgradeCost.ToString() + " XP</color>\n\nClick card to " + ((isSelected) ? "deselect" : "select") + ".";
         _totalCostText.text = "TOTAL: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
     }
