@@ -29,9 +29,12 @@ public class UpgradeController : MonoBehaviour
     [SerializeField] private Transform _cardVertLayoutTransform;
     [SerializeField] private Button _exitButton;
     [SerializeField] private Button _upgradeButton;
+    [SerializeField] private Button _prevToSummButton;
+    [SerializeField] private Button _summToPrevButton;
     [SerializeField] private TextMeshProUGUI _cardPreviewText;
     [SerializeField] private TextMeshProUGUI _totalCostText;
-    [SerializeField] private GameObject _insufficientFundsObject;
+    [SerializeField] private TextMeshProUGUI _previewErrorMessageText;
+    [SerializeField] private TextMeshProUGUI _summaryErrorMessageText;
     [Header("Summary Object Assignments")]
     [SerializeField] private Transform _cardInfoVertLayoutTransform;
     [SerializeField] private TextMeshProUGUI _cardSummaryText;
@@ -54,13 +57,12 @@ public class UpgradeController : MonoBehaviour
     {
         // Initialize the buttons that should modify UI elements.
         _exitButton.onClick.AddListener(() => FadeTransitionController.Instance.HideScreen("Map", 0.75f));
-        // If the player clicks the upgrade button, upgrade cards if cost allows.
+        // If the player clicks the upgrade button, upgrade cards if cost allows
+        // AND if the player has selected any cards to upgrade.
         _upgradeButton.onClick.AddListener(() => {
-            if (GameController.GetXP() >= _totalCost) {
-                GameController.SpendXP(_totalCost);
-                UpgradeSelectedCards();
-                FadeTransitionController.Instance.HideScreen("Map", 0.75f);
-            }
+            GameController.SpendXP(_totalCost);
+            UpgradeSelectedCards();
+            FadeTransitionController.Instance.HideScreen("Map", 1.25f);
         });
         // Initialize the cards in the deck.
         StartCoroutine(InitializeDeckCardsCoroutine());
@@ -73,7 +75,7 @@ public class UpgradeController : MonoBehaviour
     public void ResetConsolePreview()
     {
         bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
-        _insufficientFundsObject.SetActive(!doesPlayerHaveEnoughXP);
+        _previewErrorMessageText.gameObject.SetActive(!doesPlayerHaveEnoughXP);
         _cardPreviewText.text = "Hover over a card to view its upgrade information.";
         _totalCostText.text = "TOTAL: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
     }
@@ -84,8 +86,12 @@ public class UpgradeController : MonoBehaviour
     ///</summary>
     public void UpdatePreviewConsole(Card c, int upgradeCost, bool isSelected)
     {
+        if (c.IsMaxLevel()) {
+            _cardPreviewText.text = "<color=#FB4BC7>" + c.GetCardDisplayName() + "</color> is already at max level. Please select another card.";
+            return;
+        }
         bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
-        _insufficientFundsObject.SetActive(!doesPlayerHaveEnoughXP);
+        _previewErrorMessageText.gameObject.SetActive(!doesPlayerHaveEnoughXP);
         Card cardAfterUpgrade = Globals.GetCard(c.GetCardUniqueName(), c.level + 1);
         _cardPreviewText.text = "Upgrade card from <color=#FB4BC7>" + c.GetCardDisplayName() + "</color> to <color=#FB4BC7>" + cardAfterUpgrade.GetCardDisplayName() + "</color>?\n\nCost: <color=\"green\">" + upgradeCost.ToString() + " XP</color>\n\nClick card to " + ((isSelected) ? "deselect" : "select") + ".";
         _totalCostText.text = "TOTAL: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
@@ -96,6 +102,22 @@ public class UpgradeController : MonoBehaviour
     ///</summary>
     public void UpdateSummaryConsole()
     {
+        bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
+        // If the player does not have enough XP to upgrade the selected cards, error.
+        if (!doesPlayerHaveEnoughXP) {
+            _summaryErrorMessageText.text = "(INSUFFICIENT FUNDS)";
+            _summaryErrorMessageText.gameObject.SetActive(true);
+        }
+        // If the player did not select any cards to upgrade, error.
+        else if (_selectedCardsToUpgrade.Count == 0) {
+            _summaryErrorMessageText.text = "(NO CARDS SELECTED)";
+            _summaryErrorMessageText.gameObject.SetActive(true);
+        }
+        // Or else, hide the error message.
+        else {
+            _summaryErrorMessageText.gameObject.SetActive(false);
+        }
+        // String together the first three selected cards and display it in the console.
         string listOfCardsString = _selectedCardsToUpgrade.Count == 0 ? "<color=#9F9F9F>None</color>\n" : "";
         for (int i = 0; i < Mathf.Min(3, _selectedCardsToUpgrade.Count); i++)
         {
@@ -106,7 +128,7 @@ public class UpgradeController : MonoBehaviour
         {
             listOfCardsString += "<i><color=#9F9F9F>(...and " + (_selectedCardsToUpgrade.Count - 3).ToString() + " other" + (_selectedCardsToUpgrade.Count - 3 == 1 ? "" : "s") + ")</color></i>\n";
         }
-        _cardSummaryText.text = "Upgrading cards:\n" + listOfCardsString + "\nTotal Cost: <color=\"green\">" + _totalCost.ToString() + " XP</color>";
+        _cardSummaryText.text = "Upgrading cards:\n" + listOfCardsString + "\nTotal Cost: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
     }
 
     ///<summary>
@@ -245,8 +267,11 @@ public class UpgradeController : MonoBehaviour
             Debug.LogError("Didn't provide proper animation name to SwitchUpgradeScreens() in UpgradeController.cs!");
             yield break;
         }
+        // IF WE ARE GOING FROM PREVIEW TO THE SUMMARY SCREEN...
         if (animationName == "Switch1To2")
         {
+            _prevToSummButton.interactable = false;
+            _exitButton.interactable = false;
             // Make all cards uninteractable.
             foreach (CardHandler cardHandler in _cardPreviewHandlers)
             {
@@ -257,27 +282,27 @@ public class UpgradeController : MonoBehaviour
             // Update console on the next screen.
             UpdateSummaryConsole();
         }
+        // IF WE ARE GOING FROM SUMMARY TO THE PREVIEW SCREEN...
         else if (animationName == "Switch2To1")
         {
+            _summToPrevButton.interactable = false;
+            _upgradeButton.interactable = false;
             ResetConsolePreview();
-        }
-        // Play the animation and wait for it to finish.
-        _screenSwitcherAnimator.Play(animationName);
-        yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => _screenSwitcherAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
-        if (animationName == "Switch1To2")
-        {
-
-        }
-        else if (animationName == "Switch2To1")
-        {
             // Make cards interactable again.
             foreach (CardHandler cardHandler in _cardPreviewHandlers)
             {
                 cardHandler?.GetComponent<UpgradeCardHandler>()?.SetInteractable(true);
             }
-
         }
+        // Play the animation and wait for it to finish.
+        _screenSwitcherAnimator.Play(animationName);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => _screenSwitcherAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+        // Reenable the buttons after the animation is done playing.
+        _prevToSummButton.interactable = true;
+        _summToPrevButton.interactable = true;
+        _upgradeButton.interactable = _totalCost <= GameController.GetXP() && _selectedCardsToUpgrade.Count > 0;
+        _exitButton.interactable = true;
     }
 
     // Initializes all of the cards in the player's deck on the preview screen.

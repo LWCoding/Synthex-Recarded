@@ -14,7 +14,6 @@ IPointerClickHandler
     [SerializeField] private GameObject _upgradeContainerObject;
     [SerializeField] private GameObject _upgradeOverlayObject;
     [SerializeField] private GameObject _checkmarkOverlayObject;
-    [SerializeField] private TextMeshProUGUI cardCostText;
 
     private CardHandler _parentCardHandler;
     private bool _isInteractable;
@@ -34,37 +33,22 @@ IPointerClickHandler
 
     private void Start()
     {
+        // Initialize starting values.
         _parentCardHandler.SetSortingOrder(1);
         _card = _parentCardHandler.card;
         _cardIdx = _parentCardHandler.GetCardIdx();
         _upgradeCost = _card.level * 3;
         _isInteractable = true;
         _upgradeContainerObject.SetActive(true);
+        // Make sure card starts unselected with a tooltip slanting left.
         SetIsSelected(false);
         _parentCardHandler.SetTooltipPosition(TooltipPosition.LEFT);
-    }
-
-    private void SetPreviewInfo()
-    {
+        // Update information about upgrading this card.
         _upgradeCost = _card.level * 3;
         if (_card.IsMaxLevel())
         {
-            cardCostText.text = "MAX";
-            cardCostText.color = new Color(0, 0.8f, 1);
-        }
-        else
-        {
-            cardCostText.text = GetCost().ToString() + " XP";
-            if (GetCost() <= GameController.GetXP())
-            {
-                // Can afford the card!
-                cardCostText.color = new Color(0.3f, 1, 0);
-            }
-            else
-            {
-                // Cannot afford the card.
-                cardCostText.color = new Color(1, 0.15f, 0.15f);
-            }
+            _isInteractable = false;
+            _upgradeOverlayObject.SetActive(true);
         }
     }
 
@@ -77,20 +61,20 @@ IPointerClickHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!_isInteractable) { return; }
-        _parentCardHandler.SetSortingOrder(2);
-        // Set the text it should show based on the card's info.
-        SetPreviewInfo();
         // Update the console information.
         UpgradeController.Instance.UpdatePreviewConsole(_card, GetCost(), _isSelected);
+        if (!_isInteractable) { return; }
+        // Make the card go above other cards.
+        _parentCardHandler.SetSortingOrder(2);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!_isInteractable) { return; }
-        _parentCardHandler.SetSortingOrder(1);
         // Reset the console information to its default.
         UpgradeController.Instance.ResetConsolePreview();
+        if (!_isInteractable) { return; }
+        // Make the card go back to an initial sorting order.
+        _parentCardHandler.SetSortingOrder(1);
     }
 
     public void OnPointerClick(PointerEventData eventData)

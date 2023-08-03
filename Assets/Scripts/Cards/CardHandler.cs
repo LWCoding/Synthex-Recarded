@@ -47,6 +47,12 @@ public class CardHandler : MonoBehaviour
     public int GetCardIdx() => _cardIdx;
     // Gets the card's unique identifier.
     public void SetCardIdx(int c) => _cardIdx = c;
+    // This function will make the card fully shown.
+    public void ShowCardInstantly() => SetCardAlpha(1);
+    // This function will make the card fully transparent.
+    public void HideCardInstantly() => SetCardAlpha(0);
+    // Sets the alpha of the card's canvas group.
+    public void SetCardAlpha(float alpha) => _cardCanvasGroup.alpha = alpha;
 
     private int _cardIdx; // Index in deck, if necessary
     private List<CardEffectType> _currentCardEffectTypes;
@@ -277,18 +283,6 @@ public class CardHandler : MonoBehaviour
     public void CardAppear()
     {
         StartCoroutine(CardAppearCoroutine(0.18f));
-    }
-
-    // This function will make the card fully shown.
-    public void ShowCardInstantly()
-    {
-        _cardCanvasGroup.alpha = 1;
-    }
-
-    // This function will make the card fully transparent.
-    public void HideCardInstantly()
-    {
-        _cardCanvasGroup.alpha = 0;
     }
 
     // Render tooltip and information and show the tooltip.
