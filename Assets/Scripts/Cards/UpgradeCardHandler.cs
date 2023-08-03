@@ -34,6 +34,7 @@ IPointerClickHandler
 
     private void Start()
     {
+        _parentCardHandler.SetSortingOrder(1);
         _card = _parentCardHandler.card;
         _cardIdx = _parentCardHandler.GetCardIdx();
         _upgradeCost = _card.level * 3;

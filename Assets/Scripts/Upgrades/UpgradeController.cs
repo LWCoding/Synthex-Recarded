@@ -28,6 +28,7 @@ public class UpgradeController : MonoBehaviour
     [Header("Preview Object Assignments")]
     [SerializeField] private Transform _cardVertLayoutTransform;
     [SerializeField] private Button _exitButton;
+    [SerializeField] private Button _upgradeButton;
     [SerializeField] private TextMeshProUGUI _cardPreviewText;
     [SerializeField] private TextMeshProUGUI _totalCostText;
     [SerializeField] private GameObject _insufficientFundsObject;
@@ -53,6 +54,14 @@ public class UpgradeController : MonoBehaviour
     {
         // Initialize the buttons that should modify UI elements.
         _exitButton.onClick.AddListener(() => FadeTransitionController.Instance.HideScreen("Map", 0.75f));
+        // If the player clicks the upgrade button, upgrade cards if cost allows.
+        _upgradeButton.onClick.AddListener(() => {
+            if (GameController.GetXP() >= _totalCost) {
+                GameController.SpendXP(_totalCost);
+                UpgradeSelectedCards();
+                FadeTransitionController.Instance.HideScreen("Map", 0.75f);
+            }
+        });
         // Initialize the cards in the deck.
         StartCoroutine(InitializeDeckCardsCoroutine());
         // Set the console text to have nothing at first.
@@ -121,6 +130,19 @@ public class UpgradeController : MonoBehaviour
         _selectedCardsToUpgrade.Remove(new CardAndCost(c, upgradeCost, cardIdx));
         _totalCost -= upgradeCost;
         _cardPreviewHandlers[cardIdx].GetComponent<UpgradeCardHandler>().SetIsSelected(false);
+    }
+
+    ///<summary>
+    /// Upgrades all cards in the _selectedCardsToUpgrade list.
+    /// Clears the list afterwards so this won't upgrade cards multiple times.
+    ///</summary>
+    public void UpgradeSelectedCards()
+    {
+        for (int i = 0; i < _selectedCardsToUpgrade.Count; i++)
+        {
+            GameController.GetHeroCards()[_selectedCardsToUpgrade[i].cardIdx].UpgradeLevel();
+        }
+        _selectedCardsToUpgrade.Clear();
     }
 
     ///<summary>

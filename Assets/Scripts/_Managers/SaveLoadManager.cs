@@ -14,6 +14,7 @@ public class SaveObject
     public int xp;
     [Header("Game Background Information")]
     public bool visitedShopBefore;
+    public bool visitedUpgradeBefore;
     public List<string> tutorialsPlayed;
     public List<DialogueName> mapDialoguesPlayed;
     public List<Encounter> loadedEncounters;
@@ -66,7 +67,7 @@ public static class SaveLoadManager
         GameController.SetMoney(so.money);
         GameController.SetXP(so.xp);
         GameController.SetMapObject(so.mapObject);
-        GameController.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed, so.visitedShopBefore);
+        GameController.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed, so.visitedShopBefore, so.visitedUpgradeBefore);
         GameController.SetSeenEnemies(so.loadedEncounters);
         GameController.saveFileName = fileName;
 

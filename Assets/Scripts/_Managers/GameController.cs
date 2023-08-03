@@ -32,6 +32,7 @@ public static class GameController
     // Meta data:
     public static List<Enemy> nextBattleEnemies = new List<Enemy>();
     public static bool visitedShopBefore = false;
+    public static bool visitedUpgradeBefore = false;
     // Title data:
     public static bool wasTitleRendered = false;
     // Dialogue data:
@@ -94,11 +95,12 @@ public static class GameController
         _chosenHero.currentItems.RemoveAt(index);
     }
 
-    public static void SetPlayedDialogues(List<DialogueName> dialogues, List<string> tutorials, bool hasVisitedShop)
+    public static void SetPlayedDialogues(List<DialogueName> dialogues, List<string> tutorials, bool hasVisitedShop, bool hasVisitedUpgrade)
     {
         alreadyPlayedMapDialogues = dialogues;
         alreadyPlayedTutorials = tutorials;
         visitedShopBefore = hasVisitedShop;
+        visitedUpgradeBefore = hasVisitedUpgrade;
     }
 
     public static void SaveGame()

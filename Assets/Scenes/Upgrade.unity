@@ -1437,7 +1437,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1211763884}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
@@ -1814,6 +1814,7 @@ MonoBehaviour:
   _upgradeInfoPrefab: {fileID: 7832754057216610181, guid: cd4759aa89a221948a41a4749e17c7a2, type: 3}
   _cardVertLayoutTransform: {fileID: 425380543}
   _exitButton: {fileID: 1942973690}
+  _upgradeButton: {fileID: 1990782790}
   _cardPreviewText: {fileID: 1369291452}
   _totalCostText: {fileID: 1417795558}
   _insufficientFundsObject: {fileID: 465051641}
@@ -2566,19 +2567,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1990782788}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1406062781}
-        m_TargetAssemblyTypeName: UpgradeController, Assembly-CSharp
-        m_MethodName: SwitchUpgradeScreens
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Switch2To1
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &2059554628
 GameObject:
   m_ObjectHideFlags: 0
