@@ -3,7 +3,7 @@ guid: 85c93e8791eb75e4d8b59cd898d3b1bd
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,10 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -41,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -62,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -73,11 +77,723 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0000
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba1e901be21f1f010800000000000000
+      internalID: 1221022156835119531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0001
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 510b5b430668993a0800000000000000
+      internalID: -6658142826331262955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0002
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 687cf8e6e63f19fa0800000000000000
+      internalID: -5795583589822249082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0003
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de7cacff62f7f50a0800000000000000
+      internalID: -6890649099376605203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0004
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3b17cf0aebbf7170800000000000000
+      internalID: 8178462062289558330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0005
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ca91f7134465d290800000000000000
+      internalID: -7866270934805407034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0006
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a17a064431497f190800000000000000
+      internalID: -7928705808489994470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0007
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 114e8a691eff80950800000000000000
+      internalID: 6415659013549646865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0008
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 884dec9a2cd0f3a20800000000000000
+      internalID: 3044167002849465480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0009
+      rect:
+        serializedVersion: 2
+        x: 1502
+        y: 1563
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c4b0bfa99ed4c140800000000000000
+      internalID: 4739157459559560389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0010
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d14ab7ad489d25d0800000000000000
+      internalID: -3085642710385016360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0011
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f38c2082e6c08a940800000000000000
+      internalID: 5307505828113336383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0012
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20d24c65e455aeec0800000000000000
+      internalID: -3536920762394596094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0013
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e70440fe5deb50c10800000000000000
+      internalID: 2019229833992880254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0014
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ad32774f58373760800000000000000
+      internalID: 7437475291497381287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0015
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6197bdb34c176f3a0800000000000000
+      internalID: -6631988313624708842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0016
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1cad7df0908316eb0800000000000000
+      internalID: -4728436522190644543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0017
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1071b6352a56a9280800000000000000
+      internalID: -9035797954506844415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0018
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03a33a116fd037f90800000000000000
+      internalID: -6957201648848258512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0019
+      rect:
+        serializedVersion: 2
+        x: 1502
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78fd11135fced42d0800000000000000
+      internalID: -3292715214703566969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0020
+      rect:
+        serializedVersion: 2
+        x: 1502
+        y: 1078
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea0a16be4e5591a50800000000000000
+      internalID: 6492314779521228974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0021
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 593
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 717041e48cbc916a0800000000000000
+      internalID: -6477922527831914729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0022
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 593
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77b52c5e3f385a330800000000000000
+      internalID: 3721525750646594423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0023
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 593
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6b1ee6c5b73d1220800000000000000
+      internalID: 2458182225480260462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0024
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 593
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 005bbed0a8f23f730800000000000000
+      internalID: 4031618361412269312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0025
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 593
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0d43cfebe2800810800000000000000
+      internalID: 1729526206761749772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0026
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 593
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 698b6ad9d12c55be0800000000000000
+      internalID: -1489070669321291626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0027
+      rect:
+        serializedVersion: 2
+        x: 1129
+        y: 593
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0017342cf71450840800000000000000
+      internalID: 5189626162590216448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0028
+      rect:
+        serializedVersion: 2
+        x: 1502
+        y: 593
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15939231b4be5b550800000000000000
+      internalID: 6176101171685046609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0029
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 108
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af8b9571c73956f90800000000000000
+      internalID: -6960995487854249734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0030
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 108
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79d592ccb35021710800000000000000
+      internalID: 1662396966839606679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vanguard Matrix Intro0031
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 108
+        width: 363
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a41048c1ec944de60800000000000000
+      internalID: 7986089188825235786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -88,9 +804,41 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      Vanguard Matrix Intro0000: 1221022156835119531
+      Vanguard Matrix Intro0001: -6658142826331262955
+      Vanguard Matrix Intro0002: -5795583589822249082
+      Vanguard Matrix Intro0003: -6890649099376605203
+      Vanguard Matrix Intro0004: 8178462062289558330
+      Vanguard Matrix Intro0005: -7866270934805407034
+      Vanguard Matrix Intro0006: -7928705808489994470
+      Vanguard Matrix Intro0007: 6415659013549646865
+      Vanguard Matrix Intro0008: 3044167002849465480
+      Vanguard Matrix Intro0009: 4739157459559560389
+      Vanguard Matrix Intro0010: -3085642710385016360
+      Vanguard Matrix Intro0011: 5307505828113336383
+      Vanguard Matrix Intro0012: -3536920762394596094
+      Vanguard Matrix Intro0013: 2019229833992880254
+      Vanguard Matrix Intro0014: 7437475291497381287
+      Vanguard Matrix Intro0015: -6631988313624708842
+      Vanguard Matrix Intro0016: -4728436522190644543
+      Vanguard Matrix Intro0017: -9035797954506844415
+      Vanguard Matrix Intro0018: -6957201648848258512
+      Vanguard Matrix Intro0019: -3292715214703566969
+      Vanguard Matrix Intro0020: 6492314779521228974
+      Vanguard Matrix Intro0021: -6477922527831914729
+      Vanguard Matrix Intro0022: 3721525750646594423
+      Vanguard Matrix Intro0023: 2458182225480260462
+      Vanguard Matrix Intro0024: 4031618361412269312
+      Vanguard Matrix Intro0025: 1729526206761749772
+      Vanguard Matrix Intro0026: -1489070669321291626
+      Vanguard Matrix Intro0027: 5189626162590216448
+      Vanguard Matrix Intro0028: 6176101171685046609
+      Vanguard Matrix Intro0029: -6960995487854249734
+      Vanguard Matrix Intro0030: 1662396966839606679
+      Vanguard Matrix Intro0031: 7986089188825235786
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
