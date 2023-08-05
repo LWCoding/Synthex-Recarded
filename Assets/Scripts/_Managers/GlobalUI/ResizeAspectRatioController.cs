@@ -20,7 +20,7 @@ public class ResizeAspectRatioController : MonoBehaviour
 #if UNITY_STANDALONE
             // Update the application window to maintain proper resolution
             float heightAccordingToWidth = width / 16.0f * 9.0f;
-            Screen.SetResolution(width, (int)Mathf.Round(heightAccordingToWidth), false, 0);
+            Screen.SetResolution(width, (int)Mathf.Round(heightAccordingToWidth), FullScreenMode.Windowed, new RefreshRate());
 #endif
             StartCoroutine(InvokeAfterFrame());
         }
@@ -29,7 +29,7 @@ public class ResizeAspectRatioController : MonoBehaviour
 #if UNITY_STANDALONE
             // Update the application window to maintain proper resolution
             float widthAccordingToHeight = height / 9.0f * 16.0f;
-            Screen.SetResolution((int)Mathf.Round(widthAccordingToHeight), height, false, 0);
+            Screen.SetResolution((int)Mathf.Round(widthAccordingToHeight), height, FullScreenMode.Windowed, new RefreshRate());
 #endif
             StartCoroutine(InvokeAfterFrame());
         }

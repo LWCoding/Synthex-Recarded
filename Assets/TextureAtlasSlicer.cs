@@ -267,11 +267,11 @@ public class TextureAtlasSlicer : EditorWindow
                                      pivot = GetPivotValue(spriteAlignment, customOffset),
                                      rect = new Rect(subTexture.x, actualY, subTexture.width, subTexture.height)
                                  }).ToArray();
-        if (!needsUpdate && !importer.spritesheet.SequenceEqual(wantedSpriteSheet))
-        {
-            needsUpdate = true;
-            importer.spritesheet = wantedSpriteSheet;
-        }
+        // if (!needsUpdate && !importer.spritesheet.SequenceEqual(wantedSpriteSheet))
+        // {
+        //     needsUpdate = true;
+        //     importer.spritesheet = wantedSpriteSheet;
+        // }
 
         if (needsUpdate)
         {
