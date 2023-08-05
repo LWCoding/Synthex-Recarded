@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 230988009}
   - component: {fileID: 230988008}
   - component: {fileID: 230988007}
+  - component: {fileID: 230988010}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -449,6 +450,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230988005}
   m_CullTransparentMesh: 1
+--- !u!114 &230988010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230988005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1406062781}
+          m_TargetAssemblyTypeName: UpgradeController, Assembly-CSharp
+          m_MethodName: PlayButtonHoverSFX
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 230988007}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1406062781}
+          m_TargetAssemblyTypeName: UpgradeController, Assembly-CSharp
+          m_MethodName: PlayButtonSelectSFX
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 230988007}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &261580220
 GameObject:
   m_ObjectHideFlags: 0
@@ -2109,6 +2155,7 @@ MonoBehaviour:
   _cardInfoVertLayoutTransform: {fileID: 443630626}
   _cardSummaryText: {fileID: 1502478503}
   _screenSwitcherAnimator: {fileID: 180968966}
+  _buttonSelectSFX: {fileID: 8300000, guid: 149360dd224a4a846b9cb61a51923c10, type: 3}
 --- !u!114 &1406062782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2928,6 +2975,7 @@ GameObject:
   - component: {fileID: 1942973689}
   - component: {fileID: 1942973688}
   - component: {fileID: 1942973690}
+  - component: {fileID: 1942973691}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -3036,6 +3084,35 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1942973691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942973686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1406062781}
+          m_TargetAssemblyTypeName: UpgradeController, Assembly-CSharp
+          m_MethodName: PlayButtonHoverSFX
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1942973690}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1981269511
 GameObject:
   m_ObjectHideFlags: 0
@@ -3180,6 +3257,7 @@ GameObject:
   - component: {fileID: 1990782789}
   - component: {fileID: 1990782788}
   - component: {fileID: 1990782790}
+  - component: {fileID: 1990782791}
   m_Layer: 5
   m_Name: UpgradeButton
   m_TagString: Untagged
@@ -3288,6 +3366,51 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1990782791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990782786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1406062781}
+          m_TargetAssemblyTypeName: UpgradeController, Assembly-CSharp
+          m_MethodName: PlayButtonHoverSFX
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1990782790}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1406062781}
+          m_TargetAssemblyTypeName: UpgradeController, Assembly-CSharp
+          m_MethodName: PlayButtonSelectSFX
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1990782790}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &2059554628
 GameObject:
   m_ObjectHideFlags: 0
@@ -3300,6 +3423,7 @@ GameObject:
   - component: {fileID: 2059554631}
   - component: {fileID: 2059554630}
   - component: {fileID: 2059554632}
+  - component: {fileID: 2059554633}
   m_Layer: 5
   m_Name: NextButton
   m_TagString: Untagged
@@ -3420,6 +3544,51 @@ MonoBehaviour:
           m_StringArgument: Switch1To2
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2059554633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059554628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1406062781}
+          m_TargetAssemblyTypeName: UpgradeController, Assembly-CSharp
+          m_MethodName: PlayButtonHoverSFX
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2059554632}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1406062781}
+          m_TargetAssemblyTypeName: UpgradeController, Assembly-CSharp
+          m_MethodName: PlayButtonSelectSFX
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2059554632}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
