@@ -1,3 +1,4 @@
+#if !UNITY_WEBGL
 using Discord;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -119,3 +120,4 @@ public class DiscordController : MonoBehaviour
         }
     }
 }
+#endif
