@@ -1,5 +1,6 @@
 using Discord;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DiscordController : MonoBehaviour
 {
@@ -8,11 +9,12 @@ public class DiscordController : MonoBehaviour
     public string largeImage;
     public string largeText;
 
-    private Rigidbody rb;
     private long time;
 
     private static bool instanceExists;
     public Discord.Discord discord;
+
+    private float _timeSinceLastUpdate = 0;
 
     void Start()
     {
@@ -35,11 +37,13 @@ public class DiscordController : MonoBehaviour
         {
             Destroy(this);
         }
-    }
-
-    void LateUpdate()
-    {
-        UpdateStatus();
+        // Update the status every now and then.
+        _timeSinceLastUpdate += Time.deltaTime;
+        if (_timeSinceLastUpdate > 1)
+        {
+            UpdateStatus();
+            _timeSinceLastUpdate = 0;
+        }
     }
 
     void UpdateStatus()
@@ -47,17 +51,27 @@ public class DiscordController : MonoBehaviour
         // Update Status every frame
         try
         {
-            string details = "Lost in the title screen...";
-            string currState = "Can somebody send help?";
-            if (GameController.GetMapScene() != MapScene.NONE)
+            string currScene = SceneManager.GetActiveScene().name;
+            string details, currState;
+            if (currScene == "Title")
             {
-                if (MapController.Instance != null)
-                {
+                currState = "Can somebody send help?";
+            }
+            else
+            {
+                string mapSceneName = char.ToUpper(GameController.GetMapScene().ToString()[0]) + GameController.GetMapScene().ToString().Substring(1).ToLower();
+                currState = GameController.GetHeroData().characterName + " (" + GameController.GetHeroHealth() + "/" + GameController.GetHeroMaxHealth() + " HP) | " + mapSceneName + " Lvl. " + (GameController.GetMapObject().currLocation.floorNumber + 1);
+            }
+            switch (currScene)
+            {
+                case "Title":
+                    details = "Lost in the title screen...";
+                    break;
+                case "Map":
                     details = "Taking a gander at the map";
-                }
-                if (BattleController.Instance != null)
-                {
-                    details = "In battle fighting ";
+                    break;
+                case "Battle":
+                    details = "In a battle fighting ";
                     for (int i = 0; i < GameController.nextBattleEnemies.Count; i++)
                     {
                         details += GameController.nextBattleEnemies[i].characterName;
@@ -66,16 +80,16 @@ public class DiscordController : MonoBehaviour
                             details += " and ";
                         }
                     }
-                }
-                if (ShopController.Instance != null)
-                {
-                    details = "Purchasing things at the shop";
-                }
-                if (UpgradeController.Instance != null)
-                {
-                    details = "Tinkering with the upgrade machine";
-                }
-                currState = GameController.GetHeroData().characterName + " (" + GameController.GetHeroHealth() + "/" + GameController.GetHeroMaxHealth() + " HP) | " + GameController.GetMapScene().ToString() + " Lvl. " + (GameController.GetMapObject().currLocation.floorNumber + 1);
+                    break;
+                case "Shop":
+                    details = "Buying things at the shop";
+                    break;
+                case "Upgrade":
+                    details = "Tinkering with upgrade machine";
+                    break;
+                default:
+                    details = "Having a fun time";
+                    break;
             }
             var activityManager = discord.GetActivityManager();
             var activity = new Discord.Activity

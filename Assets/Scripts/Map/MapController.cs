@@ -106,7 +106,7 @@ public class MapController : MonoBehaviour
             case MapScene.FOREST:
                 introBannerText.text = "<color=\"black\"><size=13>The Forest</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
                 break;
-            case MapScene.AERICHO_CITY:
+            case MapScene.AERICHO:
                 introBannerText.text = "<color=\"black\"><size=13>Aericho City</size></color>\n<color=#282E27><i><size=5>Chapter 2</size></i></color>";
                 break;
             case MapScene.SECRET:
@@ -294,7 +294,7 @@ public class MapController : MonoBehaviour
                 }
                 continue;
             }
-            if (_serializableMapObject.currScene == MapScene.AERICHO_CITY && floor == 0)
+            if (_serializableMapObject.currScene == MapScene.AERICHO && floor == 0)
             {
                 for (int i = 0; i < 5; i++)
                 {
