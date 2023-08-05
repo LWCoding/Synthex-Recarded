@@ -114,6 +114,7 @@ public static class GameController
         so.mapDialoguesPlayed = alreadyPlayedMapDialogues;
         so.tutorialsPlayed = alreadyPlayedTutorials;
         so.visitedShopBefore = visitedShopBefore;
+        so.visitedUpgradeBefore = visitedUpgradeBefore;
         GlobalUIController.Instance.PlaySaveIconAnimation();
         SaveLoadManager.Save(so, saveFileName);
     }

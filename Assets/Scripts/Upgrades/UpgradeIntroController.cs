@@ -105,12 +105,19 @@ public class UpgradeIntroController : MonoBehaviour
         yield return new WaitUntil(() => _introLogoAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
         // Then, play the animation for the entire screen. Disable the logo animator.
         _introLogoAnimator.enabled = false;
-        _introAnimator.Play("Show");
-        // Wait until the animation is finished.
-        yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => _introAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
-        // Wait for some additional time.
-        yield return new WaitForSeconds(2);
+        if (!GameController.visitedUpgradeBefore)
+        {
+            _introAnimator.Play("Show");
+            // Wait until the animation is finished.
+            yield return new WaitForEndOfFrame();
+            yield return new WaitUntil(() => _introAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+            // Wait for some additional time.
+            yield return new WaitForSeconds(2);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
     private IEnumerator HideIntroScreenCoroutine()
