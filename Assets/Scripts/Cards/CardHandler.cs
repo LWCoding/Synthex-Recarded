@@ -360,9 +360,7 @@ public class CardHandler : MonoBehaviour
         yield return new WaitForEndOfFrame();
         // Set all of the initial values of the card to be invisible.
         HideCardInstantly();
-        // Calculate frames and initial values for linear interpolation.
-        float frames = 0;
-        float maxFrames = timeInSeconds * 60; // Max # of frames calculated by 60 frames per second!
+        float currTime = 0;
         Vector3 targetPosition = CardObject.transform.localPosition;
         CardObject.transform.localPosition -= new Vector3(0, 103, 0);
         Vector3 CardObjectInitialPosition = CardObject.transform.localPosition;
@@ -371,9 +369,9 @@ public class CardHandler : MonoBehaviour
         while (Vector3.Distance(CardObject.transform.position, targetPosition) > 0.01f)
         {
             if (CardObject == null) { yield break; }
+            currTime += Time.deltaTime;
             CardObject.transform.localPosition = Vector3.SmoothDamp(CardObject.transform.localPosition, targetPosition, ref initialVel, timeInSeconds);
-            _cardCanvasGroup.alpha = Mathf.Lerp(0, 1, frames / maxFrames);
-            frames++;
+            _cardCanvasGroup.alpha = Mathf.Lerp(0, 1, currTime / timeInSeconds);
             yield return null;
         }
         // Make sure the card is completely shown.
@@ -388,26 +386,24 @@ public class CardHandler : MonoBehaviour
         // Set all of the initial values of the card to be invisible.
         ShowCardInstantly();
         _cardHoverController.allowDragging = false;
-        // Calculate frames and initial values for linear interpolation.
-        float frames = 0;
-        float maxFrames = timeInSeconds * 60; // Max # of frames calculated by 60 frames per second!
+        float currTime = 0;
         Vector3 targetScale = new Vector3(0, 0, 0); // CardAnimation.SHRINK
         Vector3 targetPosition = CardObject.transform.localPosition - new Vector3(0, 103, 0); // CardAnimation.TRANSLATE_DOWN
         Vector3 cardObjectInitialPosition = CardObject.transform.localPosition;
         Vector3 cardObjectInitialScale = CardObject.transform.localScale;
-        while (frames < maxFrames)
+        while (currTime < timeInSeconds)
         {
             if (CardObject == null) { yield break; }
+            currTime += Time.deltaTime;
             if (cardAnimationType == CardAnimation.SHRINK)
             {
-                CardObject.transform.localScale = Vector3.Lerp(cardObjectInitialScale, targetScale, frames / maxFrames);
+                CardObject.transform.localScale = Vector3.Lerp(cardObjectInitialScale, targetScale, currTime / Time.deltaTime);
             }
             else if (cardAnimationType == CardAnimation.TRANSLATE_DOWN)
             {
-                CardObject.transform.localPosition = Vector3.Lerp(cardObjectInitialPosition, targetPosition, frames / maxFrames);
+                CardObject.transform.localPosition = Vector3.Lerp(cardObjectInitialPosition, targetPosition, currTime / Time.deltaTime);
             }
-            _cardCanvasGroup.alpha = Mathf.Lerp(1, 0, frames / maxFrames);
-            frames++;
+            _cardCanvasGroup.alpha = Mathf.Lerp(1, 0, currTime / Time.deltaTime);
             yield return null;
         }
         // Make sure the card is completely hidden.
