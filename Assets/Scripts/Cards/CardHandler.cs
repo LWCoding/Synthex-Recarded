@@ -397,13 +397,13 @@ public class CardHandler : MonoBehaviour
             currTime += Time.deltaTime;
             if (cardAnimationType == CardAnimation.SHRINK)
             {
-                CardObject.transform.localScale = Vector3.Lerp(cardObjectInitialScale, targetScale, currTime / Time.deltaTime);
+                CardObject.transform.localScale = Vector3.Lerp(cardObjectInitialScale, targetScale, currTime / timeInSeconds);
             }
             else if (cardAnimationType == CardAnimation.TRANSLATE_DOWN)
             {
-                CardObject.transform.localPosition = Vector3.Lerp(cardObjectInitialPosition, targetPosition, currTime / Time.deltaTime);
+                CardObject.transform.localPosition = Vector3.Lerp(cardObjectInitialPosition, targetPosition, currTime / timeInSeconds);
             }
-            _cardCanvasGroup.alpha = Mathf.Lerp(1, 0, currTime / Time.deltaTime);
+            _cardCanvasGroup.alpha = Mathf.Lerp(1, 0, currTime / timeInSeconds);
             yield return null;
         }
         // Make sure the card is completely hidden.
