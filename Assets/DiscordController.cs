@@ -1,10 +1,10 @@
-#if !UNITY_WEBGL
 using Discord;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DiscordController : MonoBehaviour
 {
+#if !UNITY_WEBGL
     public long applicationID;
     [Space]
     public string largeImage;
@@ -119,5 +119,5 @@ public class DiscordController : MonoBehaviour
             Destroy(this);
         }
     }
-}
 #endif
+}

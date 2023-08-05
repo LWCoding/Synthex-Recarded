@@ -114,14 +114,14 @@ public class CardChoiceController : MonoBehaviour
             cc.DisableInteractions();
             if (cc.gameObject != _cardObjectChosen)
             {
-                StartCoroutine(c.GetComponent<CardHandler>().CardDisappearCoroutine(0.35f, CardAnimation.TRANSLATE_DOWN, () =>
+                StartCoroutine(c.GetComponent<CardHandler>().CardDisappearCoroutine(0.4f, CardAnimation.TRANSLATE_DOWN, () =>
                 {
                     ObjectPooler.Instance.ReturnObjectToPool(PoolableType.CARD, c);
                 }));
                 _cardChoiceObjects.RemoveAt(i);
             }
         }
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
         // Hide remaining card. If there is none, ignore this.
         if (_cardChoiceObjects.Count != 0)
         {
