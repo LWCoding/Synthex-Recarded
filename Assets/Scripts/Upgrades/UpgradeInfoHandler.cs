@@ -29,10 +29,10 @@ public class UpgradeInfoHandler : MonoBehaviour
         _cardAfterUpgradeHandler.Awake();
         // Initialize both cards.
         _cardBeforeUpgradeHandler.Initialize(c);
-        _cardBeforeUpgradeHandler.DisableInteractions();
+        // _cardBeforeUpgradeHandler.DisableInteractions();
         Card cardAfterUpgrade = Globals.GetCard(c.GetCardUniqueName(), c.level + 1);
         _cardAfterUpgradeHandler.Initialize(cardAfterUpgrade);
-        _cardAfterUpgradeHandler.DisableInteractions();
+        // _cardAfterUpgradeHandler.DisableInteractions();
         _upgradeInfoText.text = "Upgrade Details:\n" + UpgradeController.Instance.FindDifferenceInCards(c, cardAfterUpgrade);
         _upgradeCostText.text = "[Cost: " + cost.ToString() + " XP]";
     }

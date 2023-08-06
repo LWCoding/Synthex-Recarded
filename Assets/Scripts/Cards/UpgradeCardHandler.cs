@@ -17,7 +17,6 @@ IPointerClickHandler
 
     private CardHandler _parentCardHandler;
     private bool _isInteractable;
-    public void SetInteractable(bool isInteractable) => _isInteractable = isInteractable;
     private bool _isSelected = false;
     private Transform _parentCardTransform;
     private Card _card;
@@ -50,6 +49,14 @@ IPointerClickHandler
             _isInteractable = false;
             _upgradeOverlayObject.SetActive(true);
         }
+    }
+
+    // Set card to be interactable or not.
+    // However, if card is max level, may not always work.
+    public void SetInteractable(bool isInteractable)
+    {
+        if (_card.IsMaxLevel()) { return; }
+        _isInteractable = isInteractable;
     }
 
     public void SetIsSelected(bool isSelected)

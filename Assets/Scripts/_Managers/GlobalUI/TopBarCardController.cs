@@ -22,8 +22,6 @@ public class TopBarCardController : MonoBehaviour
     public void SetDeckButtonSortingOrder(int order) => _showDeckButton.GetComponent<Canvas>().sortingOrder = order;
     [SerializeField] private Transform canvasTransform;
 
-    private Button drawPileButton;
-    private Button discardPileButton;
     private bool _isDeckPreviewButtonClickable = true;
     private Button _currentlySelectedButton = null;
     public bool IsCardPreviewShowing() => _currentlySelectedButton != null;

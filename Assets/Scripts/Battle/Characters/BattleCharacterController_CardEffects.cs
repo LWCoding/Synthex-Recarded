@@ -75,7 +75,7 @@ public partial class BattleCharacterController : MonoBehaviour
                 case Trait.SUMMON_ENEMY:
                     if (_characterAlignment == Alignment.ENEMY)
                     {
-                        if (BattleController.Instance.enemiesStillAlive <= 2)
+                        if (BattleController.Instance.GetAliveEnemies().Count < 2)
                         {
                             ParticleInfo pInfo = new ParticleInfo();
                             pInfo.particleType = ParticleType.SMOKE_PARTICLES;

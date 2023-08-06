@@ -12,7 +12,6 @@ public class DiscordController : MonoBehaviour
 
     private long time;
 
-    private static bool instanceExists;
     public Discord.Discord discord;
 
     private float _timeSinceLastUpdate = 0;

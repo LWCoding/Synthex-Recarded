@@ -32,7 +32,6 @@ public partial class BattleController : MonoBehaviour
     [SerializeField] private Button _drawPileButton;
     [SerializeField] private Button _discardPileButton;
 
-    [HideInInspector] public int enemiesStillAlive = 0;
     [SerializeField] private List<SpawnableEnemyLocation> _spawnableEnemyLocations = new List<SpawnableEnemyLocation>();
     public SpawnableEnemyLocation GetNextAvailableEnemyLocation() => _spawnableEnemyLocations.Find((loc) => !loc.isTaken);
     public void TakeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = true;
@@ -41,13 +40,15 @@ public partial class BattleController : MonoBehaviour
     private GameState _gameState;
     public void ChangeGameState(GameState newState) => _gameState = newState;
     public GameState GetGameState() => _gameState;
+
     private UnityEvent OnNextTurnStart = new UnityEvent();
     private UnityEvent OnTurnEnd = new UnityEvent();
     [HideInInspector] public BattleHeroController playerBCC;
     [HideInInspector] public List<BattleEnemyController> enemyBCCs = new List<BattleEnemyController>();
-    [HideInInspector] public List<Card> cardsInDiscard = new List<Card>();
-    [HideInInspector] public List<Card> cardsInDrawPile = new List<Card>();
+    public List<BattleEnemyController> GetAliveEnemies() => enemyBCCs.FindAll((bec) => bec.IsAlive());
 
+    private List<Card> _cardsInDiscard = new List<Card>();
+    private List<Card> _cardsInDrawPile = new List<Card>();
     private List<Card> _cardsInHand = new List<Card>();
     private List<GameObject> _cardObjectsInHand = new List<GameObject>();
     private int _turnNumber; // To help with Enemy AI calculations
@@ -103,8 +104,8 @@ public partial class BattleController : MonoBehaviour
             SpawnEnemy(e);
         }
         // Initialize the buttons.
-        _drawPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(cardsInDrawPile, _drawPileButton));
-        _discardPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(cardsInDiscard, _discardPileButton));
+        _drawPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(_cardsInDrawPile, _drawPileButton));
+        _discardPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(_cardsInDiscard, _discardPileButton));
 #if !UNITY_EDITOR
         // If we haven't played the battle tutorial yet, do that.
         if (!GameController.alreadyPlayedTutorials.Contains("Battle"))
@@ -132,7 +133,7 @@ public partial class BattleController : MonoBehaviour
         {
             CardData cardDataCopy = Instantiate(GameController.GetHeroCards()[i].cardData);
             Card cardCopy = new Card(cardDataCopy, GameController.GetHeroCards()[i].level);
-            cardsInDiscard.Add(cardCopy);
+            _cardsInDiscard.Add(cardCopy);
         }
         // Set the rest of the PlayerBCC values.
         playerBCC.Initialize(GameController.GetHeroData(), GameController.GetHeroHealth(), GameController.GetHeroMaxHealth());
@@ -142,11 +143,10 @@ public partial class BattleController : MonoBehaviour
     public void SpawnEnemy(Enemy enemyData)
     {
         // Don't let the game spawn more than three enemies at a time.
-        if (enemiesStillAlive > 3) { return; }
+        if (GetAliveEnemies().Count > 3) { return; }
         // Initialize this enemy based on the Enemy scriptable object data.
         GameObject enemyObject = Instantiate(enemyPrefabObject);
         BattleEnemyController bec = enemyObject.GetComponent<BattleEnemyController>();
-        enemiesStillAlive++;
         enemyBCCs.Add(bec);
         // Initialize the rest of the enemy's information.
         int generatedHealth = Random.Range(enemyData.enemyHealthMin, enemyData.enemyHealthMax + 1);
@@ -162,7 +162,6 @@ public partial class BattleController : MonoBehaviour
                 bec.AddStatusEffect(Globals.GetStatus(Effect.VOLATILE, 4));
                 break;
         }
-        bec.SetRewardAmount(Random.Range(enemyData.enemyRewardMin, enemyData.enemyRewardMax));
         SpawnableEnemyLocation enemyLocationToSpawnAt = GetNextAvailableEnemyLocation();
         TakeUpEnemyLocation(enemyLocationToSpawnAt.position);
         bec.gameObject.transform.position = enemyLocationToSpawnAt.position;
@@ -358,7 +357,7 @@ public partial class BattleController : MonoBehaviour
         int numCardsInHand = _cardsInHand.Count;
         for (int i = numCardsInHand - 1; i >= 0; i--)
         {
-            cardsInDiscard.Add(_cardsInHand[i]);
+            _cardsInDiscard.Add(_cardsInHand[i]);
             int cardIdx = i; // This is necessary because the coroutine doesn't save the current index
             StartCoroutine(_cardObjectsInHand[cardIdx].GetComponent<CardHandler>().CardDisappearCoroutine(0.25f, CardAnimation.TRANSLATE_DOWN, () =>
             {
@@ -377,7 +376,7 @@ public partial class BattleController : MonoBehaviour
         foreach (BattleEnemyController bec in originalEnemyBCCs)
         {
             if (!bec.IsAlive()) { continue; }
-            yield return bec.PlayCard(bec.GetStoredCard(), new List<BattleCharacterController>() { playerBCC });
+            yield return bec.PlayCardCoroutine(bec.GetStoredCard(), new List<BattleCharacterController>() { playerBCC });
         }
         // Run the turn end logic for both the player and the enemy.
         yield return new WaitForSeconds(0.25f);
@@ -553,9 +552,9 @@ public partial class BattleController : MonoBehaviour
             return;
         }
         // If there are no cards to draw, shuffle discard into draw!
-        if (cardsInDrawPile.Count == 0)
+        if (_cardsInDrawPile.Count == 0)
         {
-            if (cardsInDiscard.Count > 0)
+            if (_cardsInDiscard.Count > 0)
             {
                 ShuffleDiscardIntoDraw();
             }
@@ -565,9 +564,9 @@ public partial class BattleController : MonoBehaviour
                 return;
             }
         }
-        Card cardToAdd = cardsInDrawPile[0];
+        Card cardToAdd = _cardsInDrawPile[0];
         AddCardToHand(cardToAdd);
-        cardsInDrawPile.RemoveAt(0);
+        _cardsInDrawPile.RemoveAt(0);
     }
 
     // Removes all of the cards from the hand and add
@@ -576,7 +575,7 @@ public partial class BattleController : MonoBehaviour
     {
         for (int i = _cardsInHand.Count - 1; i >= 0; i--)
         {
-            cardsInDiscard.Add(_cardsInHand[i]);
+            _cardsInDiscard.Add(_cardsInHand[i]);
             GameObject cardObject = _cardObjectsInHand[i];
             _cardsInHand.RemoveAt(i);
             _cardObjectsInHand.RemoveAt(i);
@@ -587,13 +586,13 @@ public partial class BattleController : MonoBehaviour
 
     public void ShuffleDiscardIntoDraw()
     {
-        int discardSize = cardsInDiscard.Count;
+        int discardSize = _cardsInDiscard.Count;
         for (int j = 0; j < discardSize; j++)
         {
             // Get a random index in the discard pile and add it to the draw pile.
-            int randomDiscIdx = Random.Range(0, cardsInDiscard.Count);
-            cardsInDrawPile.Add(cardsInDiscard[randomDiscIdx]);
-            cardsInDiscard.RemoveAt(randomDiscIdx);
+            int randomDiscIdx = Random.Range(0, _cardsInDiscard.Count);
+            _cardsInDrawPile.Add(_cardsInDiscard[randomDiscIdx]);
+            _cardsInDiscard.RemoveAt(randomDiscIdx);
         }
     }
 
@@ -601,7 +600,7 @@ public partial class BattleController : MonoBehaviour
     {
         foreach (Card card in cards)
         {
-            cardsInDrawPile.Insert(Random.Range(0, cardsInDrawPile.Count), card);
+            _cardsInDrawPile.Insert(Random.Range(0, _cardsInDrawPile.Count), card);
         }
         UpdateDrawDiscardTexts();
     }
@@ -620,7 +619,7 @@ public partial class BattleController : MonoBehaviour
         }
         // Play animations and perform actions specified on
         // card. (handled in BattleCharacterController)
-        StartCoroutine(playerBCC.PlayCard(c, collidingBCCs));
+        StartCoroutine(playerBCC.PlayCardCoroutine(c, collidingBCCs));
         // Find card and move it to the discard pile.
         int idx = _cardsInHand.IndexOf(c);
         // If it can't find the object, that means that the
@@ -634,7 +633,7 @@ public partial class BattleController : MonoBehaviour
         // If the card shouldn't exhaust, add it to the discard pile.
         if (!c.HasTrait(Trait.EXHAUST))
         {
-            cardsInDiscard.Add(_cardsInHand[idx]);
+            _cardsInDiscard.Add(_cardsInHand[idx]);
         }
         _cardsInHand.RemoveAt(idx);
         _cardObjectsInHand.RemoveAt(idx);
@@ -647,8 +646,8 @@ public partial class BattleController : MonoBehaviour
 
     public void UpdateDrawDiscardTexts()
     {
-        drawText.text = cardsInDrawPile.Count.ToString();
-        discardText.text = cardsInDiscard.Count.ToString();
+        drawText.text = _cardsInDrawPile.Count.ToString();
+        discardText.text = _cardsInDiscard.Count.ToString();
     }
 
     // Triggers whenever the hero wins the fight. (All monsters go to zero health.)
@@ -656,6 +655,7 @@ public partial class BattleController : MonoBehaviour
     {
         // If the player isn't alive, don't even consider the win logic.
         if (!playerBCC.IsAlive()) { return; }
+        ChangeGameState(GameState.GAME_OVER);
         StartCoroutine(HandleBattleWinCoroutine());
     }
 

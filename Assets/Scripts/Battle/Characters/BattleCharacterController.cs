@@ -30,9 +30,7 @@ public partial class BattleCharacterController : MonoBehaviour
     public BoxCollider2D GetSpriteCollider() => _spriteCollider;
     [SerializeField] protected Animator _targetAnimator;
 
-    private Sprite idleSprite;
-    private Sprite damagedSprite;
-    private Sprite deathSprite;
+    private Character _characterInfo;
     protected List<BattleCharacterController> targetBCCs = new List<BattleCharacterController>();
     [HideInInspector] public UnityEvent<Card> OnPlayCard = new UnityEvent<Card>();
     [HideInInspector] public UnityEvent<Card> OnPlayedCard = new UnityEvent<Card>();
@@ -59,7 +57,6 @@ public partial class BattleCharacterController : MonoBehaviour
     private Card _storedCard;
     private Vector3 _initialSpriteLocalPosition;
     private Vector3 _initialSpritePosition;
-    private Vector2 _healthFillMaxValue;
     protected IEnumerator _flashColorCoroutine = null;
     protected IEnumerator _damageShakeCoroutine = null;
     private bool _canSpriteChange = true;
@@ -81,22 +78,21 @@ public partial class BattleCharacterController : MonoBehaviour
         _spriteCollider.size += new Vector2(1, 1);
     }
 
-    public void Initialize(Character characterInfo)
+    public void Initialize(Character charInfo)
     {
-        idleSprite = characterInfo.idleSprite;
-        damagedSprite = characterInfo.damagedSprite;
-        deathSprite = characterInfo.deathSprite;
+        // Store this character's information.
+        _characterInfo = charInfo;
         // Initialize the box collider.
         StartCoroutine(ResetBoxCollider());
         // Set the positions and scales.
-        _characterSpriteRenderer.transform.localScale = characterInfo.spriteScale;
-        _characterSpriteRenderer.transform.localPosition = characterInfo.spriteOffset;
+        _characterSpriteRenderer.transform.localScale = charInfo.spriteScale;
+        _characterSpriteRenderer.transform.localPosition = charInfo.spriteOffset;
         _initialSpritePosition = _characterSpriteContainer.transform.position;
         _initialSpriteLocalPosition = _characterSpriteRenderer.transform.localPosition;
         // Scale the shadow sprite and calculate how much we need to enlarge the
         // target sprite correspondingly.
         Vector3 initialShadowScale = _characterShadowSpriteRenderer.transform.localScale;
-        _characterShadowSpriteRenderer.transform.localScale = characterInfo.shadowScale;
+        _characterShadowSpriteRenderer.transform.localScale = charInfo.shadowScale;
         Vector3 shadowScaleUpwards = new Vector3(_characterShadowSpriteRenderer.transform.localScale.x / initialShadowScale.x,
                                                 _characterShadowSpriteRenderer.transform.localScale.y / _characterShadowSpriteRenderer.transform.localScale.y, 1);
         _characterShadowSpriteRenderer.transform.SetParent(_characterSpriteRenderer.transform);
@@ -106,7 +102,7 @@ public partial class BattleCharacterController : MonoBehaviour
         TurnUnselectedColor();
     }
 
-    public void InitializeStatusEffectScripts()
+    private void InitializeStatusEffectScripts()
     {
         OnDealDamage.AddListener((targetBCC) =>
         {
@@ -222,7 +218,7 @@ public partial class BattleCharacterController : MonoBehaviour
         statusHandler.RemoveStatusEffect(Effect.COMBO);
     }
 
-    public IEnumerator PlayCard(Card c, List<BattleCharacterController> targetBCCs)
+    public IEnumerator PlayCardCoroutine(Card c, List<BattleCharacterController> targetBCCs)
     {
         // Disallow playing cards unless the battle is currently ongoing.
         yield return new WaitUntil(() => BattleController.Instance.GetGameState() == GameState.PLAYER_TURN);
@@ -233,18 +229,18 @@ public partial class BattleCharacterController : MonoBehaviour
         if (doubleTakeEffect != null)
         {
             statusHandler.DecrementStatusEffect(Effect.DOUBLE_TAKE, 1);
-            yield return PlayCardCoroutine(c, 2);
+            yield return RenderCardCoroutine(c, 2);
         }
         else
         {
-            yield return PlayCardCoroutine(c);
+            yield return RenderCardCoroutine(c);
         }
     }
 
     // This function includes an optional `timesPlayed` variable
     // to repeat the amount of times this card is played. This may
     // be impacted by status effects like Effect.DOUBLE_TAKE.
-    private IEnumerator PlayCardCoroutine(Card c, int timesPlayed = 1)
+    private IEnumerator RenderCardCoroutine(Card c, int timesPlayed = 1)
     {
         // If we're playing a card that should be repeated, stop the cards in hand from
         // being chosen until its done.
@@ -288,6 +284,46 @@ public partial class BattleCharacterController : MonoBehaviour
         OnPlayedCard.Invoke(c);
         // Let the player play cards again.
         BattleController.Instance.EnableInteractionsForCardsInHand();
+    }
+
+    // Renders the printed attack and block actions of a card `c`. Does not carry out any
+    // special effects.
+    private void RenderAttackAndBlock(Card c, BattleCharacterController targetBCC)
+    {
+        CardStats cardStats = c.GetCardStats();
+        // Perform actions specified on card.
+        if (cardStats.damageValue > 0)
+        {
+            OnDealDamage.Invoke(targetBCC);
+            // If we're targeting ourselves, don't try to render any modifiers.
+            int damageInc = (cardStats.damageTarget == Target.SELF) ? 0 : CalculateDamageModifiers(c);
+            // Deal damage based on what the card displays.
+            if (cardStats.damageTarget == Target.ENEMY_ALL || cardStats.damageTarget == Target.OTHER || cardStats.damageTarget == Target.PLAYER_AND_ENEMY)
+            {
+                targetBCC.ChangeHealth(Mathf.Min(0, -(cardStats.damageValue + damageInc)), c.HasTrait(Trait.DAMAGE_IGNORES_BLOCK));
+            }
+            if (cardStats.damageTarget == Target.SELF || cardStats.damageTarget == Target.PLAYER_AND_ENEMY)
+            {
+                ChangeHealth(Mathf.Min(0, -(cardStats.damageValue + damageInc)), c.HasTrait(Trait.DAMAGE_IGNORES_BLOCK));
+            }
+        }
+        if (cardStats.blockValue > 0)
+        {
+            // Find if there is a strength buff for this character. (Strength status effect!)
+            int defenseBuff = CalculateDefenseModifiers();
+            if (defenseBuff > 0)
+            {
+                statusHandler.GetStatusEffect(Effect.DEFENSE).shouldActivate = true;
+            }
+            if (cardStats.damageTarget == Target.ENEMY_ALL || cardStats.blockTarget == Target.OTHER || cardStats.blockTarget == Target.PLAYER_AND_ENEMY)
+            {
+                targetBCC.ChangeBlock(cardStats.blockValue + defenseBuff);
+            }
+            if (cardStats.blockTarget == Target.SELF || cardStats.blockTarget == Target.PLAYER_AND_ENEMY)
+            {
+                ChangeBlock(cardStats.blockValue + defenseBuff);
+            }
+        }
     }
 
     // Returns an integer that should be added to damage when calculated
@@ -344,46 +380,6 @@ public partial class BattleCharacterController : MonoBehaviour
             vulnerabilityInc += disease.amplifier;
         }
         return vulnerabilityInc;
-    }
-
-    // Renders the printed attack and block actions of a card `c`. Does not carry out any
-    // special effects.
-    public void RenderAttackAndBlock(Card c, BattleCharacterController targetBCC)
-    {
-        CardStats cardStats = c.GetCardStats();
-        // Perform actions specified on card.
-        if (cardStats.damageValue > 0)
-        {
-            OnDealDamage.Invoke(targetBCC);
-            // If we're targeting ourselves, don't try to render any modifiers.
-            int damageInc = (cardStats.damageTarget == Target.SELF) ? 0 : CalculateDamageModifiers(c);
-            // Deal damage based on what the card displays.
-            if (cardStats.damageTarget == Target.ENEMY_ALL || cardStats.damageTarget == Target.OTHER || cardStats.damageTarget == Target.PLAYER_AND_ENEMY)
-            {
-                targetBCC.ChangeHealth(Mathf.Min(0, -(cardStats.damageValue + damageInc)), c.HasTrait(Trait.DAMAGE_IGNORES_BLOCK));
-            }
-            if (cardStats.damageTarget == Target.SELF || cardStats.damageTarget == Target.PLAYER_AND_ENEMY)
-            {
-                ChangeHealth(Mathf.Min(0, -(cardStats.damageValue + damageInc)), c.HasTrait(Trait.DAMAGE_IGNORES_BLOCK));
-            }
-        }
-        if (cardStats.blockValue > 0)
-        {
-            // Find if there is a strength buff for this character. (Strength status effect!)
-            int defenseBuff = CalculateDefenseModifiers();
-            if (defenseBuff > 0)
-            {
-                statusHandler.GetStatusEffect(Effect.DEFENSE).shouldActivate = true;
-            }
-            if (cardStats.damageTarget == Target.ENEMY_ALL || cardStats.blockTarget == Target.OTHER || cardStats.blockTarget == Target.PLAYER_AND_ENEMY)
-            {
-                targetBCC.ChangeBlock(cardStats.blockValue + defenseBuff);
-            }
-            if (cardStats.blockTarget == Target.SELF || cardStats.blockTarget == Target.PLAYER_AND_ENEMY)
-            {
-                ChangeBlock(cardStats.blockValue + defenseBuff);
-            }
-        }
     }
 
     public void FlashColor(Color initialColor, bool playHurtAnimation = false)
@@ -621,13 +617,13 @@ public partial class BattleCharacterController : MonoBehaviour
         switch (newState)
         {
             case CharacterState.IDLE:
-                _characterSpriteRenderer.sprite = idleSprite;
+                _characterSpriteRenderer.sprite = _characterInfo.idleSprite;
                 break;
             case CharacterState.DAMAGED:
-                _characterSpriteRenderer.sprite = damagedSprite;
+                _characterSpriteRenderer.sprite = _characterInfo.damagedSprite;
                 break;
             case CharacterState.DEATH:
-                _characterSpriteRenderer.sprite = (deathSprite == null) ? damagedSprite : deathSprite;
+                _characterSpriteRenderer.sprite = (_characterInfo.deathSprite == null) ? _characterInfo.damagedSprite : _characterInfo.deathSprite;
                 break;
         }
         if (lockSprite) { _canSpriteChange = false; }

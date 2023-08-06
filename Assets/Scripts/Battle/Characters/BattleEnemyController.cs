@@ -19,15 +19,12 @@ public class BattleEnemyController : BattleCharacterController
     [SerializeField] private Animator dialogueAnimator;
     [SerializeField] private TextMeshPro dialogueText;
 
-
-    private EnemyAI enemyAI;
+    private EnemyAI _enemyAI;
     private bool _isDialoguePlaying = false;
     private int _rewardAmount;
-    public void SetRewardAmount(int amt) => _rewardAmount = amt;
     private int _xpRewardAmount;
     private EnemyIntentHandler _intentHandler;
     private Card _storedCardForNextTurn;
-    private BattleController battleController = BattleController.Instance;
 
     public override void Awake()
     {
@@ -37,14 +34,13 @@ public class BattleEnemyController : BattleCharacterController
 
     public void Start()
     {
-        statusHandler.OnGetStatusEffect.AddListener((e) => AdjustIntentForModifiers(e));
+        statusHandler.OnGetStatusEffect.AddListener((e) => UpdateIntent(e));
         _intentHandler.HideIntentIcon();
         OnDeath.AddListener(HandleEnemyDeath);
         OnPlayCard.AddListener((c) => HideActiveDialogue());
     }
 
     // Render some dialogue being spoken by the enemy.
-    // The Enemy parameter is necessary ON THE FIRST CALL
     public void RenderEnemyDialogue(string textToRender)
     {
         dialogueText.text = textToRender;
@@ -59,8 +55,14 @@ public class BattleEnemyController : BattleCharacterController
         {
             JournalManager.Instance.UnlockNewEnemy(e);
         }
-        enemyAI = e.enemyAI;
+        _enemyAI = e.enemyAI;
         _xpRewardAmount = e.enemyXPReward;
+        _rewardAmount = Random.Range(e.enemyRewardMin, e.enemyRewardMax);
+        // Increase reward amount if hero has golden paw relic.
+        if (GameController.HasRelic(RelicType.GOLDEN_PAW))
+        {
+            _rewardAmount = (int)(_rewardAmount * 1.35f);
+        }
         // Set the dialogue position.
         dialogueAnimator.transform.localPosition = new Vector2(-e.idleSprite.bounds.size.x / 2 * e.spriteScale.x - 1, e.idleSprite.bounds.size.y * e.spriteScale.y / 2 - 0.5f);
         // Render any starting dialogues if the enemy has any.
@@ -94,7 +96,7 @@ public class BattleEnemyController : BattleCharacterController
 
     // Adjust the intent value depending on any modifiers they may have gained.
     // Ex: Gaining strength mid-fight means the intent should increase by 1 attack.
-    private void AdjustIntentForModifiers(StatusEffect e = null)
+    private void UpdateIntent(StatusEffect e = null)
     {
         int strengthBuff = CalculateDamageModifiers(_storedCardForNextTurn);
         foreach (BattleCharacterController targetBCC in targetBCCs)
@@ -122,13 +124,11 @@ public class BattleEnemyController : BattleCharacterController
         DisableEnemyUI();
         // Free up space after this enemy is dead for other enemies.
         BattleController.Instance.FreeUpEnemyLocation(transform.position);
-        battleController.enemiesStillAlive--;
         // If any dialogue for this enemy is playing, hide it.
         HideActiveDialogue();
         // Animate some coins going to the player's balance.
         if (GameController.HasRelic(RelicType.GOLDEN_PAW))
         {
-            SetRewardAmount(Mathf.FloorToInt(_rewardAmount * 1.35f));
             TopBarController.Instance.FlashRelicObject(RelicType.GOLDEN_PAW);
         }
         if (_rewardAmount > 0)
@@ -142,10 +142,9 @@ public class BattleEnemyController : BattleCharacterController
         // If the player died too, stop here.
         if (!BattleController.Instance.playerBCC.IsAlive()) { return; }
         // Only IF there are no remaining enemies, end the battle.
-        if (battleController.enemiesStillAlive == 0)
+        if (BattleController.Instance.GetAliveEnemies().Count == 0)
         {
-            battleController.HandleBattleWin();
-            BattleController.Instance.ChangeGameState(GameState.GAME_OVER);
+            BattleController.Instance.HandleBattleWin();
             // Render all of the available options unusable.
             foreach (GameObject cardObject in GameObject.FindGameObjectsWithTag("CardUI"))
             {
@@ -185,9 +184,9 @@ public class BattleEnemyController : BattleCharacterController
 
     // Sets the next card that this enemy will play.
     // Also sets the intent preview based on the inputted card/behavior.
-    public void GenerateNextMove(int _turnNumber)
+    public void GenerateNextMove(int turnNumber)
     {
-        _storedCardForNextTurn = RenderEnemyAI(_turnNumber);
+        _storedCardForNextTurn = RenderEnemyAI(turnNumber);
         if (!IsAlive()) { return; }
         _intentHandler.ShowIntentIcon();
         int strengthBuff = CalculateDamageModifiers(_storedCardForNextTurn);
@@ -201,13 +200,13 @@ public class BattleEnemyController : BattleCharacterController
     // Renders the enemy AI after the character's turn.
     // This should return a card
     // depending on the moves it makes.
-    private Card RenderEnemyAI(int _turnNumber)
+    private Card RenderEnemyAI(int turnNumber)
     {
         float rng = Random.Range(0f, 1f);
-        switch (enemyAI)
+        switch (_enemyAI)
         {
             case EnemyAI.DUMMY:
-                if (_turnNumber % 2 == 1)
+                if (turnNumber % 2 == 1)
                 {
                     return Globals.GetCard("Dummy Swipe");
                 }
@@ -225,11 +224,11 @@ public class BattleEnemyController : BattleCharacterController
                     return Globals.GetCard("Garbitch Brace");
                 }
             case EnemyAI.LONE:
-                if (_turnNumber % 3 == 0)
+                if (turnNumber % 3 == 0)
                 {
                     return Globals.GetCard("Lone Swipe");
                 }
-                else if (_turnNumber % 3 == 1)
+                else if (turnNumber % 3 == 1)
                 {
                     return Globals.GetCard("Lone Poison Bomb");
                 }
@@ -238,7 +237,7 @@ public class BattleEnemyController : BattleCharacterController
                     return Globals.GetCard("Lone Leech");
                 }
             case EnemyAI.BUCKAROO:
-                if (_turnNumber % 2 == 1)
+                if (turnNumber % 2 == 1)
                 {
                     return Globals.GetCard("Buckaroo Swipe");
                 }
@@ -247,11 +246,11 @@ public class BattleEnemyController : BattleCharacterController
                     return Globals.GetCard("Buckaroo Disease");
                 }
             case EnemyAI.HIVEMIND:
-                if (_turnNumber % 3 == 1)
+                if (turnNumber % 3 == 1)
                 {
                     return Globals.GetCard("Hivemind Block");
                 }
-                else if (_turnNumber % 3 == 2)
+                else if (turnNumber % 3 == 2)
                 {
                     return Globals.GetCard("Hivemind Sting");
                 }
@@ -273,11 +272,11 @@ public class BattleEnemyController : BattleCharacterController
                     return Globals.GetCard("Tree Swipe");
                 }
             case EnemyAI.MR_MUSHROOM:
-                if (_turnNumber % 3 == 1)
+                if (turnNumber % 3 == 1)
                 {
                     return Globals.GetCard("MrMushroom Poison");
                 }
-                else if (_turnNumber % 2 == 1)
+                else if (turnNumber % 2 == 1)
                 {
                     return Globals.GetCard("MrMushroom Intoxicate");
                 }
@@ -286,7 +285,7 @@ public class BattleEnemyController : BattleCharacterController
                     return Globals.GetCard("MrMushroom Swipe");
                 }
             case EnemyAI.TURTLEIST:
-                if (_turnNumber % 2 == 1)
+                if (turnNumber % 2 == 1)
                 {
                     return Globals.GetCard("Turtleist Brace");
                 }
@@ -304,7 +303,7 @@ public class BattleEnemyController : BattleCharacterController
                     return Globals.GetCard("Nuts Shoot");
                 }
             case EnemyAI.ROTTLE:
-                if (_turnNumber == 1)
+                if (turnNumber == 1)
                 {
                     return Globals.GetCard("Rottle Cripple");
                 }
@@ -317,7 +316,7 @@ public class BattleEnemyController : BattleCharacterController
                 {
                     return Globals.GetCard("Summoner Summon");
                 }
-                else if (BattleController.Instance.enemiesStillAlive < 2)
+                else if (BattleController.Instance.GetAliveEnemies().Count < 2)
                 {
                     return Globals.GetCard("Summoner Charge");
                 }
@@ -330,7 +329,7 @@ public class BattleEnemyController : BattleCharacterController
                     return Globals.GetCard("Summoner Buff");
                 }
             case EnemyAI.SLIMINION:
-                if (_turnNumber % 2 == 1)
+                if (turnNumber % 2 == 1)
                 {
                     return Globals.GetCard("Sliminion Swipe");
                 }
