@@ -361,6 +361,50 @@ public partial class BattleCharacterController : MonoBehaviour
         }
     }
 
+    // Set the character's sprite. (e.g. idle, damaged, dead)
+    // If the second parameter is true, the sprite can no longer change.
+    public void SetCharacterSprite(CharacterState newState, bool lockSprite = false)
+    {
+        if (!_canSpriteChange) { return; }
+        switch (newState)
+        {
+            case CharacterState.IDLE:
+                _characterSpriteRenderer.sprite = _characterInfo.idleSprite;
+                break;
+            case CharacterState.DAMAGED:
+                _characterSpriteRenderer.sprite = _characterInfo.damagedSprite;
+                break;
+            case CharacterState.DEATH:
+                _characterSpriteRenderer.sprite = (_characterInfo.deathSprite == null) ? _characterInfo.damagedSprite : _characterInfo.deathSprite;
+                break;
+        }
+        if (lockSprite) { _canSpriteChange = false; }
+    }
+
+    public void TurnSelectedColor()
+    {
+        if (!IsAlive()) { return; }
+        _characterSpriteRenderer.color = new Color(0.8f, 0.8f, 0.8f);
+        _targetSpriteRenderer.enabled = true;
+        _targetAnimator.enabled = true;
+        _targetAnimator.Play("Pulse");
+    }
+
+    public void TurnUnselectedColor()
+    {
+        if (!IsAlive()) { return; }
+        _characterSpriteRenderer.color = new Color(1, 1, 1);
+        _targetSpriteRenderer.enabled = false;
+        _targetAnimator.enabled = false;
+    }
+
+    public void MakeUninteractable()
+    {
+        Destroy(_characterSpriteRenderer.GetComponent<BoxCollider2D>());
+    }
+
+    #region Calculate modifiers (damage, defense, vulnerability)
+
     // Returns an integer that should be added to damage when calculated
     // in direct attacks. Negative = weaker hits, positive = harder hits.
     public int CalculateDamageModifiers(Card c)
@@ -416,6 +460,10 @@ public partial class BattleCharacterController : MonoBehaviour
         }
         return vulnerabilityInc;
     }
+
+    #endregion
+
+    #region Character shake and flashing
 
     public void FlashColor(Color initialColor, bool playHurtAnimation = false)
     {
@@ -490,6 +538,13 @@ public partial class BattleCharacterController : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Attack type coroutines
+
+    ///<summary>
+    /// Coroutine for attack that does not move the character at all.
+    ///</summary>
     private IEnumerator NoMovementAttackCoroutine(bool shouldRenderEffects = true)
     {
         // Render particles at the start!
@@ -510,6 +565,9 @@ public partial class BattleCharacterController : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
     }
 
+    ///<summary>
+    /// Coroutine for attack that makes the character dash forward, render attack, and go back.
+    ///</summary>
     private IEnumerator ShortDashForwardAttackCoroutine(bool shouldRenderEffects = true)
     {
         float distance = 0.9f * ((_characterAlignment == Alignment.HERO) ? 1 : -1);
@@ -555,6 +613,9 @@ public partial class BattleCharacterController : MonoBehaviour
         _characterSpriteContainer.transform.position = _initialSpritePosition;
     }
 
+    ///<summary>
+    /// Coroutine for attack that shoots a projectile towards the target(s).
+    ///</summary>
     private IEnumerator ShootProjectileCoroutine(bool shouldRenderEffects = true)
     {
         float timeToReachTarget = 0.4f;
@@ -614,6 +675,13 @@ public partial class BattleCharacterController : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Particle animations
+
+    ///<summary>
+    /// Renders the particles that should spawn at the source of the attack.
+    ///</summary>
     private void RenderStartParticleAnimations()
     {
         // Calculate the spawn position of the particles.
@@ -628,6 +696,9 @@ public partial class BattleCharacterController : MonoBehaviour
         }
     }
 
+    ///<summary>
+    /// Renders the particles that should spawn at any targetBCCs.
+    ///</summary>
     private void RenderEndParticleAnimations()
     {
         // Calculate the burst direction if this is a hero or enemy. Hero = right, enemy = left.
@@ -644,47 +715,7 @@ public partial class BattleCharacterController : MonoBehaviour
         }
     }
 
-    // Set the character's sprite. (e.g. idle, damaged, dead)
-    // If the second parameter is true, the sprite can no longer change.
-    public void SetCharacterSprite(CharacterState newState, bool lockSprite = false)
-    {
-        if (!_canSpriteChange) { return; }
-        switch (newState)
-        {
-            case CharacterState.IDLE:
-                _characterSpriteRenderer.sprite = _characterInfo.idleSprite;
-                break;
-            case CharacterState.DAMAGED:
-                _characterSpriteRenderer.sprite = _characterInfo.damagedSprite;
-                break;
-            case CharacterState.DEATH:
-                _characterSpriteRenderer.sprite = (_characterInfo.deathSprite == null) ? _characterInfo.damagedSprite : _characterInfo.deathSprite;
-                break;
-        }
-        if (lockSprite) { _canSpriteChange = false; }
-    }
-
-    public void TurnSelectedColor()
-    {
-        if (!IsAlive()) { return; }
-        _characterSpriteRenderer.color = new Color(0.8f, 0.8f, 0.8f);
-        _targetSpriteRenderer.enabled = true;
-        _targetAnimator.enabled = true;
-        _targetAnimator.Play("Pulse");
-    }
-
-    public void TurnUnselectedColor()
-    {
-        if (!IsAlive()) { return; }
-        _characterSpriteRenderer.color = new Color(1, 1, 1);
-        _targetSpriteRenderer.enabled = false;
-        _targetAnimator.enabled = false;
-    }
-
-    public void MakeUninteractable()
-    {
-        Destroy(_characterSpriteRenderer.GetComponent<BoxCollider2D>());
-    }
+    #endregion
 
 }
 

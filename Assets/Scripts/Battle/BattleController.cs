@@ -99,6 +99,14 @@ public partial class BattleController : StateMachine
         SetState(new Begin(this));
     }
 
+    // Sets the state to be the enemy turn when the end turn button is pressed.
+    public void OnEndTurnPressed()
+    {
+        SetState(new EnemyTurn(this));
+    }
+
+    #region Initialization Scripts
+
     // Initializes the battle tutorial if the player hasn't loaded it in yet.
     private void TryInitializeTutorial()
     {
@@ -152,10 +160,54 @@ public partial class BattleController : StateMachine
         bec.SetEnemyType(enemyData);
     }
 
-    // Sets the state to be the enemy turn when the end turn button is pressed.
-    public void OnEndTurnPressed()
+    #endregion
+
+    /// <summary>
+    /// Shuffle cards from the draw pile into the player's hand, along with
+    /// some animations.
+    /// </summary>
+    public void DrawCards(int cardCount)
     {
-        SetState(new EnemyTurn(this));
+        StartCoroutine(State.DrawCards(cardCount));
+    }
+
+    /// <summary>
+    /// Takes a list of cards and shuffles those cards into the player's hand,
+    /// along with some animations.
+    /// </summary>
+    public void DrawCards(List<Card> cardsToDraw)
+    {
+        StartCoroutine(State.DrawCards(cardsToDraw.Count, cardsToDraw));
+    }
+
+    // Allows the players to use cards in their hand.
+    public void EnableInteractionsForCardsInHand()
+    {
+        // Allow the user to mess with cards.
+        for (int i = 0; i < CardObjectsInHand.Count; i++)
+        {
+            CardHandler cardHandler = CardObjectsInHand[i].GetComponent<CardHandler>();
+            cardHandler.EnableInteractions();
+        }
+    }
+
+    // Allows the players to use cards in their hand.
+    public void DisableInteractionsForCardsInHand()
+    {
+        // Allow the user to mess with cards.
+        for (int i = 0; i < CardObjectsInHand.Count; i++)
+        {
+            CardHandler cardHandler = CardObjectsInHand[i].GetComponent<CardHandler>();
+            cardHandler.DisableInteractions();
+        }
+    }
+
+    ///<summary>
+    /// Have the player play a card in their hand, along with any colliding BCCs.
+    ///</summary>
+    public void UseCardInHand(Card c, List<BattleCharacterController> collidingBCCs)
+    {
+        StartCoroutine(State.PlayCard(c, collidingBCCs));
     }
 
     // Inflict a random card in the player's hand with an effect.
@@ -217,70 +269,8 @@ public partial class BattleController : StateMachine
         }
     }
 
-    // Initializes a card object for battle.
-    // Sets card visuals based on energy and attack and defense modifiers.
-    private void InitializeNewCardObject(Card card)
-    {
-        GameObject cardObject = BattlePooler.Instance.GetCardObjectFromPool(deckParentTransform);
-        CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
-        cardHandler.Initialize(card, true);
-        cardHandler.UpdateCardVisuals(playerBCC.CalculateDamageModifiers(card), playerBCC.CalculateDefenseModifiers());
-        cardHandler.UpdateColorBasedOnPlayability();
-        cardHandler.ModifyHoverBehavior(true, true, true, true);
-        CardObjectsInHand.Add(cardObject);
-    }
-
-    /// <summary>
-    /// Shuffle cards from the draw pile into the player's hand, along with
-    /// some animations.
-    /// </summary>
-    public void DrawCards(int cardCount)
-    {
-        StartCoroutine(State.DrawCards(cardCount));
-    }
-
-    /// <summary>
-    /// Takes a list of cards and shuffles those cards into the player's hand,
-    /// along with some animations.
-    /// </summary>
-    public void DrawCards(List<Card> cardsToDraw)
-    {
-        StartCoroutine(State.DrawCards(cardsToDraw.Count, cardsToDraw));
-    }
-
-    /// <summary>
-    /// Have the player play a card in their hand, along with any colliding BCCs
-    /// it is hitting.
-    /// </summary>
-    public void UseCardInHand(Card c, List<BattleCharacterController> collidingBCCs)
-    {
-        StartCoroutine(State.PlayCard(c, collidingBCCs));
-    }
-
-    // Allows the players to use cards in their hand.
-    public void EnableInteractionsForCardsInHand()
-    {
-        // Allow the user to mess with cards.
-        for (int i = 0; i < CardObjectsInHand.Count; i++)
-        {
-            CardHandler cardHandler = CardObjectsInHand[i].GetComponent<CardHandler>();
-            cardHandler.EnableInteractions();
-        }
-    }
-
-    // Allows the players to use cards in their hand.
-    public void DisableInteractionsForCardsInHand()
-    {
-        // Allow the user to mess with cards.
-        for (int i = 0; i < CardObjectsInHand.Count; i++)
-        {
-            CardHandler cardHandler = CardObjectsInHand[i].GetComponent<CardHandler>();
-            cardHandler.DisableInteractions();
-        }
-    }
-
     // Create a new card object and add it to the hand.
-    // Does NOT re-render the hand automatically.
+    // Does NOT re-render cards in the hand.
     public void AddCardToHand(Card card)
     {
         // If the player's hand is full, skip drawing a card.
@@ -293,9 +283,9 @@ public partial class BattleController : StateMachine
         InitializeNewCardObject(card);
     }
 
-    // Adds the most recent card in the player's draw pile into
-    // the player's hand.
-    // Does NOT re-render the hand automatically.
+    // Adds most recent card into the player's draw pile into their hand.
+    // (The draw pile should already be shuffled, so this is okay.)
+    // Does NOT re-render cards in the hand.
     public void ShuffleRandomCardToHand()
     {
         // If the player's hand is full, skip drawing a card.
@@ -322,8 +312,7 @@ public partial class BattleController : StateMachine
         CardsInDrawPile.RemoveAt(0);
     }
 
-    // Removes all of the cards from the hand and add
-    // them to the discard pile.
+    // Removes all cards from the hand and brings them into the discard pile.
     public void EmptyHand()
     {
         for (int i = CardsInHand.Count - 1; i >= 0; i--)
@@ -337,6 +326,7 @@ public partial class BattleController : StateMachine
         }
     }
 
+    // Shuffles all cards in the discard pile back into the draw pile.
     public void ShuffleDiscardIntoDraw()
     {
         int discardSize = CardsInDiscard.Count;
@@ -349,10 +339,24 @@ public partial class BattleController : StateMachine
         }
     }
 
+    // Updates the counter text for both the draw and discard piles.
     public void UpdateDrawDiscardTexts()
     {
         drawText.text = CardsInDrawPile.Count.ToString();
         discardText.text = CardsInDiscard.Count.ToString();
+    }
+
+    // Initializes a card object for battle.
+    // Sets card visuals based on energy and attack and defense modifiers.
+    private void InitializeNewCardObject(Card card)
+    {
+        GameObject cardObject = BattlePooler.Instance.GetCardObjectFromPool(deckParentTransform);
+        CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
+        cardHandler.Initialize(card, true);
+        cardHandler.UpdateCardVisuals(playerBCC.CalculateDamageModifiers(card), playerBCC.CalculateDefenseModifiers());
+        cardHandler.UpdateColorBasedOnPlayability();
+        cardHandler.ModifyHoverBehavior(true, true, true, true);
+        CardObjectsInHand.Add(cardObject);
     }
 
 }

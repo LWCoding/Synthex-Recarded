@@ -12,7 +12,11 @@ public class BattleHeroController : BattleCharacterController
 
     public void Start()
     {
-        OnDeath.AddListener(HandlePlayerDeath);
+        // When the hero dies, set the state to be lost.
+        OnDeath.AddListener(() =>
+        {
+            BattleController.Instance.SetState(new Lost(BattleController.Instance));
+        });
         // Update the actual stored health (affects UI) after the health of the hero updates.
         OnUpdateHealthText.AddListener(() => GameManager.SetHeroHealth(GetHealth()));
     }
@@ -21,13 +25,6 @@ public class BattleHeroController : BattleCharacterController
     {
         base.InitializeHealthData(currHP, maxHP);
         base.Initialize(heroData);
-    }
-
-    // Handles logic when this specific character dies.
-    private void HandlePlayerDeath()
-    {
-        // Set the game state.
-        BattleController.Instance.SetState(new Lost(BattleController.Instance));
     }
 
 }

@@ -63,10 +63,9 @@ public partial class CharacterHealthHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// Adds or removes _health from the character.
-    /// + values -> heals
-    /// - values -> damages
-    /// Does not work if the character is already dead.
+    /// Adds or removes health from the character.
+    /// Positive values heal. Negative values damage.
+    /// Does not work if character is not alive.
     ///</summary>
     public void ChangeHealth(int val, bool ignoresBlock)
     {

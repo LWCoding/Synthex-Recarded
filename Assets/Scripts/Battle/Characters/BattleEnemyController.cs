@@ -72,40 +72,6 @@ public class BattleEnemyController : BattleCharacterController
         }
     }
 
-    private IEnumerator RenderEnemyDialogueCoroutine()
-    {
-        _isDialoguePlaying = true;
-        yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning());
-        dialogueAnimator.Play("Show");
-        yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => dialogueAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
-        dialogueAnimator.Play("Idle");
-        yield return new WaitForSeconds(5);
-        HideActiveDialogue();
-    }
-
-    private void HideActiveDialogue()
-    {
-        if (_isDialoguePlaying)
-        {
-            dialogueAnimator.Play("Hide");
-            _isDialoguePlaying = false;
-        }
-    }
-
-    // Adjust the intent value depending on any modifiers they may have gained.
-    // Ex: Gaining strength mid-fight means the intent should increase by 1 attack.
-    private void UpdateIntent(StatusEffect e = null)
-    {
-        int strengthBuff = CalculateDamageModifiers(_storedCardForNextTurn);
-        foreach (BattleCharacterController targetBCC in targetBCCs)
-        {
-            strengthBuff += targetBCC.CalculateVulnerabilityModifiers();
-        }
-        _intentHandler.UpdateStrengthValue(strengthBuff);
-    }
-
     // Handles logic when this specific character dies.
     private void HandleEnemyDeath()
     {
@@ -182,6 +148,46 @@ public class BattleEnemyController : BattleCharacterController
         return _storedCardForNextTurn;
     }
 
+    #region Enemy dialogue code
+
+    private IEnumerator RenderEnemyDialogueCoroutine()
+    {
+        _isDialoguePlaying = true;
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning());
+        dialogueAnimator.Play("Show");
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => dialogueAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+        dialogueAnimator.Play("Idle");
+        yield return new WaitForSeconds(5);
+        HideActiveDialogue();
+    }
+
+    private void HideActiveDialogue()
+    {
+        if (_isDialoguePlaying)
+        {
+            dialogueAnimator.Play("Hide");
+            _isDialoguePlaying = false;
+        }
+    }
+
+    #endregion
+
+    #region Enemy intent code
+
+    // Adjust the intent value depending on any modifiers they may have gained.
+    // Ex: Gaining strength mid-fight means the intent should increase by 1 attack.
+    private void UpdateIntent(StatusEffect e = null)
+    {
+        int strengthBuff = CalculateDamageModifiers(_storedCardForNextTurn);
+        foreach (BattleCharacterController targetBCC in targetBCCs)
+        {
+            strengthBuff += targetBCC.CalculateVulnerabilityModifiers();
+        }
+        _intentHandler.UpdateStrengthValue(strengthBuff);
+    }
+
     // Sets the next card that this enemy will play.
     // Also sets the intent preview based on the inputted card/behavior.
     public void GenerateNextMove(int turnNumber)
@@ -196,6 +202,10 @@ public class BattleEnemyController : BattleCharacterController
         }
         _intentHandler.SetIntentType(_storedCardForNextTurn, strengthBuff);
     }
+
+    #endregion
+
+    #region Enemy AI Code
 
     // Renders the enemy AI after the character's turn.
     // This should return a card
@@ -353,5 +363,7 @@ public class BattleEnemyController : BattleCharacterController
         }
         return null;
     }
+
+    #endregion
 
 }

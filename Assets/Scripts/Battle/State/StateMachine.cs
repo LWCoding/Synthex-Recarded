@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class StateMachine : MonoBehaviour
 {
 
-    public State State { get; private set; }
+    protected State State { get; private set; }
 
     ///<summary>
     /// Set the current state in the state machine.
