@@ -150,18 +150,14 @@ public partial class BattleController : MonoBehaviour
         enemyBCCs.Add(bec);
         // Initialize the rest of the enemy's information.
         int generatedHealth = Random.Range(enemyData.enemyHealthMin, enemyData.enemyHealthMax + 1);
-        switch (enemyData.characterName)
+        if (enemyData.effectsToStartWith.Count > 0)
         {
-            case "Treevil":
-                bec.AddStatusEffect(Globals.GetStatus(Effect.GROWTH, 1));
-                break;
-            case "Lone Fox":
-                bec.AddStatusEffect(Globals.GetStatus(Effect.BARRIER, 3));
-                break;
-            case "Turtleist":
-                bec.AddStatusEffect(Globals.GetStatus(Effect.VOLATILE, 4));
-                break;
+            foreach (StatusEffect effect in enemyData.effectsToStartWith)
+            {
+                bec.AddStatusEffect(effect);
+            }
         }
+        // Spawn the enemy at the proper location.
         SpawnableEnemyLocation enemyLocationToSpawnAt = GetNextAvailableEnemyLocation();
         TakeUpEnemyLocation(enemyLocationToSpawnAt.position);
         bec.gameObject.transform.position = enemyLocationToSpawnAt.position;

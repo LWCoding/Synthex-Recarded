@@ -29,6 +29,11 @@ MonoBehaviour:
   enemyIcon: {fileID: 21300000, guid: fc090ae44f10e424fa2f6255f34df13f, type: 3}
   locationFound: Forest
   enemyAI: 3
+  effectsToStartWith:
+  - statusInfo: {fileID: 11400000, guid: 210866ffaad17ce4482d32a4c122f98f, type: 2}
+    amplifier: 3
+    shouldActivate: 0
+    specialValue: 
   _possibleEncounterDialogues:
   - Hey, you! You're getting too close to the premises...
   - Grrr... solicitors are NOT WELCOME!

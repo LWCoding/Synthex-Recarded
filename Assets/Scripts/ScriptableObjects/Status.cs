@@ -35,9 +35,9 @@ public class StatusEffect
 {
 
     public Status statusInfo;
-    public int amplifier { get; private set; }
-    public bool shouldActivate = true;
-    public string specialValue;
+    public int amplifier;
+    [HideInInspector] public bool shouldActivate = true;
+    [HideInInspector] public string specialValue;
 
     public StatusEffect(Status s, int amp, string special = "na")
     {

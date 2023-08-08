@@ -17,6 +17,7 @@ public class Enemy : Character
     public string locationFound;
     [Header("AI")]
     public EnemyAI enemyAI;
+    public List<StatusEffect> effectsToStartWith = new List<StatusEffect>();
     [SerializeField] private List<string> _possibleEncounterDialogues = new List<string>();
     public string GetRandomEncounterDialogue() => _possibleEncounterDialogues[Random.Range(0, _possibleEncounterDialogues.Count)];
     public bool HasEncounterDialogues() => _possibleEncounterDialogues.Count > 0;
