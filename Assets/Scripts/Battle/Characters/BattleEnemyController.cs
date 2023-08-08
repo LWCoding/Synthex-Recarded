@@ -144,12 +144,12 @@ public class BattleEnemyController : BattleCharacterController
         // Only IF there are no remaining enemies, end the battle.
         if (BattleController.Instance.GetAliveEnemies().Count == 0)
         {
-            BattleController.Instance.HandleBattleWin();
             // Render all of the available options unusable.
             foreach (GameObject cardObject in GameObject.FindGameObjectsWithTag("CardUI"))
             {
                 cardObject.GetComponent<CardHandler>().DisableInteractions();
             }
+            BattleController.Instance.SetState(new Won(BattleController.Instance));
         }
     }
 

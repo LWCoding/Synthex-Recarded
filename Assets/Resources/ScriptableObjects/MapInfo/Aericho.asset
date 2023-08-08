@@ -73,6 +73,7 @@ MonoBehaviour:
     isObstacle: 1
   possibleEncounters:
   - enemies:
+    - {fileID: 11400000, guid: a46ddb76ec58c5741a930b8912f36c2d, type: 2}
     - {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
     isMiniboss: 0
     isBoss: 0

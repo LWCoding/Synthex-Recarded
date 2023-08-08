@@ -26,13 +26,8 @@ public class BattleHeroController : BattleCharacterController
     // Handles logic when this specific character dies.
     private void HandlePlayerDeath()
     {
-        // Play Jack's death animation.
-        SetCharacterSprite(CharacterState.DEATH, true);
-        // Play the death sound effect.
-        SoundManager.Instance.PlaySFX(SoundEffect.GAME_OVER);
-        // Set the game state and transition back to the title.
-        BattleController.Instance.ChangeGameState(GameState.GAME_OVER);
-        FadeTransitionController.Instance.HideScreen("Title", 2.5f);
+        // Set the game state.
+        BattleController.Instance.SetState(new Lost(BattleController.Instance));
     }
 
 }

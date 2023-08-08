@@ -41,8 +41,6 @@ public class SettingsManager : MonoBehaviour
     private void EnableButtonPresses() => _isOptionChosen = false;
     private void DisableButtonPresses() => _isOptionChosen = true;
 
-    private GameState _gameStateBeforeToggle;
-
     // This Awake function runs on the first time the bar is instantiated.
     private void Awake()
     {
@@ -84,21 +82,10 @@ public class SettingsManager : MonoBehaviour
             {
                 ToggleSubscreen("Options");
             }
-            // If we're in a battle, change our game state to be in the menu.
-            if (BattleController.Instance != null)
-            {
-                _gameStateBeforeToggle = BattleController.Instance.GetGameState();
-                BattleController.Instance.ChangeGameState(GameState.IN_MENU);
-            }
         }
         else
         {
             StartCoroutine(TogglePauseCoroutine(false, animationTime));
-            // If we're in a battle, change our game state to return to normal.
-            if (BattleController.Instance != null)
-            {
-                BattleController.Instance.ChangeGameState(_gameStateBeforeToggle);
-            }
         }
     }
 

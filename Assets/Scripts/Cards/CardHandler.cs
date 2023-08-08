@@ -72,7 +72,7 @@ public class CardHandler : MonoBehaviour
 
     // Usually, this card is animated into frame with the CardAppear coroutine.
     // There is a second parameter to make it show instantly instead.
-    public void Initialize(Card c, bool shouldShowInstantly = true, int strengthBuff = 0, int defenseBuff = 0)
+    public void Initialize(Card c, bool shouldShowInstantly = true)
     {
         NullifyCardEffects();
         _currentCardEffectTypes = new List<CardEffectType>();
@@ -83,18 +83,8 @@ public class CardHandler : MonoBehaviour
         SetTooltipPosition(TooltipPosition.CENTER);
         // Set the card information
         card = c;
-        UpdateCardVisuals(strengthBuff, defenseBuff);
         HideTooltip();
-        // If we're in a battle, update this card's appearance based on its cost
-        // if it's one of the cards showing up in battle.
-        if (SceneManager.GetActiveScene().name == "Battle" && BattleController.Instance.GetGameState() == GameState.PLAYER_TURN)
-        {
-            UpdateColorBasedOnPlayability();
-        }
-        else
-        {
-            ResetCardColor();
-        }
+        ResetCardColor();
         // Make sure all opacities for the card
         // are automatically shown IF it is a wanted
         // behavior.
@@ -149,7 +139,7 @@ public class CardHandler : MonoBehaviour
 
     // Update the values of the card depending on any strength or defense
     // buffs the player might have during battle.
-    public void UpdateCardDescription(int strengthBuff = 0, int defenseBuff = 0)
+    public void UpdateCardDescription(int strengthBuff, int defenseBuff)
     {
         string cardText = descText.text;
         int calcStrengthBuff = (card.GetTarget() == Target.SELF) ? 0 : strengthBuff;
@@ -376,6 +366,11 @@ public class CardHandler : MonoBehaviour
         }
         // Make sure the card is completely shown.
         ShowCardInstantly();
+    }
+
+    public void CardDisappear(float timeInSeconds, CardAnimation cardAnimationType, Action codeToExecuteAfter)
+    {
+        StartCoroutine(CardDisappearCoroutine(timeInSeconds, cardAnimationType, codeToExecuteAfter));
     }
 
     public IEnumerator CardDisappearCoroutine(float timeInSeconds, CardAnimation cardAnimationType, Action codeToExecuteAfter)

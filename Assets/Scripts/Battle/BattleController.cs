@@ -5,11 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
-public enum GameState
-{
-    IN_MENU, PLAYER_TURN, ENEMY_TURN, GAME_OVER
-}
-
 [System.Serializable]
 public class SpawnableEnemyLocation
 {
@@ -17,7 +12,7 @@ public class SpawnableEnemyLocation
     public bool isTaken;
 }
 
-public partial class BattleController : MonoBehaviour
+public partial class BattleController : StateMachine
 {
 
     public static BattleController Instance;
@@ -26,32 +21,35 @@ public partial class BattleController : MonoBehaviour
     [Header("Object Assignments")]
     [SerializeField] private GameObject playerObject;
     [SerializeField] private Button endTurnButton;
+    public void SetEndTurnButtonInteractability(bool isInteractable)
+    {
+        if (endTurnButton != null)
+        {
+            endTurnButton.interactable = isInteractable;
+        }
+    }
     [SerializeField] private TextMeshProUGUI drawText;
     [SerializeField] private TextMeshProUGUI discardText;
     [SerializeField] private Transform deckParentTransform;
     [SerializeField] private Button _drawPileButton;
     [SerializeField] private Button _discardPileButton;
 
+    [Header("Spawnable Enemy Locations")]
     [SerializeField] private List<SpawnableEnemyLocation> _spawnableEnemyLocations = new List<SpawnableEnemyLocation>();
     public SpawnableEnemyLocation GetNextAvailableEnemyLocation() => _spawnableEnemyLocations.Find((loc) => !loc.isTaken);
     public void TakeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = true;
     public void FreeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = false;
 
-    private GameState _gameState;
-    public void ChangeGameState(GameState newState) => _gameState = newState;
-    public GameState GetGameState() => _gameState;
-
-    private UnityEvent OnNextTurnStart = new UnityEvent();
-    private UnityEvent OnTurnEnd = new UnityEvent();
+    public UnityEvent OnNextTurnStart = new UnityEvent();
     [HideInInspector] public BattleHeroController playerBCC;
     [HideInInspector] public List<BattleEnemyController> enemyBCCs = new List<BattleEnemyController>();
     public List<BattleEnemyController> GetAliveEnemies() => enemyBCCs.FindAll((bec) => bec.IsAlive());
 
-    private List<Card> _cardsInDiscard = new List<Card>();
-    private List<Card> _cardsInDrawPile = new List<Card>();
-    private List<Card> _cardsInHand = new List<Card>();
-    private List<GameObject> _cardObjectsInHand = new List<GameObject>();
-    private int _turnNumber; // To help with Enemy AI calculations
+    public List<Card> CardsInDiscard = new List<Card>();
+    public List<Card> CardsInDrawPile = new List<Card>();
+    public List<Card> CardsInHand = new List<Card>();
+    public List<GameObject> CardObjectsInHand = new List<GameObject>();
+    public int TurnNumber; // To help with Enemy AI calculations
 
     private const int MAX_ALLOWED_CARDS_IN_HAND = 8;
 
@@ -62,50 +60,48 @@ public partial class BattleController : MonoBehaviour
             Destroy(this);
         }
         Instance = this;
-        _turnNumber = 0;
-        ChangeGameState(GameState.PLAYER_TURN);
+        TurnNumber = 0;
+        // Initialize some properties.
+        playerBCC = playerObject.GetComponent<BattleHeroController>();
         // Make the screen refresh cards if the screen is resized.
         ResizeAspectRatioController.OnScreenResize -= () =>
         {
-            if (GetGameState() == GameState.PLAYER_TURN) { UpdateCardsInHand(true); }
+            StartCoroutine(State.OnScreenResize());
         };
         ResizeAspectRatioController.OnScreenResize += () =>
         {
-            if (GetGameState() == GameState.PLAYER_TURN) { UpdateCardsInHand(true); }
+            StartCoroutine(State.OnScreenResize());
         };
-    }
-
-    // Add logic that pertains to the battle actually functioning properly, outside
-    // of player/enemy logic.
-    private void SetListenersOnStart()
-    {
-        // Make energy updates change the displays of cards in the player's hand.
-        EnergyController.Instance.OnEnergyChanged.AddListener((energy) =>
-        {
-            foreach (GameObject cardObject in _cardObjectsInHand)
-            {
-                CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
-                cardHandler.UpdateColorBasedOnPlayability();
-            }
-        });
     }
 
     private void Start()
     {
-        // Set any listeners to be played in the start function.
-        SetListenersOnStart();
         // Initialize the UI.
         GlobalUIController.Instance.InitializeUI();
-        // Initialize the hero and all enemies!
-        playerBCC = playerObject.GetComponent<BattleHeroController>();
+        // Initialize the hero and all the enemies.
         InitializeHero();
         foreach (Enemy e in GameController.nextBattleEnemies)
         {
             SpawnEnemy(e);
         }
+        // Initialize the background!
+        BackgroundController.Instance.InitializeBG();
+        // Play game music!
+        SoundManager.Instance.PlayOnLoop(MusicType.BATTLE_MUSIC);
         // Initialize the buttons.
-        _drawPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(_cardsInDrawPile, _drawPileButton));
-        _discardPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(_cardsInDiscard, _discardPileButton));
+        _drawPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(CardsInDrawPile, _drawPileButton));
+        _discardPileButton.onClick.AddListener(() => TopBarController.Instance.ToggleCardOverlay(CardsInDiscard, _discardPileButton));
+        // Initialize the tutorial if we need to.
+        TryInitializeTutorial();
+        // Make the game fade from black to clear.
+        FadeTransitionController.Instance.ShowScreen(0.75f);
+        // Initialize the beginning state.
+        SetState(new Begin(this));
+    }
+
+    // Initializes the battle tutorial if the player hasn't loaded it in yet.
+    private void TryInitializeTutorial()
+    {
 #if !UNITY_EDITOR
         // If we haven't played the battle tutorial yet, do that.
         if (!GameController.alreadyPlayedTutorials.Contains("Battle"))
@@ -114,16 +110,6 @@ public partial class BattleController : MonoBehaviour
             GameController.alreadyPlayedTutorials.Add("Battle");
         }
 #endif
-        // Initialize the background!
-        BackgroundController.Instance.InitializeBG();
-        // Make the game fade from black to clear.
-        FadeTransitionController.Instance.ShowScreen(0.75f);
-        // Play game music!
-        SoundManager.Instance.PlayOnLoop(MusicType.BATTLE_MUSIC);
-        // Evaluate logic that runs at the beginning of the game.
-        RunOnBattleStart();
-        // Start game loop!
-        RunGameLoop();
     }
 
     // Initializes the hero's deck, sprite, and health.
@@ -133,7 +119,7 @@ public partial class BattleController : MonoBehaviour
         {
             CardData cardDataCopy = Instantiate(GameController.GetHeroCards()[i].cardData);
             Card cardCopy = new Card(cardDataCopy, GameController.GetHeroCards()[i].level);
-            _cardsInDiscard.Add(cardCopy);
+            CardsInDiscard.Add(cardCopy);
         }
         // Set the rest of the PlayerBCC values.
         playerBCC.Initialize(GameController.GetHeroData(), GameController.GetHeroHealth(), GameController.GetHeroMaxHealth());
@@ -166,235 +152,10 @@ public partial class BattleController : MonoBehaviour
         bec.SetEnemyType(enemyData);
     }
 
-    // Sometimes there are some initial actions we want to perform at the very
-    // start of the battle. Do those here.
-    private void RunOnBattleStart()
+    // Sets the state to be the enemy turn when the end turn button is pressed.
+    public void OnEndTurnPressed()
     {
-        // If the character has the SCALE OF JUSTICE relic, they can play their first card twice.
-        if (GameController.HasRelic(RelicType.SCALE_OF_JUSTICE))
-        {
-            playerBCC.AddStatusEffect(Globals.GetStatus(Effect.DOUBLE_TAKE, 1));
-            TopBarController.Instance.FlashRelicObject(RelicType.SCALE_OF_JUSTICE);
-        }
-        // If the character has the PLASMA CORE relic, they gain one additional max energy.
-        if (GameController.HasRelic(RelicType.PLASMA_CORE))
-        {
-            EnergyController.Instance.UpdateMaxEnergy(1);
-            TopBarController.Instance.FlashRelicObject(RelicType.PLASMA_CORE);
-        }
-        // If the character has the DUMBELL relic, they gain one additional Strength.
-        if (GameController.HasRelic(RelicType.DUMBELL))
-        {
-            playerBCC.AddStatusEffect(Globals.GetStatus(Effect.STRENGTH, 1));
-            TopBarController.Instance.FlashRelicObject(RelicType.DUMBELL);
-        }
-        // If the character has the DUMBELL relic, they gain one additional Defense.
-        if (GameController.HasRelic(RelicType.KEVLAR_VEST))
-        {
-            playerBCC.AddStatusEffect(Globals.GetStatus(Effect.DEFENSE, 1));
-            TopBarController.Instance.FlashRelicObject(RelicType.KEVLAR_VEST);
-        }
-        // If the character has the GRAPPLING HOOK relic, they draw one additional card per turn.
-        if (GameController.HasRelic(RelicType.GRAPPLING_HOOK))
-        {
-            playerBCC.AddStatusEffect(Globals.GetStatus(Effect.LUCKY_DRAW, 1));
-            TopBarController.Instance.FlashRelicObject(RelicType.GRAPPLING_HOOK);
-        }
-
-        // If the player has the Green Scarf relic, remove combo if the card isn't identical.
-        if (GameController.HasRelic(RelicType.GREEN_SCARF))
-        {
-            playerBCC.OnPlayCard.AddListener((c) =>
-            {
-                StatusEffect combo = playerBCC.GetStatusEffect(Effect.COMBO);
-                if (combo != null && c.GetCardDisplayName() != combo.specialValue)
-                {
-                    playerBCC.RemoveStatusEffect(Effect.COMBO);
-                }
-            });
-        }
-        // If the player has the Green Scarf relic, build up combos for every attack card.
-        if (GameController.HasRelic(RelicType.GREEN_SCARF))
-        {
-            playerBCC.OnPlayedCard.AddListener((c) =>
-            {
-                StatusEffect combo = playerBCC.GetStatusEffect(Effect.COMBO);
-                if (c.cardData.cardType == CardType.ATTACKER || c.cardData.cardType == CardType.SPECIAL_ATTACKER)
-                {
-                    if (combo == null || c.GetCardDisplayName() == combo.specialValue)
-                    {
-                        playerBCC.AddStatusEffect(Globals.GetStatus(Effect.COMBO, 2, c.GetCardDisplayName()));
-                        TopBarController.Instance.FlashRelicObject(RelicType.GREEN_SCARF);
-                    }
-                }
-            });
-        }
-        // If the player has the The Thinker relic, deal 1 damage to enemies for every card.
-        if (GameController.HasRelic(RelicType.THE_THINKER))
-        {
-            playerBCC.OnPlayCard.AddListener((c) =>
-            {
-                foreach (BattleCharacterController bcc in enemyBCCs)
-                {
-                    bcc.ChangeHealth(-1);
-                }
-                TopBarController.Instance.FlashRelicObject(RelicType.THE_THINKER);
-            });
-        }
-        // If the player has the Vampire Teeth relic, killing an enemy should heal 3 health.
-        if (GameController.HasRelic(RelicType.VAMPIRE_FANGS))
-        {
-            foreach (BattleEnemyController bec in enemyBCCs)
-            {
-                bec.OnDeath.AddListener(() =>
-                {
-                    playerBCC.ChangeHealth(3);
-                    TopBarController.Instance.FlashRelicObject(RelicType.VAMPIRE_FANGS);
-                });
-            }
-        }
-        // If the player has the Airhorn relic, all enemies start with 1 crippled.
-        if (GameController.HasRelic(RelicType.AIRHORN))
-        {
-            foreach (BattleEnemyController bec in enemyBCCs)
-            {
-                bec.AddStatusEffect(Globals.GetStatus(Effect.CRIPPLED, 1));
-                TopBarController.Instance.FlashRelicObject(RelicType.AIRHORN);
-            }
-        }
-        // If the player has the Catastrophe status effect, deal X damage to all enemies
-        // when a card is played.
-        playerBCC.OnPlayCard.AddListener((card) =>
-        {
-            StatusEffect catastropheEffect = playerBCC.GetStatusEffect(Effect.CATASTROPHE);
-            if (catastropheEffect != null)
-            {
-                foreach (BattleEnemyController bec in enemyBCCs)
-                {
-                    bec.ChangeHealth(-catastropheEffect.amplifier);
-                }
-            }
-        });
-        playerBCC.OnPlayedCard.AddListener((e) => UpdateAllCardDescriptions());
-    }
-
-    private void RunGameLoop()
-    {
-        StartCoroutine(RunGameLoopCoroutine());
-    }
-
-    private IEnumerator RunGameLoopCoroutine()
-    {
-        yield return new WaitForEndOfFrame();
-        _turnNumber++;
-        // Sets energy to max energy.
-        EnergyController.Instance.RestoreEnergy();
-        EnergyController.Instance.EnergyGlow();
-        // Run the turn start logic function for player and enemies.
-        playerBCC.TurnStartLogic(_turnNumber);
-        foreach (BattleEnemyController bec in enemyBCCs)
-        {
-            if (!bec.IsAlive()) { continue; }
-            bec.TurnStartLogic(_turnNumber);
-            bec.GenerateNextMove(_turnNumber);
-        }
-        // Update energy and health text values.
-        EnergyController.Instance.UpdateEnergyText();
-        // Draw random cards from the draw pile.
-        // Potentially draw more from Lucky Draw effect.
-        StatusEffect luckyDraw = playerBCC.GetStatusEffect(Effect.LUCKY_DRAW);
-        int cardsToDraw = 5 + ((luckyDraw != null) ? luckyDraw.amplifier : 0);
-        // If it's the first turn, check if the player has any Cheat Cards.
-        // If yes, then decrement the cards to draw and draw one of these at random.
-        if (_turnNumber == 1)
-        {
-            List<Card> cheatCards = GameController.GetHeroCards().FindAll((card) =>
-            {
-                return card.HasTrait(Trait.CHEAT_CARD);
-            });
-            // If we have any cheat cards, draw them into the hand one at a time.
-            // Don't let the player draw more than five cards.
-            while (cardsToDraw > 0 && cheatCards.Count > 0)
-            {
-                int randomIdx = Random.Range(0, cheatCards.Count);
-                Card cheatCard = cheatCards[randomIdx];
-                cheatCards.RemoveAt(randomIdx);
-                DrawCards(new List<Card> { cheatCard });
-                cardsToDraw--;
-            }
-        }
-        yield return DrawCardsCoroutine(cardsToDraw);
-        // Run after additional code.
-        OnNextTurnStart.Invoke();
-        OnNextTurnStart = new UnityEvent();
-        // Allow the player to use the end turn button again.
-        if (endTurnButton != null)
-        {
-            endTurnButton.interactable = true;
-        }
-    }
-
-    // This function runs when the player clicks the
-    // END TURN button, or if the turn is forcefully
-    // ended.
-    public void EndTurn()
-    {
-        endTurnButton.interactable = false;
-        StartCoroutine(EndTurnCoroutine());
-    }
-
-    private IEnumerator EndTurnCoroutine()
-    {
-        // Run turn end function.
-        OnTurnEnd.Invoke();
-        OnTurnEnd = new UnityEvent();
-        // Return game state back to enemy.
-        ChangeGameState(GameState.ENEMY_TURN);
-        // Animate cards in hand and move them ot the discard.
-        // Remove all cards in hand, and add them to the discard.
-        int numCardsInHand = _cardsInHand.Count;
-        for (int i = numCardsInHand - 1; i >= 0; i--)
-        {
-            _cardsInDiscard.Add(_cardsInHand[i]);
-            int cardIdx = i; // This is necessary because the coroutine doesn't save the current index
-            StartCoroutine(_cardObjectsInHand[cardIdx].GetComponent<CardHandler>().CardDisappearCoroutine(0.25f, CardAnimation.TRANSLATE_DOWN, () =>
-            {
-                BattlePooler.Instance.ReturnCardObjectToPool(_cardObjectsInHand[cardIdx]);
-                _cardsInHand.RemoveAt(cardIdx);
-                _cardObjectsInHand.RemoveAt(cardIdx);
-            }));
-            UpdateDrawDiscardTexts();
-            yield return new WaitForSeconds(0.04f);
-        }
-        yield return new WaitForSeconds(0.5f);
-        // Make the enemy make a move based on the selected algorithm.
-        // This is handled in the partial class `BattleController_AI`.
-        // Loop ONLY through original enemies. Not summoned ones mid-way.
-        List<BattleEnemyController> originalEnemyBCCs = new List<BattleEnemyController>(enemyBCCs);
-        foreach (BattleEnemyController bec in originalEnemyBCCs)
-        {
-            if (!bec.IsAlive()) { continue; }
-            yield return bec.PlayCardCoroutine(bec.GetStoredCard(), new List<BattleCharacterController>() { playerBCC });
-        }
-        // Run the turn end logic for both the player and the enemy.
-        yield return new WaitForSeconds(0.25f);
-        playerBCC.TurnEndLogic();
-        foreach (BattleEnemyController bec in enemyBCCs)
-        {
-            if (!bec.IsAlive()) { continue; }
-            bec.TurnEndLogic();
-        }
-        yield return new WaitForSeconds(0.25f);
-        if (!playerBCC.IsAlive())
-        {
-            ChangeGameState(GameState.GAME_OVER);
-        }
-        else
-        {
-            // Re-run the game loop!
-            ChangeGameState(GameState.PLAYER_TURN);
-            RunGameLoop();
-        }
+        SetState(new EnemyTurn(this));
     }
 
     // Inflict a random card in the player's hand with an effect.
@@ -410,7 +171,7 @@ public partial class BattleController : MonoBehaviour
         OnNextTurnStart.AddListener(() =>
         {
             // Find all cards that do not have the specified effect.
-            List<GameObject> cardsWithoutEffect = _cardObjectsInHand.FindAll((c) => !c.GetComponent<CardHandler>().HasCardEffect(type));
+            List<GameObject> cardsWithoutEffect = CardObjectsInHand.FindAll((c) => !c.GetComponent<CardHandler>().HasCardEffect(type));
             // If no cards without the effect exist, stop here.
             if (cardsWithoutEffect.Count == 0) { return; }
             // Or else, get that card's CardHandler and inflict the status.
@@ -419,12 +180,12 @@ public partial class BattleController : MonoBehaviour
         });
     }
 
-    // Renders all cards in the hand based on the _cardsInHand list.
+    // Renders all cards in the hand based on the CardsInHand list.
     // Creates any new card objects for cards which don't have object representations.
     // If shouldBeInteractable is set to true, cards will immediately be useable.
     public void UpdateCardsInHand(bool shouldBeInteractable = false)
     {
-        int totalCards = _cardsInHand.Count;
+        int totalCards = CardsInHand.Count;
         float rotationDifference = 7;
         float positionDifference = 140;
         float verticalDifference = 15;
@@ -435,7 +196,7 @@ public partial class BattleController : MonoBehaviour
         // Initialize every card.
         for (int i = 0; i < totalCards; i++)
         {
-            GameObject cardObject = _cardObjectsInHand[i];
+            GameObject cardObject = CardObjectsInHand[i];
             CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
             cardObject.GetComponent<Canvas>().sortingOrder = i;
             cardObject.transform.localScale = new Vector2(0.5f, 0.5f);
@@ -456,21 +217,26 @@ public partial class BattleController : MonoBehaviour
         }
     }
 
+    // Initializes a card object for battle.
+    // Sets card visuals based on energy and attack and defense modifiers.
     private void InitializeNewCardObject(Card card)
     {
         GameObject cardObject = BattlePooler.Instance.GetCardObjectFromPool(deckParentTransform);
-        cardObject.GetComponent<CardHandler>().Initialize(card, true, playerBCC.CalculateDamageModifiers(card), playerBCC.CalculateDefenseModifiers());
-        cardObject.GetComponent<CardHandler>().ModifyHoverBehavior(true, true, true, true);
-        _cardObjectsInHand.Add(cardObject);
+        CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
+        cardHandler.Initialize(card, true);
+        cardHandler.UpdateCardVisuals(playerBCC.CalculateDamageModifiers(card), playerBCC.CalculateDefenseModifiers());
+        cardHandler.UpdateColorBasedOnPlayability();
+        cardHandler.ModifyHoverBehavior(true, true, true, true);
+        CardObjectsInHand.Add(cardObject);
     }
 
     /// <summary>
     /// Shuffle cards from the draw pile into the player's hand, along with
     /// some animations.
     /// </summary>
-    public void DrawCards(int count)
+    public void DrawCards(int cardCount)
     {
-        StartCoroutine(DrawCardsCoroutine(count));
+        StartCoroutine(State.DrawCards(cardCount));
     }
 
     /// <summary>
@@ -479,56 +245,37 @@ public partial class BattleController : MonoBehaviour
     /// </summary>
     public void DrawCards(List<Card> cardsToDraw)
     {
-        StartCoroutine(DrawCardsCoroutine(cardsToDraw.Count, cardsToDraw));
+        StartCoroutine(State.DrawCards(cardsToDraw.Count, cardsToDraw));
     }
 
-    private IEnumerator DrawCardsCoroutine(int count, List<Card> cardsToDraw = null)
+    /// <summary>
+    /// Have the player play a card in their hand, along with any colliding BCCs
+    /// it is hitting.
+    /// </summary>
+    public void UseCardInHand(Card c, List<BattleCharacterController> collidingBCCs)
     {
-        for (int i = 0; i < count; i++)
-        {
-            // If the player won or lost the game, don't draw cards!
-            if (GetGameState() == GameState.GAME_OVER)
-            {
-                yield break;
-            }
-            if (cardsToDraw == null)
-            {
-                // Get a card in the draw pile and add it to the hand.
-                ShuffleRandomCardToHand();
-            }
-            else
-            {
-                // If there are cards to draw, draw from those instead.
-                AddCardToHand(cardsToDraw[i]);
-            }
-            // Render the cards on the screen, and update the numbers.
-            UpdateCardsInHand();
-            UpdateDrawDiscardTexts();
-            yield return new WaitForSeconds(0.1f);
-        }
-        // Allow the user to mess with cards.
-        EnableInteractionsForCardsInHand();
-    }
-
-    // Allows the players to use cards in their hand.
-    public void DisableInteractionsForCardsInHand()
-    {
-        // Allow the user to mess with cards.
-        for (int i = 0; i < _cardObjectsInHand.Count; i++)
-        {
-            CardHandler cardHandler = _cardObjectsInHand[i].GetComponent<CardHandler>();
-            cardHandler.DisableInteractions();
-        }
+        StartCoroutine(State.PlayCard(c, collidingBCCs));
     }
 
     // Allows the players to use cards in their hand.
     public void EnableInteractionsForCardsInHand()
     {
         // Allow the user to mess with cards.
-        for (int i = 0; i < _cardObjectsInHand.Count; i++)
+        for (int i = 0; i < CardObjectsInHand.Count; i++)
         {
-            CardHandler cardHandler = _cardObjectsInHand[i].GetComponent<CardHandler>();
+            CardHandler cardHandler = CardObjectsInHand[i].GetComponent<CardHandler>();
             cardHandler.EnableInteractions();
+        }
+    }
+
+    // Allows the players to use cards in their hand.
+    public void DisableInteractionsForCardsInHand()
+    {
+        // Allow the user to mess with cards.
+        for (int i = 0; i < CardObjectsInHand.Count; i++)
+        {
+            CardHandler cardHandler = CardObjectsInHand[i].GetComponent<CardHandler>();
+            cardHandler.DisableInteractions();
         }
     }
 
@@ -537,30 +284,30 @@ public partial class BattleController : MonoBehaviour
     public void AddCardToHand(Card card)
     {
         // If the player's hand is full, skip drawing a card.
-        if (_cardsInHand.Count >= MAX_ALLOWED_CARDS_IN_HAND)
+        if (CardsInHand.Count >= MAX_ALLOWED_CARDS_IN_HAND)
         {
             ObjectPooler.Instance.SpawnPopup("Hand is full!", 6, Vector3.zero, new Color(1, 0.1f, 0.1f), 1, 2f, false);
             return;
         }
-        _cardsInHand.Add(card);
+        CardsInHand.Add(card);
         InitializeNewCardObject(card);
     }
 
     // Adds the most recent card in the player's draw pile into
     // the player's hand.
     // Does NOT re-render the hand automatically.
-    private void ShuffleRandomCardToHand()
+    public void ShuffleRandomCardToHand()
     {
         // If the player's hand is full, skip drawing a card.
-        if (_cardsInHand.Count >= MAX_ALLOWED_CARDS_IN_HAND)
+        if (CardsInHand.Count >= MAX_ALLOWED_CARDS_IN_HAND)
         {
             ObjectPooler.Instance.SpawnPopup("Hand is full!", 6, Vector3.zero, new Color(1, 0.1f, 0.1f), 1, 2f, false);
             return;
         }
         // If there are no cards to draw, shuffle discard into draw!
-        if (_cardsInDrawPile.Count == 0)
+        if (CardsInDrawPile.Count == 0)
         {
-            if (_cardsInDiscard.Count > 0)
+            if (CardsInDiscard.Count > 0)
             {
                 ShuffleDiscardIntoDraw();
             }
@@ -570,21 +317,21 @@ public partial class BattleController : MonoBehaviour
                 return;
             }
         }
-        Card cardToAdd = _cardsInDrawPile[0];
+        Card cardToAdd = CardsInDrawPile[0];
         AddCardToHand(cardToAdd);
-        _cardsInDrawPile.RemoveAt(0);
+        CardsInDrawPile.RemoveAt(0);
     }
 
     // Removes all of the cards from the hand and add
     // them to the discard pile.
     public void EmptyHand()
     {
-        for (int i = _cardsInHand.Count - 1; i >= 0; i--)
+        for (int i = CardsInHand.Count - 1; i >= 0; i--)
         {
-            _cardsInDiscard.Add(_cardsInHand[i]);
-            GameObject cardObject = _cardObjectsInHand[i];
-            _cardsInHand.RemoveAt(i);
-            _cardObjectsInHand.RemoveAt(i);
+            CardsInDiscard.Add(CardsInHand[i]);
+            GameObject cardObject = CardObjectsInHand[i];
+            CardsInHand.RemoveAt(i);
+            CardObjectsInHand.RemoveAt(i);
             BattlePooler.Instance.ReturnCardObjectToPool(cardObject);
             UpdateDrawDiscardTexts();
         }
@@ -592,103 +339,20 @@ public partial class BattleController : MonoBehaviour
 
     public void ShuffleDiscardIntoDraw()
     {
-        int discardSize = _cardsInDiscard.Count;
+        int discardSize = CardsInDiscard.Count;
         for (int j = 0; j < discardSize; j++)
         {
             // Get a random index in the discard pile and add it to the draw pile.
-            int randomDiscIdx = Random.Range(0, _cardsInDiscard.Count);
-            _cardsInDrawPile.Add(_cardsInDiscard[randomDiscIdx]);
-            _cardsInDiscard.RemoveAt(randomDiscIdx);
+            int randomDiscIdx = Random.Range(0, CardsInDiscard.Count);
+            CardsInDrawPile.Add(CardsInDiscard[randomDiscIdx]);
+            CardsInDiscard.RemoveAt(randomDiscIdx);
         }
-    }
-
-    public void ShuffleCardsIntoDraw(List<Card> cards)
-    {
-        foreach (Card card in cards)
-        {
-            _cardsInDrawPile.Insert(Random.Range(0, _cardsInDrawPile.Count), card);
-        }
-        UpdateDrawDiscardTexts();
-    }
-
-    public void UseCardInHand(Card c, List<BattleCharacterController> collidingBCCs, bool subtractCost = true)
-    {
-        // Don't let the player use cards if it's not their turn.
-        if (GetGameState() != GameState.PLAYER_TURN)
-        {
-            return;
-        }
-        // Update energy cost after using card, if applicable.
-        if (subtractCost)
-        {
-            EnergyController.Instance.ChangeEnergy(-c.GetCardStats().cardCost);
-        }
-        // Play animations and perform actions specified on
-        // card. (handled in BattleCharacterController)
-        StartCoroutine(playerBCC.PlayCardCoroutine(c, collidingBCCs));
-        // Find card and move it to the discard pile.
-        int idx = _cardsInHand.IndexOf(c);
-        // If it can't find the object, that means that the
-        // card was removed during its effects. Ignore deleting
-        // it from the hand, then.
-        if (idx == -1)
-        {
-            return;
-        }
-        GameObject cardObject = _cardObjectsInHand[idx];
-        // If the card shouldn't exhaust, add it to the discard pile.
-        if (!c.HasTrait(Trait.EXHAUST))
-        {
-            _cardsInDiscard.Add(_cardsInHand[idx]);
-        }
-        _cardsInHand.RemoveAt(idx);
-        _cardObjectsInHand.RemoveAt(idx);
-        UpdateDrawDiscardTexts();
-        BattlePooler.Instance.ReturnCardObjectToPool(cardObject);
-        UpdateCardsInHand();
-        // Allow the user to mess with cards.
-        EnableInteractionsForCardsInHand();
     }
 
     public void UpdateDrawDiscardTexts()
     {
-        drawText.text = _cardsInDrawPile.Count.ToString();
-        discardText.text = _cardsInDiscard.Count.ToString();
-    }
-
-    // Triggers whenever the hero wins the fight. (All monsters go to zero health.)
-    public void HandleBattleWin()
-    {
-        // If the player isn't alive, don't even consider the win logic.
-        if (!playerBCC.IsAlive()) { return; }
-        ChangeGameState(GameState.GAME_OVER);
-        StartCoroutine(HandleBattleWinCoroutine());
-    }
-
-    private IEnumerator HandleBattleWinCoroutine()
-    {
-        if (GameController.HasRelic(RelicType.MEDKIT))
-        {
-            TopBarController.Instance.FlashRelicObject(RelicType.MEDKIT);
-            playerBCC.ChangeHealth(4);
-        }
-        // Allot some time to animate the coins going to the player's balance.
-        yield return new WaitForSeconds(1.4f);
-        // Let the player add a new card to their deck (out of 3).
-        CardChoiceController.Instance.ShowCardChoices(3, () =>
-        {
-            FadeTransitionController.Instance.HideScreen("Map", 0.75f);
-        });
-    }
-
-    // Update the attack and defense values of all cards in your hand.
-    public void UpdateAllCardDescriptions()
-    {
-        foreach (GameObject obj in _cardObjectsInHand)
-        {
-            CardHandler cardHandler = obj.GetComponent<CardHandler>();
-            cardHandler.UpdateCardDescription(playerBCC.CalculateDamageModifiers(cardHandler.card), playerBCC.CalculateDefenseModifiers());
-        }
+        drawText.text = CardsInDrawPile.Count.ToString();
+        discardText.text = CardsInDiscard.Count.ToString();
     }
 
 }

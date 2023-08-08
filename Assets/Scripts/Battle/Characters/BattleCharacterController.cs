@@ -15,6 +15,17 @@ public enum Alignment
     HERO = 0, ENEMY = 1
 }
 
+public struct CardToRender
+{
+    public Card card;
+    public List<BattleCharacterController> targetBCCs;
+    public CardToRender(Card c, List<BattleCharacterController> targets)
+    {
+        card = c;
+        targetBCCs = targets;
+    }
+}
+
 [RequireComponent(typeof(CharacterHealthHandler))]
 [RequireComponent(typeof(CharacterStatusHandler))]
 public partial class BattleCharacterController : MonoBehaviour
@@ -57,6 +68,8 @@ public partial class BattleCharacterController : MonoBehaviour
     private Card _storedCard;
     private Vector3 _initialSpriteLocalPosition;
     private Vector3 _initialSpritePosition;
+    private List<CardToRender> _cardsToRender = new List<CardToRender>();
+    private IEnumerator _playCardsCoroutine = null;
     protected IEnumerator _flashColorCoroutine = null;
     protected IEnumerator _damageShakeCoroutine = null;
     private bool _canSpriteChange = true;
@@ -218,13 +231,32 @@ public partial class BattleCharacterController : MonoBehaviour
         statusHandler.RemoveStatusEffect(Effect.COMBO);
     }
 
+    public void PlayCard(Card c, List<BattleCharacterController> targetBCCs)
+    {
+        _cardsToRender.Add(new CardToRender(c, targetBCCs));
+        if (_playCardsCoroutine == null)
+        {
+            _playCardsCoroutine = PlayQueuedCardsCoroutine();
+            StartCoroutine(_playCardsCoroutine);
+        }
+    }
+
+    private IEnumerator PlayQueuedCardsCoroutine()
+    {
+        while (_cardsToRender.Count > 0)
+        {
+            CardToRender cardToRender = _cardsToRender[0];
+            _cardsToRender.RemoveAt(0);
+            yield return PlayCardCoroutine(cardToRender.card, cardToRender.targetBCCs);
+        }
+        _playCardsCoroutine = null;
+    }
+
+    ///<summary>
+    /// Animate this character playing a specific card.
+    ///</summary>
     public IEnumerator PlayCardCoroutine(Card c, List<BattleCharacterController> targetBCCs)
     {
-        // Disallow playing cards unless the battle is currently ongoing.
-        if (_characterAlignment == Alignment.HERO)
-        {
-            yield return new WaitUntil(() => BattleController.Instance.GetGameState() == GameState.PLAYER_TURN);
-        }
         this.targetBCCs = targetBCCs;
         OnPlayCard.Invoke(c);
         CardStats cardStats = c.GetCardStats();

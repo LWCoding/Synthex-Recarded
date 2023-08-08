@@ -27,7 +27,6 @@ public class TopBarCardController : MonoBehaviour
     public bool IsCardPreviewShowing() => _currentlySelectedButton != null;
     private List<CardHandler> _cardPreviewHandlers = new List<CardHandler>();
     private int _selectedButtonInitialSortingOrder = 0;
-    private GameState _gameStateBeforeToggle;
 
     public void Initialize()
     {
@@ -113,12 +112,6 @@ public class TopBarCardController : MonoBehaviour
     // menu.
     private IEnumerator ShowCardsCoroutine(List<Card> cardsToShow)
     {
-        // If we're in a battle, change our game state to be in the menu.
-        if (BattleController.Instance != null)
-        {
-            _gameStateBeforeToggle = BattleController.Instance.GetGameState();
-            BattleController.Instance.ChangeGameState(GameState.IN_MENU);
-        }
         _selectedButtonInitialSortingOrder = _currentlySelectedButton.GetComponent<Canvas>().sortingOrder;
         // Disable the scroll rect UNTIL all cards have animated in.
         _cardPreviewScrollRect.enabled = false;
@@ -220,11 +213,6 @@ public class TopBarCardController : MonoBehaviour
         _currentlySelectedButton.interactable = true;
         _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = _selectedButtonInitialSortingOrder;
         _currentlySelectedButton = null;
-        // If we're in a battle, change our game state to return to normal.
-        if (BattleController.Instance != null)
-        {
-            BattleController.Instance.ChangeGameState(_gameStateBeforeToggle);
-        }
     }
 
     // This Coroutine is called when a deck preview is currently being shown,
