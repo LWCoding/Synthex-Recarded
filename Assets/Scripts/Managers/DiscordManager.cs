@@ -1,8 +1,7 @@
-using Discord;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DiscordController : MonoBehaviour
+public class DiscordManager : MonoBehaviour
 {
 #if !UNITY_WEBGL
     public long applicationID;
@@ -59,8 +58,8 @@ public class DiscordController : MonoBehaviour
             }
             else
             {
-                string mapSceneName = char.ToUpper(GameController.GetMapScene().ToString()[0]) + GameController.GetMapScene().ToString().Substring(1).ToLower();
-                currState = GameController.GetHeroData().characterName + " (" + GameController.GetHeroHealth() + "/" + GameController.GetHeroMaxHealth() + " HP) | " + mapSceneName + " Lvl. " + (GameController.GetMapObject().currLocation.floorNumber + 1);
+                string mapSceneName = char.ToUpper(GameManager.GetMapScene().ToString()[0]) + GameManager.GetMapScene().ToString().Substring(1).ToLower();
+                currState = GameManager.GetHeroData().characterName + " (" + GameManager.GetHeroHealth() + "/" + GameManager.GetHeroMaxHealth() + " HP) | " + mapSceneName + " Lvl. " + (GameManager.GetMapObject().currLocation.floorNumber + 1);
             }
             switch (currScene)
             {
@@ -72,10 +71,10 @@ public class DiscordController : MonoBehaviour
                     break;
                 case "Battle":
                     details = "In a battle fighting ";
-                    for (int i = 0; i < GameController.nextBattleEnemies.Count; i++)
+                    for (int i = 0; i < GameManager.nextBattleEnemies.Count; i++)
                     {
-                        details += GameController.nextBattleEnemies[i].characterName;
-                        if (i != GameController.nextBattleEnemies.Count - 1)
+                        details += GameManager.nextBattleEnemies[i].characterName;
+                        if (i != GameManager.nextBattleEnemies.Count - 1)
                         {
                             details += " and ";
                         }

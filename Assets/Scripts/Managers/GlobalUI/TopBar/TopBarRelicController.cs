@@ -18,7 +18,7 @@ public class TopBarRelicController : MonoBehaviour
         }
         _relicReferences.Clear();
         // Spawn all relic objects at top.
-        foreach (Relic r in GameController.GetRelics())
+        foreach (Relic r in GameManager.GetRelics())
         {
             GameObject relicObj = ObjectPooler.Instance.GetObjectFromPool(PoolableType.RELIC);
             relicObj.transform.SetParent(_relicContainerParentTransform, false);

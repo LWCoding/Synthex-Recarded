@@ -37,7 +37,7 @@ public class ShopItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExit
         frameOverlayObject.SetActive(true);
         // Set the color of the overlay text depending on if
         // the player can afford it or not.
-        if (_itemCost < GameController.GetMoney() && !GameController.IsItemBagFull())
+        if (_itemCost < GameManager.GetMoney() && !GameManager.IsItemBagFull())
         {
             // Can afford the relic!
             itemCostText.color = new Color(0.3f, 1, 0);
@@ -60,16 +60,16 @@ public class ShopItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if (!_isInteractable) { return; }
         // If you can buy the relic, buy the relic.
-        if (_itemCost <= GameController.GetMoney())
+        if (_itemCost <= GameManager.GetMoney())
         {
             // Attempt to add the item to the inventory.
             // This won't work if, say, the player has reached the item limit.
-            if (GameController.IsItemBagFull()) { return; }
+            if (GameManager.IsItemBagFull()) { return; }
             // Subtract the money and update the top bar.
-            GameController.SpendMoney(_itemCost);
+            GameManager.SpendMoney(_itemCost);
             TopBarController.Instance.UpdateCurrencyText();
             // Add the item to the bag.
-            GameController.AddItemToInventory(_itemInfo);
+            GameManager.AddItemToInventory(_itemInfo);
             // Make the item not interactable.
             _isInteractable = false;
             itemCostText.text = "";
@@ -78,7 +78,7 @@ public class ShopItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExit
             // Play the item chosen SFX.
             SoundManager.Instance.PlaySFX(SoundEffect.SHOP_PURCHASE);
             TopBarController.Instance.RenderItems();
-            TopBarController.Instance.FlashItemObject(GameController.GetItems().Count - 1);
+            TopBarController.Instance.FlashItemObject(GameManager.GetItems().Count - 1);
         }
     }
 

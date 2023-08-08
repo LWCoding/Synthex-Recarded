@@ -90,7 +90,7 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         // Initialize all of the card information in the TopBarCardController.
         InitializeCardController();
         // Set the colors of the UI depending on the current hero.
-        HeroData heroData = GameController.GetHeroData();
+        HeroData heroData = GameManager.GetHeroData();
         SetUIStyle(heroData.heroUIColor, heroData.uiHeadshotSprite);
     }
 
@@ -111,8 +111,8 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         topBarParentTransform.SetParent(GlobalUIController.Instance.GlobalCanvas.transform);
         topBarParentTransform.localScale = new Vector3(1, 1, 1);
         topBarParentTransform.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-        heroNameText.text = GameController.GetHeroData().characterName.ToUpper();
-        UpdateHealthText(GameController.GetHeroHealth(), GameController.GetHeroMaxHealth(), false);
+        heroNameText.text = GameManager.GetHeroData().characterName.ToUpper();
+        UpdateHealthText(GameManager.GetHeroHealth(), GameManager.GetHeroMaxHealth(), false);
         UpdateCurrencyText();
     }
 
@@ -151,8 +151,8 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
     // Sets the hero's currency on the top bar (UI).
     public void UpdateCurrencyText()
     {
-        heroCurrencyText.text = GameController.GetMoney().ToString();
-        heroXPText.text = GameController.GetXP().ToString() + "/100";
+        heroCurrencyText.text = GameManager.GetMoney().ToString();
+        heroXPText.text = GameManager.GetXP().ToString() + "/100";
     }
 
     // Spawn multiple tokens that goes from a certain position 
@@ -195,8 +195,8 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         // Play the SFX.
         SoundManager.Instance.PlaySFX(SoundEffect.COIN_OBTAIN);
         // Add the money to the player's bank.
-        if (tokenType == TokenType.COIN) { GameController.AddMoney(amount); }
-        if (tokenType == TokenType.XP) { GameController.AddXP(amount); }
+        if (tokenType == TokenType.COIN) { GameManager.AddMoney(amount); }
+        if (tokenType == TokenType.XP) { GameManager.AddXP(amount); }
         UpdateCurrencyText();
         Destroy(tokenObject);
     }

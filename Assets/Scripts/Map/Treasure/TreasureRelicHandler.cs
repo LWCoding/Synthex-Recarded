@@ -21,10 +21,10 @@ public class TreasureRelicHandler : MonoBehaviour, IPointerClickHandler
         // Play the relic chosen SFX.
         SoundManager.Instance.PlaySFX(SoundEffect.RELIC_OBTAIN);
         // Add the relic to the deck.
-        GameController.AddRelicToInventory(_parentRelicHandler.relicInfo);
+        GameManager.AddRelicToInventory(_parentRelicHandler.relicInfo);
         TopBarController.Instance.RenderRelics();
         // Go back to the map screen.
-        FadeTransitionController.Instance.HideScreen("Map", 1.2f);
+        TransitionManager.Instance.HideScreen("Map", 1.2f);
         // Hide this relic object by returning it to the pool.
         _parentRelicHandler.StopSpinShinyObject();
         ObjectPooler.Instance.ReturnObjectToPool(PoolableType.RELIC, gameObject);

@@ -31,7 +31,7 @@ public class PlayerTurn : State
         // If yes, then decrement the cards to draw and draw one of these at random.
         if (BattleController.TurnNumber == 1)
         {
-            List<Card> cheatCards = GameController.GetHeroCards().FindAll((card) =>
+            List<Card> cheatCards = GameManager.GetHeroCards().FindAll((card) =>
             {
                 return card.HasTrait(Trait.CHEAT_CARD);
             });

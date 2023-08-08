@@ -46,7 +46,7 @@ public class ShopCardInitializer : MonoBehaviour
     {
         for (int i = 0; i < 8; i++)
         {
-            Card randomCard = GameController.GetRandomCard(_currentCardsInShop);
+            Card randomCard = GameManager.GetRandomCard(_currentCardsInShop);
             // If there are no new cards, stop here.
             if (randomCard == null)
             {

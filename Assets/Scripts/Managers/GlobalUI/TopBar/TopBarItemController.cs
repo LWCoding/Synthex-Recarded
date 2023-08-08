@@ -26,9 +26,9 @@ public class TopBarItemController : MonoBehaviour
             ObjectPooler.Instance.ReturnObjectToPool(PoolableType.ITEM, obj);
         }
         _itemReferences.Clear();
-        List<Item> itemList = GameController.GetItems();
+        List<Item> itemList = GameManager.GetItems();
         // Spawn all item objects at top.
-        for (int i = 0; i < GameController.GetHeroData().maxItemStorageSpace; i++)
+        for (int i = 0; i < GameManager.GetHeroData().maxItemStorageSpace; i++)
         {
             GameObject itemObj = ObjectPooler.Instance.GetObjectFromPool(PoolableType.ITEM);
             itemObj.transform.SetParent(_itemContainerParentTransform, false);
@@ -56,7 +56,7 @@ public class TopBarItemController : MonoBehaviour
         {
             desc = desc.Replace("[" + i.ToString() + "]", item.variables[i].ToString());
         }
-        _itemDescText.text = GameController.GetDescriptionWithIcons(desc);
+        _itemDescText.text = GameManager.GetDescriptionWithIcons(desc);
         _itemTooltipContainer.SetActive(true);
     }
 
@@ -86,7 +86,7 @@ public class TopBarItemController : MonoBehaviour
 
     public void FlashItemObject(int itemIdx)
     {
-        if (itemIdx < 0 || itemIdx >= GameController.GetItems().Count)
+        if (itemIdx < 0 || itemIdx >= GameManager.GetItems().Count)
         {
             Debug.Log("ERROR IN TOPBARITEMCONTROLLER.CS > FLASHITEMOBJECT! COULD NOT FIND ITEM OF INDEX (" + itemIdx + ")!");
             return;

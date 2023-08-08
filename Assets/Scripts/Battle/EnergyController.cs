@@ -39,7 +39,7 @@ public class EnergyController : MonoBehaviour
     public void RestoreEnergy()
     {
         // If the character has the POWERBANK relic, grant +1 energy if the energy is more than zero.
-        if (GameController.HasRelic(RelicType.POWERBANK) && GetCurrentEnergy() > 0)
+        if (GameManager.HasRelic(RelicType.POWERBANK) && GetCurrentEnergy() > 0)
         {
             _currentEnergy = _maxEnergy;
             ChangeEnergy(1);

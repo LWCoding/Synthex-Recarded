@@ -43,7 +43,7 @@ public class ShopController : MonoBehaviour
         // Randomize the shop BG objects.
         RandomizeShopBGObjects();
         // Make the game fade from black to clear.
-        FadeTransitionController.Instance.ShowScreen(0.75f);
+        TransitionManager.Instance.ShowScreen(0.75f);
         // Play game music!
         SoundManager.Instance.PlayOnLoop(MusicType.SHOP_MUSIC);
         // Play the shop door animation and hide the hologram UI.
@@ -69,7 +69,7 @@ public class ShopController : MonoBehaviour
         shopDoorAnimator.Play("DoorClose");
         SoundManager.Instance.PlayOneShot(shopDoorCloseSFX, 1);
         yield return new WaitForSeconds(1f);
-        FadeTransitionController.Instance.HideScreen("Map", 0.75f);
+        TransitionManager.Instance.HideScreen("Map", 0.75f);
     }
 
     private void OpenDoorAfterDelay()
@@ -94,8 +94,8 @@ public class ShopController : MonoBehaviour
         shopkeeperAnimator.gameObject.SetActive(true);
         shopkeeperAnimator.Play("ShopkeepShow");
         yield return new WaitForSeconds(1f);
-        _isFirstTimeAtShop = !GameController.visitedShopBefore;
-        if (GameController.visitedShopBefore)
+        _isFirstTimeAtShop = !GameManager.visitedShopBefore;
+        if (GameManager.visitedShopBefore)
         {
             // If the player has visited a shop before, just show the UI.
             ShowHologramUI(true);
@@ -105,7 +105,7 @@ public class ShopController : MonoBehaviour
         else
         {
             // If the player hasn't, then play some dialogue.
-            GameController.visitedShopBefore = true;
+            GameManager.visitedShopBefore = true;
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.QueueDialogueText("Scanning... facial identification.", "Scan");
             ShopDialogueHandler.Instance.QueueDialogueText("Ah! Howdy. You must be Jack.", "Neutral");

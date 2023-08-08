@@ -9,7 +9,7 @@ public class Won : State
 
     public override IEnumerator Start()
     {
-        if (GameController.HasRelic(RelicType.MEDKIT))
+        if (GameManager.HasRelic(RelicType.MEDKIT))
         {
             TopBarController.Instance.FlashRelicObject(RelicType.MEDKIT);
             BattleController.playerBCC.ChangeHealth(4);
@@ -19,7 +19,7 @@ public class Won : State
         // Let the player add a new card to their deck (out of 3).
         CardChoiceController.Instance.ShowCardChoices(3, () =>
         {
-            FadeTransitionController.Instance.HideScreen("Map", 0.75f);
+            TransitionManager.Instance.HideScreen("Map", 0.75f);
         });
     }
 

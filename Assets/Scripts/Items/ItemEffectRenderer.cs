@@ -20,7 +20,7 @@ public class ItemEffectRenderer : MonoBehaviour
                 }
                 else
                 {
-                    GameController.ChangeHeroHealth(itemInfo.variables[0]);
+                    GameManager.ChangeHeroHealth(itemInfo.variables[0]);
                 }
                 break;
             case ItemType.CHUG_JUG:

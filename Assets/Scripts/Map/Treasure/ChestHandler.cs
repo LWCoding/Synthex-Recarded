@@ -88,7 +88,7 @@ public class ChestHandler : MonoBehaviour, IPointerClickHandler
         });
         // While the flash screen is overlayed, show the relic the player unlocked.
         GameObject relicObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.RELIC);
-        Relic randomRelic = GameController.GetRandomUnownedRelic(new List<Relic>());
+        Relic randomRelic = GameManager.GetRandomUnownedRelic(new List<Relic>());
         relicObject.transform.SetParent(GameObject.Find("Canvas").transform, false);
         relicObject.transform.position = transform.position + new Vector3(0, 40, 0);
         relicObject.GetComponent<RelicHandler>().Initialize(randomRelic, true);

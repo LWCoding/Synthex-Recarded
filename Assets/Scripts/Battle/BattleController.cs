@@ -80,7 +80,7 @@ public partial class BattleController : StateMachine
         GlobalUIController.Instance.InitializeUI();
         // Initialize the hero and all the enemies.
         InitializeHero();
-        foreach (Enemy e in GameController.nextBattleEnemies)
+        foreach (Enemy e in GameManager.nextBattleEnemies)
         {
             SpawnEnemy(e);
         }
@@ -94,7 +94,7 @@ public partial class BattleController : StateMachine
         // Initialize the tutorial if we need to.
         TryInitializeTutorial();
         // Make the game fade from black to clear.
-        FadeTransitionController.Instance.ShowScreen(0.75f);
+        TransitionManager.Instance.ShowScreen(0.75f);
         // Initialize the beginning state.
         SetState(new Begin(this));
     }
@@ -104,10 +104,10 @@ public partial class BattleController : StateMachine
     {
 #if !UNITY_EDITOR
         // If we haven't played the battle tutorial yet, do that.
-        if (!GameController.alreadyPlayedTutorials.Contains("Battle"))
+        if (!GameManager.alreadyPlayedTutorials.Contains("Battle"))
         {
             TutorialController.Instance.StartTutorial();
-            GameController.alreadyPlayedTutorials.Add("Battle");
+            GameManager.alreadyPlayedTutorials.Add("Battle");
         }
 #endif
     }
@@ -115,14 +115,14 @@ public partial class BattleController : StateMachine
     // Initializes the hero's deck, sprite, and health.
     private void InitializeHero()
     {
-        for (int i = 0; i < GameController.GetHeroCards().Count; i++)
+        for (int i = 0; i < GameManager.GetHeroCards().Count; i++)
         {
-            CardData cardDataCopy = Instantiate(GameController.GetHeroCards()[i].cardData);
-            Card cardCopy = new Card(cardDataCopy, GameController.GetHeroCards()[i].level);
+            CardData cardDataCopy = Instantiate(GameManager.GetHeroCards()[i].cardData);
+            Card cardCopy = new Card(cardDataCopy, GameManager.GetHeroCards()[i].level);
             CardsInDiscard.Add(cardCopy);
         }
         // Set the rest of the PlayerBCC values.
-        playerBCC.Initialize(GameController.GetHeroData(), GameController.GetHeroHealth(), GameController.GetHeroMaxHealth());
+        playerBCC.Initialize(GameManager.GetHeroData(), GameManager.GetHeroHealth(), GameManager.GetHeroMaxHealth());
     }
 
     // Initializes an enemy object.

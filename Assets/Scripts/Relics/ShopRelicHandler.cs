@@ -37,7 +37,7 @@ public class ShopRelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
         frameOverlayObject.SetActive(true);
         // Set the color of the overlay text depending on if
         // the player can afford it or not.
-        if (_relicCost < GameController.GetMoney())
+        if (_relicCost < GameManager.GetMoney())
         {
             // Can afford the relic!
             relicCostText.color = new Color(0.3f, 1, 0);
@@ -60,10 +60,10 @@ public class ShopRelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         if (!_isInteractable) { return; }
         // If you can buy the relic, buy the relic.
-        if (_relicCost <= GameController.GetMoney())
+        if (_relicCost <= GameManager.GetMoney())
         {
             // Subtract the money and update the top bar.
-            GameController.SpendMoney(_relicCost);
+            GameManager.SpendMoney(_relicCost);
             TopBarController.Instance.UpdateCurrencyText();
             // Make the relic not interactable.
             _isInteractable = false;
@@ -73,7 +73,7 @@ public class ShopRelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
             // Play the relic chosen SFX.
             SoundManager.Instance.PlaySFX(SoundEffect.SHOP_PURCHASE);
             // Add the relic to the deck.
-            GameController.AddRelicToInventory(_relicInfo);
+            GameManager.AddRelicToInventory(_relicInfo);
             TopBarController.Instance.RenderRelics();
         }
     }

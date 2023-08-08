@@ -56,20 +56,20 @@ public static class SaveLoadManager
 
         if (so.hero != null)
         {
-            GameController.SetChosenHero(so.hero);
+            GameManager.SetChosenHero(so.hero);
         }
         else
         {
             debugLoadSequence += " <Hero> ";
         }
 
-        GameController.SetMapScene(so.mapObject.currScene);
-        GameController.SetMoney(so.money);
-        GameController.SetXP(so.xp);
-        GameController.SetMapObject(so.mapObject);
-        GameController.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed, so.visitedShopBefore, so.visitedUpgradeBefore);
-        GameController.SetSeenEnemies(so.loadedEncounters);
-        GameController.saveFileName = fileName;
+        GameManager.SetMapScene(so.mapObject.currScene);
+        GameManager.SetMoney(so.money);
+        GameManager.SetXP(so.xp);
+        GameManager.SetMapObject(so.mapObject);
+        GameManager.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed, so.visitedShopBefore, so.visitedUpgradeBefore);
+        GameManager.SetSeenEnemies(so.loadedEncounters);
+        GameManager.saveFileName = fileName;
 
         if (debugLoadSequence != "")
         {

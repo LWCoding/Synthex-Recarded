@@ -50,7 +50,7 @@ public class ShopItemInitializer : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            Item randomItem = GameController.GetRandomItem(_currentItemsInShop);
+            Item randomItem = GameManager.GetRandomItem(_currentItemsInShop);
             // If there are no new items, stop here.
             if (randomItem == null)
             {

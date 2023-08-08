@@ -34,7 +34,7 @@ public class MapController : MonoBehaviour
     private void Awake()
     {
         Instance = GetComponent<MapController>();
-        _currentMapInfo = Globals.GetMapInfo(GameController.GetMapScene());
+        _currentMapInfo = Globals.GetMapInfo(GameManager.GetMapScene());
     }
 
     private void Start()
@@ -45,7 +45,7 @@ public class MapController : MonoBehaviour
         _numFloors = _currentMapInfo.numFloors;
         // Initialize the map ONLY if they haven't already
         // been created.
-        if (GameController.GetMapObject() == null)
+        if (GameManager.GetMapObject() == null)
         {
             InitializeMap();
             _serializableMapObject.currLocation.position = initialPlayerTransform.position;
@@ -60,7 +60,7 @@ public class MapController : MonoBehaviour
         }
         else
         {
-            GenerateMapFromObject(GameController.GetMapObject());
+            GenerateMapFromObject(GameManager.GetMapObject());
         }
         // Initialize the boss battle info.
         GameObject bossBattleObj = _mapOptions.Find((obj) => obj.transform.position == bossBattleTransform.position);
@@ -72,7 +72,7 @@ public class MapController : MonoBehaviour
         // Make all map options and the show cards button uninteractable.
         DisableMapOptionColliders();
         // Make the game fade from black to clear.
-        FadeTransitionController.Instance.ShowScreen(1.25f);
+        TransitionManager.Instance.ShowScreen(1.25f);
         // Play game music!
         SoundManager.Instance.PlayOnLoop(MusicType.MAP_MUSIC);
         // Allow the player to select an option.
@@ -93,8 +93,8 @@ public class MapController : MonoBehaviour
             EnableMapOptionColliders();
         }
         // Save the game.
-        GameController.SetMapObject(_serializableMapObject);
-        GameController.SaveGame();
+        GameManager.SetMapObject(_serializableMapObject);
+        GameManager.SaveGame();
     }
 
     // The first time a map is loaded, run the camera panning animation before
@@ -141,17 +141,17 @@ public class MapController : MonoBehaviour
                     EnableMapOptionColliders();
                     break;
                 case DialogueAction.HEAL_TO_FULL_HP:
-                    GameController.SetHeroHealth(GameController.GetHeroMaxHealth());
+                    GameManager.SetHeroHealth(GameManager.GetHeroMaxHealth());
                     SoundManager.Instance.PlaySFX(SoundEffect.HEAL_HEALTH);
                     EnableMapOptionColliders();
                     break;
                 case DialogueAction.SECRET_WIN_SEND_TO_TITLE:
                     PlayerPrefs.SetInt("BeatBoykisser", 1);
-                    FadeTransitionController.Instance.HideScreen("Title", 2);
+                    TransitionManager.Instance.HideScreen("Title", 2);
                     break;
                 case DialogueAction.WON_GAME_SEND_TO_TITLE:
                     PlayerPrefs.SetInt("BeatGame", 1);
-                    FadeTransitionController.Instance.HideScreen("Title", 2);
+                    TransitionManager.Instance.HideScreen("Title", 2);
                     break;
             }
         });
@@ -200,7 +200,7 @@ public class MapController : MonoBehaviour
         // Set the color of the camera background
         Camera.main.backgroundColor = _currentMapInfo.mapBGColor;
         // Set the player's headshot sprite
-        playerIconSpriteRenderer.sprite = GameController.GetHeroData().mapHeadshotSprite;
+        playerIconSpriteRenderer.sprite = GameManager.GetHeroData().mapHeadshotSprite;
         // Create an empty serializable map object.
         _serializableMapObject = new SerializableMapObject();
         _serializableMapObject.currScene = _currentMapInfo.mapType;
@@ -643,12 +643,12 @@ public class MapController : MonoBehaviour
         yield return HeroTraverseToPositionCoroutine(chosenMapLocation.position);
         MapChoice mapChoice = chosenMapLocation.mapLocationType.type;
         // Change the player's current location.
-        GameController.GetMapObject().currLocation = chosenMapLocation;
+        GameManager.GetMapObject().currLocation = chosenMapLocation;
         // Render the appropriate actions based on the location.
         switch (mapChoice)
         {
             case MapChoice.SHOP:
-                FadeTransitionController.Instance.HideScreen("Shop", 0.75f);
+                TransitionManager.Instance.HideScreen("Shop", 0.75f);
                 break;
             case MapChoice.TREASURE:
                 TreasureController.Instance.ShowChest();
@@ -656,13 +656,13 @@ public class MapController : MonoBehaviour
             case MapChoice.BASIC_ENCOUNTER:
             case MapChoice.MINIBOSS_ENCOUNTER:
             case MapChoice.BOSS:
-                Encounter allEnemiesToRender = Globals.GetEnemyEncounterByScene(GameController.GetMapObject().currScene, _currFloor, mapChoice == MapChoice.MINIBOSS_ENCOUNTER, mapChoice == MapChoice.BOSS, GameController.GetLoadedEncounters());
-                GameController.AddSeenEnemies(allEnemiesToRender);
-                GameController.nextBattleEnemies = allEnemiesToRender.enemies;
-                FadeTransitionController.Instance.HideScreen("Battle", 0.75f);
+                Encounter allEnemiesToRender = Globals.GetEnemyEncounterByScene(GameManager.GetMapObject().currScene, _currFloor, mapChoice == MapChoice.MINIBOSS_ENCOUNTER, mapChoice == MapChoice.BOSS, GameManager.GetLoadedEncounters());
+                GameManager.AddSeenEnemies(allEnemiesToRender);
+                GameManager.nextBattleEnemies = allEnemiesToRender.enemies;
+                TransitionManager.Instance.HideScreen("Battle", 0.75f);
                 break;
             case MapChoice.UPGRADE_MACHINE:
-                FadeTransitionController.Instance.HideScreen("Upgrade", 0.75f);
+                TransitionManager.Instance.HideScreen("Upgrade", 0.75f);
                 break;
         }
     }

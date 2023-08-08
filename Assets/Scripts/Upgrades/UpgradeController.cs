@@ -62,28 +62,28 @@ public class UpgradeController : MonoBehaviour
         _exitButton.onClick.AddListener(() =>
         {
             _isOptionChosen = true;
-            FadeTransitionController.Instance.HideScreen("Map", 0.75f);
+            TransitionManager.Instance.HideScreen("Map", 0.75f);
         });
         // If the player clicks the upgrade button, upgrade cards if cost allows
         // AND if the player has selected any cards to upgrade.
         _upgradeButton.onClick.AddListener(() =>
         {
             _isOptionChosen = true;
-            GameController.SpendXP(_totalCost);
+            GameManager.SpendXP(_totalCost);
             UpgradeSelectedCards();
-            FadeTransitionController.Instance.HideScreen("Map", 1.25f);
+            TransitionManager.Instance.HideScreen("Map", 1.25f);
         });
         // Initialize the cards in the deck.
         StartCoroutine(InitializeDeckCardsCoroutine());
         // Set the console text to have nothing at first.
         ResetConsolePreview();
         // Make the game fade from black to clear.
-        FadeTransitionController.Instance.ShowScreen(1.25f);
+        TransitionManager.Instance.ShowScreen(1.25f);
     }
 
     public void ResetConsolePreview()
     {
-        bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
+        bool doesPlayerHaveEnoughXP = _totalCost <= GameManager.GetXP();
         _previewErrorMessageText.gameObject.SetActive(!doesPlayerHaveEnoughXP);
         _cardPreviewText.text = "Hover over a card to view its upgrade information.";
         _totalCostText.text = "TOTAL: <color=\"" + (doesPlayerHaveEnoughXP ? "green" : "red") + "\">" + _totalCost.ToString() + " XP</color>";
@@ -100,7 +100,7 @@ public class UpgradeController : MonoBehaviour
             _cardPreviewText.text = "<color=#FB4BC7>" + c.GetCardDisplayName() + "</color> is already at max level. Please select another card.";
             return;
         }
-        bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
+        bool doesPlayerHaveEnoughXP = _totalCost <= GameManager.GetXP();
         _previewErrorMessageText.gameObject.SetActive(!doesPlayerHaveEnoughXP);
         Card cardAfterUpgrade = Globals.GetCard(c.GetCardUniqueName(), c.level + 1);
         _cardPreviewText.text = "Upgrade card from <color=#FB4BC7>" + c.GetCardDisplayName() + "</color> to <color=#FB4BC7>" + cardAfterUpgrade.GetCardDisplayName() + "</color>?\n\nCost: <color=\"green\">" + upgradeCost.ToString() + " XP</color>\n\nClick card to " + ((isSelected) ? "deselect" : "select") + ".";
@@ -112,7 +112,7 @@ public class UpgradeController : MonoBehaviour
     ///</summary>
     public void UpdateSummaryConsole()
     {
-        bool doesPlayerHaveEnoughXP = _totalCost <= GameController.GetXP();
+        bool doesPlayerHaveEnoughXP = _totalCost <= GameManager.GetXP();
         // If the player does not have enough XP to upgrade the selected cards, error.
         if (!doesPlayerHaveEnoughXP)
         {
@@ -175,7 +175,7 @@ public class UpgradeController : MonoBehaviour
     {
         for (int i = 0; i < _selectedCardsToUpgrade.Count; i++)
         {
-            GameController.GetHeroCards()[_selectedCardsToUpgrade[i].cardIdx].UpgradeLevel();
+            GameManager.GetHeroCards()[_selectedCardsToUpgrade[i].cardIdx].UpgradeLevel();
         }
         _selectedCardsToUpgrade.Clear();
     }
@@ -333,7 +333,7 @@ public class UpgradeController : MonoBehaviour
         // Reenable the buttons after the animation is done playing.
         _prevToSummButton.interactable = true;
         _summToPrevButton.interactable = true;
-        _upgradeButton.interactable = _totalCost <= GameController.GetXP() && _selectedCardsToUpgrade.Count > 0;
+        _upgradeButton.interactable = _totalCost <= GameManager.GetXP() && _selectedCardsToUpgrade.Count > 0;
         _exitButton.interactable = true;
         _isOptionChosen = false;
     }
@@ -346,7 +346,7 @@ public class UpgradeController : MonoBehaviour
         int currCardIdx = 0;
         // Order the cards in alphabetical order, so the player
         // can't cheat and see the exact order.
-        List<Card> cardsToShow = GameController.GetHeroCards();
+        List<Card> cardsToShow = GameManager.GetHeroCards();
         // Recover a pooled object for each card.
         foreach (Card card in cardsToShow)
         {

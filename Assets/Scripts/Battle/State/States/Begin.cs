@@ -20,38 +20,38 @@ public class Begin : State
     private void InitializeRelicListeners()
     {
         // If the character has the SCALE OF JUSTICE relic, they can play their first card twice.
-        if (GameController.HasRelic(RelicType.SCALE_OF_JUSTICE))
+        if (GameManager.HasRelic(RelicType.SCALE_OF_JUSTICE))
         {
             BattleController.playerBCC.AddStatusEffect(Globals.GetStatus(Effect.DOUBLE_TAKE, 1));
             TopBarController.Instance.FlashRelicObject(RelicType.SCALE_OF_JUSTICE);
         }
         // If the character has the PLASMA CORE relic, they gain one additional max energy.
-        if (GameController.HasRelic(RelicType.PLASMA_CORE))
+        if (GameManager.HasRelic(RelicType.PLASMA_CORE))
         {
             EnergyController.Instance.UpdateMaxEnergy(1);
             TopBarController.Instance.FlashRelicObject(RelicType.PLASMA_CORE);
         }
         // If the character has the DUMBELL relic, they gain one additional Strength.
-        if (GameController.HasRelic(RelicType.DUMBELL))
+        if (GameManager.HasRelic(RelicType.DUMBELL))
         {
             BattleController.playerBCC.AddStatusEffect(Globals.GetStatus(Effect.STRENGTH, 1));
             TopBarController.Instance.FlashRelicObject(RelicType.DUMBELL);
         }
         // If the character has the DUMBELL relic, they gain one additional Defense.
-        if (GameController.HasRelic(RelicType.KEVLAR_VEST))
+        if (GameManager.HasRelic(RelicType.KEVLAR_VEST))
         {
             BattleController.playerBCC.AddStatusEffect(Globals.GetStatus(Effect.DEFENSE, 1));
             TopBarController.Instance.FlashRelicObject(RelicType.KEVLAR_VEST);
         }
         // If the character has the GRAPPLING HOOK relic, they draw one additional card per turn.
-        if (GameController.HasRelic(RelicType.GRAPPLING_HOOK))
+        if (GameManager.HasRelic(RelicType.GRAPPLING_HOOK))
         {
             BattleController.playerBCC.AddStatusEffect(Globals.GetStatus(Effect.LUCKY_DRAW, 1));
             TopBarController.Instance.FlashRelicObject(RelicType.GRAPPLING_HOOK);
         }
 
         // If the player has the Green Scarf relic, remove combo if the card isn't identical.
-        if (GameController.HasRelic(RelicType.GREEN_SCARF))
+        if (GameManager.HasRelic(RelicType.GREEN_SCARF))
         {
             BattleController.playerBCC.OnPlayCard.AddListener((c) =>
             {
@@ -63,7 +63,7 @@ public class Begin : State
             });
         }
         // If the player has the Green Scarf relic, build up combos for every attack card.
-        if (GameController.HasRelic(RelicType.GREEN_SCARF))
+        if (GameManager.HasRelic(RelicType.GREEN_SCARF))
         {
             BattleController.playerBCC.OnPlayedCard.AddListener((c) =>
             {
@@ -79,7 +79,7 @@ public class Begin : State
             });
         }
         // If the player has the The Thinker relic, deal 1 damage to enemies for every card.
-        if (GameController.HasRelic(RelicType.THE_THINKER))
+        if (GameManager.HasRelic(RelicType.THE_THINKER))
         {
             BattleController.playerBCC.OnPlayCard.AddListener((c) =>
             {
@@ -91,7 +91,7 @@ public class Begin : State
             });
         }
         // If the player has the Vampire Teeth relic, killing an enemy should heal 3 health.
-        if (GameController.HasRelic(RelicType.VAMPIRE_FANGS))
+        if (GameManager.HasRelic(RelicType.VAMPIRE_FANGS))
         {
             foreach (BattleEnemyController bec in BattleController.enemyBCCs)
             {
@@ -103,7 +103,7 @@ public class Begin : State
             }
         }
         // If the player has the Airhorn relic, all enemies start with 1 crippled.
-        if (GameController.HasRelic(RelicType.AIRHORN))
+        if (GameManager.HasRelic(RelicType.AIRHORN))
         {
             foreach (BattleEnemyController bec in BattleController.enemyBCCs)
             {

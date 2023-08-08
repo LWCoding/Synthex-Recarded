@@ -46,7 +46,7 @@ public partial class BattleCharacterController : MonoBehaviour
                         List<Card> cardsToAdd = new List<Card>();
                         for (int i = 0; i < modifier.amplifier; i++)
                         {
-                            cardsToAdd.Add(GameController.GetTrulyRandomCard(new List<Card>()));
+                            cardsToAdd.Add(GameManager.GetTrulyRandomCard(new List<Card>()));
                         }
                         BattleController.Instance.DrawCards(cardsToAdd);
                     }

@@ -31,20 +31,20 @@ public class SecretTitleController : MonoBehaviour
         });
     }
 
-    // Starts a new game by setting all of the variables in GameController
+    // Starts a new game by setting all of the variables in GameManager
     // and initializing a starting relic. Optionally, start in a different
     // scene by supplying the mapScene parameter.
     public void StartNewGame()
     {
         // Initialize the hero with base information.
-        GameController.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
-        GameController.SetSeenEnemies(new List<Encounter>());
-        GameController.SetMapScene(MapScene.AERICHO);
-        GameController.SetMapObject(null);
-        GameController.SetMoney(150);
-        GameController.SetXP(15);
-        GameController.saveFileName = "Save.ass"; // TODO: Make this vary!
-        GameController.alreadyPlayedTutorials.Add("Battle");
+        GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
+        GameManager.SetSeenEnemies(new List<Encounter>());
+        GameManager.SetMapScene(MapScene.AERICHO);
+        GameManager.SetMapObject(null);
+        GameManager.SetMoney(150);
+        GameManager.SetXP(15);
+        GameManager.saveFileName = "Save.ass"; // TODO: Make this vary!
+        GameManager.alreadyPlayedTutorials.Add("Battle");
         // Start the game.
         StartGame();
     }
@@ -52,7 +52,7 @@ public class SecretTitleController : MonoBehaviour
     private void StartGame()
     {
         // Make sure the map starts in the forest.
-        FadeTransitionController.Instance.HideScreen("Map", 1.5f);
+        TransitionManager.Instance.HideScreen("Map", 1.5f);
     }
 
     private void Update()

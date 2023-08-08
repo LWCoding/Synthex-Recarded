@@ -31,7 +31,7 @@ public class CardChoiceController : MonoBehaviour
         List<Card> cardOptions = new List<Card>();
         for (int i = 0; i < numCards; i++)
         {
-            Card c = GameController.GetRandomCard(cardOptions);
+            Card c = GameManager.GetRandomCard(cardOptions);
             // If there are no possible cards to draw, don't draw any!
             if (c == null)
             {
@@ -129,7 +129,7 @@ public class CardChoiceController : MonoBehaviour
             CardHandler remainingCardHandler = remainingCard.GetComponent<CardHandler>();
             remainingCard.GetComponent<Canvas>().enabled = false;
             TopBarController.Instance.AnimateCardsToDeck(remainingCard.transform.position, new List<Card> { remainingCardHandler.card }, remainingCardHandler.transform.localScale);
-            GameController.AddCardToDeck(remainingCardHandler.card); // Add card to deck.
+            GameManager.AddCardToDeck(remainingCardHandler.card); // Add card to deck.
             SoundManager.Instance.PlaySFX(SoundEffect.CARD_OBTAIN); // Play card chosen sound!
         }
         yield return new WaitForSeconds(0.8f);

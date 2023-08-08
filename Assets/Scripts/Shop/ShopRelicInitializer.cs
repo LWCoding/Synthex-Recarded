@@ -51,7 +51,7 @@ public class ShopRelicInitializer : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            Relic randomRelic = GameController.GetRandomUnownedRelic(_currentRelicsInShop);
+            Relic randomRelic = GameManager.GetRandomUnownedRelic(_currentRelicsInShop);
             if (randomRelic.relicRarity == RelicRarity.PLACEHOLDER)
             {
                 continue;

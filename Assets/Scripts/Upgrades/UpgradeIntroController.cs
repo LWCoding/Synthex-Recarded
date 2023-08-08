@@ -36,10 +36,10 @@ public class UpgradeIntroController : MonoBehaviour
     private IEnumerator PlayIntroAnimationCoroutine()
     {
         yield return ShowIntroScreenCoroutine();
-        if (!GameController.visitedUpgradeBefore)
+        if (!GameManager.visitedUpgradeBefore)
         {
             // If we haven't visited the upgrades before, render the first-time animation.
-            GameController.visitedUpgradeBefore = true;
+            GameManager.visitedUpgradeBefore = true;
             StartCoroutine(WaitForContinue());
         }
         else
@@ -96,7 +96,7 @@ public class UpgradeIntroController : MonoBehaviour
         _introLogoAnimator.gameObject.SetActive(false);
         // Wait until the fade transition is not animating anymore.
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => !FadeTransitionController.Instance.IsScreenTransitioning());
+        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning());
         // Animate the intro logo in.
         _introLogoAnimator.gameObject.SetActive(true);
         _introLogoAnimator.Play("Show");
@@ -105,7 +105,7 @@ public class UpgradeIntroController : MonoBehaviour
         yield return new WaitUntil(() => _introLogoAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
         // Then, play the animation for the entire screen. Disable the logo animator.
         _introLogoAnimator.enabled = false;
-        if (!GameController.visitedUpgradeBefore)
+        if (!GameManager.visitedUpgradeBefore)
         {
             _introAnimator.Play("Show");
             // Wait until the animation is finished.

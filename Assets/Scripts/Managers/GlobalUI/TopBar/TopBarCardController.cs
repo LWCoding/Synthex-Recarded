@@ -259,7 +259,7 @@ public class TopBarCardController : MonoBehaviour
     public void ToggleVisibilityOfCardsInDeck()
     {
         if (!_isDeckPreviewButtonClickable) { return; }
-        ToggleCardOverlay(GameController.GetHeroCards(), _showDeckButton);
+        ToggleCardOverlay(GameManager.GetHeroCards(), _showDeckButton);
     }
 
 }

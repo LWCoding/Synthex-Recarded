@@ -43,7 +43,7 @@ IPointerClickHandler
         purchaseOverlayObject.SetActive(true);
         // Set the color of the overlay text depending on if
         // the player can afford it or not.
-        if (_cardCost <= GameController.GetMoney())
+        if (_cardCost <= GameManager.GetMoney())
         {
             // Can afford the card!
             cardCostText.color = new Color(0.3f, 1, 0);
@@ -67,10 +67,10 @@ IPointerClickHandler
     {
         if (!_isInteractable) { return; }
         // If you can buy the card, buy the card.
-        if (_cardCost <= GameController.GetMoney())
+        if (_cardCost <= GameManager.GetMoney())
         {
             // Subtract the GetMoney() and update the top bar.
-            GameController.SpendMoney(_cardCost);
+            GameManager.SpendMoney(_cardCost);
             TopBarController.Instance.UpdateCurrencyText();
             TopBarController.Instance.AnimateCardsToDeck(transform.position, new List<Card> { _card }, _parentCardHandler.transform.localScale);
             // Make the card not interactable.
@@ -81,7 +81,7 @@ IPointerClickHandler
             // Play the card chosen SFX.
             SoundManager.Instance.PlaySFX(SoundEffect.SHOP_PURCHASE);
             // Add the card to the deck.
-            GameController.AddCardToDeck(_card);
+            GameManager.AddCardToDeck(_card);
         }
     }
 

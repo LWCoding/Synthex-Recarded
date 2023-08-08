@@ -158,7 +158,7 @@ public class CardHandler : MonoBehaviour
             cardText = cardText.Replace("[ATKLUCK]", calcLuckDamageValue.ToString() + calcStrengthBuff);
         }
         // Update the status effect texts with their actual icons.
-        cardText = GameController.GetDescriptionWithIcons(cardText);
+        cardText = GameManager.GetDescriptionWithIcons(cardText);
         descText.text = cardText;
     }
 

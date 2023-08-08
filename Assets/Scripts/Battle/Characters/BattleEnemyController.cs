@@ -59,7 +59,7 @@ public class BattleEnemyController : BattleCharacterController
         _xpRewardAmount = e.enemyXPReward;
         _rewardAmount = Random.Range(e.enemyRewardMin, e.enemyRewardMax);
         // Increase reward amount if hero has golden paw relic.
-        if (GameController.HasRelic(RelicType.GOLDEN_PAW))
+        if (GameManager.HasRelic(RelicType.GOLDEN_PAW))
         {
             _rewardAmount = (int)(_rewardAmount * 1.35f);
         }
@@ -76,7 +76,7 @@ public class BattleEnemyController : BattleCharacterController
     {
         _isDialoguePlaying = true;
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => !FadeTransitionController.Instance.IsScreenTransitioning());
+        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning());
         dialogueAnimator.Play("Show");
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => dialogueAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
@@ -127,7 +127,7 @@ public class BattleEnemyController : BattleCharacterController
         // If any dialogue for this enemy is playing, hide it.
         HideActiveDialogue();
         // Animate some coins going to the player's balance.
-        if (GameController.HasRelic(RelicType.GOLDEN_PAW))
+        if (GameManager.HasRelic(RelicType.GOLDEN_PAW))
         {
             TopBarController.Instance.FlashRelicObject(RelicType.GOLDEN_PAW);
         }

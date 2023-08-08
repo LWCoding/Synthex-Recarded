@@ -45,7 +45,7 @@ public partial class DialogueUIController : MonoBehaviour
     public void QueueDialogueText(Dialogue dialogues)
     {
         // If the dialogue has already played before, don't play it.
-        if (GameController.alreadyPlayedMapDialogues.Contains(dialogues.dialogueName))
+        if (GameManager.alreadyPlayedMapDialogues.Contains(dialogues.dialogueName))
         {
             return;
         }
@@ -195,7 +195,7 @@ public partial class DialogueUIController : MonoBehaviour
         else
         {
             // Or else, make sure this dialogue doesn't play again and hide the dialogue box.
-            GameController.alreadyPlayedMapDialogues.Add(_storedDialogue.dialogueName);
+            GameManager.alreadyPlayedMapDialogues.Add(_storedDialogue.dialogueName);
             StartCoroutine(HideDialogueBoxCoroutine(codeToRunAfter));
         }
     }

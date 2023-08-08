@@ -47,9 +47,9 @@ public class TitleController : MonoBehaviour
         InitializeGame();
 #else
 // If we are, then show the warning screen if this is the first load.
-        if (GameController.wasTitleRendered == false) {
+        if (GameManager.wasTitleRendered == false) {
             InitializeWarningScreen();
-            GameController.wasTitleRendered = true;
+            GameManager.wasTitleRendered = true;
         } else {
             InitializeGame();
         }
@@ -80,7 +80,7 @@ public class TitleController : MonoBehaviour
         // Play music.
         SoundManager.Instance.PlayOnLoop(MusicType.TITLE_MUSIC);
         // Make the game fade from black to clear.
-        FadeTransitionController.Instance.ShowScreen(1);
+        TransitionManager.Instance.ShowScreen(1);
         // Modify the settings button for the title screen.
         settingsButton.onClick.AddListener(() => SettingsManager.Instance.TogglePause(0.1f));
     }
@@ -92,26 +92,26 @@ public class TitleController : MonoBehaviour
         continueButtonObject.GetComponent<TitleUIButtonHandler>().SetIsClickable(SaveLoadManager.DoesSaveExist("Save.ass"));
     }
 
-    // Starts a new game by setting all of the variables in GameController
+    // Starts a new game by setting all of the variables in GameManager
     // and initializing a starting relic. Optionally, start in a different
     // scene by supplying the mapScene parameter.
     public void StartNewGame()
     {
         // Initialize the hero with base information.
-        GameController.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
-        GameController.SetSeenEnemies(new List<Encounter>());
-        GameController.SetPlayedDialogues(new List<DialogueName>(), new List<string>(), false, false);
-        GameController.SetMapScene(MapScene.FOREST);
-        GameController.SetMapObject(null);
-        GameController.SetMoney(150);
-        GameController.saveFileName = "Save.ass"; // TODO: Make this vary!
+        GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
+        GameManager.SetSeenEnemies(new List<Encounter>());
+        GameManager.SetPlayedDialogues(new List<DialogueName>(), new List<string>(), false, false);
+        GameManager.SetMapScene(MapScene.FOREST);
+        GameManager.SetMapObject(null);
+        GameManager.SetMoney(150);
+        GameManager.saveFileName = "Save.ass"; // TODO: Make this vary!
         // Start the game.
         StartGame();
     }
 
     public void ContinueGame()
     {
-        // Load the game. This will populate the GameController information.
+        // Load the game. This will populate the GameManager information.
         SaveLoadManager.Load("Save.ass"); // TODO: Make this vary!
         // Start the game.
         StartGame();
@@ -120,7 +120,7 @@ public class TitleController : MonoBehaviour
     private void StartGame()
     {
         // Make sure the map starts in the forest.
-        FadeTransitionController.Instance.HideScreen("Map", 1.5f);
+        TransitionManager.Instance.HideScreen("Map", 1.5f);
     }
 
     // Plays the button hover sound.

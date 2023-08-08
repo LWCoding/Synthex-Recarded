@@ -28,7 +28,7 @@ public class BackgroundController : MonoBehaviour
             obj.SetActive(false);
         }
         // Turn the correct background visible based on map scene.
-        switch (GameController.GetMapObject().currScene)
+        switch (GameManager.GetMapObject().currScene)
         {
             case MapScene.FOREST:
                 forestBGObject.SetActive(true);

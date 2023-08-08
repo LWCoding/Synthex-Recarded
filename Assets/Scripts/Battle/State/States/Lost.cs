@@ -14,7 +14,7 @@ public class Lost : State
         // Play the death sound effect.
         SoundManager.Instance.PlaySFX(SoundEffect.GAME_OVER);
         // Transition back to the title.
-        FadeTransitionController.Instance.HideScreen("Title", 2.5f);
+        TransitionManager.Instance.HideScreen("Title", 2.5f);
         yield break;
     }
 

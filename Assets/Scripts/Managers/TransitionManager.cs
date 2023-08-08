@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class FadeTransitionController : MonoBehaviour
+public class TransitionManager : MonoBehaviour
 {
 
-    public static FadeTransitionController Instance;
+    public static TransitionManager Instance;
     [Header("Object Assignments")]
     public Image overlayFadeImage;
 

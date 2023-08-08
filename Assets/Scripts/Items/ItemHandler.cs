@@ -148,7 +148,7 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             if (_timesItemClicked >= 2)
             {
                 _itemEffectRenderer.RenderEffects(itemInfo);
-                GameController.RemoveItemInInventory(_itemIndex);
+                GameManager.RemoveItemInInventory(_itemIndex);
                 TopBarController.Instance.RenderItems();
             }
         }
