@@ -221,7 +221,10 @@ public partial class BattleCharacterController : MonoBehaviour
     public IEnumerator PlayCardCoroutine(Card c, List<BattleCharacterController> targetBCCs)
     {
         // Disallow playing cards unless the battle is currently ongoing.
-        yield return new WaitUntil(() => BattleController.Instance.GetGameState() == GameState.PLAYER_TURN);
+        if (_characterAlignment == Alignment.HERO)
+        {
+            yield return new WaitUntil(() => BattleController.Instance.GetGameState() == GameState.PLAYER_TURN);
+        }
         this.targetBCCs = targetBCCs;
         OnPlayCard.Invoke(c);
         CardStats cardStats = c.GetCardStats();

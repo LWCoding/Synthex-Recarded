@@ -348,6 +348,8 @@ public partial class BattleController : MonoBehaviour
         // Run turn end function.
         OnTurnEnd.Invoke();
         OnTurnEnd = new UnityEvent();
+        // Return game state back to enemy.
+        ChangeGameState(GameState.ENEMY_TURN);
         // Animate cards in hand and move them ot the discard.
         // Remove all cards in hand, and add them to the discard.
         int numCardsInHand = _cardsInHand.Count;
@@ -383,8 +385,16 @@ public partial class BattleController : MonoBehaviour
             bec.TurnEndLogic();
         }
         yield return new WaitForSeconds(0.25f);
-        // Re-run the game loop!
-        RunGameLoop();
+        if (!playerBCC.IsAlive())
+        {
+            ChangeGameState(GameState.GAME_OVER);
+        }
+        else
+        {
+            // Re-run the game loop!
+            ChangeGameState(GameState.PLAYER_TURN);
+            RunGameLoop();
+        }
     }
 
     // Inflict a random card in the player's hand with an effect.
