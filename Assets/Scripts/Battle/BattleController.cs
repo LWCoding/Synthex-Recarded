@@ -235,7 +235,7 @@ public partial class BattleController : StateMachine
     // Renders all cards in the hand based on the CardsInHand list.
     // Creates any new card objects for cards which don't have object representations.
     // If shouldBeInteractable is set to true, cards will immediately be useable.
-    public void UpdateCardsInHand(bool shouldBeInteractable = false)
+    public void UpdateCardsInHand(bool shouldBeInteractable = true)
     {
         int totalCards = CardsInHand.Count;
         float rotationDifference = 7;

@@ -70,18 +70,18 @@ IPointerClickHandler
     {
         // Update the console information.
         UpgradeController.Instance.UpdatePreviewConsole(_card, GetCost(), _isSelected);
-        if (!_isInteractable) { return; }
         // Make the card go above other cards.
         _parentCardHandler.SetSortingOrder(2);
+        if (!_isInteractable) { return; }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         // Reset the console information to its default.
         UpgradeController.Instance.ResetConsolePreview();
-        if (!_isInteractable) { return; }
         // Make the card go back to an initial sorting order.
         _parentCardHandler.SetSortingOrder(1);
+        if (!_isInteractable) { return; }
     }
 
     public void OnPointerClick(PointerEventData eventData)

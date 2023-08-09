@@ -84,6 +84,7 @@ public class CardHandler : MonoBehaviour
         // Set the card information
         card = c;
         HideTooltip();
+        UpdateCardVisuals();
         ResetCardColor();
         // Make sure all opacities for the card
         // are automatically shown IF it is a wanted
@@ -139,7 +140,7 @@ public class CardHandler : MonoBehaviour
 
     // Update the values of the card depending on any strength or defense
     // buffs the player might have during battle.
-    public void UpdateCardDescription(int strengthBuff, int defenseBuff)
+    public void UpdateCardDescription(int strengthBuff = 0, int defenseBuff = 0)
     {
         string cardText = descText.text;
         int calcStrengthBuff = (card.GetTarget() == Target.SELF) ? 0 : strengthBuff;
@@ -155,7 +156,7 @@ public class CardHandler : MonoBehaviour
         if (luckAtkModifier != null)
         {
             int calcLuckDamageValue = Mathf.Max(0, luckAtkModifier.amplifier + calcStrengthBuff);
-            cardText = cardText.Replace("[ATKLUCK]", calcLuckDamageValue.ToString() + calcStrengthBuff);
+            cardText = cardText.Replace("[ATKLUCK]", (calcLuckDamageValue + calcStrengthBuff).ToString());
         }
         // Update the status effect texts with their actual icons.
         cardText = GameManager.GetDescriptionWithIcons(cardText);

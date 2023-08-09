@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Lucky Charm
   cardDisplayName: Lucky Charm
-  cardImage: {fileID: 21300000, guid: 27115c25b0db0d2448db3ab0fc227409, type: 3}
+  cardImage: {fileID: 21300000, guid: 6b91695f83d7b0942b262bc869a24a54, type: 3}
   cardType: 4
   characterMovement: 0
   projectileSprite: {fileID: 0}

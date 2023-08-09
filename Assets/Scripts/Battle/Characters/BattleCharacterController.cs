@@ -277,13 +277,6 @@ public partial class BattleCharacterController : MonoBehaviour
     // be impacted by status effects like Effect.DOUBLE_TAKE.
     private IEnumerator RenderCardCoroutine(Card c, int timesPlayed = 1)
     {
-        // If we're playing a card that should be repeated, stop the cards in hand from
-        // being chosen until its done.
-        if (c.GetCardStats().attackRepeatCount > 1 || timesPlayed > 1)
-        {
-            // Make it so the player can't play cards while this is animating.
-            BattleController.Instance.DisableInteractionsForCardsInHand();
-        }
         _storedCard = c;
         for (int i = 0; i < timesPlayed; i++)
         {
@@ -317,8 +310,6 @@ public partial class BattleCharacterController : MonoBehaviour
             }
         }
         OnPlayedCard.Invoke(c);
-        // Let the player play cards again.
-        BattleController.Instance.EnableInteractionsForCardsInHand();
     }
 
     // Renders the printed attack and block actions of a card `c`. Does not carry out any
@@ -562,7 +553,7 @@ public partial class BattleCharacterController : MonoBehaviour
         }
         // Render particles at the end!
         RenderEndParticleAnimations();
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.25f);
     }
 
     ///<summary>

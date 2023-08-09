@@ -56,7 +56,7 @@ public class PlayerTurn : State
 
     public override IEnumerator OnScreenResize()
     {
-        BattleController.UpdateCardsInHand(true);
+        BattleController.UpdateCardsInHand();
         yield break;
     }
 
@@ -75,7 +75,7 @@ public class PlayerTurn : State
                 BattleController.AddCardToHand(cardsToDraw[i]);
             }
             // Render the cards on the screen, and update the numbers.
-            BattleController.UpdateCardsInHand();
+            BattleController.UpdateCardsInHand(false);
             BattleController.UpdateDrawDiscardTexts();
             yield return new WaitForSeconds(0.1f);
         }

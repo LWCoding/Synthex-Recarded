@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Intuition
   cardDisplayName: Intuition
-  cardImage: {fileID: 21300000, guid: a2cbf2fe4242ff54c9bb070ee784bacd, type: 3}
+  cardImage: {fileID: 21300000, guid: 789033a35ed336344993eea887784f7c, type: 3}
   cardType: 1
   characterMovement: 0
   projectileSprite: {fileID: 0}
