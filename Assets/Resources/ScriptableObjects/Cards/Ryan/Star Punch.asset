@@ -54,3 +54,15 @@ MonoBehaviour:
     - trait: 13
       amplifier: 5
       special: 
+  - cardDesc: Deal [ATK] damage. With Luck, deal [ATKLUCK] damage more.
+    cardCost: 1
+    damageTarget: 1
+    damageValue: 6
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions: []
+    modifiers:
+    - trait: 13
+      amplifier: 6
+      special: 

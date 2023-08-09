@@ -112,11 +112,11 @@ public class UpgradeIntroController : MonoBehaviour
             yield return new WaitForEndOfFrame();
             yield return new WaitUntil(() => _introAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
             // Wait for some additional time.
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.8f);
         }
         else
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 

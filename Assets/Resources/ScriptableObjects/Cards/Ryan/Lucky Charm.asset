@@ -55,3 +55,16 @@ MonoBehaviour:
       amplifier: 1
       renderBehavior: 0
     modifiers: []
+  - cardDesc: Gain 1 Luck.
+    cardCost: 0
+    damageTarget: 2
+    damageValue: 0
+    blockTarget: 0
+    blockValue: 0
+    attackRepeatCount: 1
+    inflictions:
+    - target: 2
+      effect: 17
+      amplifier: 2
+      renderBehavior: 0
+    modifiers: []

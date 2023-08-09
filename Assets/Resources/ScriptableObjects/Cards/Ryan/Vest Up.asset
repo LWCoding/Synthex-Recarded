@@ -58,3 +58,19 @@ MonoBehaviour:
     - trait: 22
       amplifier: 0
       special: 
+  - cardDesc: Gain [DEF] block. Gain 1 Defense. Cheat.
+    cardCost: 1
+    damageTarget: 0
+    damageValue: 0
+    blockTarget: 2
+    blockValue: 5
+    attackRepeatCount: 1
+    inflictions:
+    - target: 2
+      effect: 2
+      amplifier: 1
+      renderBehavior: 1
+    modifiers:
+    - trait: 22
+      amplifier: 0
+      special: 
