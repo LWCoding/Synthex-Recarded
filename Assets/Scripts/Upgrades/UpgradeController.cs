@@ -260,6 +260,12 @@ public class UpgradeController : MonoBehaviour
             {
                 changeInfo += "+ Gains <color=\"yellow\">" + (modifier.trait + "</color>\n");
             }
+            // If there are any existing status effects that were changed, register those differences.
+            CardModifier currentModifier = currentStats.modifiers.Find(m => m.trait == modifier.trait);
+            if (currentModifier != null && currentModifier.amplifier != modifier.amplifier)
+            {
+                changeInfo += (currentModifier.amplifier > modifier.amplifier ? "-" : "+") + Mathf.Abs(currentModifier.amplifier - modifier.amplifier) + " <color=\"yellow\">amplifier</color>";
+            }
         }
         // Register differences regarding removing modifiers.
         foreach (CardModifier modifier in currentStats.modifiers)
