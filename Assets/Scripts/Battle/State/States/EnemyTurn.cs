@@ -36,10 +36,9 @@ public class EnemyTurn : State
         {
             if (!bec.IsAlive()) { continue; }
             yield return bec.PlayCardCoroutine(bec.GetStoredCard(), new List<BattleCharacterController>() { BattleController.playerBCC });
+            yield return new WaitForSeconds(0.4f);
         }
-        // Then, switch the logic back to the enemy.
         // Run the turn end logic for both the player and the enemy.
-        yield return new WaitForSeconds(0.25f);
         BattleController.playerBCC.TurnEndLogic();
         foreach (BattleEnemyController bec in BattleController.enemyBCCs)
         {
