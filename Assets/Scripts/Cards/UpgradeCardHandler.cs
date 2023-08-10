@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using TMPro;
 
 [RequireComponent(typeof(CardHandler))]
+[RequireComponent(typeof(UITooltipHandler))]
 public class UpgradeCardHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 IPointerClickHandler
 {
@@ -16,6 +16,7 @@ IPointerClickHandler
     [SerializeField] private GameObject _checkmarkOverlayObject;
 
     private CardHandler _parentCardHandler;
+    private UITooltipHandler _uiTooltipHandler;
     private bool _isInteractable;
     private bool _isSelected = false;
     private Transform _parentCardTransform;
@@ -27,6 +28,7 @@ IPointerClickHandler
     private void Awake()
     {
         _parentCardHandler = GetComponent<CardHandler>();
+        _uiTooltipHandler = GetComponent<UITooltipHandler>();
         _parentCardTransform = _parentCardHandler.CardObject.transform;
     }
 
@@ -41,7 +43,7 @@ IPointerClickHandler
         _upgradeContainerObject.SetActive(true);
         // Make sure card starts unselected with a tooltip slanting left.
         SetIsSelected(false);
-        _parentCardHandler.SetTooltipPosition(TooltipPosition.LEFT);
+        _uiTooltipHandler.SetTooltipPosition(TooltipPosition.LEFT);
         // Update information about upgrading this card.
         _upgradeCost = _card.level * 3;
         if (_card.IsMaxLevel())

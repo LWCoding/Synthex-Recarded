@@ -5,18 +5,17 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
+[RequireComponent(typeof(UITooltipHandler))]
 public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
     [Header("Object Assignments")]
     [HideInInspector] public Relic relicInfo;
     [SerializeField] private GameObject imageObject;
-    [SerializeField] private GameObject tooltipParentObject;
     [SerializeField] private GameObject shinyBGObject;
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI descText;
     [SerializeField] private GameObject relicFlashObject;
 
+    private UITooltipHandler _uiTooltipHandler;
     private Image _relicFlashImage;
     private bool _showTooltipOnHover;
     private float _initialScale;
@@ -24,13 +23,14 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private IEnumerator _relicFlashCoroutine = null;
     private IEnumerator _shinySpinCoroutine = null;
     private Canvas _relicCanvas;
-    private Canvas _tooltipCanvas;
+
+    public void DisableTooltip() => _uiTooltipHandler.SetTooltipInteractibility(false);
 
     private void Awake()
     {
         _relicCanvas = GetComponent<Canvas>();
+        _uiTooltipHandler = GetComponent<UITooltipHandler>();
         _relicFlashImage = relicFlashObject.GetComponent<Image>();
-        _tooltipCanvas = tooltipParentObject.GetComponent<Canvas>();
     }
 
     // Initialize the relic's information.
@@ -39,7 +39,7 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         SetRelicImageScale(1, 1);
         SetSortingOrder(11);
         // Set all of the basic properties
-        tooltipParentObject.SetActive(false);
+        _uiTooltipHandler.HideTooltip();
         relicFlashObject.SetActive(false);
         GetComponent<TreasureRelicHandler>().enabled = false;
         GetComponent<ShopRelicHandler>().enabled = false;
@@ -48,8 +48,8 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         this._showTooltipOnHover = showTooltipOnHover;
         // Set the relic information
         relicInfo = r;
-        nameText.text = r.relicName;
-        descText.text = r.relicDesc;
+        _uiTooltipHandler.SetTooltipText(r.relicName);
+        _uiTooltipHandler.SetTooltipSubText(r.relicDesc);
         imageObject.GetComponent<Image>().sprite = r.relicImage;
         _relicFlashImage.sprite = r.relicImage;
     }
@@ -86,17 +86,12 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (_showTooltipOnHover)
-        {
-            tooltipParentObject.SetActive(true);
-        }
         if (_relicFlashCoroutine != null) { return; }
         _desiredScale = _initialScale * 1.1f;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        tooltipParentObject.SetActive(false);
         if (_relicFlashCoroutine != null) { return; }
         _desiredScale = _initialScale;
     }
@@ -107,20 +102,14 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         _desiredScale = scale;
         imageObject.transform.localScale = new Vector3(scale, scale, 1);
         shinyBGObject.transform.localScale = new Vector3(scale, scale, 1);
-        tooltipParentObject.transform.localScale = new Vector3(tooltipScale, tooltipScale, 1);
+        _uiTooltipHandler.SetTooltipScale(new Vector2(tooltipScale, tooltipScale));
     }
 
     public void SetSortingOrder(int sortingOrder)
     {
         shinyBGObject.GetComponent<Canvas>().sortingOrder = sortingOrder - 1;
         _relicCanvas.sortingOrder = sortingOrder;
-        _tooltipCanvas.sortingOrder = sortingOrder + 1;
-    }
-
-    public void DisableTooltip()
-    {
-        _showTooltipOnHover = false;
-        tooltipParentObject.SetActive(false);
+        _uiTooltipHandler.SetTooltipSortingOrder(sortingOrder + 1);
     }
 
     // Calling this function allows the user to click the relic to add
@@ -152,8 +141,7 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void EnableShopFunctionality()
     {
         GetComponent<ShopRelicHandler>().enabled = true;
-        tooltipParentObject.transform.localPosition = new Vector2(0, tooltipParentObject.transform.localPosition.y);
-        tooltipParentObject.transform.localScale = new Vector3(0.6f, 0.6f);
+        _uiTooltipHandler.SetTooltipScale(new Vector2(0.6f, 0.6f));
     }
 
     private IEnumerator RotateShinyBGCoroutine()

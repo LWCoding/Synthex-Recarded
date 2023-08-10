@@ -121,7 +121,7 @@ public class CardChoiceController : MonoBehaviour
                 _cardChoiceObjects.RemoveAt(i);
             }
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1);
         // Hide remaining card. If there is none, ignore this.
         if (_cardChoiceObjects.Count != 0)
         {

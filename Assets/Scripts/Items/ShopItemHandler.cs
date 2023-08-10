@@ -6,12 +6,16 @@ using UnityEngine.UI;
 using TMPro;
 
 [RequireComponent(typeof(ItemHandler))]
+[RequireComponent(typeof(UITooltipHandler))]
 public class ShopItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
-    public TextMeshProUGUI itemCostText;
-    public GameObject frameOverlayObject;
+    [Header("Object Assignments")]
+    [SerializeField] private TextMeshProUGUI _itemCostText;
+    [SerializeField] private GameObject _frameOverlayObject;
+
     private ItemHandler _parentItemHandler;
+    private UITooltipHandler _uiTooltipHandler;
     private Item _itemInfo;
     private bool _isInteractable;
     private int _itemCost;
@@ -19,6 +23,7 @@ public class ShopItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private void Awake()
     {
         _parentItemHandler = GetComponent<ItemHandler>();
+        _uiTooltipHandler = GetComponent<UITooltipHandler>();
     }
 
     private void Start()
@@ -26,26 +31,26 @@ public class ShopItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExit
         _itemInfo = _parentItemHandler.itemInfo;
         _itemCost = GetRandomCost(_itemInfo.itemRarity);
         _isInteractable = true;
-        frameOverlayObject.GetComponent<Image>().sprite = _itemInfo.itemImage;
+        _frameOverlayObject.GetComponent<Image>().sprite = _itemInfo.itemImage;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!_isInteractable) { return; }
         // Show price on mouse enter!
-        itemCostText.text = "$" + _itemCost.ToString();
-        frameOverlayObject.SetActive(true);
+        _itemCostText.text = "$" + _itemCost.ToString();
+        _frameOverlayObject.SetActive(true);
         // Set the color of the overlay text depending on if
         // the player can afford it or not.
         if (_itemCost < GameManager.GetMoney() && !GameManager.IsItemBagFull())
         {
             // Can afford the relic!
-            itemCostText.color = new Color(0.3f, 1, 0);
+            _itemCostText.color = new Color(0.3f, 1, 0);
         }
         else
         {
             // Cannot afford the relic.
-            itemCostText.color = new Color(1, 0.15f, 0.15f);
+            _itemCostText.color = new Color(1, 0.15f, 0.15f);
         }
     }
 
@@ -53,7 +58,7 @@ public class ShopItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         if (!_isInteractable) { return; }
         // Hide tooltip and price on mouse exit!
-        frameOverlayObject.SetActive(false);
+        _frameOverlayObject.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -72,9 +77,9 @@ public class ShopItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExit
             GameManager.AddItemToInventory(_itemInfo);
             // Make the item not interactable.
             _isInteractable = false;
-            itemCostText.text = "";
+            _itemCostText.text = "";
             // Make the tooltip not show anymore.
-            _parentItemHandler.DisableTooltip();
+            _uiTooltipHandler.SetTooltipInteractibility(false);
             // Play the item chosen SFX.
             SoundManager.Instance.PlaySFX(SoundEffect.SHOP_PURCHASE);
             TopBarController.Instance.RenderItems();

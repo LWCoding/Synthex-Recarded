@@ -7,16 +7,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public enum TooltipPosition
-{
-    LEFT = 0, CENTER = 1, RIGHT = 2
-}
-
 public enum CardAnimation
 {
     SHRINK = 0, TRANSLATE_DOWN = 1
 }
 
+[RequireComponent(typeof(CardHoverHandler))]
+[RequireComponent(typeof(UITooltipHandler))]
 public class CardHandler : MonoBehaviour
 {
 
@@ -27,10 +24,8 @@ public class CardHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI descText;
     [SerializeField] private TextMeshProUGUI costText;
     [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private TextMeshProUGUI tooltipText;
     [SerializeField] private Image previewImage;
     [SerializeField] private Image frameImage;
-    [SerializeField] private GameObject tooltipParentObject;
     [SerializeField] private Transform cardEffectOverlayTransform;
     [SerializeField] private GraphicRaycaster _graphicRaycaster;
 
@@ -53,25 +48,20 @@ public class CardHandler : MonoBehaviour
     public void HideCardInstantly() => SetCardAlpha(0);
     // Sets the alpha of the card's canvas group.
     public void SetCardAlpha(float alpha) => _cardCanvasGroup.alpha = alpha;
-    // Set the delay of the tooltip. Set to default when card is enabled.
-    public void SetTooltipDelay(float delay) => _cardHoverHandler.SetTooltipDelay(delay);
 
     private int _cardIdx; // Index in deck, if necessary
     private List<CardEffectType> _currentCardEffectTypes;
     private CardHoverHandler _cardHoverHandler;
+    private UITooltipHandler _uiTooltipHandler;
     private Transform _canvasTransform;
     private CanvasGroup _cardCanvasGroup;
-    private IEnumerator _tooltipShowCoroutine = null;
-    private Vector3 _tooltipInitialLocalPosition;
-
-    private const float TYPICAL_TOOLTIP_DELAY = 0.5f;
 
     public void Awake()
     {
         _cardHoverHandler = GetComponent<CardHoverHandler>();
         _cardCanvasGroup = GetComponent<CanvasGroup>();
+        _uiTooltipHandler = GetComponent<UITooltipHandler>();
         _canvasTransform = GameObject.Find("Canvas").transform;
-        _tooltipInitialLocalPosition = tooltipParentObject.transform.localPosition;
         if (_canvasTransform == null) { Debug.LogError("Could not find required Canvas for CardHandler.cs!"); }
     }
 
@@ -84,38 +74,21 @@ public class CardHandler : MonoBehaviour
         // Set all of the basic properties
         InitializeStartingData();
         EnableInteractions();
-        // Set tooltip initial position
-        SetTooltipPosition(TooltipPosition.CENTER);
-        // Set tooltip initial delay
-        SetTooltipDelay(TYPICAL_TOOLTIP_DELAY);
         // Set the card information
         card = c;
-        HideTooltip();
         UpdateCardVisuals();
         ResetCardColor();
+        // Initialize tooltip information for any card
+        _uiTooltipHandler.HideTooltip();
+        string tooltipText = GetTooltipText();
+        _uiTooltipHandler.SetTooltipText(tooltipText);
+        _uiTooltipHandler.SetTooltipInteractibility(tooltipText != "");
         // Make sure all opacities for the card
         // are automatically shown IF it is a wanted
         // behavior.
         if (shouldShowInstantly)
         {
             ShowCardInstantly();
-        }
-    }
-
-    // Updates the position of a tooltip when the card is hovered over.
-    public void SetTooltipPosition(TooltipPosition tooltipPosition)
-    {
-        switch (tooltipPosition)
-        {
-            case TooltipPosition.LEFT:
-                tooltipParentObject.transform.localPosition = new Vector3(-275, _tooltipInitialLocalPosition.y, 0);
-                break;
-            case TooltipPosition.CENTER:
-                tooltipParentObject.transform.localPosition = _tooltipInitialLocalPosition;
-                break;
-            case TooltipPosition.RIGHT:
-                tooltipParentObject.transform.localPosition = new Vector3(275, _tooltipInitialLocalPosition.y, 0);
-                break;
         }
     }
 
@@ -181,7 +154,6 @@ public class CardHandler : MonoBehaviour
         initialScale = transform.localScale.x;
         initialSortingOrder = GetComponent<Canvas>().sortingOrder;
         initialRotation = transform.rotation;
-        tooltipParentObject.transform.localPosition = _tooltipInitialLocalPosition;
     }
 
     // Give this card a card effect.
@@ -283,20 +255,9 @@ public class CardHandler : MonoBehaviour
         StartCoroutine(CardAppearCoroutine(0.18f));
     }
 
-    // Render tooltip and information and show the tooltip.
-    public void ShowTooltip()
-    {
-        bool hasTooltipText = RenderTooltipText();
-        if (hasTooltipText)
-        {
-            _tooltipShowCoroutine = AnimateTooltipInCoroutine();
-            StartCoroutine(_tooltipShowCoroutine);
-        }
-    }
-
-    // Populate the tooltip text with info on the card's special effects.
-    // Returns a boolean indicating whether the card actually *has* any tooltip text.
-    private bool RenderTooltipText()
+    // Get the tooltip text with info on the card's special effects.
+    // Returns an empty string ("") if there are no effects to show.
+    private string GetTooltipText()
     {
         string[] cardDescWords = card.GetCardStats().cardDesc.Split(' ');
         string textToRender = ""; // Card to show on the tooltip.
@@ -322,33 +283,7 @@ public class CardHandler : MonoBehaviour
                 textToRender += "<b>" + foundStatusFlavor.name + "</b>:\n" + foundStatusFlavor.statusDescription;
             }
         }
-        tooltipText.text = textToRender;
-        return textToRender != "";
-    }
-
-    // Animate the tooltip in.
-    private IEnumerator AnimateTooltipInCoroutine()
-    {
-        tooltipParentObject.SetActive(true);
-        float currTime = 0f;
-        float timeToWait = 0.2f;
-        CanvasGroup tooltipCanvasGroup = tooltipParentObject.GetComponent<CanvasGroup>();
-        while (currTime < timeToWait)
-        {
-            currTime += Time.deltaTime;
-            tooltipCanvasGroup.alpha = Mathf.Lerp(0, 1, currTime / timeToWait);
-            yield return null;
-        }
-    }
-
-    // Hide the tooltip object.
-    public void HideTooltip()
-    {
-        if (_tooltipShowCoroutine != null)
-        {
-            StopCoroutine(_tooltipShowCoroutine);
-        }
-        tooltipParentObject.SetActive(false);
+        return textToRender;
     }
 
     public IEnumerator CardAppearCoroutine(float timeInSeconds)
@@ -388,7 +323,7 @@ public class CardHandler : MonoBehaviour
         yield return new WaitForEndOfFrame();
         // Set all of the initial values of the card to be invisible.
         ShowCardInstantly();
-        _cardHoverHandler.allowDragging = false;
+        _cardHoverHandler.AllowDragging = false;
         float currTime = 0;
         Vector3 targetScale = new Vector3(0, 0, 0); // CardAnimation.SHRINK
         Vector3 targetPosition = CardObject.transform.localPosition - new Vector3(0, 103, 0); // CardAnimation.TRANSLATE_DOWN
@@ -442,10 +377,10 @@ public class CardHandler : MonoBehaviour
     // By default, all fields are initialized to true.
     public void ModifyHoverBehavior(bool scaleOnHover, bool transformOnHover, bool allowDrag, bool sortTopOnHover)
     {
-        _cardHoverHandler.scaleOnHover = scaleOnHover;
-        _cardHoverHandler.transformOnHover = transformOnHover;
-        _cardHoverHandler.sortTopOnHover = sortTopOnHover;
-        _cardHoverHandler.allowDragging = allowDrag;
+        _cardHoverHandler.ScaleOnHover = scaleOnHover;
+        _cardHoverHandler.TransformOnHover = transformOnHover;
+        _cardHoverHandler.SortTopOnHover = sortTopOnHover;
+        _cardHoverHandler.AllowDragging = allowDrag;
     }
 
 }

@@ -3,33 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+[RequireComponent(typeof(TooltipHandler))]
 public class StatusEffectHandler : MonoBehaviour
 {
 
     public Effect effectType;
+
+    [Header("Object Assignments")]
     [SerializeField] private SpriteRenderer _statusIconSprite;
     [SerializeField] private SpriteRenderer _statusIconAnimationSprite;
     [SerializeField] private TextMeshPro _statusCountText;
-    [SerializeField] private GameObject _tooltipParentObject;
-    [SerializeField] private TextMeshPro _statusDescription;
 
+    private TooltipHandler _tooltipHandler;
     private float _initialScale;
     private IEnumerator _flashIconCoroutine = null;
 
     private void Awake()
     {
-        _tooltipParentObject.SetActive(false);
+        _tooltipHandler = GetComponent<TooltipHandler>();
+    }
+
+    private void Start()
+    {
+        _tooltipHandler.HideTooltip();
     }
 
     public void UpdateStatus(StatusEffect s)
     {
         effectType = s.statusInfo.type;
-        _statusDescription.text = "<b>" + s.statusInfo.statusName + " " + s.amplifier.ToString() + ":</b>\n" + s.statusInfo.statusDescription.Replace("[X]", s.amplifier.ToString()).Replace("[S]", s.specialValue);
         _statusIconSprite.sprite = s.statusInfo.statusIcon;
         _statusIconAnimationSprite.sprite = s.statusInfo.statusIcon;
         _statusCountText.text = s.amplifier.ToString();
         _statusIconSprite.transform.localScale = s.statusInfo.iconSpriteScale;
         _initialScale = s.statusInfo.iconSpriteScale.x;
+        // Set tooltip information.
+        string tooltipText = "<b>" + s.statusInfo.statusName + " " + s.amplifier.ToString() + ":</b>\n" + s.statusInfo.statusDescription.Replace("[X]", s.amplifier.ToString()).Replace("[S]", s.specialValue);
+        _tooltipHandler.SetTooltipText(tooltipText);
         // If the icon should flash, do it, and make sure it doesn't flash again
         // until updated.
         if (s.shouldActivate)
@@ -69,16 +78,6 @@ public class StatusEffectHandler : MonoBehaviour
             _statusIconAnimationSprite.transform.localScale = Vector3.Lerp(animInitialScale, animTargetScale, currTime / targetTime);
             yield return null;
         }
-    }
-
-    public void OnMouseEnter()
-    {
-        _tooltipParentObject.SetActive(true);
-    }
-
-    public void OnMouseExit()
-    {
-        _tooltipParentObject.SetActive(false);
     }
 
 }

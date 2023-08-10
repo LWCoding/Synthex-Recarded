@@ -4,33 +4,32 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CardHandler))]
+[RequireComponent(typeof(UITooltipHandler))]
 public class CardHoverHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 
-    public bool allowDragging = true;
-    public bool scaleOnHover = true;
-    public bool transformOnHover = true;
-    public bool sortTopOnHover = true;
+    public bool AllowDragging = true;
+    public bool ScaleOnHover = true;
+    public bool TransformOnHover = true;
+    public bool SortTopOnHover = true;
 
     private CardHandler _parentCardHandler;
-    private bool isMouseDragging = false;
+    private UITooltipHandler _uiTooltipHandler;
+    private bool _isMouseDragging = false;
     private BattleController _battleController = BattleController.Instance;
-    private List<BattleCharacterController> collidingBCCs = null;
+    private List<BattleCharacterController> _collidingBCCs = null;
     private Camera _camera;
     private Transform _canvasTransform;
     private Vector3 _boxSize = new Vector3(1.5f, 1.5f, 1.5f); // How big the mouse collider is for cards
     private IEnumerator _scaleCoroutine = null;
-    private IEnumerator _showTooltipAfterDelayCoroutine = null;
-    private float _tooltipDelay;
     private const float Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY = -1.2f;
-
-    public void SetTooltipDelay(float delay) => _tooltipDelay = delay;
 
     private void Awake()
     {
         _parentCardHandler = GetComponent<CardHandler>();
         _camera = Camera.main.GetComponent<Camera>();
+        _uiTooltipHandler = GetComponent<UITooltipHandler>();
         _canvasTransform = GameObject.Find("Canvas").transform;
         if (_canvasTransform == null) { Debug.LogError("Could not find required Canvas for CardHoverHandler.cs!"); }
     }
@@ -78,35 +77,32 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
         }
         // Play the card hover sound.
         SoundManager.Instance.PlaySFX(SoundEffect.CARD_HOVER);
-        float cardScale = _parentCardHandler.initialScale + ((!scaleOnHover) ? 0 : 0.1f);
-        Vector3 verticalPos = (!transformOnHover) ? Vector3.zero : _parentCardHandler.initialPosition + new Vector3(0, 125 * _canvasTransform.localScale.y, 0);
-        _scaleCoroutine = _parentCardHandler.LerpTransformAndChangeOrder(cardScale, verticalPos, Quaternion.identity, (sortTopOnHover) ? 10 : _parentCardHandler.initialSortingOrder);
+        float cardScale = _parentCardHandler.initialScale + ((!ScaleOnHover) ? 0 : 0.1f);
+        Vector3 verticalPos = (!TransformOnHover) ? Vector3.zero : _parentCardHandler.initialPosition + new Vector3(0, 125 * _canvasTransform.localScale.y, 0);
+        _scaleCoroutine = _parentCardHandler.LerpTransformAndChangeOrder(cardScale, verticalPos, Quaternion.identity, (SortTopOnHover) ? 10 : _parentCardHandler.initialSortingOrder);
         StartCoroutine(_scaleCoroutine);
-        PromptShowTooltip();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isMouseDragging) { return; }
-        // Hide the tooltip.
-        HideTooltip();
+        if (_isMouseDragging) { return; }
         SendCardBackToInitialPosition();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (SettingsManager.Instance.IsGamePaused() || !allowDragging) { return; }
+        if (SettingsManager.Instance.IsGamePaused() || !AllowDragging) { return; }
         // Hide the tooltip.
-        HideTooltip();
+        _uiTooltipHandler.HideTooltip();
         // Stop the scaling/rotating coroutine and set the rotation to straight.
         StopCoroutine(_scaleCoroutine);
         _parentCardHandler.transform.rotation = Quaternion.identity;
-        isMouseDragging = true;
+        _isMouseDragging = true;
     }
 
     public void OnDrag(PointerEventData data)
     {
-        if (SettingsManager.Instance.IsGamePaused() || !allowDragging) { return; }
+        if (SettingsManager.Instance.IsGamePaused() || !AllowDragging) { return; }
         // Stop any scale coroutine 
         if (_scaleCoroutine != null)
         {
@@ -132,12 +128,12 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
             case Target.SELF:
                 if (_camera.ScreenToWorldPoint(Input.mousePosition).y > Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY)
                 {
-                    collidingBCCs = new List<BattleCharacterController>() { _battleController.GetPlayer() };
+                    _collidingBCCs = new List<BattleCharacterController>() { _battleController.GetPlayer() };
                     _battleController.GetPlayer().TurnSelectedColor();
                 }
                 else
                 {
-                    collidingBCCs = null;
+                    _collidingBCCs = null;
                 }
                 break;
             case Target.OTHER:
@@ -151,7 +147,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
                 {
                     // If we've found an enemy, store its BCC info and make it
                     // colored to show our selection.
-                    collidingBCCs = new List<BattleCharacterController>() { bcc };
+                    _collidingBCCs = new List<BattleCharacterController>() { bcc };
                     bcc.TurnSelectedColor();
                     // If we're also targeting the player, make the player selected.
                     if (cardTarget == Target.PLAYER_AND_ENEMY)
@@ -161,17 +157,17 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
                 }
                 else
                 {
-                    collidingBCCs = null;
+                    _collidingBCCs = null;
                 }
                 break;
             case Target.ENEMY_ALL:
-                collidingBCCs = new List<BattleCharacterController>();
+                _collidingBCCs = new List<BattleCharacterController>();
                 foreach (BattleEnemyController bec in _battleController.GetAliveEnemies())
                 {
                     if (bec.IsAlive())
                     {
                         bec.TurnSelectedColor();
-                        collidingBCCs.Add(bec);
+                        _collidingBCCs.Add(bec);
                     }
                 }
                 break;
@@ -189,17 +185,17 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         yield return new WaitUntil(() => !SettingsManager.Instance.IsGamePaused());
         SendCardBackToInitialPosition();
-        if (allowDragging && isMouseDragging)
+        if (AllowDragging && _isMouseDragging)
         {
-            isMouseDragging = false;
+            _isMouseDragging = false;
             // If our mouse button wasn't raised this frame (it was probably interrupted),
             // then don't render the card play.
             if (!wasMouseButtonRaised) { yield break; }
             // If we are currently interacting with a valid enemy object,
             // run the card info.
-            if (collidingBCCs != null || (_battleController.GetAliveEnemies().Count == 1 && Camera.main.ScreenToWorldPoint(Input.mousePosition).y > Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY))
+            if (_collidingBCCs != null || (_battleController.GetAliveEnemies().Count == 1 && Camera.main.ScreenToWorldPoint(Input.mousePosition).y > Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY))
             {
-                if (_battleController.GetAliveEnemies().Count == 1) { collidingBCCs = new List<BattleCharacterController>() { _battleController.GetAliveEnemies()[0] }; }
+                if (_battleController.GetAliveEnemies().Count == 1) { _collidingBCCs = new List<BattleCharacterController>() { _battleController.GetAliveEnemies()[0] }; }
                 // Reset the colors of the player and all enemies.
                 ResetAllBCCColors();
                 // If the player can't play it, stop here. Don't let the actions run.
@@ -213,7 +209,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
                 {
                     _battleController.GetPlayer().ChangeHealth(-4, true);
                 }
-                _battleController.PlayCardInHand(_parentCardHandler.card, collidingBCCs);
+                _battleController.PlayCardInHand(_parentCardHandler.card, _collidingBCCs);
             }
         }
     }
@@ -225,37 +221,9 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
         {
             StopCoroutine(_scaleCoroutine);
         }
-        Vector3 verticalPos = (!transformOnHover) ? Vector3.zero : _parentCardHandler.initialPosition;
+        Vector3 verticalPos = (!TransformOnHover) ? Vector3.zero : _parentCardHandler.initialPosition;
         _scaleCoroutine = _parentCardHandler.LerpTransformAndChangeOrder(_parentCardHandler.initialScale, verticalPos, _parentCardHandler.initialRotation, _parentCardHandler.initialSortingOrder);
         StartCoroutine(_scaleCoroutine);
-    }
-
-    // Attempt to show the card tooltip after a certain delay.
-    // This can be intercepted by calling HideTooltip();
-    private void PromptShowTooltip()
-    {
-        if (_showTooltipAfterDelayCoroutine != null)
-        {
-            StopCoroutine(_showTooltipAfterDelayCoroutine);
-        }
-        _showTooltipAfterDelayCoroutine = ShowTooltipAfterDelayCoroutine();
-        StartCoroutine(_showTooltipAfterDelayCoroutine);
-    }
-
-    private IEnumerator ShowTooltipAfterDelayCoroutine()
-    {
-        yield return new WaitForSeconds(_tooltipDelay);
-        _parentCardHandler.ShowTooltip();
-    }
-
-    // Hide the tooltip (or stop the delay) if it is shown.
-    private void HideTooltip()
-    {
-        if (_showTooltipAfterDelayCoroutine != null)
-        {
-            StopCoroutine(_showTooltipAfterDelayCoroutine);
-        }
-        _parentCardHandler.HideTooltip();
     }
 
 }

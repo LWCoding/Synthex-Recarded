@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 
 [RequireComponent(typeof(CardHandler))]
+[RequireComponent(typeof(UITooltipHandler))]
 public class ShopCardHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 IPointerClickHandler
 {
@@ -15,6 +16,7 @@ IPointerClickHandler
     public TextMeshProUGUI cardCostText;
 
     private CardHandler _parentCardHandler;
+    private UITooltipHandler _uiTooltipHandler;
     private bool _isInteractable;
     private Transform _parentCardTransform;
     private Card _card;
@@ -23,6 +25,7 @@ IPointerClickHandler
     private void Awake()
     {
         _parentCardHandler = GetComponent<CardHandler>();
+        _uiTooltipHandler = GetComponent<UITooltipHandler>();
         _parentCardTransform = _parentCardHandler.CardObject.transform;
     }
 
@@ -31,7 +34,7 @@ IPointerClickHandler
         _card = _parentCardHandler.card;
         _cardCost = GetRandomCost(_card.cardData.cardRarity);
         _isInteractable = true;
-        _parentCardHandler.SetTooltipPosition(TooltipPosition.RIGHT);
+        _uiTooltipHandler.SetTooltipPosition(TooltipPosition.RIGHT);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

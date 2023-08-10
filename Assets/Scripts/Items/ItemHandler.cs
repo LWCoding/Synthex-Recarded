@@ -7,12 +7,12 @@ using UnityEngine.SceneManagement;
 using TMPro;
 
 [RequireComponent(typeof(ItemEffectRenderer))]
+[RequireComponent(typeof(UITooltipHandler))]
 public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
     [Header("Object Assignments")]
     [SerializeField] private GameObject imageObject;
-    [SerializeField] private GameObject tooltipParentObject;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI descText;
     [SerializeField] private GameObject itemFlashObject;
@@ -20,24 +20,25 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     [HideInInspector] public Item itemInfo;
     private ItemEffectRenderer _itemEffectRenderer;
+    private UITooltipHandler _uiTooltipHandler;
     private Image _itemFlashImage;
     private int _timesItemClicked = 0; // 1 = show checkmark, 2 = use item
     private bool _canClickToUse = true;
-    private bool _showLocalTooltipOnHover;
     private bool _showUITooltipOnHover;
     private float _initialScale;
     private float _desiredScale;
     private int _itemIndex; // Index in the player's inventory.
     private IEnumerator _itemFlashCoroutine = null;
     private Canvas _itemCanvas;
-    private Canvas _tooltipCanvas;
+
+    public void SetVerifyChoiceVisibility(bool isVisible) => verifyChoiceImage.enabled = isVisible;
 
     private void Awake()
     {
         _itemCanvas = GetComponent<Canvas>();
         _itemFlashImage = itemFlashObject.GetComponent<Image>();
-        _tooltipCanvas = tooltipParentObject.GetComponent<Canvas>();
         _itemEffectRenderer = GetComponent<ItemEffectRenderer>();
+        _uiTooltipHandler = GetComponent<UITooltipHandler>();
     }
 
     // Initialize the item's information.
@@ -48,13 +49,14 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // Make item show properly.
         SetItemImageScale(1, 1);
         // Set all of the basic properties
-        tooltipParentObject.SetActive(false);
         itemFlashObject.SetActive(false);
         GetComponent<ShopItemHandler>().enabled = false;
-        HideVerifyChoiceImage();
+        SetVerifyChoiceVisibility(false);
         _initialScale = imageObject.transform.localScale.x;
         _desiredScale = _initialScale;
-        _showLocalTooltipOnHover = showLocalTooltipOnHover;
+        // Set tooltip information
+        _uiTooltipHandler.HideTooltip();
+        _uiTooltipHandler.SetTooltipInteractibility(showLocalTooltipOnHover);
         _showUITooltipOnHover = showUITooltipOnHover;
         // Set the item information
         itemInfo = item;
@@ -81,12 +83,6 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         StartCoroutine(_itemFlashCoroutine);
     }
 
-    public void DisableTooltip()
-    {
-        _showLocalTooltipOnHover = false;
-        tooltipParentObject.SetActive(false);
-    }
-
     private IEnumerator FlashItemCoroutine()
     {
         // Calculate frames and initial values for linear interpolation.
@@ -110,11 +106,10 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         // If we're not a valid item, don't show any tooltip.
         if (itemInfo.type == ItemType.NONE) { return; }
         // Or else, show the local OR UI tooltip depending on the circumstances.
-        if (_showLocalTooltipOnHover) { tooltipParentObject.SetActive(true); }
         if (_showUITooltipOnHover)
         {
             TopBarController.Instance.ShowTopBarItemTooltip(itemInfo);
-            TopBarController.Instance.UpdateItemVerifyText(GetIsItemPlayable(), false);
+            TopBarController.Instance.UpdateItemVerifyText(IsItemPlayable(), false);
         }
         if (_itemFlashCoroutine != null) { return; }
         _desiredScale = _initialScale * 1.1f;
@@ -122,10 +117,11 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        // If we're not a valid item, don't show any tooltip.
         if (itemInfo.type == ItemType.NONE) { return; }
+        // Reset the times clicked to zero and reset the tooltip's state.
         _timesItemClicked = 0;
-        HideVerifyChoiceImage();
-        tooltipParentObject.SetActive(false);
+        SetVerifyChoiceVisibility(false);
         TopBarController.Instance.HideTopBarItemTooltip();
         if (_itemFlashCoroutine != null) { return; }
         _desiredScale = _initialScale;
@@ -133,14 +129,14 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!GetIsItemPlayable()) { return; }
+        if (!IsItemPlayable()) { return; }
         if (itemInfo.type != ItemType.NONE && _canClickToUse)
         {
             _timesItemClicked++;
             // If we've clicked the first time, prompt to confirm.
             if (_timesItemClicked == 1)
             {
-                ShowVerifyChoiceImage();
+                SetVerifyChoiceVisibility(true);
                 TopBarController.Instance.UpdateItemVerifyText(true, true);
                 SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_BUTTON_HOVER, 1.6f);
             }
@@ -154,7 +150,9 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         }
     }
 
-    public bool GetIsItemPlayable()
+    // Uses scene names to determine whether or not the current tooltip is playable.
+    // This is because some items can only be played during Battle.
+    public bool IsItemPlayable()
     {
         string sceneName = SceneManager.GetActiveScene().name;
         // If the item is a placeholder, don't even work.
@@ -174,31 +172,19 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         _initialScale = scale;
         _desiredScale = scale;
         imageObject.transform.localScale = new Vector3(scale, scale, 1);
-        tooltipParentObject.transform.localScale = new Vector3(tooltipScale, tooltipScale, 1);
+        _uiTooltipHandler.SetTooltipScale(new Vector2(tooltipScale, tooltipScale));
     }
 
     public void SetSortingOrder(int sortingOrder)
     {
         _itemCanvas.sortingOrder = sortingOrder;
-        _tooltipCanvas.sortingOrder = sortingOrder + 1;
+        _uiTooltipHandler.SetTooltipSortingOrder(sortingOrder + 1);
     }
 
     public void EnableShopFunctionality()
     {
         _canClickToUse = false;
         GetComponent<ShopItemHandler>().enabled = true;
-        tooltipParentObject.transform.localPosition = new Vector2(0, tooltipParentObject.transform.localPosition.y);
-        tooltipParentObject.transform.localScale = new Vector3(0.6f, 0.6f);
-    }
-
-    public void ShowVerifyChoiceImage()
-    {
-        verifyChoiceImage.enabled = true;
-    }
-
-    public void HideVerifyChoiceImage()
-    {
-        verifyChoiceImage.enabled = false;
     }
 
     public void FixedUpdate()
