@@ -53,18 +53,22 @@ public class CardHandler : MonoBehaviour
     public void HideCardInstantly() => SetCardAlpha(0);
     // Sets the alpha of the card's canvas group.
     public void SetCardAlpha(float alpha) => _cardCanvasGroup.alpha = alpha;
+    // Set the delay of the tooltip. Set to default when card is enabled.
+    public void SetTooltipDelay(float delay) => _cardHoverHandler.SetTooltipDelay(delay);
 
     private int _cardIdx; // Index in deck, if necessary
     private List<CardEffectType> _currentCardEffectTypes;
-    private CardHoverHandler _cardHoverController;
+    private CardHoverHandler _cardHoverHandler;
     private Transform _canvasTransform;
     private CanvasGroup _cardCanvasGroup;
     private IEnumerator _tooltipShowCoroutine = null;
     private Vector3 _tooltipInitialLocalPosition;
 
+    private const float TYPICAL_TOOLTIP_DELAY = 0.5f;
+
     public void Awake()
     {
-        _cardHoverController = GetComponent<CardHoverHandler>();
+        _cardHoverHandler = GetComponent<CardHoverHandler>();
         _cardCanvasGroup = GetComponent<CanvasGroup>();
         _canvasTransform = GameObject.Find("Canvas").transform;
         _tooltipInitialLocalPosition = tooltipParentObject.transform.localPosition;
@@ -81,6 +85,8 @@ public class CardHandler : MonoBehaviour
         EnableInteractions();
         // Set tooltip initial position
         SetTooltipPosition(TooltipPosition.CENTER);
+        // Set tooltip initial delay
+        SetTooltipDelay(TYPICAL_TOOLTIP_DELAY);
         // Set the card information
         card = c;
         HideTooltip();
@@ -381,7 +387,7 @@ public class CardHandler : MonoBehaviour
         yield return new WaitForEndOfFrame();
         // Set all of the initial values of the card to be invisible.
         ShowCardInstantly();
-        _cardHoverController.allowDragging = false;
+        _cardHoverHandler.allowDragging = false;
         float currTime = 0;
         Vector3 targetScale = new Vector3(0, 0, 0); // CardAnimation.SHRINK
         Vector3 targetPosition = CardObject.transform.localPosition - new Vector3(0, 103, 0); // CardAnimation.TRANSLATE_DOWN
@@ -435,10 +441,10 @@ public class CardHandler : MonoBehaviour
     // By default, all fields are initialized to true.
     public void ModifyHoverBehavior(bool scaleOnHover, bool transformOnHover, bool allowDrag, bool sortTopOnHover)
     {
-        _cardHoverController.scaleOnHover = scaleOnHover;
-        _cardHoverController.transformOnHover = transformOnHover;
-        _cardHoverController.sortTopOnHover = sortTopOnHover;
-        _cardHoverController.allowDragging = allowDrag;
+        _cardHoverHandler.scaleOnHover = scaleOnHover;
+        _cardHoverHandler.transformOnHover = transformOnHover;
+        _cardHoverHandler.sortTopOnHover = sortTopOnHover;
+        _cardHoverHandler.allowDragging = allowDrag;
     }
 
 }

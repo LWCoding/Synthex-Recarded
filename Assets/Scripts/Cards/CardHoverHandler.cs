@@ -22,7 +22,10 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
     private Vector3 _boxSize = new Vector3(1.5f, 1.5f, 1.5f); // How big the mouse collider is for cards
     private IEnumerator _scaleCoroutine = null;
     private IEnumerator _showTooltipAfterDelayCoroutine = null;
+    private float _tooltipDelay;
     private const float Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY = -1.2f;
+
+    public void SetTooltipDelay(float delay) => _tooltipDelay = delay;
 
     private void Awake()
     {
@@ -240,7 +243,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
 
     private IEnumerator ShowTooltipAfterDelayCoroutine()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(_tooltipDelay);
         _parentCardHandler.ShowTooltip();
     }
 
