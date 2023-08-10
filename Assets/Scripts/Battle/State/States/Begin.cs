@@ -17,6 +17,8 @@ public class Begin : State
         BattleController.SetState(new PlayerTurn(BattleController));
     }
 
+    // Add logic that makes different relics perform their functions by modifying
+    // delegates that were pre-defined.
     private void InitializeRelicListeners()
     {
         // If the character has the SCALE OF JUSTICE relic, they can play their first card twice.
@@ -113,6 +115,8 @@ public class Begin : State
         }
     }
 
+    // Add logic that should render whenever the player plays a specific card,
+    // (e.g. Catastrophe).
     private void InitializePlayCardListeners()
     {
         // If the player has the Catastrophe status effect, deal X damage to all enemies

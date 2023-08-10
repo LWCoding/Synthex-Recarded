@@ -41,9 +41,9 @@ public partial class BattleController : StateMachine
     public void FreeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = false;
 
     public UnityEvent OnNextTurnStart = new UnityEvent();
-    [HideInInspector] public BattleHeroController playerBCC;
-    [HideInInspector] public List<BattleEnemyController> enemyBCCs = new List<BattleEnemyController>();
-    public List<BattleEnemyController> GetAliveEnemies() => enemyBCCs.FindAll((bec) => bec.IsAlive());
+    [HideInInspector] public BattleCharacterController playerBCC;
+    [HideInInspector] public List<BattleCharacterController> enemyBCCs = new List<BattleCharacterController>();
+    public List<BattleCharacterController> GetAliveEnemies() => enemyBCCs.FindAll((bec) => bec.IsAlive());
 
     public List<Card> CardsInDiscard = new List<Card>();
     public List<Card> CardsInDrawPile = new List<Card>();
@@ -130,7 +130,8 @@ public partial class BattleController : StateMachine
             CardsInDiscard.Add(cardCopy);
         }
         // Set the rest of the PlayerBCC values.
-        playerBCC.Initialize(GameManager.GetHeroData(), GameManager.GetHeroHealth(), GameManager.GetHeroMaxHealth());
+        playerBCC.InitializeHealthData(GameManager.GetHeroHealth(), GameManager.GetHeroMaxHealth());
+        playerBCC.Initialize(GameManager.GetHeroData());
     }
 
     // Initializes an enemy object.

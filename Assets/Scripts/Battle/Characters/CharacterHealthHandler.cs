@@ -81,6 +81,8 @@ public partial class CharacterHealthHandler : MonoBehaviour
         UpdateHealthAndBlockText();
     }
 
+    #region Rendering heal or damage (logic for ChangeHealth)
+
     // Takes a NEGATIVE integer `val` and subtracts that from the current _health.
     private void RenderDamage(int val, bool ignoresBlock)
     {
@@ -152,9 +154,13 @@ public partial class CharacterHealthHandler : MonoBehaviour
         RenderTooltip("+" + val.ToString(), 8, _characterSpriteRenderer.transform.position + new Vector3(0, _characterSpriteRenderer.bounds.size.y / 2) - new Vector3(0, 0.8f), new Color(0.1f, 1, 0.1f), 0.5f);
     }
 
-    // Adds or removes _block from the character.
-    // + values -> gains _block
-    // - values -> removes _block
+    #endregion
+
+    /// <summary>
+    /// Adds or removes block from the character.
+    /// Positive values add. Negative values reduce.
+    /// Does not work if character is not alive.
+    ///</summary>
     public void ChangeBlock(int val, bool shouldPlayBlockAnim)
     {
         if (!IsAlive()) { return; }
@@ -181,7 +187,41 @@ public partial class CharacterHealthHandler : MonoBehaviour
         UpdateHealthAndBlockText();
     }
 
-    public void RenderTooltip(string text, int fontSize, Vector3 position, Color color, float speed)
+    public void FlashBlockOverlay()
+    {
+        if (blockOverlayCoroutine != null)
+        {
+            StopCoroutine(blockOverlayCoroutine);
+        }
+        blockOverlayCoroutine = FlashBlockOverlayCoroutine();
+        StartCoroutine(blockOverlayCoroutine);
+    }
+
+    public void DisableCharacterUI()
+    {
+        _barIconSpriteRenderer.gameObject.SetActive(false);
+        _healthBoxTransform.gameObject.SetActive(false);
+        _healthText.gameObject.SetActive(false);
+        _blockText.gameObject.SetActive(false);
+        statusHandler.statusParentTransform.gameObject.SetActive(false);
+    }
+
+    private IEnumerator FlashBlockOverlayCoroutine()
+    {
+        _shieldOverlaySpriteRenderer.color = new Color(1, 1, 1, 0.8f);
+        _shieldOverlaySpriteRenderer.transform.localPosition = new Vector3(0, 0.4f, 0);
+        WaitForSeconds wfs = new WaitForSeconds(0.025f);
+        for (int i = 0; i < 20; i++)
+        {
+            _shieldOverlaySpriteRenderer.color -= new Color(0, 0, 0, 0.04f);
+            _shieldOverlaySpriteRenderer.transform.localPosition = Vector3.Lerp(_shieldOverlaySpriteRenderer.transform.localPosition, new Vector3(0, -0.4f, 0), 0.05f);
+            yield return wfs;
+        }
+    }
+
+    // Summons a tooltip representing a number (e.g. taking damage, losing block...)
+    // This should be completely handled within this class.
+    private void RenderTooltip(string text, int fontSize, Vector3 position, Color color, float speed)
     {
         BattleTooltip bt = new BattleTooltip();
         bt.text = text;
@@ -197,6 +237,21 @@ public partial class CharacterHealthHandler : MonoBehaviour
         }
     }
 
+    // Update the _health and _block bar and text.
+    // This should be completely handled within this class.
+    private void UpdateHealthAndBlockText()
+    {
+        // Update _health values.
+        _healthText.text = _health.ToString() + "/" + _maxHealth.ToString();
+        float newHealthXScale = _healthFillMaxValue.x * ((float)_health / _maxHealth);
+        _healthFillObject.transform.localScale = new Vector3(newHealthXScale, _healthFillMaxValue.y, 1);
+        bcc.OnUpdateHealthText.Invoke();
+        // Update _block values.
+        _blockText.text = _block.ToString();
+        _blockText.gameObject.SetActive(IsAlive() && _block > 0);
+        _barIconSpriteRenderer.sprite = (_block > 0) ? _blockIcon : _healthIcon;
+    }
+
     private IEnumerator RenderNumberTooltipsCoroutine()
     {
         while (tooltipsToRender.Count > 0)
@@ -210,51 +265,6 @@ public partial class CharacterHealthHandler : MonoBehaviour
         renderTooltipCoroutine = null;
     }
 
-    // Update the _health and _block bar and text.
-    public void UpdateHealthAndBlockText()
-    {
-        // Update _health values.
-        _healthText.text = _health.ToString() + "/" + _maxHealth.ToString();
-        float newHealthXScale = _healthFillMaxValue.x * ((float)_health / _maxHealth);
-        _healthFillObject.transform.localScale = new Vector3(newHealthXScale, _healthFillMaxValue.y, 1);
-        bcc.OnUpdateHealthText.Invoke();
-        // Update _block values.
-        _blockText.text = _block.ToString();
-        _blockText.gameObject.SetActive(IsAlive() && _block > 0);
-        _barIconSpriteRenderer.sprite = (_block > 0) ? _blockIcon : _healthIcon;
-    }
-
-    public void FlashBlockOverlay()
-    {
-        if (blockOverlayCoroutine != null)
-        {
-            StopCoroutine(blockOverlayCoroutine);
-        }
-        blockOverlayCoroutine = FlashBlockOverlayCoroutine();
-        StartCoroutine(blockOverlayCoroutine);
-    }
-
-    public IEnumerator FlashBlockOverlayCoroutine()
-    {
-        _shieldOverlaySpriteRenderer.color = new Color(1, 1, 1, 0.8f);
-        _shieldOverlaySpriteRenderer.transform.localPosition = new Vector3(0, 0.4f, 0);
-        WaitForSeconds wfs = new WaitForSeconds(0.025f);
-        for (int i = 0; i < 20; i++)
-        {
-            _shieldOverlaySpriteRenderer.color -= new Color(0, 0, 0, 0.04f);
-            _shieldOverlaySpriteRenderer.transform.localPosition = Vector3.Lerp(_shieldOverlaySpriteRenderer.transform.localPosition, new Vector3(0, -0.4f, 0), 0.05f);
-            yield return wfs;
-        }
-    }
-
-    public void DisableCharacterUI()
-    {
-        _barIconSpriteRenderer.gameObject.SetActive(false);
-        _healthBoxTransform.gameObject.SetActive(false);
-        _healthText.gameObject.SetActive(false);
-        _blockText.gameObject.SetActive(false);
-        statusHandler.statusParentTransform.gameObject.SetActive(false);
-    }
 
 }
 

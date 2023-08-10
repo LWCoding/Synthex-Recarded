@@ -94,7 +94,7 @@ public partial class CharacterStatusHandler : MonoBehaviour
         // If we can find the status icon, return its corresponding object to the pool.
         for (int i = 0; i < statusIconObjects.Count; i++)
         {
-            if (statusIconObjects[i].GetComponent<StatusController>().effectType == e)
+            if (statusIconObjects[i].GetComponent<StatusEffectHandler>().effectType == e)
             {
                 BattlePooler.Instance.ReturnStatusObjectToPool(statusIconObjects[i]);
                 statusIconObjects.RemoveAt(i);
@@ -113,7 +113,7 @@ public partial class CharacterStatusHandler : MonoBehaviour
             GameObject iconObject = statusIconObjects[i];
             iconObject.transform.SetParent(statusParentTransform);
             iconObject.transform.position = statusParentTransform.position + new Vector3(0.6f * i, 0);
-            iconObject.GetComponent<StatusController>().UpdateStatus(statusEffects[i]);
+            iconObject.GetComponent<StatusEffectHandler>().UpdateStatus(statusEffects[i]);
         }
     }
 
@@ -133,7 +133,7 @@ public partial class CharacterStatusHandler : MonoBehaviour
     private void InitializeNewStatusObject(StatusEffect e)
     {
         GameObject statusObject = BattlePooler.Instance.GetStatusObjectFromPool();
-        statusObject.GetComponent<StatusController>().UpdateStatus(e);
+        statusObject.GetComponent<StatusEffectHandler>().UpdateStatus(e);
         statusIconObjects.Add(statusObject);
     }
 

@@ -31,7 +31,7 @@ public class EnemyTurn : State
         // Make the enemy make a move based on the selected algorithm.
         // This is handled in the partial class `BattleController_AI`.
         // Loop ONLY through original enemies. Not summoned ones mid-way.
-        List<BattleEnemyController> originalEnemyBCCs = new List<BattleEnemyController>(BattleController.enemyBCCs);
+        List<BattleCharacterController> originalEnemyBCCs = new List<BattleCharacterController>(BattleController.enemyBCCs);
         foreach (BattleEnemyController bec in originalEnemyBCCs)
         {
             if (!bec.IsAlive()) { continue; }

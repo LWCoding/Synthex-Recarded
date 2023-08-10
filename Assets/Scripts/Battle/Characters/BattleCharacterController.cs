@@ -59,7 +59,6 @@ public partial class BattleCharacterController : MonoBehaviour
     public void ChangeHealth(int change, bool ignBlock = false) => healthHandler.ChangeHealth(change, ignBlock);
     public void ChangeBlock(int change, bool playAnim = true) => healthHandler.ChangeBlock(change, playAnim);
     public void DisableCharacterUI() => healthHandler.DisableCharacterUI();
-    public void InitializeHealthData(int startingHP, int maxHP) => healthHandler.Initialize(startingHP, maxHP);
     public bool IsAlive() => healthHandler.IsAlive();
     public int GetHealth() => healthHandler.GetHealth();
     public int GetMaxHealth() => healthHandler.GetMaxHealth();
@@ -80,16 +79,7 @@ public partial class BattleCharacterController : MonoBehaviour
         healthHandler = GetComponent<CharacterHealthHandler>();
     }
 
-    // Reset the sprite's box collider by destroying it and re-adding it.
-    // Then, increase the box collider slightly to allow for better detection.
-    private IEnumerator ResetBoxCollider()
-    {
-        GameObject colliderObject = _spriteCollider.gameObject;
-        Destroy(_spriteCollider);
-        yield return new WaitForEndOfFrame();
-        _spriteCollider = colliderObject.AddComponent<BoxCollider2D>();
-        _spriteCollider.size += new Vector2(1, 1);
-    }
+    #region Character initialization
 
     public void Initialize(Character charInfo)
     {
@@ -113,6 +103,11 @@ public partial class BattleCharacterController : MonoBehaviour
         SetCharacterSprite(CharacterState.IDLE);
         InitializeStatusEffectScripts();
         TurnUnselectedColor();
+    }
+
+    public void InitializeHealthData(int startingHP, int maxHP)
+    {
+        healthHandler.Initialize(startingHP, maxHP);
     }
 
     private void InitializeStatusEffectScripts()
@@ -150,6 +145,21 @@ public partial class BattleCharacterController : MonoBehaviour
             }
         });
     }
+
+    // Reset the sprite's box collider by destroying it and re-adding it.
+    // Then, increase the box collider slightly to allow for better detection.
+    private IEnumerator ResetBoxCollider()
+    {
+        GameObject colliderObject = _spriteCollider.gameObject;
+        Destroy(_spriteCollider);
+        yield return new WaitForEndOfFrame();
+        _spriteCollider = colliderObject.AddComponent<BoxCollider2D>();
+        _spriteCollider.size += new Vector2(1, 1);
+    }
+
+    #endregion
+
+    #region Turn start and turn end logic (status effects here!)
 
     // This function will be run at the start of the turn.
     public void TurnStartLogic(int _turnNumber)
@@ -231,6 +241,12 @@ public partial class BattleCharacterController : MonoBehaviour
         statusHandler.RemoveStatusEffect(Effect.COMBO);
     }
 
+    #endregion
+
+    ///<summary>
+    /// Adds a specific card to a queue, which is rendered one-by-one.
+    /// This function runs instantaneously but the effects will take some time.
+    ///</summary>
     public void PlayCard(Card c, List<BattleCharacterController> targetBCCs)
     {
         _cardsToRender.Add(new CardToRender(c, targetBCCs));
@@ -241,19 +257,8 @@ public partial class BattleCharacterController : MonoBehaviour
         }
     }
 
-    private IEnumerator PlayQueuedCardsCoroutine()
-    {
-        while (_cardsToRender.Count > 0)
-        {
-            CardToRender cardToRender = _cardsToRender[0];
-            _cardsToRender.RemoveAt(0);
-            yield return PlayCardCoroutine(cardToRender.card, cardToRender.targetBCCs);
-        }
-        _playCardsCoroutine = null;
-    }
-
     ///<summary>
-    /// Animate this character playing a specific card.
+    /// Coroutine that animates this character playing a specific card.
     ///</summary>
     public IEnumerator PlayCardCoroutine(Card c, List<BattleCharacterController> targetBCCs)
     {
@@ -272,9 +277,17 @@ public partial class BattleCharacterController : MonoBehaviour
         }
     }
 
-    // This function includes an optional `timesPlayed` variable
-    // to repeat the amount of times this card is played. This may
-    // be impacted by status effects like Effect.DOUBLE_TAKE.
+    private IEnumerator PlayQueuedCardsCoroutine()
+    {
+        while (_cardsToRender.Count > 0)
+        {
+            CardToRender cardToRender = _cardsToRender[0];
+            _cardsToRender.RemoveAt(0);
+            yield return PlayCardCoroutine(cardToRender.card, cardToRender.targetBCCs);
+        }
+        _playCardsCoroutine = null;
+    }
+
     private IEnumerator RenderCardCoroutine(Card c, int timesPlayed = 1)
     {
         _storedCard = c;
@@ -312,8 +325,57 @@ public partial class BattleCharacterController : MonoBehaviour
         OnPlayedCard.Invoke(c);
     }
 
-    // Renders the printed attack and block actions of a card `c`. Does not carry out any
-    // special effects.
+    // Set the character's sprite. (e.g. idle, damaged, dead)
+    // If the second parameter is true, the sprite can no longer change.
+    public void SetCharacterSprite(CharacterState newState, bool lockSprite = false)
+    {
+        if (!_canSpriteChange) { return; }
+        switch (newState)
+        {
+            case CharacterState.IDLE:
+                _characterSpriteRenderer.sprite = _characterInfo.idleSprite;
+                break;
+            case CharacterState.DAMAGED:
+                _characterSpriteRenderer.sprite = _characterInfo.damagedSprite;
+                break;
+            case CharacterState.DEATH:
+                _characterSpriteRenderer.sprite = (_characterInfo.deathSprite == null) ? _characterInfo.damagedSprite : _characterInfo.deathSprite;
+                break;
+        }
+        if (lockSprite) { _canSpriteChange = false; }
+    }
+
+    ///<summary>
+    /// Make a character show a target show underneath them, indicating
+    /// that they are being selected by the current action.
+    ///</summary>
+    public void TurnSelectedColor()
+    {
+        if (!IsAlive()) { return; }
+        _characterSpriteRenderer.color = new Color(0.8f, 0.8f, 0.8f);
+        _targetSpriteRenderer.enabled = true;
+        _targetAnimator.enabled = true;
+        _targetAnimator.Play("Pulse");
+    }
+
+    ///<summary>
+    /// Make a character hide the target underneath them, indicating
+    /// that they are no longer being selected by the current action.
+    ///</summary>
+    public void TurnUnselectedColor()
+    {
+        if (!IsAlive()) { return; }
+        _characterSpriteRenderer.color = new Color(1, 1, 1);
+        _targetSpriteRenderer.enabled = false;
+        _targetAnimator.enabled = false;
+    }
+
+    public void SetInteractable(bool isInteractable)
+    {
+        _characterSpriteRenderer.GetComponent<BoxCollider2D>().enabled = isInteractable;
+    }
+
+    // Renders ONLY the attack and block actions of a card `c`. 
     private void RenderAttackAndBlock(Card c, BattleCharacterController targetBCC)
     {
         CardStats cardStats = c.GetCardStats();
@@ -350,48 +412,6 @@ public partial class BattleCharacterController : MonoBehaviour
                 ChangeBlock(cardStats.blockValue + defenseBuff);
             }
         }
-    }
-
-    // Set the character's sprite. (e.g. idle, damaged, dead)
-    // If the second parameter is true, the sprite can no longer change.
-    public void SetCharacterSprite(CharacterState newState, bool lockSprite = false)
-    {
-        if (!_canSpriteChange) { return; }
-        switch (newState)
-        {
-            case CharacterState.IDLE:
-                _characterSpriteRenderer.sprite = _characterInfo.idleSprite;
-                break;
-            case CharacterState.DAMAGED:
-                _characterSpriteRenderer.sprite = _characterInfo.damagedSprite;
-                break;
-            case CharacterState.DEATH:
-                _characterSpriteRenderer.sprite = (_characterInfo.deathSprite == null) ? _characterInfo.damagedSprite : _characterInfo.deathSprite;
-                break;
-        }
-        if (lockSprite) { _canSpriteChange = false; }
-    }
-
-    public void TurnSelectedColor()
-    {
-        if (!IsAlive()) { return; }
-        _characterSpriteRenderer.color = new Color(0.8f, 0.8f, 0.8f);
-        _targetSpriteRenderer.enabled = true;
-        _targetAnimator.enabled = true;
-        _targetAnimator.Play("Pulse");
-    }
-
-    public void TurnUnselectedColor()
-    {
-        if (!IsAlive()) { return; }
-        _characterSpriteRenderer.color = new Color(1, 1, 1);
-        _targetSpriteRenderer.enabled = false;
-        _targetAnimator.enabled = false;
-    }
-
-    public void MakeUninteractable()
-    {
-        Destroy(_characterSpriteRenderer.GetComponent<BoxCollider2D>());
     }
 
     #region Calculate modifiers (damage, defense, vulnerability)

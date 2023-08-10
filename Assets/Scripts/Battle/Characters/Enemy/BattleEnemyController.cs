@@ -86,7 +86,7 @@ public class BattleEnemyController : BattleCharacterController
         // Make the enemy uninteractable and hide its UI.
         _targetSpriteRenderer.enabled = false;
         _targetAnimator.enabled = false;
-        MakeUninteractable();
+        SetInteractable(false);
         DisableEnemyUI();
         // Free up space after this enemy is dead for other enemies.
         BattleController.Instance.FreeUpEnemyLocation(transform.position);

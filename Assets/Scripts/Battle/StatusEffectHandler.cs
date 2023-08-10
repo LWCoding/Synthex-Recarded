@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class StatusController : MonoBehaviour
+public class StatusEffectHandler : MonoBehaviour
 {
 
     public Effect effectType;
