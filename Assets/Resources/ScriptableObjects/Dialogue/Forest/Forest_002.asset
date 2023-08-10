@@ -47,10 +47,25 @@ MonoBehaviour:
     characterBlipName: 3
     focusDirection: 1
   - speakerName: Ryan
-    speakerText: Actually, looks like there's a shop up ahead. Why don't we go check
+    speakerText: Also, if you wanna see some cool facts of the enemies you've seen,
+      I wrote some notes in your journal! Click on the red book at the top right
+      to take a look.
+    leftAnimationName: JackTalkingIdle
+    rightAnimationName: RyanHappy
+    characterBlipName: 3
+    focusDirection: 1
+  - speakerName: Ryan
+    speakerText: Right next to that, there's a blue button that shows all of the
+      cards in your current deck. Check it out if you're making another card choice!
+    leftAnimationName: JackTalkingIdle
+    rightAnimationName: RyanHappy
+    characterBlipName: 3
+    focusDirection: 1
+  - speakerName: Ryan
+    speakerText: Anyways, looks like there's a shop up ahead. Why don't we go check
       it out?
     leftAnimationName: JackSkepticalIdle
-    rightAnimationName: RyanHappy
+    rightAnimationName: RyanTalking
     characterBlipName: 3
     focusDirection: 1
   - speakerName: Ryan
