@@ -78,7 +78,7 @@ public class UpgradeController : MonoBehaviour
         // Set the console text to have nothing at first.
         ResetConsolePreview();
         // Make the game fade from black to clear.
-        TransitionManager.Instance.ShowScreen(1.25f);
+        TransitionManager.Instance.ShowScreen(0.75f);
     }
 
     public void ResetConsolePreview()

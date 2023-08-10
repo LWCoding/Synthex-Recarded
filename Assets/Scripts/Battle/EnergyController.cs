@@ -14,7 +14,7 @@ public class EnergyController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _energyText;
     [SerializeField] private Color _badEnergyTextColor;
 
-    public UnityEvent<int> OnEnergyChanged = new UnityEvent<int>(); // Current amt of energy as param.
+    [HideInInspector] public UnityEvent<int> OnEnergyChanged = new UnityEvent<int>(); // Current amt of energy as param.
 
     private int _currentEnergy;
     private int _maxEnergy = 3;

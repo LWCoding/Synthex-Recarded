@@ -6,18 +6,21 @@ using UnityEngine.Events;
 public class PlayerTurn : State
 {
     public PlayerTurn() : base() { }
+    private bool _waitingToEndTurn = false;
 
     public override IEnumerator Start()
     {
+        _waitingToEndTurn = false;
         BattleController.TurnNumber++;
         // Sets energy to max energy.
         EnergyController.Instance.RestoreEnergy();
         EnergyController.Instance.EnergyGlow();
+        // Attempt to reset block but ONLY for player.
+        BattleController.GetPlayer().TryResetBlock();
         // Run the turn start logic function for player and enemies.
-        BattleController.playerBCC.TurnStartLogic(BattleController.TurnNumber);
-        foreach (BattleEnemyController bec in BattleController.enemyBCCs)
+        BattleController.GetPlayer().TurnStartLogic(BattleController.TurnNumber);
+        foreach (BattleEnemyController bec in BattleController.GetAliveEnemies())
         {
-            if (!bec.IsAlive()) { continue; }
             bec.TurnStartLogic(BattleController.TurnNumber);
             bec.GenerateNextMove(BattleController.TurnNumber);
         }
@@ -25,7 +28,7 @@ public class PlayerTurn : State
         EnergyController.Instance.UpdateEnergyText();
         // Draw random cards from the draw pile.
         // Potentially draw more from Lucky Draw effect.
-        StatusEffect luckyDraw = BattleController.playerBCC.GetStatusEffect(Effect.LUCKY_DRAW);
+        StatusEffect luckyDraw = BattleController.GetPlayer().GetStatusEffect(Effect.LUCKY_DRAW);
         int cardsToDraw = 5 + ((luckyDraw != null) ? luckyDraw.amplifier : 0);
         // If it's the first turn, check if the player has any Cheat Cards.
         // If yes, then decrement the cards to draw and draw one of these at random.
@@ -80,7 +83,19 @@ public class PlayerTurn : State
             yield return new WaitForSeconds(0.1f);
         }
         // Allow the user to mess with cards.
-        DeckController.EnableInteractionsForCardsInHand();
+        DeckController.EnableDeckInteractions();
+    }
+
+    public override IEnumerator EndTurn()
+    {
+        // We want to only switch the turn after the player is done animating.
+        // But we also only want to switch ONCE, in case the button is pressed multiple times.
+        if (!_waitingToEndTurn)
+        {
+            _waitingToEndTurn = true;
+            yield return new WaitUntil(() => !BattleController.GetPlayer().IsAnimatingAttacks());
+            BattleController.SetState(new EnemyTurn());
+        }
     }
 
     public override IEnumerator PlayCard(Card c, List<BattleCharacterController> collidingBCCs)
@@ -88,7 +103,7 @@ public class PlayerTurn : State
         // Update energy cost after using card.
         EnergyController.Instance.ChangeEnergy(-c.GetCardStats().cardCost);
         // Play animations and perform actions specified on card.
-        BattleController.playerBCC.PlayCard(c, collidingBCCs);
+        BattleController.GetPlayer().PlayCard(c, collidingBCCs);
         // Find card and move it to the discard pile.
         int idx = DeckController.CardsInHand.IndexOf(c);
         // If it can't find the object, that means that the

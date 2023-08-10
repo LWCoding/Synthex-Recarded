@@ -103,7 +103,7 @@ public partial class BattleCharacterController : MonoBehaviour
                     ChangeHealth(modifier.amplifier);
                     break;
                 case Trait.HEAL_ALL_ENEMIES:
-                    foreach (BattleEnemyController enemyBCC in BattleController.Instance.enemyBCCs)
+                    foreach (BattleEnemyController enemyBCC in BattleController.Instance.GetAliveEnemies())
                     {
                         enemyBCC.ChangeHealth(modifier.amplifier);
                     }

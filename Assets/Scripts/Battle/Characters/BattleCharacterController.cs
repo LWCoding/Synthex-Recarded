@@ -68,6 +68,7 @@ public partial class BattleCharacterController : MonoBehaviour
     private Vector3 _initialSpritePosition;
     private List<CardToRender> _cardsToRender = new List<CardToRender>();
     private IEnumerator _playCardsCoroutine = null;
+    public bool IsAnimatingAttacks() => _playCardsCoroutine != null;
     protected IEnumerator _flashColorCoroutine = null;
     protected IEnumerator _damageShakeCoroutine = null;
     protected Alignment _characterAlignment;
@@ -188,18 +189,9 @@ public partial class BattleCharacterController : MonoBehaviour
                         break;
                 }
             }
-            // If the player has the Persevere effect, don't remove block.
-            if (statusHandler.GetStatusEffect(Effect.PERSEVERE) != null)
-            {
-                StatusEffect s = statusHandler.GetStatusEffect(Effect.PERSEVERE);
-                s.shouldActivate = true;
-            }
-            else
-            {
-                // Or else, remove all block.
-                ChangeBlock(-GetBlock(), false);
-            }
         }
+        // Attempt to reset the block of the current character.
+        TryResetBlock();
         // Decrement all status effects that should decrement every turn.
         for (int i = statusHandler.statusEffects.Count - 1; i >= 0; i--)
         {
@@ -209,6 +201,21 @@ public partial class BattleCharacterController : MonoBehaviour
                 statusHandler.DecrementStatusEffect(s.statusInfo.type, 1);
                 s.shouldActivate = true;
             }
+        }
+    }
+
+    public void TryResetBlock()
+    {
+        // If the player has the Persevere effect, don't remove block.
+        if (statusHandler.GetStatusEffect(Effect.PERSEVERE) != null)
+        {
+            StatusEffect s = statusHandler.GetStatusEffect(Effect.PERSEVERE);
+            s.shouldActivate = true;
+        }
+        else
+        {
+            // Or else, remove all block.
+            ChangeBlock(-GetBlock(), false);
         }
     }
 

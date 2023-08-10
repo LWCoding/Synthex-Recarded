@@ -29,6 +29,11 @@ public abstract class State
         yield break;
     }
 
+    public virtual IEnumerator EndTurn()
+    {
+        yield break;
+    }
+
     public virtual IEnumerator PlayCard(Card card, List<BattleCharacterController> collidingBCCs)
     {
         yield break;

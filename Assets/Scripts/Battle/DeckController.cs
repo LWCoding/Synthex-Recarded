@@ -39,7 +39,7 @@ public class DeckController : MonoBehaviour
     }
 
     // Allows the players to use cards in their hand.
-    public void EnableInteractionsForCardsInHand()
+    public void EnableDeckInteractions()
     {
         // Allow the user to mess with cards.
         for (int i = 0; i < CardObjectsInHand.Count; i++)
@@ -50,7 +50,7 @@ public class DeckController : MonoBehaviour
     }
 
     // Allows the players to use cards in their hand.
-    public void DisableInteractionsForCardsInHand()
+    public void DisableDeckInteractions()
     {
         // Allow the user to mess with cards.
         for (int i = 0; i < CardObjectsInHand.Count; i++)
@@ -66,8 +66,8 @@ public class DeckController : MonoBehaviour
         switch (type)
         {
             case CardEffectType.POISON:
-                BattleController.Instance.playerBCC.FlashColor(new Color(0, 1, 0), true);
-                BattleController.Instance.playerBCC.DamageShake(1, 1);
+                BattleController.Instance.GetPlayer().FlashColor(new Color(0, 1, 0), true);
+                BattleController.Instance.GetPlayer().DamageShake(1, 1);
                 break;
         }
         BattleController.Instance.OnNextTurnStart.AddListener(() =>
@@ -203,7 +203,7 @@ public class DeckController : MonoBehaviour
         GameObject cardObject = BattlePooler.Instance.GetCardObjectFromPool(_deckParentTransform);
         CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
         cardHandler.Initialize(card, true);
-        cardHandler.UpdateCardVisuals(BattleController.Instance.playerBCC.CalculateDamageModifiers(card), BattleController.Instance.playerBCC.CalculateDefenseModifiers());
+        cardHandler.UpdateCardVisuals(BattleController.Instance.GetPlayer().CalculateDamageModifiers(card), BattleController.Instance.GetPlayer().CalculateDefenseModifiers());
         cardHandler.UpdateColorBasedOnPlayability();
         cardHandler.ModifyHoverBehavior(true, true, true, true);
         CardObjectsInHand.Add(cardObject);

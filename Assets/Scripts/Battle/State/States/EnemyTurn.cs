@@ -31,22 +31,20 @@ public class EnemyTurn : State
         // Make the enemy make a move based on the selected algorithm.
         // This is handled in the partial class `BattleController_AI`.
         // Loop ONLY through original enemies. Not summoned ones mid-way.
-        List<BattleCharacterController> originalEnemyBCCs = new List<BattleCharacterController>(BattleController.enemyBCCs);
+        List<BattleCharacterController> originalEnemyBCCs = new List<BattleCharacterController>(BattleController.GetAliveEnemies());
         foreach (BattleEnemyController bec in originalEnemyBCCs)
         {
-            if (!bec.IsAlive()) { continue; }
-            yield return bec.PlayCardCoroutine(bec.GetStoredCard(), new List<BattleCharacterController>() { BattleController.playerBCC });
+            yield return bec.PlayCardCoroutine(bec.GetStoredCard(), new List<BattleCharacterController>() { BattleController.GetPlayer() });
             yield return new WaitForSeconds(0.4f);
         }
         // Run the turn end logic for both the player and the enemy.
-        BattleController.playerBCC.TurnEndLogic();
-        foreach (BattleEnemyController bec in BattleController.enemyBCCs)
+        BattleController.GetPlayer().TurnEndLogic();
+        foreach (BattleEnemyController bec in BattleController.GetAliveEnemies())
         {
-            if (!bec.IsAlive()) { continue; }
             bec.TurnEndLogic();
         }
         yield return new WaitForSeconds(0.25f);
-        if (!BattleController.playerBCC.IsAlive())
+        if (!BattleController.GetPlayer().IsAlive())
         {
             BattleController.SetState(new Lost());
         }

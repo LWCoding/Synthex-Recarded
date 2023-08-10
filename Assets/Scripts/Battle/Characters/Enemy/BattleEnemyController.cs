@@ -110,7 +110,7 @@ public class BattleEnemyController : BattleCharacterController
             TopBarController.Instance.AnimateTokensToBalance(TokenType.XP, Camera.main.WorldToScreenPoint(gameObject.transform.position), _xpRewardAmount);
         }
         // If the player died too, stop here.
-        if (!BattleController.Instance.playerBCC.IsAlive()) { return; }
+        if (!BattleController.Instance.GetPlayer().IsAlive()) { return; }
         // Only IF there are no remaining enemies, end the battle.
         if (BattleController.Instance.GetAliveEnemies().Count == 0)
         {

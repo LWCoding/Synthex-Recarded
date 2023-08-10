@@ -2257,7 +2257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481a678ad5b8df24ca4fd13bf97f636c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterAlignment: 0
   _characterSpriteContainer: {fileID: 1846525057}
   _characterSpriteRenderer: {fileID: 1485899164}
   _characterShadowSpriteRenderer: {fileID: 10447735}
@@ -3796,7 +3795,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1710647192}
   m_Layer: 5
-  m_Name: Hand
+  m_Name: DeckParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3857,9 +3856,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea1b18d939c30b4d9d4b2c691b1871d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabObject: {fileID: 4792568731130291040, guid: e9045286d9098c748bd44545a01b581c, type: 3}
-  playerObject: {fileID: 987096959}
-  endTurnButton: {fileID: 819488464}
+  _enemyPrefabObject: {fileID: 4792568731130291040, guid: e9045286d9098c748bd44545a01b581c, type: 3}
+  _playerObject: {fileID: 987096959}
+  _endTurnButton: {fileID: 819488464}
   _spawnableEnemyLocations:
   - position: {x: 5.5, y: 0.2, z: 0}
     isTaken: 0
@@ -3870,8 +3869,6 @@ MonoBehaviour:
   OnNextTurnStart:
     m_PersistentCalls:
       m_Calls: []
-  playerBCC: {fileID: 0}
-  enemyBCCs: []
   TurnNumber: 0
 --- !u!4 &1713571435
 Transform:
@@ -4053,9 +4050,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d1d5e1d2cff99468e55d89019fb7f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyGlowImage: {fileID: 1738934680}
-  energyText: {fileID: 1851856587}
-  badEnergyTextColor: {r: 0.6313726, g: 0.06666667, b: 0.09019608, a: 1}
+  _energyGlowImage: {fileID: 1738934680}
+  _energyText: {fileID: 1851856587}
+  _badEnergyTextColor: {r: 0.6792453, g: 0, b: 0, a: 1}
   OnEnergyChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4132,9 +4129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec52715b5193db44950b9d7d52923bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawText: {fileID: 1053511965}
-  discardText: {fileID: 1201428740}
-  deckParentTransform: {fileID: 1710647192}
+  _drawText: {fileID: 1053511965}
+  _discardText: {fileID: 1201428740}
+  _deckParentTransform: {fileID: 1710647192}
   _drawPileButton: {fileID: 793840997}
   _discardPileButton: {fileID: 325598452}
   CardsInDiscard: []

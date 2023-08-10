@@ -12,7 +12,7 @@ public class Won : State
         if (GameManager.HasRelic(RelicType.MEDKIT))
         {
             TopBarController.Instance.FlashRelicObject(RelicType.MEDKIT);
-            BattleController.playerBCC.ChangeHealth(4);
+            BattleController.GetPlayer().ChangeHealth(4);
         }
         // Allot some time to animate the coins going to the player's balance.
         yield return new WaitForSeconds(1.4f);

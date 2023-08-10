@@ -16,7 +16,7 @@ public class ItemEffectRenderer : MonoBehaviour
             case ItemType.CAT_FOOD:
                 if (BattleController.Instance)
                 {
-                    BattleController.Instance.playerBCC.ChangeHealth(itemInfo.variables[0]);
+                    BattleController.Instance.GetPlayer().ChangeHealth(itemInfo.variables[0]);
                 }
                 else
                 {
@@ -24,13 +24,13 @@ public class ItemEffectRenderer : MonoBehaviour
                 }
                 break;
             case ItemType.CHUG_JUG:
-                BattleController.Instance.playerBCC.ChangeBlock(itemInfo.variables[0]);
+                BattleController.Instance.GetPlayer().ChangeBlock(itemInfo.variables[0]);
                 break;
             case ItemType.ENERGY_DRINK:
                 EnergyController.Instance.ChangeEnergy(itemInfo.variables[0]);
                 break;
             case ItemType.PROTEIN_SHAKE:
-                BattleController.Instance.playerBCC.AddStatusEffect(Globals.GetStatus(Effect.STRENGTH, itemInfo.variables[0]));
+                BattleController.Instance.GetPlayer().AddStatusEffect(Globals.GetStatus(Effect.STRENGTH, itemInfo.variables[0]));
                 break;
         }
     }

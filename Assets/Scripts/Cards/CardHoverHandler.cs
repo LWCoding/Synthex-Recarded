@@ -15,7 +15,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
 
     private CardHandler _parentCardHandler;
     private bool isMouseDragging = false;
-    private BattleController battleController = BattleController.Instance;
+    private BattleController _battleController = BattleController.Instance;
     private List<BattleCharacterController> collidingBCCs = null;
     private Camera _camera;
     private Transform _canvasTransform;
@@ -30,15 +30,16 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
     private void Awake()
     {
         _parentCardHandler = GetComponent<CardHandler>();
-        _camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        _camera = Camera.main.GetComponent<Camera>();
         _canvasTransform = GameObject.Find("Canvas").transform;
+        if (_canvasTransform == null) { Debug.LogError("Could not find required Canvas for CardHoverHandler.cs!"); }
     }
 
     private void ResetAllBCCColors()
     {
         // Reset the colors of the player and all enemies.
-        battleController.playerBCC.TurnUnselectedColor();
-        foreach (BattleEnemyController bec in battleController.enemyBCCs)
+        _battleController.GetPlayer().TurnUnselectedColor();
+        foreach (BattleEnemyController bec in _battleController.GetAliveEnemies())
         {
             bec.TurnUnselectedColor();
         }
@@ -49,7 +50,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
         Collider2D[] colliders = Physics2D.OverlapBoxAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), _boxSize, 0);
         foreach (Collider2D collider in colliders)
         {
-            foreach (BattleEnemyController bec in BattleController.Instance.enemyBCCs)
+            foreach (BattleEnemyController bec in _battleController.GetAliveEnemies())
             {
                 if (!bec.IsAlive()) { continue; }
                 BoxCollider2D enemyCollider = bec.GetSpriteCollider();
@@ -131,8 +132,8 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
             case Target.SELF:
                 if (_camera.ScreenToWorldPoint(Input.mousePosition).y > Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY)
                 {
-                    collidingBCCs = new List<BattleCharacterController>() { battleController.playerBCC };
-                    battleController.playerBCC.TurnSelectedColor();
+                    collidingBCCs = new List<BattleCharacterController>() { _battleController.GetPlayer() };
+                    _battleController.GetPlayer().TurnSelectedColor();
                 }
                 else
                 {
@@ -142,9 +143,9 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
             case Target.OTHER:
             case Target.PLAYER_AND_ENEMY:
                 BattleCharacterController bcc = GetOverlappingEnemyBCC();
-                if (bcc == null && battleController.enemyBCCs.Count == 1 && Camera.main.ScreenToWorldPoint(Input.mousePosition).y > Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY)
+                if (bcc == null && _battleController.GetAliveEnemies().Count == 1 && Camera.main.ScreenToWorldPoint(Input.mousePosition).y > Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY)
                 {
-                    bcc = battleController.enemyBCCs[0];
+                    bcc = _battleController.GetAliveEnemies()[0];
                 }
                 if (bcc != null)
                 {
@@ -155,7 +156,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
                     // If we're also targeting the player, make the player selected.
                     if (cardTarget == Target.PLAYER_AND_ENEMY)
                     {
-                        battleController.playerBCC.TurnSelectedColor();
+                        _battleController.GetPlayer().TurnSelectedColor();
                     }
                 }
                 else
@@ -165,7 +166,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
                 break;
             case Target.ENEMY_ALL:
                 collidingBCCs = new List<BattleCharacterController>();
-                foreach (BattleEnemyController bec in BattleController.Instance.enemyBCCs)
+                foreach (BattleEnemyController bec in _battleController.GetAliveEnemies())
                 {
                     if (bec.IsAlive())
                     {
@@ -196,9 +197,9 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
             if (!wasMouseButtonRaised) { yield break; }
             // If we are currently interacting with a valid enemy object,
             // run the card info.
-            if (collidingBCCs != null || (battleController.enemyBCCs.Count == 1 && Camera.main.ScreenToWorldPoint(Input.mousePosition).y > Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY))
+            if (collidingBCCs != null || (_battleController.GetAliveEnemies().Count == 1 && Camera.main.ScreenToWorldPoint(Input.mousePosition).y > Y_VALUE_TO_INTERACT_FOR_SINGLE_ENEMY))
             {
-                if (battleController.enemyBCCs.Count == 1) { collidingBCCs = new List<BattleCharacterController>() { battleController.enemyBCCs[0] }; }
+                if (_battleController.GetAliveEnemies().Count == 1) { collidingBCCs = new List<BattleCharacterController>() { _battleController.GetAliveEnemies()[0] }; }
                 // Reset the colors of the player and all enemies.
                 ResetAllBCCColors();
                 // If the player can't play it, stop here. Don't let the actions run.
@@ -210,9 +211,9 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
                 // If the card has effects, render those effects.
                 if (_parentCardHandler.HasCardEffect(CardEffectType.POISON))
                 {
-                    battleController.playerBCC.ChangeHealth(-4, true);
+                    _battleController.GetPlayer().ChangeHealth(-4, true);
                 }
-                battleController.PlayCardInHand(_parentCardHandler.card, collidingBCCs);
+                _battleController.PlayCardInHand(_parentCardHandler.card, collidingBCCs);
             }
         }
     }

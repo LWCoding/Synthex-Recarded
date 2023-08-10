@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using TMPro;
 
 [System.Serializable]
 public class SpawnableEnemyLocation
@@ -35,11 +34,12 @@ public partial class BattleController : StateMachine
     public void TakeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = true;
     public void FreeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = false;
 
-    [HideInInspector] public UnityEvent OnNextTurnStart = new UnityEvent();
-    [HideInInspector] public BattleCharacterController playerBCC;
-    [HideInInspector] public List<BattleCharacterController> enemyBCCs = new List<BattleCharacterController>();
-    public List<BattleCharacterController> GetAliveEnemies() => enemyBCCs.FindAll((bec) => bec.IsAlive());
+    private BattleCharacterController _playerBCC;
+    private List<BattleCharacterController> _enemyBCCs = new List<BattleCharacterController>();
+    public BattleCharacterController GetPlayer() => _playerBCC;
+    public List<BattleCharacterController> GetAliveEnemies() => _enemyBCCs.FindAll((bec) => bec.IsAlive());
 
+    [HideInInspector] public UnityEvent OnNextTurnStart = new UnityEvent();
     public int TurnNumber; // To help with Enemy AI calculations
 
     private void Awake()
@@ -51,7 +51,7 @@ public partial class BattleController : StateMachine
         Instance = this;
         TurnNumber = 0;
         // Initialize some properties.
-        playerBCC = _playerObject.GetComponent<BattleHeroController>();
+        _playerBCC = _playerObject.GetComponent<BattleHeroController>();
         // Make the screen refresh cards if the screen is resized.
         RefreshCardsOnScreenResize();
     }
@@ -81,7 +81,7 @@ public partial class BattleController : StateMachine
     // Sets the state to be the enemy turn when the end turn button is pressed.
     public void OnEndTurnPressed()
     {
-        SetState(new EnemyTurn());
+        StartCoroutine(State.EndTurn());
     }
 
     #region Initialization Scripts
@@ -122,8 +122,8 @@ public partial class BattleController : StateMachine
             DeckController.Instance.CardsInDiscard.Add(cardCopy);
         }
         // Set the rest of the PlayerBCC values.
-        playerBCC.InitializeHealthData(GameManager.GetHeroHealth(), GameManager.GetHeroMaxHealth());
-        playerBCC.Initialize(GameManager.GetHeroData());
+        _playerBCC.InitializeHealthData(GameManager.GetHeroHealth(), GameManager.GetHeroMaxHealth());
+        _playerBCC.Initialize(GameManager.GetHeroData());
     }
 
     // Initializes an enemy object.
@@ -134,7 +134,7 @@ public partial class BattleController : StateMachine
         // Initialize this enemy based on the Enemy scriptable object data.
         GameObject enemyObject = Instantiate(_enemyPrefabObject);
         BattleEnemyController bec = enemyObject.GetComponent<BattleEnemyController>();
-        enemyBCCs.Add(bec);
+        _enemyBCCs.Add(bec);
         // Initialize the rest of the enemy's information.
         int generatedHealth = Random.Range(enemyData.enemyHealthMin, enemyData.enemyHealthMax + 1);
         if (enemyData.effectsToStartWith.Count > 0)

@@ -72,6 +72,7 @@ public class CardHandler : MonoBehaviour
         _cardCanvasGroup = GetComponent<CanvasGroup>();
         _canvasTransform = GameObject.Find("Canvas").transform;
         _tooltipInitialLocalPosition = tooltipParentObject.transform.localPosition;
+        if (_canvasTransform == null) { Debug.LogError("Could not find required Canvas for CardHandler.cs!"); }
     }
 
     // Usually, this card is animated into frame with the CardAppear coroutine.

@@ -10,7 +10,7 @@ public class Lost : State
     public override IEnumerator Start()
     {
         // Play Jack's death animation.
-        BattleController.playerBCC.SetCharacterSprite(CharacterState.DEATH, true);
+        BattleController.GetPlayer().SetCharacterSprite(CharacterState.DEATH, true);
         // Play the death sound effect.
         SoundManager.Instance.PlaySFX(SoundEffect.GAME_OVER);
         // Transition back to the title.
