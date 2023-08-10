@@ -5,7 +5,7 @@ using UnityEngine;
 public class Begin : State
 {
 
-    public Begin(BattleController battleController) : base(battleController) { }
+    public Begin() : base() { }
 
     public override IEnumerator Start()
     {
@@ -14,7 +14,7 @@ public class Begin : State
         InitializeRelicListeners();
         InitializeEnergyListeners();
         // After initializing, make it the player's turn.
-        BattleController.SetState(new PlayerTurn(BattleController));
+        BattleController.SetState(new PlayerTurn());
     }
 
     // Add logic that makes different relics perform their functions by modifying
@@ -134,7 +134,7 @@ public class Begin : State
         });
         BattleController.playerBCC.OnPlayedCard.AddListener((e) =>
         {
-            foreach (GameObject obj in BattleController.CardObjectsInHand)
+            foreach (GameObject obj in DeckController.CardObjectsInHand)
             {
                 CardHandler cardHandler = obj.GetComponent<CardHandler>();
                 cardHandler.UpdateCardDescription(BattleController.playerBCC.CalculateDamageModifiers(cardHandler.card), BattleController.playerBCC.CalculateDefenseModifiers());
@@ -149,7 +149,7 @@ public class Begin : State
         // Make energy updates change the displays of cards in the player's hand.
         EnergyController.Instance.OnEnergyChanged.AddListener((energy) =>
         {
-            foreach (GameObject cardObject in BattleController.CardObjectsInHand)
+            foreach (GameObject cardObject in DeckController.CardObjectsInHand)
             {
                 CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
                 cardHandler.UpdateColorBasedOnPlayability();

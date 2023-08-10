@@ -55,7 +55,7 @@ MonoBehaviour:
       amplifier: 2
       renderBehavior: 0
     modifiers: []
-  - cardDesc: Gain [DEF] block. Gain 2 Reflect.
+  - cardDesc: Gain [DEF] block. Gain 3 Reflect.
     cardCost: 1
     damageTarget: 0
     damageValue: 0

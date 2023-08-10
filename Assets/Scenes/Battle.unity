@@ -3831,6 +3831,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1713571435}
   - component: {fileID: 1713571434}
+  - component: {fileID: 1713571443}
   - component: {fileID: 1713571436}
   - component: {fileID: 1713571437}
   - component: {fileID: 1713571440}
@@ -3859,11 +3860,6 @@ MonoBehaviour:
   enemyPrefabObject: {fileID: 4792568731130291040, guid: e9045286d9098c748bd44545a01b581c, type: 3}
   playerObject: {fileID: 987096959}
   endTurnButton: {fileID: 819488464}
-  drawText: {fileID: 1053511965}
-  discardText: {fileID: 1201428740}
-  deckParentTransform: {fileID: 1710647192}
-  _drawPileButton: {fileID: 793840997}
-  _discardPileButton: {fileID: 325598452}
   _spawnableEnemyLocations:
   - position: {x: 5.5, y: 0.2, z: 0}
     isTaken: 0
@@ -3876,10 +3872,6 @@ MonoBehaviour:
       m_Calls: []
   playerBCC: {fileID: 0}
   enemyBCCs: []
-  CardsInDiscard: []
-  CardsInDrawPile: []
-  CardsInHand: []
-  CardObjectsInHand: []
   TurnNumber: 0
 --- !u!4 &1713571435
 Transform:
@@ -4128,6 +4120,27 @@ MonoBehaviour:
   - animationName: Goodbye
     dialogueText: Good luck pal! I'd help you, but, uhhh... I have a sprained ankle.
     dialogueSprite: {fileID: -7305582734530582982, guid: 3f08068cd8d61ad4189704eb4060d726, type: 3}
+--- !u!114 &1713571443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713571433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec52715b5193db44950b9d7d52923bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawText: {fileID: 1053511965}
+  discardText: {fileID: 1201428740}
+  deckParentTransform: {fileID: 1710647192}
+  _drawPileButton: {fileID: 793840997}
+  _discardPileButton: {fileID: 325598452}
+  CardsInDiscard: []
+  CardsInDrawPile: []
+  CardsInHand: []
+  CardObjectsInHand: []
 --- !u!1 &1738934678
 GameObject:
   m_ObjectHideFlags: 0

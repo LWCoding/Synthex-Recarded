@@ -55,7 +55,7 @@ MonoBehaviour:
       amplifier: 1
       renderBehavior: 0
     modifiers: []
-  - cardDesc: Gain 1 Luck.
+  - cardDesc: Gain 2 Luck.
     cardCost: 0
     damageTarget: 2
     damageValue: 0

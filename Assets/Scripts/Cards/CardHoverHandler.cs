@@ -212,7 +212,7 @@ IBeginDragHandler, IDragHandler, IEndDragHandler
                 {
                     battleController.playerBCC.ChangeHealth(-4, true);
                 }
-                battleController.UseCardInHand(_parentCardHandler.card, collidingBCCs);
+                battleController.PlayCardInHand(_parentCardHandler.card, collidingBCCs);
             }
         }
     }

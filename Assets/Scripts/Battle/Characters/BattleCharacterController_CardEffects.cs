@@ -60,7 +60,7 @@ public partial class BattleCharacterController : MonoBehaviour
                 case Trait.CLEAR_CARDS_IN_HAND:
                     if (_characterAlignment == Alignment.HERO)
                     {
-                        BattleController.Instance.EmptyHand();
+                        DeckController.Instance.EmptyHand();
                     }
                     break;
                 case Trait.POISON_CARDS:
@@ -68,7 +68,7 @@ public partial class BattleCharacterController : MonoBehaviour
                     {
                         for (int i = 0; i < modifier.amplifier; i++)
                         {
-                            BattleController.Instance.InflictRandomCardWithEffect(CardEffectType.POISON);
+                            DeckController.Instance.InflictRandomCardWithEffect(CardEffectType.POISON);
                         }
                     }
                     break;

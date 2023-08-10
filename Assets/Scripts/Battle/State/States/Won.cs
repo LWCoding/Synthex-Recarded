@@ -5,7 +5,7 @@ using UnityEngine;
 public class Won : State
 {
 
-    public Won(BattleController battleController) : base(battleController) { }
+    public Won() : base() { }
 
     public override IEnumerator Start()
     {

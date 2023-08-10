@@ -32,7 +32,6 @@ public partial class BattleCharacterController : MonoBehaviour
 {
 
     [Header("Object Assignments")]
-    [SerializeField] private Alignment _characterAlignment;
     [SerializeField] protected Transform _characterSpriteContainer;
     [SerializeField] protected SpriteRenderer _characterSpriteRenderer;
     [SerializeField] protected SpriteRenderer _characterShadowSpriteRenderer;
@@ -71,6 +70,7 @@ public partial class BattleCharacterController : MonoBehaviour
     private IEnumerator _playCardsCoroutine = null;
     protected IEnumerator _flashColorCoroutine = null;
     protected IEnumerator _damageShakeCoroutine = null;
+    protected Alignment _characterAlignment;
     private bool _canSpriteChange = true;
 
     public virtual void Awake()

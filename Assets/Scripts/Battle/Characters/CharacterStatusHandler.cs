@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public partial class CharacterStatusHandler : MonoBehaviour
+public class CharacterStatusHandler : MonoBehaviour
 {
 
     [Header("Object Assignments")]

@@ -15,7 +15,7 @@ public struct BattleTooltip
 }
 
 [RequireComponent(typeof(CharacterStatusHandler))]
-public partial class CharacterHealthHandler : MonoBehaviour
+public class CharacterHealthHandler : MonoBehaviour
 {
 
     [Header("Object Assignments")]

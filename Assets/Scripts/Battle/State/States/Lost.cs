@@ -5,7 +5,7 @@ using UnityEngine;
 public class Lost : State
 {
 
-    public Lost(BattleController battleController) : base(battleController) { }
+    public Lost() : base() { }
 
     public override IEnumerator Start()
     {

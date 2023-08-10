@@ -5,25 +5,25 @@ using UnityEngine;
 public class EnemyTurn : State
 {
 
-    public EnemyTurn(BattleController battleController) : base(battleController) { }
+    public EnemyTurn() : base() { }
 
     public override IEnumerator Start()
     {
         // Animate cards in hand and move them to the discard.
         // Remove all cards in hand, and add them to the discard.
         BattleController.SetEndTurnButtonInteractability(false);
-        int numCardsInHand = BattleController.CardsInHand.Count;
+        int numCardsInHand = DeckController.CardsInHand.Count;
         for (int i = numCardsInHand - 1; i >= 0; i--)
         {
-            BattleController.CardsInDiscard.Add(BattleController.CardsInHand[i]);
+            DeckController.CardsInDiscard.Add(DeckController.CardsInHand[i]);
             int cardIdx = i; // This is necessary because the coroutine doesn't save the current index
-            BattleController.CardObjectsInHand[cardIdx].GetComponent<CardHandler>().CardDisappear(0.25f, CardAnimation.TRANSLATE_DOWN, () =>
+            DeckController.CardObjectsInHand[cardIdx].GetComponent<CardHandler>().CardDisappear(0.25f, CardAnimation.TRANSLATE_DOWN, () =>
             {
-                BattlePooler.Instance.ReturnCardObjectToPool(BattleController.CardObjectsInHand[cardIdx]);
-                BattleController.CardsInHand.RemoveAt(cardIdx);
-                BattleController.CardObjectsInHand.RemoveAt(cardIdx);
+                BattlePooler.Instance.ReturnCardObjectToPool(DeckController.CardObjectsInHand[cardIdx]);
+                DeckController.CardsInHand.RemoveAt(cardIdx);
+                DeckController.CardObjectsInHand.RemoveAt(cardIdx);
             });
-            BattleController.UpdateDrawDiscardTexts();
+            DeckController.UpdateDrawDiscardTexts();
             yield return new WaitForSeconds(0.04f);
         }
         // Return game state back to enemy.
@@ -48,11 +48,11 @@ public class EnemyTurn : State
         yield return new WaitForSeconds(0.25f);
         if (!BattleController.playerBCC.IsAlive())
         {
-            BattleController.SetState(new Lost(BattleController));
+            BattleController.SetState(new Lost());
         }
         else
         {
-            BattleController.SetState(new PlayerTurn(BattleController));
+            BattleController.SetState(new PlayerTurn());
         }
     }
 

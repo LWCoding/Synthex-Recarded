@@ -10,13 +10,14 @@ public class EnergyController : MonoBehaviour
 
     public static EnergyController Instance;
     [Header("Object Assignments")]
-    public Image energyGlowImage;
-    public TextMeshProUGUI energyText;
-    public Color badEnergyTextColor;
+    [SerializeField] private Image _energyGlowImage;
+    [SerializeField] private TextMeshProUGUI _energyText;
+    [SerializeField] private Color _badEnergyTextColor;
+
     public UnityEvent<int> OnEnergyChanged = new UnityEvent<int>(); // Current amt of energy as param.
 
-    [HideInInspector] private int _currentEnergy;
-    [HideInInspector] private int _maxEnergy = 3;
+    private int _currentEnergy;
+    private int _maxEnergy = 3;
     private Color _initialEnergyTextColor;
     private IEnumerator _energyGlowCoroutine = null;
 
@@ -28,7 +29,7 @@ public class EnergyController : MonoBehaviour
             return;
         }
         Instance = GetComponent<EnergyController>();
-        _initialEnergyTextColor = energyText.color;
+        _initialEnergyTextColor = _energyText.color;
     }
 
     public int GetCurrentEnergy()
@@ -75,7 +76,7 @@ public class EnergyController : MonoBehaviour
 
     public void UpdateEnergyText()
     {
-        energyText.text = _currentEnergy.ToString() + "/" + _maxEnergy.ToString();
+        _energyText.text = _currentEnergy.ToString() + "/" + _maxEnergy.ToString();
     }
 
     public void EnergyGlow()
@@ -92,24 +93,24 @@ public class EnergyController : MonoBehaviour
     {
         float time = 0.2f;
         float increment = 1 / time * Time.deltaTime;
-        Color initialColor = energyGlowImage.color;
-        energyGlowImage.color = new Color(initialColor.r, initialColor.g, initialColor.b, 0);
+        Color initialColor = _energyGlowImage.color;
+        _energyGlowImage.color = new Color(initialColor.r, initialColor.g, initialColor.b, 0);
 
         Color targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, 1);
-        while (Mathf.Abs(energyGlowImage.color.a - targetColor.a) > 0.1f)
+        while (Mathf.Abs(_energyGlowImage.color.a - targetColor.a) > 0.1f)
         {
-            energyGlowImage.color = Color.Lerp(energyGlowImage.color, targetColor, increment);
+            _energyGlowImage.color = Color.Lerp(_energyGlowImage.color, targetColor, increment);
             yield return null;
         }
 
         targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, 0);
-        while (Mathf.Abs(energyGlowImage.color.a - targetColor.a) > 0.01f)
+        while (Mathf.Abs(_energyGlowImage.color.a - targetColor.a) > 0.01f)
         {
-            energyGlowImage.color = Color.Lerp(energyGlowImage.color, targetColor, increment);
+            _energyGlowImage.color = Color.Lerp(_energyGlowImage.color, targetColor, increment);
             yield return null;
         }
 
-        energyGlowImage.color = new Color(initialColor.r, initialColor.g, initialColor.b, 0);
+        _energyGlowImage.color = new Color(initialColor.r, initialColor.g, initialColor.b, 0);
     }
 
     public void EnergyCostTurnRed()
@@ -121,12 +122,12 @@ public class EnergyController : MonoBehaviour
     // Sets back to normal after mouse button is released.
     private IEnumerator EnergyCostRedCoroutine()
     {
-        energyText.color = badEnergyTextColor;
+        _energyText.color = _badEnergyTextColor;
         yield return new WaitUntil(() =>
         {
             return !Input.GetMouseButton(0);
         });
-        energyText.color = _initialEnergyTextColor;
+        _energyText.color = _initialEnergyTextColor;
     }
 
 }

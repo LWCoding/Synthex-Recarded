@@ -6,10 +6,12 @@ public abstract class State
 {
 
     protected BattleController BattleController;
+    protected DeckController DeckController;
 
-    public State(BattleController battleController)
+    public State()
     {
-        BattleController = battleController;
+        BattleController = BattleController.Instance;
+        DeckController = DeckController.Instance;
     }
 
     public virtual IEnumerator Start()

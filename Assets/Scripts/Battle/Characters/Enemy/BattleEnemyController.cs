@@ -11,6 +11,7 @@ public enum EnemyAI
     NUTS = 9, ROTTLE = 10, SUMMONER = 11, SLIMINION = 12, BOYKISSER = 99
 }
 
+[RequireComponent(typeof(EnemyIntentHandler))]
 public class BattleEnemyController : BattleCharacterController
 {
 
@@ -26,9 +27,12 @@ public class BattleEnemyController : BattleCharacterController
     private EnemyIntentHandler _intentHandler;
     private Card _storedCardForNextTurn;
 
+    public Card GetStoredCard() => _storedCardForNextTurn;
+
     public override void Awake()
     {
         base.Awake();
+        _characterAlignment = Alignment.ENEMY;
         _intentHandler = GetComponent<EnemyIntentHandler>();
     }
 
@@ -115,7 +119,7 @@ public class BattleEnemyController : BattleCharacterController
             {
                 cardObject.GetComponent<CardHandler>().DisableInteractions();
             }
-            BattleController.Instance.SetState(new Won(BattleController.Instance));
+            BattleController.Instance.SetState(new Won());
         }
     }
 
@@ -141,11 +145,6 @@ public class BattleEnemyController : BattleCharacterController
     {
         DisableCharacterUI();
         _intentParentTransform.gameObject.SetActive(false);
-    }
-
-    public Card GetStoredCard()
-    {
-        return _storedCardForNextTurn;
     }
 
     #region Enemy dialogue code

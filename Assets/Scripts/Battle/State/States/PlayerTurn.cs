@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PlayerTurn : State
 {
-    public PlayerTurn(BattleController battleController) : base(battleController) { }
+    public PlayerTurn() : base() { }
 
     public override IEnumerator Start()
     {
@@ -56,7 +56,7 @@ public class PlayerTurn : State
 
     public override IEnumerator OnScreenResize()
     {
-        BattleController.UpdateCardsInHand();
+        DeckController.UpdateCardsInHand();
         yield break;
     }
 
@@ -67,20 +67,20 @@ public class PlayerTurn : State
             if (cardsToDraw == null)
             {
                 // Get a card in the draw pile and add it to the hand.
-                BattleController.ShuffleRandomCardToHand();
+                DeckController.ShuffleRandomCardToHand();
             }
             else
             {
                 // If there are cards to draw, draw from those instead.
-                BattleController.AddCardToHand(cardsToDraw[i]);
+                DeckController.AddCardToHand(cardsToDraw[i]);
             }
             // Render the cards on the screen, and update the numbers.
-            BattleController.UpdateCardsInHand(false);
-            BattleController.UpdateDrawDiscardTexts();
+            DeckController.UpdateCardsInHand(false);
+            DeckController.UpdateDrawDiscardTexts();
             yield return new WaitForSeconds(0.1f);
         }
         // Allow the user to mess with cards.
-        BattleController.EnableInteractionsForCardsInHand();
+        DeckController.EnableInteractionsForCardsInHand();
     }
 
     public override IEnumerator PlayCard(Card c, List<BattleCharacterController> collidingBCCs)
@@ -90,7 +90,7 @@ public class PlayerTurn : State
         // Play animations and perform actions specified on card.
         BattleController.playerBCC.PlayCard(c, collidingBCCs);
         // Find card and move it to the discard pile.
-        int idx = BattleController.CardsInHand.IndexOf(c);
+        int idx = DeckController.CardsInHand.IndexOf(c);
         // If it can't find the object, that means that the
         // card was removed during its effects. Ignore deleting
         // it from the hand, then.
@@ -98,17 +98,17 @@ public class PlayerTurn : State
         {
             yield break;
         }
-        GameObject cardObject = BattleController.CardObjectsInHand[idx];
+        GameObject cardObject = DeckController.CardObjectsInHand[idx];
         // If the card shouldn't exhaust, add it to the discard pile.
         if (!c.HasTrait(Trait.EXHAUST))
         {
-            BattleController.CardsInDiscard.Add(BattleController.CardsInHand[idx]);
+            DeckController.CardsInDiscard.Add(DeckController.CardsInHand[idx]);
         }
-        BattleController.CardsInHand.RemoveAt(idx);
-        BattleController.CardObjectsInHand.RemoveAt(idx);
-        BattleController.UpdateDrawDiscardTexts();
+        DeckController.CardsInHand.RemoveAt(idx);
+        DeckController.CardObjectsInHand.RemoveAt(idx);
+        DeckController.UpdateDrawDiscardTexts();
         BattlePooler.Instance.ReturnCardObjectToPool(cardObject);
-        BattleController.UpdateCardsInHand();
+        DeckController.UpdateCardsInHand();
         yield break;
     }
 
