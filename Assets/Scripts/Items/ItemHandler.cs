@@ -13,8 +13,6 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     [Header("Object Assignments")]
     [SerializeField] private GameObject imageObject;
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI descText;
     [SerializeField] private GameObject itemFlashObject;
     [SerializeField] private Image verifyChoiceImage;
 
@@ -60,14 +58,18 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         _showUITooltipOnHover = showUITooltipOnHover;
         // Set the item information
         itemInfo = item;
-        nameText.text = item.itemName;
+        _uiTooltipHandler.SetTooltipText(item.itemName);
         // Set the description text correctly after replacing variable values.
         string desc = item.itemDesc;
-        for (int i = 0; i < item.variables.Count; i++)
+        if (desc != null)
         {
-            desc = desc.Replace("[" + i.ToString() + "]", item.variables[i].ToString());
+            for (int i = 0; i < item.variables.Count; i++)
+            {
+                desc = desc.Replace("[" + i.ToString() + "]", item.variables[i].ToString());
+            }
+            desc = GameManager.GetDescriptionWithIcons(desc);
+            _uiTooltipHandler.SetTooltipSubText(desc);
         }
-        descText.text = desc;
         imageObject.GetComponent<Image>().sprite = item.itemImage;
         _itemFlashImage.sprite = item.itemImage;
     }

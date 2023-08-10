@@ -344,17 +344,18 @@ public static class GameManager
     /// </summary>
     public static string GetDescriptionWithIcons(string descString)
     {
+        string currString = descString;
         // Replace instances of certain texts with their icons.
-        descString = descString.Replace("damage", "<sprite name=\"damage\">");
-        descString = descString.Replace("health", "<sprite name=\"health\">");
-        descString = descString.Replace("block", "<sprite name=\"block\">");
-        descString = descString.Replace("Energy", "<sprite name=\"energy\">");
+        currString = currString.Replace("damage", "<sprite name=\"damage\">");
+        currString = currString.Replace("health", "<sprite name=\"health\">");
+        currString = currString.Replace("block", "<sprite name=\"block\">");
+        currString = currString.Replace("Energy", "<sprite name=\"energy\">");
         // Replace all status effect names with the icons of the statuses.
         foreach (Status se in Globals.allStatuses)
         {
-            descString = descString.Replace(se.statusName, "<sprite name=\"" + se.statusName.ToLower() + "\">");
+            currString = currString.Replace(se.statusName, "<sprite name=\"" + se.statusName.ToLower() + "\">");
         }
-        return descString;
+        return currString;
     }
 
     /// <summary>

@@ -155,7 +155,7 @@ public class UITooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
     // Animate the tooltip in.
     private IEnumerator AnimateTooltipInCoroutine()
     {
-        ShowTooltip();
+        ShowTooltip(true);
         float currTime = 0f;
         float timeToWait = 0.2f;
         while (currTime < timeToWait)
