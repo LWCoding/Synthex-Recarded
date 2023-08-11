@@ -301,7 +301,6 @@ public class CardHandler : MonoBehaviour
         // We use Vector3.Distance because we use SmoothDamp to make the translation smoother.
         while (Vector3.Distance(CardObject.transform.position, targetPosition) > 0.01f)
         {
-            if (CardObject == null) { yield break; }
             currTime += Time.deltaTime;
             CardObject.transform.localPosition = Vector3.SmoothDamp(CardObject.transform.localPosition, targetPosition, ref initialVel, timeInSeconds);
             _cardCanvasGroup.alpha = Mathf.Lerp(0, 1, currTime / timeInSeconds);
@@ -331,7 +330,6 @@ public class CardHandler : MonoBehaviour
         Vector3 cardObjectInitialScale = CardObject.transform.localScale;
         while (currTime < timeInSeconds)
         {
-            if (CardObject == null) { yield break; }
             currTime += Time.deltaTime;
             if (cardAnimationType == CardAnimation.SHRINK)
             {
@@ -345,7 +343,6 @@ public class CardHandler : MonoBehaviour
             yield return null;
         }
         // Make sure the card is completely hidden.
-        if (CardObject == null) { yield break; }
         HideCardInstantly();
         codeToExecuteAfter.Invoke();
     }
@@ -381,6 +378,11 @@ public class CardHandler : MonoBehaviour
         _cardHoverHandler.TransformOnHover = transformOnHover;
         _cardHoverHandler.SortTopOnHover = sortTopOnHover;
         _cardHoverHandler.AllowDragging = allowDrag;
+    }
+
+    public void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 
 }

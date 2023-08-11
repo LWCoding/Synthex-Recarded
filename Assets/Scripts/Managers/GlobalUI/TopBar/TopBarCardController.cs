@@ -15,6 +15,7 @@ public class TopBarCardController : MonoBehaviour
     public void ShowDeckOverlay() => _deckOverlayContainer.SetActive(true);
     [SerializeField] private Image _deckOverlayImage;
     [SerializeField] private ScrollRect _cardPreviewScrollRect;
+    [SerializeField] private CanvasGroup _scrollBarCanvasGroup;
     [SerializeField] private GraphicRaycaster _cardPreviewGraphicRaycaster;
     [SerializeField] private Transform _cardPreviewParentTransform;
     [SerializeField] private Button _showDeckButton;
@@ -26,7 +27,6 @@ public class TopBarCardController : MonoBehaviour
     private Button _currentlySelectedButton = null;
     public bool IsCardPreviewShowing() => _currentlySelectedButton != null;
     private List<CardHandler> _cardPreviewHandlers = new List<CardHandler>();
-    private int _selectedButtonInitialSortingOrder = 0;
 
     public void Initialize()
     {
@@ -112,15 +112,17 @@ public class TopBarCardController : MonoBehaviour
     // menu.
     private IEnumerator ShowCardsCoroutine(List<Card> cardsToShow)
     {
-        _selectedButtonInitialSortingOrder = _currentlySelectedButton.GetComponent<Canvas>().sortingOrder;
         // Disable the scroll rect UNTIL all cards have animated in.
         _cardPreviewScrollRect.enabled = false;
         _currentlySelectedButton.interactable = false;
         // Enable the graphic raycaster so that the scrolling works.
         _cardPreviewGraphicRaycaster.enabled = true;
-        _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = _deckOverlayImage.GetComponent<Canvas>().sortingOrder + 1;
+        // Set the sorting order of the cards to be over the overlay.
+        int newSortingOrder = _deckOverlayImage.GetComponent<Canvas>().sortingOrder + 1;
+        _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = newSortingOrder;
+        // Initialize information for card handlers.
         _cardPreviewHandlers = new List<CardHandler>();
-        yield return ToggleDeckOverlayCoroutine(0.2f, true);
+        yield return ToggleDeckOverlayCoroutine(true);
         Transform horizontalTransform = null;
         int currCardIdx = 0;
         // Order the cards in alphabetical order, so the player
@@ -153,6 +155,10 @@ public class TopBarCardController : MonoBehaviour
             cc.CardAppear();
             yield return wfs;
         }
+        // Animate the scrollbar in.
+        StartCoroutine(ToggleScrollBarCoroutine(true));
+        // In case sorting order was modified, re-set it again.
+        _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = _deckOverlayImage.GetComponent<Canvas>().sortingOrder + 1;
         _cardPreviewScrollRect.enabled = true;
         _currentlySelectedButton.interactable = true;
     }
@@ -180,6 +186,8 @@ public class TopBarCardController : MonoBehaviour
         {
             child.GetComponent<HorizontalLayoutGroup>().enabled = false;
         }
+        // Animate the scrollbar out.
+        StartCoroutine(ToggleScrollBarCoroutine(false));
         // Hide each card, if any exist.
         if (_cardPreviewHandlers.Count > 0)
         {
@@ -209,27 +217,26 @@ public class TopBarCardController : MonoBehaviour
         }
         // Disable the graphic raycaster so that the scrolling doesn't block the screen.
         _cardPreviewGraphicRaycaster.enabled = false;
-        yield return ToggleDeckOverlayCoroutine(0.2f, false);
+        yield return ToggleDeckOverlayCoroutine(false);
         _currentlySelectedButton.interactable = true;
-        _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = _selectedButtonInitialSortingOrder;
         _currentlySelectedButton = null;
     }
 
     // This Coroutine is called when a deck preview is currently being shown,
     // whether it be the Draw Pile, Discard Pile, or Whole Deck. It should
     // darken it all the way to allow for a scene transition.
-    private IEnumerator ToggleDeckOverlayCoroutine(float timeInSeconds, bool shouldShow)
+    private IEnumerator ToggleDeckOverlayCoroutine(bool shouldShow)
     {
         // Set all of the initial values of the card to be partially visible.
         ShowDeckOverlay();
-        Color initialColor = new Color(0, 0, 0, (shouldShow) ? 0 : 0.5f);
-        Color targetColor = new Color(0, 0, 0, (shouldShow) ? 0.5f : 0);
-        float frames = 0;
-        float maxFrames = timeInSeconds * 60; // Max # of frames calculated by 60 frames per second!
-        while (frames < maxFrames)
+        Color initialColor = new Color(0, 0, 0, (shouldShow) ? 0 : 0.7f);
+        Color targetColor = new Color(0, 0, 0, (shouldShow) ? 0.7f : 0);
+        float currTime = 0;
+        float timeToWait = 0.2f;
+        while (currTime < timeToWait)
         {
-            _deckOverlayImage.color = Color.Lerp(initialColor, targetColor, frames / maxFrames);
-            frames++;
+            currTime += Time.deltaTime;
+            _deckOverlayImage.color = Color.Lerp(initialColor, targetColor, currTime / timeToWait);
             yield return null;
         }
         // Make sure all values have been properly Lerped by setting them.
@@ -239,6 +246,22 @@ public class TopBarCardController : MonoBehaviour
         {
             HideDeckOverlay();
         }
+    }
+
+    private IEnumerator ToggleScrollBarCoroutine(bool shouldShow)
+    {
+        float initialAlpha = (shouldShow) ? 0 : 1;
+        float targetAlpha = (shouldShow) ? 1 : 0;
+        float currTime = 0;
+        float timeToWait = 0.2f; // Max # of frames calculated by 60 frames per second!
+        while (currTime < timeToWait)
+        {
+            currTime += Time.deltaTime;
+            _scrollBarCanvasGroup.alpha = Mathf.Lerp(initialAlpha, targetAlpha, currTime / timeToWait);
+            yield return null;
+        }
+        // Make sure all values have been properly Lerped by setting them.
+        _scrollBarCanvasGroup.alpha = targetAlpha;
     }
 
     private GameObject GetCardObjectFromPool()
