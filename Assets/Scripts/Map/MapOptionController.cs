@@ -6,16 +6,16 @@ using UnityEngine.EventSystems;
 public class MapOptionController : MonoBehaviour
 {
 
+    [Header("Prefab Assignments")]
+    [SerializeField] private GameObject _linePrefab;
     [Header("Object Assignments")]
-    public GameObject linePrefab;
-    public Transform lineParentTransform;
-    public SpriteRenderer iconRenderer;
-    public SpriteRenderer outlineRenderer;
-    public GameObject pSystemObject;
-    public bool isConnected = false;
+    [SerializeField] private Transform _lineParentTransform;
+    [SerializeField] private SpriteRenderer _iconRenderer;
+    [SerializeField] private SpriteRenderer _outlineRenderer;
+    [SerializeField] private GameObject _pSystemObject;
 
-    [Header("Map Location Data")]
-    public SerializableMapLocation serializableMapLocation;
+    [HideInInspector] public SerializableMapLocation SerializableMapLocation;
+    [HideInInspector] public bool IsConnected = false;
 
     private float _initialScale;
     private float _desiredScale;
@@ -32,7 +32,7 @@ public class MapOptionController : MonoBehaviour
 
     private void Start()
     {
-        _initialScale = iconRenderer.transform.localScale.x;
+        _initialScale = _iconRenderer.transform.localScale.x;
         _desiredScale = _initialScale;
     }
 
@@ -58,35 +58,35 @@ public class MapOptionController : MonoBehaviour
         // Make sure this is marked as visited.
         _wasVisited = true;
         // Choose the option in the MapController.
-        MapController.Instance.ChooseOption(serializableMapLocation);
+        MapController.Instance.ChooseOption(SerializableMapLocation);
     }
 
     public void SetType(MapLocationType mapLoc, int floor)
     {
-        serializableMapLocation = new SerializableMapLocation();
-        serializableMapLocation.floorNumber = floor;
-        serializableMapLocation.mapLocationType = mapLoc;
-        serializableMapLocation.position = transform.position;
-        iconRenderer.sprite = mapLoc.sprite;
-        iconRenderer.transform.localScale = new Vector3(mapLoc.iconScale, mapLoc.iconScale, 1);
+        SerializableMapLocation = new SerializableMapLocation();
+        SerializableMapLocation.floorNumber = floor;
+        SerializableMapLocation.mapLocationType = mapLoc;
+        SerializableMapLocation.position = transform.position;
+        _iconRenderer.sprite = mapLoc.sprite;
+        _iconRenderer.transform.localScale = new Vector3(mapLoc.iconScale, mapLoc.iconScale, 1);
         // Change how obstacles are displayed.
         if (mapLoc.isObstacle)
         {
-            iconRenderer.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            outlineRenderer.enabled = false;
-            iconRenderer.color -= new Color(0, 0, 0, 0.3f);
+            _iconRenderer.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            _outlineRenderer.enabled = false;
+            _iconRenderer.color -= new Color(0, 0, 0, 0.3f);
         }
         // Play particle system if it's a miniboss encounter.
         if (mapLoc.type == MapChoice.MINIBOSS_ENCOUNTER)
         {
-            pSystemObject.SetActive(true);
+            _pSystemObject.SetActive(true);
         }
     }
 
     public void SetBossFloor(int floor)
     {
-        serializableMapLocation.position = transform.position;
-        serializableMapLocation.floorNumber = floor;
+        SerializableMapLocation.position = transform.position;
+        SerializableMapLocation.floorNumber = floor;
     }
 
     // Sets whether or not the current sprite is interactable.
@@ -101,9 +101,9 @@ public class MapOptionController : MonoBehaviour
         {
             if (isInteractable)
             {
-                iconRenderer.color = new Color(1, 1, 1, 1);
+                _iconRenderer.color = new Color(1, 1, 1, 1);
                 // Don't make the boss icon pulse.
-                if (serializableMapLocation.mapLocationType.type != MapChoice.BOSS)
+                if (SerializableMapLocation.mapLocationType.type != MapChoice.BOSS)
                 {
                     _mapAnimator.Play("Pulse");
                 }
@@ -111,7 +111,7 @@ public class MapOptionController : MonoBehaviour
             else
             {
                 // If it's not selectable, alpha = 0.2f;
-                iconRenderer.color = new Color(1, 1, 1, 0.2f);
+                _iconRenderer.color = new Color(1, 1, 1, 0.2f);
                 _desiredScale = _initialScale;
             }
         }
@@ -119,7 +119,7 @@ public class MapOptionController : MonoBehaviour
         if (_wasVisited)
         {
             // If it's already visited, alpha = 0.05f;
-            iconRenderer.color = new Color(1, 1, 1, 0.05f);
+            _iconRenderer.color = new Color(1, 1, 1, 0.05f);
         }
     }
 
@@ -129,9 +129,9 @@ public class MapOptionController : MonoBehaviour
     public void CreateLineTo(MapOptionController other, int sortingOrder)
     {
         Vector3 targetPosition = other.transform.position;
-        GameObject lineObject = Instantiate(linePrefab);
-        lineObject.transform.SetParent(lineParentTransform);
-        lineObject.transform.position = lineParentTransform.transform.position;
+        GameObject lineObject = Instantiate(_linePrefab);
+        lineObject.transform.SetParent(_lineParentTransform);
+        lineObject.transform.position = _lineParentTransform.transform.position;
         Transform lineTransform = lineObject.transform.Find("Line").transform;
         Transform lineMaskTransform = lineObject.transform.Find("LineMask").transform;
         float distance = Vector3.Distance(lineTransform.position, targetPosition);
@@ -144,7 +144,7 @@ public class MapOptionController : MonoBehaviour
         lineMaskTransform.GetComponent<SpriteMask>().isCustomRangeActive = true;
         lineMaskTransform.GetComponent<SpriteMask>().frontSortingOrder = sortingOrder;
         lineMaskTransform.GetComponent<SpriteMask>().backSortingOrder = sortingOrder - 1;
-        other.isConnected = true;
+        other.IsConnected = true;
     }
 
     // Instantiates a new line, given a Vector3 position.
@@ -152,9 +152,9 @@ public class MapOptionController : MonoBehaviour
     // mask, to point towards the targetPosition.
     public void CreateLineTo(Vector3 targetPosition, int sortingOrder)
     {
-        GameObject lineObject = Instantiate(linePrefab);
-        lineObject.transform.SetParent(lineParentTransform);
-        lineObject.transform.position = lineParentTransform.transform.position;
+        GameObject lineObject = Instantiate(_linePrefab);
+        lineObject.transform.SetParent(_lineParentTransform);
+        lineObject.transform.position = _lineParentTransform.transform.position;
         Transform lineTransform = lineObject.transform.Find("Line").transform;
         Transform lineMaskTransform = lineObject.transform.Find("LineMask").transform;
         float distance = Vector3.Distance(lineTransform.position, targetPosition);
@@ -171,29 +171,29 @@ public class MapOptionController : MonoBehaviour
 
     public void FixedUpdate()
     {
-        float difference = Mathf.Abs(iconRenderer.transform.localScale.x - _desiredScale);
+        float difference = Mathf.Abs(_iconRenderer.transform.localScale.x - _desiredScale);
         if (difference > 0.011f)
         {
-            if (iconRenderer.transform.localScale.x > _desiredScale)
+            if (_iconRenderer.transform.localScale.x > _desiredScale)
             {
                 if (difference < 0.05f)
                 {
-                    iconRenderer.transform.localScale -= new Vector3(0.01f, 0.01f, 0);
+                    _iconRenderer.transform.localScale -= new Vector3(0.01f, 0.01f, 0);
                 }
                 else
                 {
-                    iconRenderer.transform.localScale -= new Vector3(0.03f, 0.03f, 0);
+                    _iconRenderer.transform.localScale -= new Vector3(0.03f, 0.03f, 0);
                 }
             }
             else
             {
                 if (difference < 0.05f)
                 {
-                    iconRenderer.transform.localScale += new Vector3(0.01f, 0.01f, 0);
+                    _iconRenderer.transform.localScale += new Vector3(0.01f, 0.01f, 0);
                 }
                 else
                 {
-                    iconRenderer.transform.localScale += new Vector3(0.03f, 0.03f, 0);
+                    _iconRenderer.transform.localScale += new Vector3(0.03f, 0.03f, 0);
                 }
             }
         }

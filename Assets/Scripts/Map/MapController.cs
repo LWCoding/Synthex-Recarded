@@ -8,19 +8,22 @@ public class MapController : MonoBehaviour
 {
 
     public static MapController Instance;
+    [Header("Prefab Assignments")]
+    [SerializeField] private GameObject _mapOptionPrefab;
     [Header("Object Assignments")]
-    public GameObject mapOptionPrefab;
-    public Transform playerTransform;
-    public Transform initialPlayerTransform;
-    public SpriteRenderer playerIconSpriteRenderer;
-    public Transform bossBattleTransform;
-    public Transform mapParentObject;
-    public TextMeshPro introBannerText;
+    [SerializeField] private Transform _playerIconObject;
+    [SerializeField] private Transform _initialPlayerTransform;
+    [SerializeField] private Transform _bossBattleTransform;
+    [SerializeField] private Transform _mapParentObject;
+    [SerializeField] private TextMeshPro _introBannerText;
     [Header("Image Assignments")]
-    public Sprite mapEdgeSprite;
-    public Sprite mapBlockSprite;
+    [SerializeField] private Sprite _mapEdgeSprite;
+    [SerializeField] private Sprite _mapBlockSprite;
     [Header("Audio Assignments")]
-    public AudioClip footstepsSFX;
+    [SerializeField] private AudioClip _footstepsSFX;
+
+    private Transform _playerTransform;
+    private SpriteRenderer _playerIconSpriteRenderer;
 
     private SerializableMapObject _serializableMapObject;
     private int _currFloor = 0;
@@ -33,8 +36,14 @@ public class MapController : MonoBehaviour
 
     private void Awake()
     {
-        Instance = GetComponent<MapController>();
+        if (Instance != null)
+        {
+            Destroy(this);
+        }
+        Instance = this;
         _currentMapInfo = Globals.GetMapInfo(GameManager.GetMapScene());
+        _playerTransform = _playerIconObject.transform;
+        _playerIconSpriteRenderer = _playerIconObject.GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -48,13 +57,13 @@ public class MapController : MonoBehaviour
         if (GameManager.GetMapObject() == null)
         {
             InitializeMap();
-            _serializableMapObject.currLocation.position = initialPlayerTransform.position;
+            _serializableMapObject.currLocation.position = _initialPlayerTransform.position;
             // Allow the player to move to the first row of options at the beginning of the game.
             foreach (MapOptionController moc in _mapOptionDictionary[1])
             {
                 SerializableMapPath createdPath = new SerializableMapPath();
                 createdPath.targetPosition = moc.transform.position;
-                createdPath.initialPosition = initialPlayerTransform.position;
+                createdPath.initialPosition = _initialPlayerTransform.position;
                 _serializableMapObject.mapPaths.Add(createdPath);
             }
         }
@@ -63,12 +72,12 @@ public class MapController : MonoBehaviour
             GenerateMapFromObject(GameManager.GetMapObject());
         }
         // Initialize the boss battle info.
-        GameObject bossBattleObj = _mapOptions.Find((obj) => obj.transform.position == bossBattleTransform.position);
+        GameObject bossBattleObj = _mapOptions.Find((obj) => obj.transform.position == _bossBattleTransform.position);
         bossBattleObj.GetComponent<MapOptionController>().SetBossFloor(_numFloors + 1);
         // Initialize the current floor information.
         _currFloor = _serializableMapObject.currLocation.floorNumber;
         // Move the camera up to show the player.
-        MapScroll.Instance.SetCameraPosition(new Vector3(0, playerTransform.position.y + 2, -10));
+        MapScroll.Instance.SetCameraPosition(new Vector3(0, _playerTransform.position.y + 2, -10));
         // Make all map options and the show cards button uninteractable.
         DisableMapOptionColliders();
         // Make the game fade from black to clear.
@@ -104,13 +113,13 @@ public class MapController : MonoBehaviour
         switch (_serializableMapObject.currScene)
         {
             case MapScene.FOREST:
-                introBannerText.text = "<color=\"black\"><size=13>The Forest</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
+                _introBannerText.text = "<color=\"black\"><size=13>The Forest</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
                 break;
             case MapScene.AERICHO:
-                introBannerText.text = "<color=\"black\"><size=13>Aericho City</size></color>\n<color=#282E27><i><size=5>Chapter 2</size></i></color>";
+                _introBannerText.text = "<color=\"black\"><size=13>Aericho City</size></color>\n<color=#282E27><i><size=5>Chapter 2</size></i></color>";
                 break;
             case MapScene.SECRET:
-                introBannerText.text = "<color=\"black\"><size=13>The Secret</size></color>\n<color=#282E27><i><size=5>Hello from Selenium :)</size></i></color>";
+                _introBannerText.text = "<color=\"black\"><size=13>The Secret</size></color>\n<color=#282E27><i><size=5>Hello from Selenium :)</size></i></color>";
                 break;
         }
         yield return MapScroll.Instance.PanCameraAcrossMapCoroutine();
@@ -157,6 +166,8 @@ public class MapController : MonoBehaviour
         });
     }
 
+    #region Initialize map object (on first load)
+
     // This function creates the map background from the 
     // map edge and map block sprites we have.
     private void InitializeMapBG()
@@ -171,7 +182,7 @@ public class MapController : MonoBehaviour
         {
             GameObject mapEdge = new GameObject();
             mapEdge.AddComponent<SpriteRenderer>();
-            mapEdge.GetComponent<SpriteRenderer>().sprite = mapEdgeSprite;
+            mapEdge.GetComponent<SpriteRenderer>().sprite = _mapEdgeSprite;
             mapEdge.transform.localScale = new Vector3(mapScale, i * mapScale, 1);
             mapEdge.transform.position = new Vector3(0, (i == 1) ? (numStacks - 1) * mapGap + edgeYBuffer : -edgeYBuffer, 0);
             mapEdge.transform.position += new Vector3(0, mapVerticalShift, 0);
@@ -181,7 +192,7 @@ public class MapController : MonoBehaviour
         {
             GameObject mapSection = new GameObject();
             mapSection.AddComponent<SpriteRenderer>();
-            mapSection.GetComponent<SpriteRenderer>().sprite = mapBlockSprite;
+            mapSection.GetComponent<SpriteRenderer>().sprite = _mapBlockSprite;
             mapSection.GetComponent<SpriteRenderer>().sortingOrder = -1;
             mapSection.transform.localScale = new Vector3(mapScale, mapScale, 1);
             mapSection.transform.position = new Vector3(0, i * mapGap, 0);
@@ -191,7 +202,7 @@ public class MapController : MonoBehaviour
 
     // This function creates all of the choices on the map.
     // Instantiates them as objects and puts them into the
-    // `mapParentObject` transform.
+    // `_mapParentObject` transform.
     // This should only be run ONCE if the map isn't already
     // loaded in.
     private void InitializeMap()
@@ -200,7 +211,7 @@ public class MapController : MonoBehaviour
         // Set the color of the camera background
         Camera.main.backgroundColor = _currentMapInfo.mapBGColor;
         // Set the player's headshot sprite
-        playerIconSpriteRenderer.sprite = GameManager.GetHeroData().mapHeadshotSprite;
+        _playerIconSpriteRenderer.sprite = GameManager.GetHeroData().mapHeadshotSprite;
         // Create an empty serializable map object.
         _serializableMapObject = new SerializableMapObject();
         _serializableMapObject.currScene = _currentMapInfo.mapType;
@@ -216,17 +227,17 @@ public class MapController : MonoBehaviour
         for (int i = -1; i <= 1; i += 2)
         {
             if (i == 0) { continue; } // Don't spawn one directly on Jack.
-            GameObject outskirtObstacleObject = Instantiate(mapOptionPrefab);
-            outskirtObstacleObject.transform.SetParent(mapParentObject);
-            outskirtObstacleObject.transform.position = mapParentObject.position;
-            outskirtObstacleObject.transform.position += new Vector3(i * xPositionDifference, initialPlayerTransform.position.y, 0);
+            GameObject outskirtObstacleObject = Instantiate(_mapOptionPrefab);
+            outskirtObstacleObject.transform.SetParent(_mapParentObject);
+            outskirtObstacleObject.transform.position = _mapParentObject.position;
+            outskirtObstacleObject.transform.position += new Vector3(i * xPositionDifference, _initialPlayerTransform.position.y, 0);
             outskirtObstacleObject.transform.position += new Vector3(Random.Range(-positionVariation, positionVariation) / 2, Random.Range(-positionVariation, positionVariation) / 2, 0);
             MapLocationType mapLocationType = GetRandomMapLocation(_currentMapInfo.mapObstacles);
             outskirtObstacleObject.GetComponent<MapOptionController>().SetType(mapLocationType, 1);
             // Add the serializable map locations to the map object.
-            _serializableMapObject.mapLocations.Add(outskirtObstacleObject.GetComponent<MapOptionController>().serializableMapLocation);
+            _serializableMapObject.mapLocations.Add(outskirtObstacleObject.GetComponent<MapOptionController>().SerializableMapLocation);
         }
-        bossBattleTransform.position = mapParentObject.position + new Vector3(0, (_numFloors + 0.5f) * yPositionDifference, 0);
+        _bossBattleTransform.position = _mapParentObject.position + new Vector3(0, (_numFloors + 0.5f) * yPositionDifference, 0);
         for (int floor = 0; floor < _numFloors; floor++)
         {
             // For the forest scene, we hard code some battle options.
@@ -234,9 +245,9 @@ public class MapController : MonoBehaviour
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    GameObject optionObject = Instantiate(mapOptionPrefab);
-                    optionObject.transform.SetParent(mapParentObject);
-                    optionObject.transform.position = mapParentObject.position;
+                    GameObject optionObject = Instantiate(_mapOptionPrefab);
+                    optionObject.transform.SetParent(_mapParentObject);
+                    optionObject.transform.position = _mapParentObject.position;
                     optionObject.transform.position += new Vector3(startPosition + i * xPositionDifference, 0, 0);
                     optionObject.transform.position += new Vector3(0, floor * yPositionDifference, 0);
                     optionObject.transform.position += new Vector3(Random.Range(-positionVariation, positionVariation), Random.Range(-positionVariation, positionVariation) / 2, 0);
@@ -245,7 +256,7 @@ public class MapController : MonoBehaviour
                         MapLocationType mapLocationType = GetRandomMapLocation(_currentMapInfo.mapObstacles);
                         optionObject.GetComponent<MapOptionController>().SetType(GetRandomMapLocation(_currentMapInfo.mapObstacles), floor + 1);
                         // Add the serializable map location to the map object.
-                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().SerializableMapLocation);
                     }
                     else
                     {
@@ -257,7 +268,7 @@ public class MapController : MonoBehaviour
                         }
                         _mapOptionDictionary[floor].Add(optionObject.GetComponent<MapOptionController>());
                         // Add the serializable map location to the map object.
-                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().SerializableMapLocation);
                     }
                 }
                 continue;
@@ -266,9 +277,9 @@ public class MapController : MonoBehaviour
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    GameObject optionObject = Instantiate(mapOptionPrefab);
-                    optionObject.transform.SetParent(mapParentObject);
-                    optionObject.transform.position = mapParentObject.position;
+                    GameObject optionObject = Instantiate(_mapOptionPrefab);
+                    optionObject.transform.SetParent(_mapParentObject);
+                    optionObject.transform.position = _mapParentObject.position;
                     optionObject.transform.position += new Vector3(startPosition + i * xPositionDifference, 0, 0);
                     optionObject.transform.position += new Vector3(0, floor * yPositionDifference, 0);
                     optionObject.transform.position += new Vector3(Random.Range(-positionVariation, positionVariation), Random.Range(-positionVariation, positionVariation) / 2, 0);
@@ -277,7 +288,7 @@ public class MapController : MonoBehaviour
                         MapLocationType mapLocationType = GetRandomMapLocation(_currentMapInfo.mapObstacles);
                         optionObject.GetComponent<MapOptionController>().SetType(GetRandomMapLocation(_currentMapInfo.mapObstacles), floor + 1);
                         // Add the serializable map location to the map object.
-                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().SerializableMapLocation);
                     }
                     else
                     {
@@ -289,7 +300,7 @@ public class MapController : MonoBehaviour
                         }
                         _mapOptionDictionary[floor].Add(optionObject.GetComponent<MapOptionController>());
                         // Add the serializable map location to the map object.
-                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().SerializableMapLocation);
                     }
                 }
                 continue;
@@ -298,9 +309,9 @@ public class MapController : MonoBehaviour
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    GameObject optionObject = Instantiate(mapOptionPrefab);
-                    optionObject.transform.SetParent(mapParentObject);
-                    optionObject.transform.position = mapParentObject.position;
+                    GameObject optionObject = Instantiate(_mapOptionPrefab);
+                    optionObject.transform.SetParent(_mapParentObject);
+                    optionObject.transform.position = _mapParentObject.position;
                     optionObject.transform.position += new Vector3(startPosition + i * xPositionDifference, 0, 0);
                     optionObject.transform.position += new Vector3(0, floor * yPositionDifference, 0);
                     optionObject.transform.position += new Vector3(Random.Range(-positionVariation, positionVariation), Random.Range(-positionVariation, positionVariation) / 2, 0);
@@ -309,7 +320,7 @@ public class MapController : MonoBehaviour
                         MapLocationType mapLocationType = GetRandomMapLocation(_currentMapInfo.mapObstacles);
                         optionObject.GetComponent<MapOptionController>().SetType(GetRandomMapLocation(_currentMapInfo.mapObstacles), floor + 1);
                         // Add the serializable map location to the map object.
-                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().SerializableMapLocation);
                     }
                     else
                     {
@@ -321,7 +332,7 @@ public class MapController : MonoBehaviour
                         }
                         _mapOptionDictionary[floor].Add(optionObject.GetComponent<MapOptionController>());
                         // Add the serializable map location to the map object.
-                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                        _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().SerializableMapLocation);
                     }
                 }
                 continue;
@@ -337,25 +348,25 @@ public class MapController : MonoBehaviour
                 {
                     if (obstacleRecentlySpawned) { obstacleRecentlySpawned = false; continue; }
                     obstacleRecentlySpawned = true;
-                    GameObject optionObject = Instantiate(mapOptionPrefab);
-                    optionObject.transform.SetParent(mapParentObject);
-                    optionObject.transform.position = mapParentObject.position;
+                    GameObject optionObject = Instantiate(_mapOptionPrefab);
+                    optionObject.transform.SetParent(_mapParentObject);
+                    optionObject.transform.position = _mapParentObject.position;
                     optionObject.transform.position += new Vector3(startPosition + i * xPositionDifference, 0, 0);
                     optionObject.transform.position += new Vector3(0, floor * yPositionDifference, 0);
                     optionObject.transform.position += new Vector3(Random.Range(-positionVariation, positionVariation), Random.Range(-positionVariation, positionVariation) / 2, 0);
                     MapLocationType mapLocationType = GetRandomMapLocation(_currentMapInfo.mapObstacles);
                     optionObject.GetComponent<MapOptionController>().SetType(GetRandomMapLocation(_currentMapInfo.mapObstacles), floor + 1);
                     // Add the serializable map location to the map object.
-                    _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                    _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().SerializableMapLocation);
                 }
                 else
                 {
                     // Set what type of map event it should be. An encounter? A shop? Etc.
                     MapLocationType mapLocationType = GetRandomMapLocation(_currentMapInfo.mapLocations);
                     // Spawn a treasure room depending on increments.
-                    GameObject optionObject = Instantiate(mapOptionPrefab);
-                    optionObject.transform.SetParent(mapParentObject);
-                    optionObject.transform.position = mapParentObject.position;
+                    GameObject optionObject = Instantiate(_mapOptionPrefab);
+                    optionObject.transform.SetParent(_mapParentObject);
+                    optionObject.transform.position = _mapParentObject.position;
                     optionObject.transform.position += new Vector3(startPosition + i * xPositionDifference, 0, 0);
                     optionObject.transform.position += new Vector3(0, floor * yPositionDifference, 0);
                     optionObject.transform.position += new Vector3(Random.Range(-positionVariation, positionVariation), Random.Range(-positionVariation, positionVariation) / 2, 0);
@@ -367,21 +378,21 @@ public class MapController : MonoBehaviour
                     }
                     _mapOptionDictionary[floor].Add(optionObject.GetComponent<MapOptionController>());
                     // Add the serializable map location to the map object.
-                    _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().serializableMapLocation);
+                    _serializableMapObject.mapLocations.Add(optionObject.GetComponent<MapOptionController>().SerializableMapLocation);
                 }
             }
             // Spawn a few more obstacles around the outskirts of the map.
             for (int i = -1; i <= 1; i += 2)
             {
-                GameObject outskirtObstacleObject = Instantiate(mapOptionPrefab);
-                outskirtObstacleObject.transform.SetParent(mapParentObject);
-                outskirtObstacleObject.transform.position = mapParentObject.position;
+                GameObject outskirtObstacleObject = Instantiate(_mapOptionPrefab);
+                outskirtObstacleObject.transform.SetParent(_mapParentObject);
+                outskirtObstacleObject.transform.position = _mapParentObject.position;
                 outskirtObstacleObject.transform.position += new Vector3(i * outsideObstacleDistance, floor * yPositionDifference, 0);
                 MapLocationType mapLocationType = GetRandomMapLocation(_currentMapInfo.mapObstacles);
                 outskirtObstacleObject.GetComponent<MapOptionController>().SetType(mapLocationType, 1);
                 outskirtObstacleObject.transform.position += new Vector3(Random.Range(-positionVariation, positionVariation) / 3, Random.Range(-positionVariation, positionVariation), 0);
                 // Add the serializable map location to the map object.
-                _serializableMapObject.mapLocations.Add(outskirtObstacleObject.GetComponent<MapOptionController>().serializableMapLocation);
+                _serializableMapObject.mapLocations.Add(outskirtObstacleObject.GetComponent<MapOptionController>().SerializableMapLocation);
             }
         }
         // Helper function to randomly connect every node on the map.
@@ -403,17 +414,17 @@ public class MapController : MonoBehaviour
                 if (chance < 0.33f)
                 {
                     createdPath.targetPosition = _mapOptionDictionary[floor + 1][Mathf.Clamp((j + 1), 0, _mapOptionDictionary[floor + 1].Count - 1)].transform.position;
-                    _mapOptionDictionary[floor + 1][Mathf.Clamp((j + 1), 0, _mapOptionDictionary[floor + 1].Count - 1)].isConnected = true;
+                    _mapOptionDictionary[floor + 1][Mathf.Clamp((j + 1), 0, _mapOptionDictionary[floor + 1].Count - 1)].IsConnected = true;
                 }
                 else if (chance < 0.66f)
                 {
                     createdPath.targetPosition = _mapOptionDictionary[floor + 1][Mathf.Clamp((j - 1), 0, _mapOptionDictionary[floor + 1].Count - 1)].transform.position;
-                    _mapOptionDictionary[floor + 1][Mathf.Clamp((j - 1), 0, _mapOptionDictionary[floor + 1].Count - 1)].isConnected = true;
+                    _mapOptionDictionary[floor + 1][Mathf.Clamp((j - 1), 0, _mapOptionDictionary[floor + 1].Count - 1)].IsConnected = true;
                 }
                 else
                 {
                     createdPath.targetPosition = _mapOptionDictionary[floor + 1][Mathf.Clamp((j), 0, _mapOptionDictionary[floor + 1].Count - 1)].transform.position;
-                    _mapOptionDictionary[floor + 1][Mathf.Clamp((j), 0, _mapOptionDictionary[floor + 1].Count - 1)].isConnected = true;
+                    _mapOptionDictionary[floor + 1][Mathf.Clamp((j), 0, _mapOptionDictionary[floor + 1].Count - 1)].IsConnected = true;
                 }
                 _serializableMapObject.mapPaths.Add(createdPath);
             }
@@ -427,7 +438,7 @@ public class MapController : MonoBehaviour
                 MapOptionController currentFloorNode = mapOptionControllers[j];
                 SerializableMapPath createdPath = new SerializableMapPath();
                 createdPath.targetPosition = currentFloorNode.transform.position;
-                if (!currentFloorNode.isConnected)
+                if (!currentFloorNode.IsConnected)
                 {
                     float chance = Random.Range(0f, 1f);
                     if (chance > 0.33f)
@@ -443,7 +454,7 @@ public class MapController : MonoBehaviour
                         createdPath.initialPosition = _mapOptionDictionary[floor - 1][Mathf.Clamp((j - 1), 0, _mapOptionDictionary[floor - 1].Count - 1)].transform.position;
                     }
                     _serializableMapObject.mapPaths.Add(createdPath);
-                    currentFloorNode.isConnected = true;
+                    currentFloorNode.IsConnected = true;
                 }
             }
         }
@@ -452,12 +463,14 @@ public class MapController : MonoBehaviour
         {
             SerializableMapPath createdPath = new SerializableMapPath();
             createdPath.initialPosition = moc.transform.position;
-            createdPath.targetPosition = bossBattleTransform.position;
+            createdPath.targetPosition = _bossBattleTransform.position;
             _serializableMapObject.mapPaths.Add(createdPath);
         }
         // Helper function to draw lines between every location.
         DrawLinesBetweenLocations();
     }
+
+    #endregion
 
     // Draws lines that connect different map locations to each other.
     private void DrawLinesBetweenLocations()
@@ -484,7 +497,7 @@ public class MapController : MonoBehaviour
         // Draw the first row of nodes to the starting shadow. (purely cosmetic)
         foreach (MapOptionController moc in _mapOptionDictionary[1])
         {
-            moc.CreateLineTo(initialPlayerTransform.position, linesCreated);
+            moc.CreateLineTo(_initialPlayerTransform.position, linesCreated);
             linesCreated++;
         }
     }
@@ -497,24 +510,24 @@ public class MapController : MonoBehaviour
         InitializeMapBG();
         _serializableMapObject = mapObject;
         // Set the boss battle transform.
-        bossBattleTransform.position = mapParentObject.position + new Vector3(0, (_numFloors + 0.5f) * _yPositionDifference / _numFloors, 0);
+        _bossBattleTransform.position = _mapParentObject.position + new Vector3(0, (_numFloors + 0.5f) * _yPositionDifference / _numFloors, 0);
         // Set all of the map locations.
         foreach (SerializableMapLocation mapLoc in _serializableMapObject.mapLocations)
         {
             if (mapLoc.mapLocationType.type == MapChoice.BOSS) { continue; } // Don't make one for the boss.
-            GameObject mapOptionObject = Instantiate(mapOptionPrefab);
+            GameObject mapOptionObject = Instantiate(_mapOptionPrefab);
             // Parent the map option object to the map icon parent.
-            mapOptionObject.transform.SetParent(mapParentObject);
+            mapOptionObject.transform.SetParent(_mapParentObject);
             mapOptionObject.transform.position = mapLoc.position;
             mapOptionObject.transform.GetComponent<MapOptionController>().SetType(mapLoc.mapLocationType, mapLoc.floorNumber);
         }
         // Populate the map option dictionary after creating every object.
         PopulateMapOptionData();
         // Set the player's position.
-        playerTransform.position = _serializableMapObject.currLocation.position;
+        _playerTransform.position = _serializableMapObject.currLocation.position;
         // Set the boss battle icon position.
         float yPositionDifference = _yPositionDifference / _numFloors; // Default: 3
-        bossBattleTransform.position = mapParentObject.position + new Vector3(0, (_numFloors + 0.5f) * yPositionDifference, 0);
+        _bossBattleTransform.position = _mapParentObject.position + new Vector3(0, (_numFloors + 0.5f) * yPositionDifference, 0);
         // Draw all of the lines between nodes on the map.
         DrawLinesBetweenLocations();
     }
@@ -564,14 +577,14 @@ public class MapController : MonoBehaviour
             {
                 MapOptionController moc = obj.GetComponent<MapOptionController>();
                 // If it's not an obstacle, add it to the arrays.
-                if (!moc.serializableMapLocation.mapLocationType.isObstacle)
+                if (!moc.SerializableMapLocation.mapLocationType.isObstacle)
                 {
                     _mapOptions.Add(obj);
-                    if (!_mapOptionDictionary.ContainsKey(moc.serializableMapLocation.floorNumber))
+                    if (!_mapOptionDictionary.ContainsKey(moc.SerializableMapLocation.floorNumber))
                     {
-                        _mapOptionDictionary[moc.serializableMapLocation.floorNumber] = new List<MapOptionController>();
+                        _mapOptionDictionary[moc.SerializableMapLocation.floorNumber] = new List<MapOptionController>();
                     }
-                    _mapOptionDictionary[moc.serializableMapLocation.floorNumber].Add(moc);
+                    _mapOptionDictionary[moc.SerializableMapLocation.floorNumber].Add(moc);
                 }
             }
         }
@@ -606,7 +619,7 @@ public class MapController : MonoBehaviour
     // Enable functionality of all map options as well as the "show all cards in deck" button.
     public void EnableMapOptionColliders()
     {
-        bossBattleTransform.GetComponent<BoxCollider2D>().enabled = true;
+        _bossBattleTransform.GetComponent<BoxCollider2D>().enabled = true;
         // If the floor we're trying to access doesn't exist, we're at the boss.
         if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
         foreach (MapOptionController moc in _mapOptionDictionary[_currFloor + 1])
@@ -618,7 +631,7 @@ public class MapController : MonoBehaviour
     // Disable functionality of all map options as well as the "show all cards in deck" button.
     public void DisableMapOptionColliders()
     {
-        bossBattleTransform.GetComponent<BoxCollider2D>().enabled = false;
+        _bossBattleTransform.GetComponent<BoxCollider2D>().enabled = false;
         // If the floor we're trying to access doesn't exist, we're at the boss.
         if (!_mapOptionDictionary.ContainsKey(_currFloor + 1)) { return; }
         // Or else, disable all the next options until prompted.
@@ -670,16 +683,16 @@ public class MapController : MonoBehaviour
     // Makes the player icon move towards a certain position.
     private IEnumerator HeroTraverseToPositionCoroutine(Vector3 targetPosition)
     {
-        Vector3 initialPosition = playerTransform.localPosition;
-        ParticleSystem playerParticleSystem = playerTransform.Find("Particle System").GetComponent<ParticleSystem>();
+        Vector3 initialPosition = _playerTransform.localPosition;
+        ParticleSystem playerParticleSystem = _playerTransform.Find("Particle System").GetComponent<ParticleSystem>();
         float walkDuration = 1; // Amount of seconds to reach end of path.
         float timeElapsed = 0;
         float timeSinceLastParticle = 0;
         float particleCooldown = 0.15f;
-        SoundManager.Instance.PlayOneShot(footstepsSFX, 0.22f);
+        SoundManager.Instance.PlayOneShot(_footstepsSFX, 0.22f);
         while (timeElapsed < walkDuration)
         {
-            playerTransform.localPosition = Vector3.Lerp(initialPosition, targetPosition, timeElapsed / walkDuration);
+            _playerTransform.localPosition = Vector3.Lerp(initialPosition, targetPosition, timeElapsed / walkDuration);
             timeElapsed += Time.deltaTime;
             timeSinceLastParticle += Time.deltaTime;
             if (timeSinceLastParticle > particleCooldown)
@@ -689,7 +702,7 @@ public class MapController : MonoBehaviour
             }
             yield return null;
         }
-        playerTransform.localPosition = targetPosition;
+        _playerTransform.localPosition = targetPosition;
         yield return new WaitForSeconds(0.5f);
     }
 

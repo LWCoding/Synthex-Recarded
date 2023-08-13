@@ -7,9 +7,11 @@ public class MapScroll : MonoBehaviour
 {
     public static MapScroll Instance;
     [Header("Object Assignments")]
-    public EventSystem eventSystem;
-    public float scrollSpeed;
-    public float transitionSpeed;
+    [SerializeField] private Transform _bossChoiceTransform;
+    [SerializeField] private float _scrollSpeed;
+    [SerializeField] private float _transitionSpeed;
+
+    private EventSystem _eventSystem;
     private GameObject _cameraObject;
     private Vector3 _targetPosition;
     private float _lastScroll;
@@ -27,6 +29,7 @@ public class MapScroll : MonoBehaviour
         }
         Instance = this;
         _cameraObject = Camera.main.gameObject;
+        _eventSystem = EventSystem.current;
         _cameraAnimator = Camera.main.GetComponent<Animator>();
     }
 
@@ -57,14 +60,13 @@ public class MapScroll : MonoBehaviour
     private IEnumerator SetScrollBounds()
     {
         yield return new WaitForEndOfFrame();
-        Transform bossChoiceTransform = MapController.Instance.mapParentObject.transform.Find("BossChoice");
         _minCameraY = _cameraObject.transform.position.y;
-        _maxCameraY = bossChoiceTransform.position.y - 1;
+        _maxCameraY = _bossChoiceTransform.position.y - 1;
     }
 
     private void Update()
     {
-        if (_isPlayingBeginningAnimation || eventSystem.IsPointerOverGameObject())
+        if (_isPlayingBeginningAnimation || _eventSystem.IsPointerOverGameObject())
         {
             return;
         }
@@ -72,10 +74,10 @@ public class MapScroll : MonoBehaviour
         if (Mathf.Abs(scroll - _lastScroll) > Mathf.Epsilon)
         {
             _lastScroll = scroll;
-            _targetPosition.y += scroll * scrollSpeed;
+            _targetPosition.y += scroll * _scrollSpeed;
             _targetPosition.y = Mathf.Clamp(_targetPosition.y, _minCameraY, _maxCameraY);
         }
-        _cameraObject.transform.position = Vector3.Lerp(_cameraObject.transform.position, _targetPosition, Time.deltaTime * transitionSpeed);
+        _cameraObject.transform.position = Vector3.Lerp(_cameraObject.transform.position, _targetPosition, Time.deltaTime * _transitionSpeed);
     }
 
     public bool IsPlaying(string stateName)
