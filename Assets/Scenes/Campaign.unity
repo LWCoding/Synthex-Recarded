@@ -6623,8 +6623,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2f90eae92ab7e4eb0d8ad4837fb9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapOptionPrefab: {fileID: 2206184603078903125, guid: 87a3c98a6aa5f3e43aa819dad5510857, type: 3}
-  _playerIconTransform: {fileID: 0}
+  _mapOptionPrefab: {fileID: 1429862133297833342, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+  _playerIconTransform: {fileID: 388591183}
+  _playerParticleSystem: {fileID: 1861415394}
   _introBannerText: {fileID: 899850273}
   _footstepsSFX: {fileID: 8300000, guid: eb7aa4030bdc41641ad9de6d8ccfeba5, type: 3}
 --- !u!1 &1134494521

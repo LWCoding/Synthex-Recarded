@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(MouseHoverScaler))]
-public class LevelOptionController : MonoBehaviour
+public class CampaignOptionController : MonoBehaviour
 {
 
     [Header("Object Assignments")]
@@ -16,7 +16,7 @@ public class LevelOptionController : MonoBehaviour
     [Header("Level Properties")]
     public LocationChoice LocationChoice;
     public List<Enemy> EnemiesToRender;
-    public List<LevelOptionController> ConnectedLevels = new List<LevelOptionController>();
+    public List<CampaignOptionController> ConnectedLevels = new List<CampaignOptionController>();
 
     private bool _isInteractable = false;
     private bool _wasVisited = false;
@@ -26,6 +26,7 @@ public class LevelOptionController : MonoBehaviour
 
     private void Awake()
     {
+        _eventSystem = EventSystem.current;
         _optionAnimator = GetComponent<Animator>();
         _mouseHoverScaler = GetComponent<MouseHoverScaler>();
         _mouseHoverScaler.Initialize(_iconSpriteRenderer);
@@ -50,10 +51,12 @@ public class LevelOptionController : MonoBehaviour
     // Sets whether or not the current sprite is interactable.
     // Second parameter controls whether or not all of the outlines
     // should change transparency or not.
-    public void SetInteractable(bool isInteractable)
+    public void SetInteractable(bool isInteractable, bool shouldChangeVisuals = true)
     {
         _isInteractable = isInteractable;
         _mouseHoverScaler.SetIsInteractable(isInteractable);
+        // If we shouldn't change the visuals, return early.
+        if (!shouldChangeVisuals) { return; }
         // If it's interactable, make it a solid color.
         // Or else, make it transparent.
         if (isInteractable)
@@ -84,8 +87,8 @@ public class LevelOptionController : MonoBehaviour
         // If we're hovering over something else or shouldn't have the
         // ability to interact, don't interact.
         if (_eventSystem.IsPointerOverGameObject() || !_isInteractable) return;
-        // Choose the option in the LevelSelectController.
-        LevelSelectController.Instance.ChooseOption(this);
+        // Choose the option in the CampaignController.
+        CampaignController.Instance.ChooseOption(this);
     }
 
 }

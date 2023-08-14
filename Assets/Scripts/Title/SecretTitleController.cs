@@ -39,7 +39,8 @@ public class SecretTitleController : MonoBehaviour
         // Initialize the hero with base information.
         GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.RYAN));
         GameManager.SetSeenEnemies(new List<Encounter>());
-        GameManager.SetMapScene(MapScene.AERICHO);
+        GameManager.CurrentCampaignScene = CampaignScene.FOREST;
+        // GameManager.SetMapScene(MapScene.AERICHO);
         GameManager.SetMapObject(null);
         GameManager.SetMoney(150);
         GameManager.SetXP(15);
@@ -52,7 +53,7 @@ public class SecretTitleController : MonoBehaviour
     private void StartGame()
     {
         // Make sure the map starts in the forest.
-        TransitionManager.Instance.HideScreen("Map", 1.5f);
+        TransitionManager.Instance.HideScreen("Campaign", 1.5f);
     }
 
     private void Update()

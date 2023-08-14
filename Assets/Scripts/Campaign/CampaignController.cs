@@ -4,17 +4,20 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class LevelSelectController : MonoBehaviour
+public class CampaignController : MonoBehaviour
 {
 
-    public static LevelSelectController Instance;
+    public static CampaignController Instance;
     [Header("Prefab Assignments")]
     [SerializeField] private GameObject _mapOptionPrefab;
     [Header("Object Assignments")]
     [SerializeField] private Transform _playerIconTransform;
+    [SerializeField] private ParticleSystem _playerParticleSystem;
     [SerializeField] private TextMeshPro _introBannerText;
     [Header("Audio Assignments")]
     [SerializeField] private AudioClip _footstepsSFX;
+
+    private List<CampaignOptionController> _levelOptions;
 
     // Make singleton instance of this class.
     private void Awake()
@@ -29,17 +32,21 @@ public class LevelSelectController : MonoBehaviour
     private void Start()
     {
         LoadAllLevels();
+        // Make the game fade from black to clear.
+        TransitionManager.Instance.ShowScreen(1.25f);
+        // Play game music!
+        SoundManager.Instance.PlayOnLoop(MusicType.MAP_MUSIC);
         // Save the game.
         // GameManager.SetMapObject(_serializableMapObject);
         GameManager.SaveGame();
     }
 
     // Find all levels and load them into the _mapOptions list.
-    // This is performance-heavy, so it should be done sparingly.
+    // This is performance-heavy, so it should be done only on Start.
     private void LoadAllLevels()
     {
-        List<LevelOptionController> levelOptions = new List<LevelOptionController>(GameObject.FindObjectsOfType<LevelOptionController>());
-        foreach (LevelOptionController loc in levelOptions)
+        _levelOptions = new List<CampaignOptionController>(GameObject.FindObjectsOfType<CampaignOptionController>());
+        foreach (CampaignOptionController loc in _levelOptions)
         {
             // TODO: Load this correctly instead of always setting it to false!
             loc.Initialize(false);
@@ -48,16 +55,19 @@ public class LevelSelectController : MonoBehaviour
         }
     }
 
-    // Select an option given a LevelOptionController.
-    public void ChooseOption(LevelOptionController loc)
+    // Select an option given a CampaignOptionController.
+    public void ChooseOption(CampaignOptionController loc)
     {
         StartCoroutine(ChooseOptionCoroutine(loc));
     }
 
-    private IEnumerator ChooseOptionCoroutine(LevelOptionController loc)
+    private IEnumerator ChooseOptionCoroutine(CampaignOptionController loc)
     {
         // Prevent the player from selecting another option.
-        MapController.Instance.DisableMapOptionColliders();
+        foreach (CampaignOptionController option in _levelOptions)
+        {
+            option.SetInteractable(false, false);
+        }
         // Make the character animate towards the next thing.
         yield return HeroTraverseToPositionCoroutine(loc.transform.position);
         LocationChoice locationChoice = loc.LocationChoice;
@@ -89,7 +99,6 @@ public class LevelSelectController : MonoBehaviour
     private IEnumerator HeroTraverseToPositionCoroutine(Vector3 targetPosition)
     {
         Vector3 initialPosition = _playerIconTransform.localPosition;
-        ParticleSystem playerParticleSystem = _playerIconTransform.Find("Particle System").GetComponent<ParticleSystem>();
         float walkDuration = 1; // Amount of seconds to reach end of path.
         float timeElapsed = 0;
         float timeSinceLastParticle = 0;
@@ -102,7 +111,7 @@ public class LevelSelectController : MonoBehaviour
             timeSinceLastParticle += Time.deltaTime;
             if (timeSinceLastParticle > particleCooldown)
             {
-                playerParticleSystem.Emit(1);
+                _playerParticleSystem.Emit(1);
                 timeSinceLastParticle = 0;
             }
             yield return null;

@@ -651,7 +651,7 @@ public class MapController : MonoBehaviour
     private IEnumerator ChooseOptionCoroutine(SerializableMapLocation chosenMapLocation)
     {
         // Prevent the player from selecting another option.
-        MapController.Instance.DisableMapOptionColliders();
+        DisableMapOptionColliders();
         // Make the character animate towards the next thing.
         yield return HeroTraverseToPositionCoroutine(chosenMapLocation.position);
         MapChoice mapChoice = chosenMapLocation.mapLocationType.type;
