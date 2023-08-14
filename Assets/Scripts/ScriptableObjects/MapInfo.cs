@@ -41,7 +41,6 @@ public class SerializableMapLocation
 [System.Serializable]
 public struct MapLocationType
 {
-    public string name;
     public MapChoice type;
     public Sprite sprite;
     public float weightedChance;

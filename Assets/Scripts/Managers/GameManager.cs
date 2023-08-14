@@ -38,6 +38,8 @@ public static class GameManager
     // Dialogue data:
     public static List<DialogueName> alreadyPlayedMapDialogues = new List<DialogueName>();
     public static List<string> alreadyPlayedTutorials = new List<string>();
+    // Campaign data:
+    public static CampaignScene CurrentCampaignScene;
     // Map data:
     private static MapScene _mapScene;
     public static MapScene GetMapScene() => _mapScene;

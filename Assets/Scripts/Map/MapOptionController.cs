@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(MouseHoverScaler))]
 public class MapOptionController : MonoBehaviour
 {
 
@@ -17,35 +18,18 @@ public class MapOptionController : MonoBehaviour
     [HideInInspector] public SerializableMapLocation SerializableMapLocation;
     [HideInInspector] public bool IsConnected = false;
 
-    private float _initialScale;
-    private float _desiredScale;
     private bool _isInteractable = false;
     private bool _wasVisited = false;
-    private Animator _mapAnimator;
+    private Animator _optionAnimator;
     private EventSystem _eventSystem;
+    private MouseHoverScaler _mouseHoverScaler;
 
     private void Awake()
     {
-        _mapAnimator = GetComponent<Animator>();
-        _eventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
-    }
-
-    private void Start()
-    {
-        _initialScale = _iconRenderer.transform.localScale.x;
-        _desiredScale = _initialScale;
-    }
-
-    public void OnMouseEnter()
-    {
-        if (!_isInteractable) { return; }
-        _desiredScale = _initialScale + 0.1f;
-    }
-
-    private void OnMouseExit()
-    {
-        if (!_isInteractable || _wasVisited) { return; }
-        _desiredScale = _initialScale;
+        _optionAnimator = GetComponent<Animator>();
+        _eventSystem = EventSystem.current;
+        _mouseHoverScaler = GetComponent<MouseHoverScaler>();
+        _mouseHoverScaler.Initialize(_iconRenderer);
     }
 
     private void OnMouseDown()
@@ -95,6 +79,7 @@ public class MapOptionController : MonoBehaviour
     public void SetInteractable(bool isInteractable, bool shouldChangeTransparency)
     {
         _isInteractable = isInteractable;
+        _mouseHoverScaler.SetIsInteractable(isInteractable);
         // If it's interactable, make it a solid color.
         // Or else, make it transparent.
         if (shouldChangeTransparency)
@@ -105,14 +90,14 @@ public class MapOptionController : MonoBehaviour
                 // Don't make the boss icon pulse.
                 if (SerializableMapLocation.mapLocationType.type != MapChoice.BOSS)
                 {
-                    _mapAnimator.Play("Pulse");
+                    _optionAnimator.Play("Pulse");
                 }
             }
             else
             {
                 // If it's not selectable, alpha = 0.2f;
                 _iconRenderer.color = new Color(1, 1, 1, 0.2f);
-                _desiredScale = _initialScale;
+                _mouseHoverScaler.ResetScale();
             }
         }
         // If it was visited, make it even more transparent.
@@ -167,36 +152,6 @@ public class MapOptionController : MonoBehaviour
         lineMaskTransform.GetComponent<SpriteMask>().isCustomRangeActive = true;
         lineMaskTransform.GetComponent<SpriteMask>().frontSortingOrder = sortingOrder;
         lineMaskTransform.GetComponent<SpriteMask>().backSortingOrder = sortingOrder - 1;
-    }
-
-    public void FixedUpdate()
-    {
-        float difference = Mathf.Abs(_iconRenderer.transform.localScale.x - _desiredScale);
-        if (difference > 0.011f)
-        {
-            if (_iconRenderer.transform.localScale.x > _desiredScale)
-            {
-                if (difference < 0.05f)
-                {
-                    _iconRenderer.transform.localScale -= new Vector3(0.01f, 0.01f, 0);
-                }
-                else
-                {
-                    _iconRenderer.transform.localScale -= new Vector3(0.03f, 0.03f, 0);
-                }
-            }
-            else
-            {
-                if (difference < 0.05f)
-                {
-                    _iconRenderer.transform.localScale += new Vector3(0.01f, 0.01f, 0);
-                }
-                else
-                {
-                    _iconRenderer.transform.localScale += new Vector3(0.03f, 0.03f, 0);
-                }
-            }
-        }
     }
 
 }

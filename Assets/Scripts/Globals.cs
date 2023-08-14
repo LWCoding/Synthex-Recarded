@@ -16,6 +16,7 @@ public static class Globals
     public static List<Item> allItems = new List<Item>();
     public static List<Dialogue> allDialogues = new List<Dialogue>();
     public static List<CardEffect> allCardEffects = new List<CardEffect>();
+    public static List<CampaignInfo> allCampaignInfo = new List<CampaignInfo>();
     public static List<MapInfo> allMapInfo = new List<MapInfo>();
     private static bool globalsInitialized = false;
 
@@ -86,6 +87,10 @@ public static class Globals
         // Find all map information in the "MapInfo" folder (through Resources)
         // and add them to the `allMapInfo` variable.
         allMapInfo = Resources.LoadAll<MapInfo>("ScriptableObjects/MapInfo").ToList();
+
+        // Find all campaign information in the "CampaignInfo" folder (through Resources)
+        // and add them to the `allCampaignInfo` variable.
+        allCampaignInfo = Resources.LoadAll<CampaignInfo>("ScriptableObjects/CampaignInfo").ToList();
 
         // After everything is initialized, set to true.
         globalsInitialized = true;
@@ -243,6 +248,30 @@ public static class Globals
             Debug.Log("Could not find map info (" + mapScene + ") in Globals.cs!");
         }
         return foundMapInfo;
+    }
+
+    // Gets campaign info by scene.
+    // Gets map info by scene.
+    public static CampaignInfo GetCampaignInfo(CampaignScene campaignScene)
+    {
+        if (!globalsInitialized)
+        {
+            Initialize();
+        }
+        CampaignInfo foundCampaignInfo = null;
+        allCampaignInfo.ForEach((campaignInfo) =>
+        {
+            if (campaignInfo.campaignType == campaignScene)
+            {
+                foundCampaignInfo = campaignInfo;
+                return;
+            }
+        });
+        if (!foundCampaignInfo)
+        {
+            Debug.Log("Could not find campaign info (" + campaignScene + ") in Globals.cs!");
+        }
+        return foundCampaignInfo;
     }
 
     // Gets a status effect by effect type.
