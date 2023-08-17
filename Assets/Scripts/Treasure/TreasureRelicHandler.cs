@@ -24,7 +24,7 @@ public class TreasureRelicHandler : MonoBehaviour, IPointerClickHandler
         GameManager.AddRelicToInventory(_parentRelicHandler.relicInfo);
         TopBarController.Instance.RenderRelics();
         // Go back to the map screen.
-        TransitionManager.Instance.HideScreen("Map", 1.2f);
+        TransitionManager.Instance.BackToMapOrCampaign(1.2f);
         // Hide this relic object by returning it to the pool.
         _parentRelicHandler.StopSpinShinyObject();
         ObjectPooler.Instance.ReturnObjectToPool(PoolableType.RELIC, gameObject);

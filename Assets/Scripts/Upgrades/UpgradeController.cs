@@ -62,7 +62,7 @@ public class UpgradeController : MonoBehaviour
         _exitButton.onClick.AddListener(() =>
         {
             _isOptionChosen = true;
-            TransitionManager.Instance.HideScreen("Map", 0.75f);
+            TransitionManager.Instance.BackToMapOrCampaign(0.75f);
         });
         // If the player clicks the upgrade button, upgrade cards if cost allows
         // AND if the player has selected any cards to upgrade.
@@ -71,7 +71,7 @@ public class UpgradeController : MonoBehaviour
             _isOptionChosen = true;
             GameManager.SpendXP(_totalCost);
             UpgradeSelectedCards();
-            TransitionManager.Instance.HideScreen("Map", 1.25f);
+            TransitionManager.Instance.BackToMapOrCampaign(1.25f);
         });
         // Initialize the cards in the deck.
         StartCoroutine(InitializeDeckCardsCoroutine());

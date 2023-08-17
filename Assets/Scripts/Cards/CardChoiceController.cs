@@ -132,7 +132,7 @@ public class CardChoiceController : MonoBehaviour
             GameManager.AddCardToDeck(remainingCardHandler.card); // Add card to deck.
             SoundManager.Instance.PlaySFX(SoundEffect.CARD_OBTAIN); // Play card chosen sound!
         }
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.4f);
         if (codeToRunAfter != null) { codeToRunAfter.Invoke(); }
     }
 

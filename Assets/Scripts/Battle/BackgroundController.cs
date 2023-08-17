@@ -28,9 +28,9 @@ public class BackgroundController : MonoBehaviour
             obj.SetActive(false);
         }
         // Turn the correct background visible based on map scene.
-        switch (GameManager.GetMapObject().currScene)
+        switch (GameManager.GetGameScene())
         {
-            case MapScene.FOREST:
+            case GameScene.FOREST:
                 forestBGObject.SetActive(true);
                 StartCoroutine(CloudMoveCoroutine(-9));
                 StartCoroutine(CloudMoveCoroutine(-4));
@@ -38,7 +38,7 @@ public class BackgroundController : MonoBehaviour
                 StartCoroutine(CloudMoveCoroutine(4));
                 StartCoroutine(CloudMoveCoroutine(9));
                 break;
-            case MapScene.AERICHO:
+            case GameScene.AERICHO:
                 warzoneBGObject.SetActive(true);
                 break;
         }

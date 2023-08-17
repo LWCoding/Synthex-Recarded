@@ -30,7 +30,7 @@ IPointerClickHandler
     {
         CardChoiceController.Instance.HideUnselectedCards(false, () =>
         {
-            TransitionManager.Instance.HideScreen("Map", 0.75f);
+            TransitionManager.Instance.BackToMapOrCampaign(0.75f);
         });
     }
 

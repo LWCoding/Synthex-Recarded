@@ -69,7 +69,7 @@ public class ShopController : MonoBehaviour
         shopDoorAnimator.Play("DoorClose");
         SoundManager.Instance.PlayOneShot(shopDoorCloseSFX, 1);
         yield return new WaitForSeconds(1f);
-        TransitionManager.Instance.HideScreen("Map", 0.75f);
+        TransitionManager.Instance.BackToMapOrCampaign(0.75f);
     }
 
     private void OpenDoorAfterDelay()

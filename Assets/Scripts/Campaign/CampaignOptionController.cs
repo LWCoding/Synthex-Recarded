@@ -37,7 +37,7 @@ public class CampaignOptionController : MonoBehaviour
         // Set the visited state.
         _wasVisited = wasVisited;
         // Initialize the sprite and scale based on the type of location it is.
-        CampaignInfo campaignInfo = Globals.GetCampaignInfo(GameManager.CurrentCampaignScene);
+        CampaignInfo campaignInfo = Globals.GetCampaignInfo(GameManager.GetGameScene());
         LocationType locationType = campaignInfo.campaignLocations.Find((loc) => loc.locationType == LocationChoice);
         _iconSpriteRenderer.sprite = locationType.sprite;
         _iconSpriteRenderer.transform.localScale = new Vector2(locationType.iconScale, locationType.iconScale);

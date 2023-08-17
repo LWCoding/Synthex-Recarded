@@ -101,7 +101,7 @@ public class TitleController : MonoBehaviour
         GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
         GameManager.SetSeenEnemies(new List<Encounter>());
         GameManager.SetPlayedDialogues(new List<DialogueName>(), new List<string>(), false, false);
-        GameManager.SetMapScene(MapScene.FOREST);
+        GameManager.SetGameScene(GameScene.FOREST);
         GameManager.SetMapObject(null);
         GameManager.SetMoney(150);
         GameManager.saveFileName = "Save.ass"; // TODO: Make this vary!
@@ -120,7 +120,8 @@ public class TitleController : MonoBehaviour
     private void StartGame()
     {
         // Make sure the map starts in the forest.
-        TransitionManager.Instance.HideScreen("Map", 1.5f);
+        GameManager.IsInCampaign = true;
+        TransitionManager.Instance.HideScreen("Campaign", 1.5f);
     }
 
     // Plays the button hover sound.

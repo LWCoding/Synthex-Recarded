@@ -24,6 +24,7 @@ public static class GameManager
     public static void SetMoney(int m) => _money = m;
     public static void AddMoney(int m) => _money += m;
     public static void SpendMoney(int m) => AddMoney(-m);
+    // Xp data:
     private static int _xp;
     public static int GetXP() => _xp;
     public static void SetXP(int x) => _xp = Mathf.Min(100, x);
@@ -33,17 +34,20 @@ public static class GameManager
     public static List<Enemy> nextBattleEnemies = new List<Enemy>();
     public static bool visitedShopBefore = false;
     public static bool visitedUpgradeBefore = false;
-    // Title data:
-    public static bool wasTitleRendered = false;
     // Dialogue data:
     public static List<DialogueName> alreadyPlayedMapDialogues = new List<DialogueName>();
     public static List<string> alreadyPlayedTutorials = new List<string>();
+    // Campaign/map data:
+    public static bool IsInCampaign = false;
     // Campaign data:
-    public static CampaignScene CurrentCampaignScene;
+    private static CampaignSave _campaignSave;
+    public static CampaignSave GetCampaignSave() => _campaignSave;
+    public static void SetCampaignSave(CampaignSave info) => _campaignSave = info;
+    // Game data:
+    private static GameScene _gameScene;
+    public static GameScene GetGameScene() => _gameScene;
+    public static void SetGameScene(GameScene ms) => _gameScene = ms;
     // Map data:
-    private static MapScene _mapScene;
-    public static MapScene GetMapScene() => _mapScene;
-    public static void SetMapScene(MapScene ms) => _mapScene = ms;
     private static SerializableMapObject _mapObject = null;
     public static SerializableMapObject GetMapObject() => _mapObject;
     public static void SetMapObject(SerializableMapObject smo) => _mapObject = smo;
@@ -117,6 +121,7 @@ public static class GameManager
         so.tutorialsPlayed = alreadyPlayedTutorials;
         so.visitedShopBefore = visitedShopBefore;
         so.visitedUpgradeBefore = visitedUpgradeBefore;
+        so.campaignSave = GetCampaignSave();
         GlobalUIController.Instance.PlaySaveIconAnimation();
         SaveLoadManager.Save(so, saveFileName);
     }

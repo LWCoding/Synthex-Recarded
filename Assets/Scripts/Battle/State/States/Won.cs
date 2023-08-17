@@ -19,7 +19,7 @@ public class Won : State
         // Let the player add a new card to their deck (out of 3).
         CardChoiceController.Instance.ShowCardChoices(3, () =>
         {
-            TransitionManager.Instance.HideScreen("Map", 0.75f);
+            TransitionManager.Instance.BackToMapOrCampaign(0.75f);
         });
     }
 

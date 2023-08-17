@@ -3,11 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MapScene
-{
-    NONE, FOREST, AERICHO, FACTORY, SECRET
-}
-
 public enum MapChoice
 {
     NONE, BASIC_ENCOUNTER, SHOP, TREASURE, BOSS, MINIBOSS_ENCOUNTER, UPGRADE_MACHINE
@@ -16,7 +11,7 @@ public enum MapChoice
 [System.Serializable]
 public class SerializableMapObject
 {
-    public MapScene currScene; // Current type of map the player is on.
+    public GameScene currScene; // Current type of map the player is on.
     public SerializableMapLocation currLocation = new SerializableMapLocation(); // Player's current location on the map.
     public List<SerializableMapLocation> mapLocations = new List<SerializableMapLocation>(); // All locations on the map.
     public List<SerializableMapPath> mapPaths = new List<SerializableMapPath>(); // Paths between locations on the map.
@@ -89,7 +84,7 @@ public class MapInfo : ScriptableObject
 {
 
     [Header("Base Information")]
-    public MapScene mapType;
+    public GameScene mapType;
     public Color mapBGColor;
     public int numFloors;
     [Header("Map Location Info")]

@@ -37,6 +37,18 @@ public class TransitionManager : MonoBehaviour
         StartCoroutine(HideScreenCoroutine(desiredScene, time));
     }
 
+    public void BackToMapOrCampaign(float time)
+    {
+        if (GameManager.IsInCampaign)
+        {
+            StartCoroutine(HideScreenCoroutine("Campaign", time));
+        }
+        else
+        {
+            StartCoroutine(HideScreenCoroutine("Map", time));
+        }
+    }
+
     // This coroutine is called when the screen should fade
     // to black to clear.
     private IEnumerator ShowScreenCoroutine(float time)

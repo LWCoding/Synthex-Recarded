@@ -148,7 +148,7 @@ public static class Globals
     // Get an enemy encounter by location.
     // Include an optional encounter list that will filter out those already seen.
     // If there are no enemy choices, this function ignores the blacklist and chooses at random.
-    public static Encounter GetEnemyEncounterByScene(MapScene scene, int floorNumber, bool minibossOnly, bool bossOnly, List<Encounter> encounterBlacklist = null)
+    public static Encounter GetEnemyEncounterByScene(GameScene scene, int floorNumber, bool minibossOnly, bool bossOnly, List<Encounter> encounterBlacklist = null)
     {
         if (!globalsInitialized)
         {
@@ -185,7 +185,7 @@ public static class Globals
         return possibleEncounters[Random.Range(0, possibleEncounters.Count)];
     }
 
-    public static Dialogue GetDialogueByMapInfoAndFloor(MapScene scene, int floor)
+    public static Dialogue GetDialogueByMapInfoAndFloor(GameScene scene, int floor)
     {
         if (!globalsInitialized)
         {
@@ -228,7 +228,7 @@ public static class Globals
     }
 
     // Gets map info by scene.
-    public static MapInfo GetMapInfo(MapScene mapScene)
+    public static MapInfo GetMapInfo(GameScene mapScene)
     {
         if (!globalsInitialized)
         {
@@ -252,7 +252,7 @@ public static class Globals
 
     // Gets campaign info by scene.
     // Gets map info by scene.
-    public static CampaignInfo GetCampaignInfo(CampaignScene campaignScene)
+    public static CampaignInfo GetCampaignInfo(GameScene campaignScene)
     {
         if (!globalsInitialized)
         {

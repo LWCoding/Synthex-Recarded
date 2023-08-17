@@ -41,7 +41,7 @@ public class MapController : MonoBehaviour
             Destroy(this);
         }
         Instance = this;
-        _currentMapInfo = Globals.GetMapInfo(GameManager.GetMapScene());
+        _currentMapInfo = Globals.GetMapInfo(GameManager.GetGameScene());
         _playerTransform = _playerIconObject.transform;
         _playerIconSpriteRenderer = _playerIconObject.GetComponent<SpriteRenderer>();
     }
@@ -112,13 +112,13 @@ public class MapController : MonoBehaviour
     {
         switch (_serializableMapObject.currScene)
         {
-            case MapScene.FOREST:
+            case GameScene.FOREST:
                 _introBannerText.text = "<color=\"black\"><size=13>The Forest</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
                 break;
-            case MapScene.AERICHO:
+            case GameScene.AERICHO:
                 _introBannerText.text = "<color=\"black\"><size=13>Aericho City</size></color>\n<color=#282E27><i><size=5>Chapter 2</size></i></color>";
                 break;
-            case MapScene.SECRET:
+            case GameScene.SECRET:
                 _introBannerText.text = "<color=\"black\"><size=13>The Secret</size></color>\n<color=#282E27><i><size=5>Hello from Selenium :)</size></i></color>";
                 break;
         }
@@ -241,7 +241,7 @@ public class MapController : MonoBehaviour
         for (int floor = 0; floor < _numFloors; floor++)
         {
             // For the forest scene, we hard code some battle options.
-            if (_serializableMapObject.currScene == MapScene.FOREST && floor == 0)
+            if (_serializableMapObject.currScene == GameScene.FOREST && floor == 0)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -273,7 +273,7 @@ public class MapController : MonoBehaviour
                 }
                 continue;
             }
-            if (_serializableMapObject.currScene == MapScene.FOREST && floor == 1)
+            if (_serializableMapObject.currScene == GameScene.FOREST && floor == 1)
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -305,7 +305,7 @@ public class MapController : MonoBehaviour
                 }
                 continue;
             }
-            if (_serializableMapObject.currScene == MapScene.AERICHO && floor == 0)
+            if (_serializableMapObject.currScene == GameScene.AERICHO && floor == 0)
             {
                 for (int i = 0; i < 5; i++)
                 {

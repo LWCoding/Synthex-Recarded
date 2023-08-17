@@ -9,6 +9,7 @@ public class SaveObject
 
     [Header("Game Information")]
     public Hero hero;
+    public CampaignSave campaignSave;
     public SerializableMapObject mapObject;
     public int money;
     public int xp;
@@ -63,9 +64,10 @@ public static class SaveLoadManager
             debugLoadSequence += " <Hero> ";
         }
 
-        GameManager.SetMapScene(so.mapObject.currScene);
+        GameManager.SetGameScene(so.mapObject.currScene);
         GameManager.SetMoney(so.money);
         GameManager.SetXP(so.xp);
+        GameManager.SetCampaignSave(so.campaignSave);
         GameManager.SetMapObject(so.mapObject);
         GameManager.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed, so.visitedShopBefore, so.visitedUpgradeBefore);
         GameManager.SetSeenEnemies(so.loadedEncounters);
