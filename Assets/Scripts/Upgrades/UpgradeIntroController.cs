@@ -71,11 +71,16 @@ public class UpgradeIntroController : MonoBehaviour
         // Fade the information back in after it is changed.
         _introAnimator.Play("FadeInfoIn");
         // Wait for the animation to finish.
+        bool playerTriedToSkip = false;
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => _introAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
+        yield return new WaitUntil(() =>
+        {
+            playerTriedToSkip = Input.GetMouseButtonDown(0);
+            return _introAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f;
+        });
         // Wait until time expires OR the user left-clicks in the next frame.
         float currTime = Time.time;
-        yield return new WaitUntil(() => { return Time.time - currTime > 3 || (!TopBarController.Instance.IsPlayerInteractingWithTopBar() && !TopBarController.Instance.IsCardPreviewShowing() && !JournalManager.Instance.IsJournalShowing() && !SettingsManager.Instance.IsGamePaused() && Input.GetMouseButtonDown(0)); });
+        yield return new WaitUntil(() => { return Time.time - currTime > 3 || playerTriedToSkip || (!TopBarController.Instance.IsPlayerInteractingWithTopBar() && !TopBarController.Instance.IsCardPreviewShowing() && !JournalManager.Instance.IsJournalShowing() && !SettingsManager.Instance.IsGamePaused() && Input.GetMouseButtonDown(0)); });
         // Increment the index to get our next animation.
         _currInfoIdx++;
         if (_currInfoIdx < _tutorialInfo.Count)

@@ -6,8 +6,8 @@ public class CampaignCameraController : MonoBehaviour
 {
 
     public static CampaignCameraController Instance;
-    [SerializeField] private Transform _transformToFollow;
 
+    private Transform _cameraTransform;
     private float _permanentZIndex;
 
     private void Awake()
@@ -17,12 +17,13 @@ public class CampaignCameraController : MonoBehaviour
             Destroy(this);
         }
         Instance = this;
-        _permanentZIndex = transform.position.z;
+        _cameraTransform = Camera.main.transform;
+        _permanentZIndex = _cameraTransform.position.z;
     }
 
     public void MoveCameraToPosition(Vector2 position)
     {
-        transform.position = new Vector3(position.x, position.y, _permanentZIndex);
+        _cameraTransform.position = new Vector3(position.x, position.y, _permanentZIndex);
     }
 
     ///<summary>
@@ -41,12 +42,12 @@ public class CampaignCameraController : MonoBehaviour
     public IEnumerator LerpCameraToPositionCoroutine(Vector2 position, float timeToWait)
     {
         float currTime = 0;
-        Vector3 initialPosition = transform.position;
+        Vector3 initialPosition = _cameraTransform.position;
         Vector3 targetPosition = new Vector3(position.x, position.y, _permanentZIndex);
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, targetPosition, Mathf.SmoothStep(0, 1, currTime / timeToWait));
+            _cameraTransform.position = Vector3.Lerp(initialPosition, targetPosition, Mathf.SmoothStep(0, 1, currTime / timeToWait));
             yield return null;
         }
     }

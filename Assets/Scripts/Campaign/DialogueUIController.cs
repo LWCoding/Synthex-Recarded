@@ -227,7 +227,7 @@ public partial class DialogueUIController : MonoBehaviour
     */
     public bool IsPlaying()
     {
-        return _dialogueBoxAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f;
+        return _dialogueBoxAnimator.GetCurrentAnimatorStateInfo(0).length > _dialogueBoxAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
 
 }
