@@ -356,8 +356,8 @@ public class UpgradeController : MonoBehaviour
         // Recover a pooled object for each card.
         foreach (Card card in cardsToShow)
         {
-            // If divisible by 4, create a new row of cards.
-            if (currCardIdx % 4 == 0)
+            // If divisible by 3, create a new row of cards.
+            if (currCardIdx % 3 == 0)
             {
                 GameObject newRow = CreateNewCardRow();
                 horizontalTransform = newRow.transform;
@@ -391,7 +391,7 @@ public class UpgradeController : MonoBehaviour
         GameObject cardObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD);
         CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
-        cardObject.transform.localScale = new Vector2(0.45f, 0.45f);
+        cardObject.transform.localScale = new Vector2(0.5f, 0.5f);
         cardHandler.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
         cardHandler.HideCardInstantly(); // Hide the card instantly so we can animate it after.
         cardHandler.EnableUpgradeFunctionality();
@@ -407,7 +407,7 @@ public class UpgradeController : MonoBehaviour
         newRowHLG.childControlWidth = true;
         newRowHLG.childForceExpandWidth = true;
         newRowHLG.spacing = 25;
-        newRow.GetComponent<RectTransform>().sizeDelta = new Vector2(800, 0);
+        newRow.GetComponent<RectTransform>().sizeDelta = new Vector2(680, 0);
         return newRow;
     }
 

@@ -53,30 +53,16 @@ public static class SaveLoadManager
         string savedText = File.ReadAllText(savePath + fileName);
         SaveObject so = JsonUtility.FromJson<SaveObject>(savedText);
         Debug.Log("Loading save slot (" + fileName + ").");
-        string debugLoadSequence = "";
-
-        if (so.hero != null)
-        {
-            GameManager.SetChosenHero(so.hero);
-        }
-        else
-        {
-            debugLoadSequence += " <Hero> ";
-        }
-
+        GameManager.SetChosenHero(so.hero);
         GameManager.SetGameScene(so.mapObject.currScene);
         GameManager.SetMoney(so.money);
         GameManager.SetXP(so.xp);
         GameManager.SetCampaignSave(so.campaignSave);
+        if (so.campaignSave != null) GameManager.SetGameScene(so.campaignSave.currScene);
         GameManager.SetMapObject(so.mapObject);
         GameManager.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed, so.visitedShopBefore, so.visitedUpgradeBefore);
         GameManager.SetSeenEnemies(so.loadedEncounters);
         GameManager.saveFileName = fileName;
-
-        if (debugLoadSequence != "")
-        {
-            Debug.Log("Skipped loading (null values): [" + debugLoadSequence + "]");
-        }
 
     }
 

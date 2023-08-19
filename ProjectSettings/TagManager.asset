@@ -56,3 +56,6 @@ TagManager:
   - name: Tooltip
     uniqueID: 364907131
     locked: 0
+  - name: Overlay
+    uniqueID: 3050370117
+    locked: 0

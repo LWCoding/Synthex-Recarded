@@ -42,6 +42,7 @@ public class SecretTitleController : MonoBehaviour
         GameManager.SetGameScene(GameScene.FOREST);
         // GameManager.SetMapScene(MapScene.AERICHO);
         GameManager.SetMapObject(null);
+        GameManager.SetCampaignSave(null);
         GameManager.SetMoney(150);
         GameManager.SetXP(15);
         GameManager.saveFileName = "Save.ass"; // TODO: Make this vary!
@@ -54,8 +55,8 @@ public class SecretTitleController : MonoBehaviour
     private void StartGame()
     {
         // Make sure the map starts in the forest.
-        GameManager.IsInCampaign = true;
-        TransitionManager.Instance.HideScreen("Campaign", 1.5f);
+        GameManager.IsInCampaign = false;
+        TransitionManager.Instance.HideScreen("Map", 1.5f);
     }
 
     private void Update()

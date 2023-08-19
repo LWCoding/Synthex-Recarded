@@ -14,14 +14,15 @@ public class CampaignController : MonoBehaviour
     [SerializeField] private Transform _playerIconTransform;
     [SerializeField] private ParticleSystem _playerParticleSystem;
     [SerializeField] private TextMeshPro _introBannerText;
-    [SerializeField] private GameObject _firstMapLocationTransform;
-    [SerializeField] private List<CampaignOptionController> _initialLevelOptions;
+    [SerializeField] private Transform _firstMapLocationTransform;
     [Header("Audio Assignments")]
     [SerializeField] private AudioClip _footstepsSFX;
 
     private CampaignSave _currCampaignSave;
-    private List<GlobalObjectId> _visitedLevelIDs;
+    public void RegisterVisitedLevel(Vector3 levelPosition) => _currCampaignSave.visitedLevels.Add(levelPosition);
     private List<CampaignOptionController> _levelOptions;
+
+    private void FindAndStoreAllLevelOptions() => _levelOptions = new List<CampaignOptionController>(GameObject.FindObjectsOfType<CampaignOptionController>());
 
     // Make singleton instance of this class.
     private void Awake()
@@ -35,49 +36,73 @@ public class CampaignController : MonoBehaviour
 
     private void Start()
     {
-        // Find all level objects in scene.
-        LoadAllLevels();
+        // Initialize the UI.
+        GlobalUIController.Instance.InitializeUI();
         // Make the game fade from black to clear.
         TransitionManager.Instance.ShowScreen(1.25f);
         // Play game music!
         SoundManager.Instance.PlayOnLoop(MusicType.MAP_MUSIC);
-        // Load campaign or create a new one.
+        // Store and initialize all levels.
+        FindAndStoreAllLevelOptions();
+        // Initialize any save information.
+        InitializeSaveInfo();
+        // Move the player to the current hero location.
+        CampaignCameraController.Instance.MoveCameraToPosition(_playerIconTransform.position);
+        // Save the game.
+        GameManager.SaveGame();
+        // Initialize information for current level.
+        // We do this AFTER the save so that dialogue will replay if the player leaves.
+        InitializeCurrentLevelInfo();
+    }
+
+    ///<summary>
+    /// If we already have save data, load the information into this script.
+    /// Or else, create that information and save it as new.
+    ///</summary>
+    private void InitializeSaveInfo()
+    {
         if (GameManager.GetCampaignSave() == null)
         {
             // If we didn't find a saved campaign, create a new campaign.
             _currCampaignSave = new CampaignSave();
             _currCampaignSave.currScene = GameManager.GetGameScene();
+            _playerIconTransform.position = _firstMapLocationTransform.position;
             _currCampaignSave.heroMapPosition = _playerIconTransform.position;
             GameManager.SetCampaignSave(_currCampaignSave);
+            // Set all levels to be non-visited.
+            foreach (CampaignOptionController coc in _levelOptions)
+            {
+                coc.Initialize(false);
+            }
         }
         else
         {
             // If we found a saved campaign, load it.
             _currCampaignSave = GameManager.GetCampaignSave();
             _playerIconTransform.transform.position = _currCampaignSave.heroMapPosition;
-            GameManager.SetGameScene(_currCampaignSave.currScene);
+            // Set visited states for all level options.
+            List<Vector3> visitedLevels = _currCampaignSave.visitedLevels;
+            foreach (CampaignOptionController coc in _levelOptions)
+            {
+                coc.Initialize(visitedLevels.Contains(coc.transform.position));
+            }
         }
-        // Try to find the current level controller that the player is at.
-        CampaignOptionController currentLevel = _levelOptions.Find((coc) => coc.transform.position == _playerIconTransform.position);
-        if (currentLevel == null)
-        {
-            // If we didn't find it, then the player is at the start.
-            SetAvailableLevelOptions(_initialLevelOptions);
-        }
-        else
-        {
-            // If we found it, then set the available connected levels.
-            SetAvailableLevelOptions(currentLevel.ConnectedLevels);
-        }
-        // Save the game.
-        GameManager.SaveGame();
     }
 
-    // Find all levels and load them into the _mapOptions list.
-    // This is performance-heavy, so it should be done only on Start.
-    private void LoadAllLevels()
+    ///<summary>
+    /// Find the current level. If it doesn't exist, set the choosable options to
+    /// be the start options. Or else, set the choosable options.
+    ///</summary>
+    private void InitializeCurrentLevelInfo()
     {
-        _levelOptions = new List<CampaignOptionController>(GameObject.FindObjectsOfType<CampaignOptionController>());
+        // Try to find the current level controller that the player is at.
+        CampaignOptionController currentLevel = _levelOptions.Find((coc) => coc.transform.position == _playerIconTransform.position);
+        // If we didn't find it, error!
+        if (currentLevel == null) Debug.LogError("Could not find the current level!", gameObject);
+        // Invoke the current level's on load event.
+        currentLevel.SetAsCurrentLevel();
+        // If we found it, then set the available connected levels.
+        SetAvailableLevelOptions(currentLevel.ConnectedLevels);
     }
 
     private void SetAvailableLevelOptions(List<CampaignOptionController> availableLevelOptions)
@@ -85,7 +110,6 @@ public class CampaignController : MonoBehaviour
         // Initially disable all level options.
         foreach (CampaignOptionController coc in _levelOptions)
         {
-            coc.Initialize(false);
             coc.SetInteractable(false);
         }
         // Then, re-enable all the ones that are valid.
@@ -96,12 +120,12 @@ public class CampaignController : MonoBehaviour
     }
 
     // Select an option given a CampaignOptionController.
-    public void ChooseOption(CampaignOptionController loc)
+    public void ChooseOption(CampaignOptionController loc, bool shouldInvokeFirstTime = false)
     {
-        StartCoroutine(ChooseOptionCoroutine(loc));
+        StartCoroutine(ChooseOptionCoroutine(loc, shouldInvokeFirstTime));
     }
 
-    private IEnumerator ChooseOptionCoroutine(CampaignOptionController loc)
+    private IEnumerator ChooseOptionCoroutine(CampaignOptionController loc, bool shouldInvokeFirstTime)
     {
         // Prevent the player from selecting another option.
         foreach (CampaignOptionController option in _levelOptions)
@@ -109,13 +133,21 @@ public class CampaignController : MonoBehaviour
             option.SetInteractable(false, false);
         }
         // Make the character animate towards the next thing.
-        yield return HeroTraverseToPositionCoroutine(loc.transform.position);
-        LocationChoice locationChoice = loc.LocationChoice;
+        CampaignCameraController.Instance.LerpCameraToPosition(loc.transform.position, 1.2f);
+        StartCoroutine(MoveHeroToPositionCoroutine(loc.transform.position, 0.8f));
+        yield return CampaignCameraController.Instance.LerpCameraToPositionCoroutine(loc.transform.position, 1.3f);
         // Serialize current choice.
         _currCampaignSave.heroMapPosition = _playerIconTransform.position;
-        _currCampaignSave.visitedLevels.Add(loc.transform.position);
         GameManager.SetCampaignSave(_currCampaignSave);
+        // Render first-time load if necessary.
+        if (shouldInvokeFirstTime)
+        {
+            loc.OnSelectFirstTime.Invoke();
+        }
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => !DialogueUIController.Instance.IsPlaying());
         // Render the appropriate actions based on the location.
+        LocationChoice locationChoice = loc.LocationChoice;
         switch (locationChoice)
         {
             case LocationChoice.SHOP:
@@ -136,22 +168,26 @@ public class CampaignController : MonoBehaviour
             case LocationChoice.UPGRADE_MACHINE:
                 TransitionManager.Instance.HideScreen("Upgrade", 0.75f);
                 break;
+            case LocationChoice.NONE:
+                // If we're at a random path, just initialize the path from the
+                // current position.
+                InitializeCurrentLevelInfo();
+                break;
         }
     }
 
     // Makes the player icon move towards a certain position.
-    private IEnumerator HeroTraverseToPositionCoroutine(Vector3 targetPosition)
+    private IEnumerator MoveHeroToPositionCoroutine(Vector3 targetPosition, float timeToWait)
     {
         Vector3 initialPosition = _playerIconTransform.localPosition;
-        float walkDuration = 1; // Amount of seconds to reach end of path.
-        float timeElapsed = 0;
+        float currTime = 0;
         float timeSinceLastParticle = 0;
         float particleCooldown = 0.15f;
         SoundManager.Instance.PlayOneShot(_footstepsSFX, 0.22f);
-        while (timeElapsed < walkDuration)
+        while (currTime < timeToWait)
         {
-            _playerIconTransform.localPosition = Vector3.Lerp(initialPosition, targetPosition, timeElapsed / walkDuration);
-            timeElapsed += Time.deltaTime;
+            currTime += Time.deltaTime;
+            _playerIconTransform.localPosition = Vector3.Lerp(initialPosition, targetPosition, currTime / timeToWait);
             timeSinceLastParticle += Time.deltaTime;
             if (timeSinceLastParticle > particleCooldown)
             {

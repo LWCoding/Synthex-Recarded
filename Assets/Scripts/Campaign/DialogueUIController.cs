@@ -10,13 +10,14 @@ public partial class DialogueUIController : MonoBehaviour
 
     [HideInInspector] public static DialogueUIController Instance;
     [Header("Object Assignments")]
-    public GameObject dialogueContainerObject;
-    public Animator leftSpriteAnimator;
-    public Animator rightSpriteAnimator;
-    public GameObject leftSpriteObject;
-    public GameObject rightSpriteObject;
-    public TextMeshProUGUI dialogueNameText;
-    public TextMeshProUGUI dialogueContentsText;
+    [SerializeField] private GameObject dialogueContainerObject;
+    [SerializeField] private Animator leftSpriteAnimator;
+    [SerializeField] private Animator rightSpriteAnimator;
+    [SerializeField] private GameObject leftSpriteObject;
+    [SerializeField] private GameObject rightSpriteObject;
+    [SerializeField] private TextMeshProUGUI dialogueNameText;
+    [SerializeField] private TextMeshProUGUI dialogueContentsText;
+
     private Animator _dialogueBoxAnimator;
     private Image _leftSpriteImage;
     private Image _rightSpriteImage;
@@ -103,6 +104,16 @@ public partial class DialogueUIController : MonoBehaviour
     }
 
     /*
+        Render the dialogue rendering coroutine with a pre-set dialogue
+        object.
+    */
+    public void QueueAndRenderDialogue(Dialogue dialogues)
+    {
+        QueueDialogueText(dialogues);
+        StartCoroutine(RenderDialogueCoroutine(null));
+    }
+
+    /*
         This function shows the dialogue and starts to render it to the screen.
     */
     public IEnumerator RenderDialogueCoroutine(Action codeToRunAfter)
@@ -139,7 +150,7 @@ public partial class DialogueUIController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !IsPlaying());
         dialogueContainerObject.SetActive(false);
-        codeToRunAfter.Invoke();
+        codeToRunAfter?.Invoke();
     }
 
     private IEnumerator RenderDialogueTextCoroutine(Action codeToRunAfter)

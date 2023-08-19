@@ -102,6 +102,7 @@ public class TitleController : MonoBehaviour
         GameManager.SetSeenEnemies(new List<Encounter>());
         GameManager.SetPlayedDialogues(new List<DialogueName>(), new List<string>(), false, false);
         GameManager.SetGameScene(GameScene.FOREST);
+        GameManager.SetCampaignSave(null);
         GameManager.SetMapObject(null);
         GameManager.SetMoney(150);
         GameManager.saveFileName = "Save.ass"; // TODO: Make this vary!

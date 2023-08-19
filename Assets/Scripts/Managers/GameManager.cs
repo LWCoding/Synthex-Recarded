@@ -112,16 +112,19 @@ public static class GameManager
     public static void SaveGame()
     {
         SaveObject so = new SaveObject();
+        // Save basic info
         so.hero = _chosenHero;
         so.money = GetMoney();
-        so.mapObject = GetMapObject();
-        so.loadedEncounters = GetLoadedEncounters();
         so.xp = GetXP();
         so.mapDialoguesPlayed = alreadyPlayedMapDialogues;
         so.tutorialsPlayed = alreadyPlayedTutorials;
         so.visitedShopBefore = visitedShopBefore;
         so.visitedUpgradeBefore = visitedUpgradeBefore;
+        // Save info for campaign
         so.campaignSave = GetCampaignSave();
+        // Save info for map (if applicable)
+        so.mapObject = GetMapObject();
+        so.loadedEncounters = GetLoadedEncounters();
         GlobalUIController.Instance.PlaySaveIconAnimation();
         SaveLoadManager.Save(so, saveFileName);
     }
