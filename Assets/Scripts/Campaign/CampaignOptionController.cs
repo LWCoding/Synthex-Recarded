@@ -15,6 +15,7 @@ public class CampaignOptionController : MonoBehaviour
     [SerializeField] private ParticleSystem _pSystem;
     [Header("Level Properties")]
     public LocationChoice LocationChoice;
+    public bool CanRenderMultipleTimes;
     public List<CampaignOptionController> ConnectedLevels = new List<CampaignOptionController>();
     public List<Enemy> EnemiesToRender;
     [Header("Unity Events")]
@@ -28,6 +29,8 @@ public class CampaignOptionController : MonoBehaviour
     private Animator _optionAnimator;
     private EventSystem _eventSystem;
     private MouseHoverScaler _mouseHoverScaler;
+
+    public bool ShouldActivateWhenVisited() => !_wasVisited || CanRenderMultipleTimes;
 
     private void Awake()
     {
@@ -72,9 +75,16 @@ public class CampaignOptionController : MonoBehaviour
         _mouseHoverScaler.SetIsInteractable(isInteractable);
         // If we shouldn't change the visuals, return early.
         if (!shouldChangeVisuals) { return; }
-        // If it's interactable, make it a solid color.
+        // If the location was already visited and shouldn't be
+        // rendered multiple times, make it very transparent and stop.
+        if (_wasVisited && !ShouldActivateWhenVisited())
+        {
+            LerpIconSpriteColorTo(new Color(1, 1, 1, 0.15f));
+            return;
+        }
+        // If it's interactable and should be active, make it a solid color.
         // Or else, make it transparent.
-        if (isInteractable)
+        if (isInteractable && ShouldActivateWhenVisited())
         {
             LerpIconSpriteColorTo(new Color(1, 1, 1, 1));
             // Make any icon except the boss icon pulse.
@@ -87,11 +97,6 @@ public class CampaignOptionController : MonoBehaviour
         {
             LerpIconSpriteColorTo(new Color(1, 1, 1, 0.2f));
             _mouseHoverScaler.ResetScale();
-        }
-        // If it was visited, make it even more transparent.
-        if (_wasVisited)
-        {
-            LerpIconSpriteColorTo(new Color(1, 1, 1, 0.15f));
         }
     }
 
@@ -134,11 +139,20 @@ public class CampaignOptionController : MonoBehaviour
 
     private void OnMouseDown()
     {
+        // If an animation or dialogue is playing, don't interact.
+        if (DialogueUIController.Instance.IsPlaying()) { return; }
         // If we're hovering over something else or shouldn't have the
         // ability to interact, don't interact.
         if (_eventSystem.IsPointerOverGameObject() || !_isInteractable) return;
-        // Choose the option in the CampaignController.
-        CampaignController.Instance.ChooseOption(this, !_wasVisited);
+        // Choose the option in the CampaignController if it should render.
+        if (ShouldActivateWhenVisited())
+        {
+            CampaignController.Instance.ChooseOption(this, !_wasVisited);
+        }
+        else
+        {
+            CampaignController.Instance.ChooseOption(this, !_wasVisited, false);
+        }
     }
 
     private IEnumerator LerpIconSpriteColorCoroutine(Color targetColor)

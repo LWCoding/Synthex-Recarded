@@ -36,10 +36,9 @@ public class UpgradeIntroController : MonoBehaviour
     private IEnumerator PlayIntroAnimationCoroutine()
     {
         yield return ShowIntroScreenCoroutine();
-        if (!GameManager.visitedUpgradeBefore)
+        if (!GameManager.IsEventComplete(EventType.VISITED_UPGRADES_BEFORE))
         {
             // If we haven't visited the upgrades before, render the first-time animation.
-            GameManager.visitedUpgradeBefore = true;
             StartCoroutine(WaitForContinue());
         }
         else
@@ -115,7 +114,7 @@ public class UpgradeIntroController : MonoBehaviour
         yield return new WaitUntil(() => _introLogoAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
         // Then, play the animation for the entire screen. Disable the logo animator.
         _introLogoAnimator.enabled = false;
-        if (!GameManager.visitedUpgradeBefore)
+        if (!GameManager.IsEventComplete(EventType.VISITED_UPGRADES_BEFORE))
         {
             _introAnimator.Play("Show");
             // Wait until the animation is finished.
@@ -140,6 +139,8 @@ public class UpgradeIntroController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => _introAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
         _introScreen.SetActive(false);
+        // Set the visited state to true.
+        GameManager.CompleteEvent(EventType.VISITED_UPGRADES_BEFORE);
     }
 
 }

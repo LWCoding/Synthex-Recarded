@@ -100,7 +100,7 @@ public class TitleController : MonoBehaviour
         // Initialize the hero with base information.
         GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
         GameManager.SetSeenEnemies(new List<Encounter>());
-        GameManager.SetPlayedDialogues(new List<DialogueName>(), new List<string>(), false, false);
+        GameManager.SetPlayedDialogues(new List<DialogueName>(), new List<string>());
         GameManager.SetGameScene(GameScene.FOREST);
         GameManager.SetCampaignSave(null);
         GameManager.SetMapObject(null);

@@ -14,8 +14,7 @@ public class SaveObject
     public int money;
     public int xp;
     [Header("Game Background Information")]
-    public bool visitedShopBefore;
-    public bool visitedUpgradeBefore;
+    public List<GameEvent> registeredEvents;
     public List<string> tutorialsPlayed;
     public List<DialogueName> mapDialoguesPlayed;
     public List<Encounter> loadedEncounters;
@@ -55,12 +54,13 @@ public static class SaveLoadManager
         Debug.Log("Loading save slot (" + fileName + ").");
         GameManager.SetChosenHero(so.hero);
         GameManager.SetGameScene(so.mapObject.currScene);
+        GameManager.SetRegisteredEvents(so.registeredEvents);
         GameManager.SetMoney(so.money);
         GameManager.SetXP(so.xp);
         GameManager.SetCampaignSave(so.campaignSave);
         if (so.campaignSave != null) GameManager.SetGameScene(so.campaignSave.currScene);
         GameManager.SetMapObject(so.mapObject);
-        GameManager.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed, so.visitedShopBefore, so.visitedUpgradeBefore);
+        GameManager.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed);
         GameManager.SetSeenEnemies(so.loadedEncounters);
         GameManager.saveFileName = fileName;
 

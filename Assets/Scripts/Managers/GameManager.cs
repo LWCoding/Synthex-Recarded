@@ -32,8 +32,38 @@ public static class GameManager
     public static void SpendXP(int x) => AddXP(-x);
     // Meta data:
     public static List<Enemy> nextBattleEnemies = new List<Enemy>();
-    public static bool visitedShopBefore = false;
-    public static bool visitedUpgradeBefore = false;
+    // Event data:
+    private static List<GameEvent> registeredEvents = new List<GameEvent>();
+    public static bool IsEventComplete(EventType eventType)
+    {
+        GameEvent foundEvent = registeredEvents.Find((e) => e.EventType == eventType);
+        return foundEvent != null && foundEvent.IsCompleted();
+    }
+    public static void SetRegisteredEvents(List<GameEvent> events) => registeredEvents = events;
+    public static void IncrementEventCounter(EventType eventType)
+    {
+        GameEvent foundEvent = registeredEvents.Find((e) => e.EventType == eventType);
+        // Initialize the event if we can't find this event.
+        if (foundEvent == null)
+        {
+            foundEvent = Globals.GetGameEvent(eventType);
+            registeredEvents.Add(foundEvent);
+        }
+        // Increment the event counter.
+        foundEvent.Increment();
+    }
+    public static void CompleteEvent(EventType eventType)
+    {
+        GameEvent foundEvent = registeredEvents.Find((e) => e.EventType == eventType);
+        // Initialize the event if we can't find this event.
+        if (foundEvent == null)
+        {
+            foundEvent = Globals.GetGameEvent(eventType);
+            registeredEvents.Add(foundEvent);
+        }
+        // Set the event to be completed.
+        foundEvent.SetCompleted();
+    }
     // Dialogue data:
     public static List<DialogueName> alreadyPlayedMapDialogues = new List<DialogueName>();
     public static List<string> alreadyPlayedTutorials = new List<string>();
@@ -48,6 +78,7 @@ public static class GameManager
     public static GameScene GetGameScene() => _gameScene;
     public static void SetGameScene(GameScene ms) => _gameScene = ms;
     // Map data:
+    public static bool wasTitleRendered = false;
     private static SerializableMapObject _mapObject = null;
     public static SerializableMapObject GetMapObject() => _mapObject;
     public static void SetMapObject(SerializableMapObject smo) => _mapObject = smo;
@@ -101,12 +132,10 @@ public static class GameManager
         _chosenHero.currentItems.RemoveAt(index);
     }
 
-    public static void SetPlayedDialogues(List<DialogueName> dialogues, List<string> tutorials, bool hasVisitedShop, bool hasVisitedUpgrade)
+    public static void SetPlayedDialogues(List<DialogueName> dialogues, List<string> tutorials)
     {
         alreadyPlayedMapDialogues = dialogues;
         alreadyPlayedTutorials = tutorials;
-        visitedShopBefore = hasVisitedShop;
-        visitedUpgradeBefore = hasVisitedUpgrade;
     }
 
     public static void SaveGame()
@@ -118,8 +147,7 @@ public static class GameManager
         so.xp = GetXP();
         so.mapDialoguesPlayed = alreadyPlayedMapDialogues;
         so.tutorialsPlayed = alreadyPlayedTutorials;
-        so.visitedShopBefore = visitedShopBefore;
-        so.visitedUpgradeBefore = visitedUpgradeBefore;
+        so.registeredEvents = registeredEvents;
         // Save info for campaign
         so.campaignSave = GetCampaignSave();
         // Save info for map (if applicable)

@@ -46,6 +46,8 @@ public class CampaignController : MonoBehaviour
         FindAndStoreAllLevelOptions();
         // Initialize any save information.
         InitializeSaveInfo();
+        // Initialize information on the state of the map.
+        CampaignEventController.Instance?.InitializeMapState(GameManager.GetCampaignSave().currScene);
         // Move the player to the current hero location.
         CampaignCameraController.Instance.MoveCameraToPosition(_playerIconTransform.position);
         // Save the game.
@@ -120,12 +122,12 @@ public class CampaignController : MonoBehaviour
     }
 
     // Select an option given a CampaignOptionController.
-    public void ChooseOption(CampaignOptionController loc, bool shouldInvokeFirstTime = false)
+    public void ChooseOption(CampaignOptionController loc, bool shouldInvokeFirstTime = false, bool shouldRenderAreaEffects = true)
     {
-        StartCoroutine(ChooseOptionCoroutine(loc, shouldInvokeFirstTime));
+        StartCoroutine(ChooseOptionCoroutine(loc, shouldInvokeFirstTime, shouldRenderAreaEffects));
     }
 
-    private IEnumerator ChooseOptionCoroutine(CampaignOptionController loc, bool shouldInvokeFirstTime)
+    private IEnumerator ChooseOptionCoroutine(CampaignOptionController loc, bool shouldInvokeFirstTime, bool shouldRenderAreaEffects)
     {
         // Prevent the player from selecting another option.
         foreach (CampaignOptionController option in _levelOptions)
@@ -146,33 +148,41 @@ public class CampaignController : MonoBehaviour
         }
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !DialogueUIController.Instance.IsPlaying());
-        // Render the appropriate actions based on the location.
-        LocationChoice locationChoice = loc.LocationChoice;
-        switch (locationChoice)
+        // If we should render the effects of the location, render it.
+        // Or else, just make the character move there.
+        if (shouldRenderAreaEffects)
         {
-            case LocationChoice.SHOP:
-                TransitionManager.Instance.HideScreen("Shop", 0.75f);
-                break;
-            case LocationChoice.TREASURE:
-                TreasureController.Instance.ShowChest();
-                break;
-            case LocationChoice.BASIC_ENCOUNTER:
-            case LocationChoice.MINIBOSS_ENCOUNTER:
-            case LocationChoice.BOSS_ENCOUNTER:
-                Encounter newEncounter = new Encounter();
-                newEncounter.enemies = loc.EnemiesToRender;
-                GameManager.AddSeenEnemies(newEncounter);
-                GameManager.nextBattleEnemies = newEncounter.enemies;
-                TransitionManager.Instance.HideScreen("Battle", 0.75f);
-                break;
-            case LocationChoice.UPGRADE_MACHINE:
-                TransitionManager.Instance.HideScreen("Upgrade", 0.75f);
-                break;
-            case LocationChoice.NONE:
-                // If we're at a random path, just initialize the path from the
-                // current position.
-                InitializeCurrentLevelInfo();
-                break;
+            LocationChoice locationChoice = loc.LocationChoice;
+            switch (locationChoice)
+            {
+                case LocationChoice.SHOP:
+                    TransitionManager.Instance.HideScreen("Shop", 0.75f);
+                    break;
+                case LocationChoice.TREASURE:
+                    TreasureController.Instance.ShowChest();
+                    break;
+                case LocationChoice.BASIC_ENCOUNTER:
+                case LocationChoice.MINIBOSS_ENCOUNTER:
+                case LocationChoice.BOSS_ENCOUNTER:
+                    Encounter newEncounter = new Encounter();
+                    newEncounter.enemies = loc.EnemiesToRender;
+                    GameManager.AddSeenEnemies(newEncounter);
+                    GameManager.nextBattleEnemies = newEncounter.enemies;
+                    TransitionManager.Instance.HideScreen("Battle", 0.75f);
+                    break;
+                case LocationChoice.UPGRADE_MACHINE:
+                    TransitionManager.Instance.HideScreen("Upgrade", 0.75f);
+                    break;
+                case LocationChoice.NONE:
+                    // If we're at a random path, just initialize the path from the
+                    // current position.
+                    InitializeCurrentLevelInfo();
+                    break;
+            }
+        }
+        else
+        {
+            InitializeCurrentLevelInfo();
         }
     }
 

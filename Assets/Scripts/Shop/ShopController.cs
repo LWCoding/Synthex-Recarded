@@ -26,7 +26,6 @@ public class ShopController : MonoBehaviour
     public AudioClip shopDoorOpenSFX;
     public AudioClip shopDoorCloseSFX;
 
-    private bool _isFirstTimeAtShop;
     private bool _isPlayerLeavingShop;
 
     private void Awake()
@@ -58,6 +57,9 @@ public class ShopController : MonoBehaviour
 
     private IEnumerator CloseDoorAfterDelayCoroutine()
     {
+        // Since we're leaving the shop, set the visited shop event to true.
+        GameManager.CompleteEvent(EventType.VISITED_SHOP_BEFORE);
+        // Play the close door animation.
         exitShopButton.interactable = false;
         _isPlayerLeavingShop = true;
         ShopDialogueHandler.Instance.ClearExistingDialogue();
@@ -94,8 +96,7 @@ public class ShopController : MonoBehaviour
         shopkeeperAnimator.gameObject.SetActive(true);
         shopkeeperAnimator.Play("ShopkeepShow");
         yield return new WaitForSeconds(1f);
-        _isFirstTimeAtShop = !GameManager.visitedShopBefore;
-        if (GameManager.visitedShopBefore)
+        if (GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             // If the player has visited a shop before, just show the UI.
             ShowHologramUI(true);
@@ -105,7 +106,6 @@ public class ShopController : MonoBehaviour
         else
         {
             // If the player hasn't, then play some dialogue.
-            GameManager.visitedShopBefore = true;
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.QueueDialogueText("Scanning... facial identification.", "Scan");
             ShopDialogueHandler.Instance.QueueDialogueText("Ah! Howdy. You must be Jack.", "Neutral");
@@ -120,7 +120,7 @@ public class ShopController : MonoBehaviour
     public void OnClickedCardsTab()
     {
         if (_isPlayerLeavingShop) { return; }
-        if (_isFirstTimeAtShop)
+        if (GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.ClearExistingDialogue();
@@ -133,7 +133,7 @@ public class ShopController : MonoBehaviour
     public void OnClickedRelicTab()
     {
         if (_isPlayerLeavingShop) { return; }
-        if (_isFirstTimeAtShop)
+        if (GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.ClearExistingDialogue();
@@ -146,7 +146,7 @@ public class ShopController : MonoBehaviour
     public void OnClickedItemTab()
     {
         if (_isPlayerLeavingShop) { return; }
-        if (_isFirstTimeAtShop)
+        if (GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.ClearExistingDialogue();

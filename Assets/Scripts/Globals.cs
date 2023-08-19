@@ -18,6 +18,7 @@ public static class Globals
     public static List<CardEffect> allCardEffects = new List<CardEffect>();
     public static List<CampaignInfo> allCampaignInfo = new List<CampaignInfo>();
     public static List<MapInfo> allMapInfo = new List<MapInfo>();
+    public static List<GameEvent> allGameEvents = new List<GameEvent>();
     private static bool globalsInitialized = false;
 
     private static void Initialize()
@@ -91,6 +92,10 @@ public static class Globals
         // Find all campaign information in the "CampaignInfo" folder (through Resources)
         // and add them to the `allCampaignInfo` variable.
         allCampaignInfo = Resources.LoadAll<CampaignInfo>("ScriptableObjects/CampaignInfo").ToList();
+
+        // Find all game event information in the "GameEvent" folder (through Resources)
+        // and add them to the `allGameEvents` variable.
+        allGameEvents = Resources.LoadAll<GameEvent>("ScriptableObjects/GameEvents").ToList();
 
         // After everything is initialized, set to true.
         globalsInitialized = true;
@@ -343,26 +348,26 @@ public static class Globals
         return foundCardEffect;
     }
 
-    public static Dialogue GetDialogue(DialogueName type)
+    public static GameEvent GetGameEvent(EventType type)
     {
         if (!globalsInitialized)
         {
             Initialize();
         }
-        Dialogue foundDialogue = null;
-        allDialogues.ForEach((dialogue) =>
+        GameEvent foundGameEvent = null;
+        allGameEvents.ForEach((gameEvent) =>
         {
-            if (dialogue.dialogueName == type)
+            if (gameEvent.EventType == type)
             {
-                foundDialogue = dialogue;
+                foundGameEvent = gameEvent;
                 return;
             }
         });
-        if (!foundDialogue)
+        if (!foundGameEvent)
         {
-            Debug.Log("Could not find dialogue (" + type + ") in Globals.cs!");
+            Debug.Log("Could not find game event (" + type + ") in Globals.cs!");
         }
-        return foundDialogue;
+        return foundGameEvent;
     }
 
 }
