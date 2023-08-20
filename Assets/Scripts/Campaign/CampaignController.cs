@@ -147,7 +147,7 @@ public class CampaignController : MonoBehaviour
             loc.OnSelectFirstTime.Invoke();
         }
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => !DialogueUIController.Instance.IsPlaying());
+        yield return new WaitUntil(() => !DialogueUIController.Instance.IsRenderingDialogue());
         // If we should render the effects of the location, render it.
         // Or else, just make the character move there.
         if (shouldRenderAreaEffects)

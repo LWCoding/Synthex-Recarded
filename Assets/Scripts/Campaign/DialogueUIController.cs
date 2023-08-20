@@ -26,6 +26,8 @@ public partial class DialogueUIController : MonoBehaviour
     private Dialogue _storedDialogue;
     private Queue<DialogueLine> _dialogueStringQueue = new Queue<DialogueLine>();
 
+    public bool IsRenderingDialogue() => dialogueContainerObject.activeSelf;
+
     private void Awake()
     {
         if (Instance != null)
@@ -107,10 +109,27 @@ public partial class DialogueUIController : MonoBehaviour
         Render the dialogue rendering coroutine with a pre-set dialogue
         object.
     */
-    public void QueueAndRenderDialogue(Dialogue dialogues)
+    public void QueueAndRenderDialogue(Dialogue dialogue)
     {
-        QueueDialogueText(dialogues);
-        StartCoroutine(RenderDialogueCoroutine(null));
+        QueueDialogueText(dialogue);
+        StartCoroutine(RenderDialogueCoroutine(() =>
+        {
+            switch (dialogue.actionToPlayAfterDialogue)
+            {
+                case DialogueAction.HEAL_TO_FULL_HP:
+                    GameManager.SetHeroHealth(GameManager.GetHeroMaxHealth());
+                    SoundManager.Instance.PlaySFX(SoundEffect.HEAL_HEALTH);
+                    break;
+                case DialogueAction.SECRET_WIN_SEND_TO_TITLE:
+                    PlayerPrefs.SetInt("BeatBoykisser", 1);
+                    TransitionManager.Instance.HideScreen("Title", 2);
+                    break;
+                case DialogueAction.WON_GAME_SEND_TO_TITLE:
+                    PlayerPrefs.SetInt("BeatGame", 1);
+                    TransitionManager.Instance.HideScreen("Title", 2);
+                    break;
+            }
+        }));
     }
 
     /*
@@ -225,7 +244,7 @@ public partial class DialogueUIController : MonoBehaviour
         Returns a boolean representing whether or not the specified animator is
         playing an animation clip with the specified name.
     */
-    public bool IsPlaying()
+    private bool IsPlaying()
     {
         return _dialogueBoxAnimator.GetCurrentAnimatorStateInfo(0).length > _dialogueBoxAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }

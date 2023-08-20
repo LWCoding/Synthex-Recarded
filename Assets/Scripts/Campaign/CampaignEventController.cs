@@ -12,6 +12,7 @@ public class CampaignEventController : MonoBehaviour
     [SerializeField] private ParticleSystem _dummyParticleSystem;
     [SerializeField] private Sprite _intactDummy;
     [SerializeField] private Sprite _destroyedDummy;
+    [SerializeField] private AudioClip _dummyDestroyedSFX;
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class CampaignEventController : MonoBehaviour
     {
         _dummyParticleSystem.Play();
         _dummyAnimator.Play("Destroy");
+        SoundManager.Instance.PlayOneShot(_dummyDestroyedSFX, 1.2f);
         GameManager.CompleteEvent(EventType.DEFEATED_DUMMY);
     }
 

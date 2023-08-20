@@ -30,7 +30,7 @@ public class CampaignOptionController : MonoBehaviour
     private EventSystem _eventSystem;
     private MouseHoverScaler _mouseHoverScaler;
 
-    public bool ShouldActivateWhenVisited() => !_wasVisited || CanRenderMultipleTimes;
+    public bool ShouldActivateWhenVisited() => LocationChoice == LocationChoice.NONE || !_wasVisited || CanRenderMultipleTimes;
 
     private void Awake()
     {
@@ -73,6 +73,7 @@ public class CampaignOptionController : MonoBehaviour
     {
         _isInteractable = isInteractable;
         _mouseHoverScaler.SetIsInteractable(isInteractable);
+        _optionAnimator.Play("Idle");
         // If we shouldn't change the visuals, return early.
         if (!shouldChangeVisuals) { return; }
         // If the location was already visited and shouldn't be
@@ -140,7 +141,7 @@ public class CampaignOptionController : MonoBehaviour
     private void OnMouseDown()
     {
         // If an animation or dialogue is playing, don't interact.
-        if (DialogueUIController.Instance.IsPlaying()) { return; }
+        if (DialogueUIController.Instance.IsRenderingDialogue()) { return; }
         // If we're hovering over something else or shouldn't have the
         // ability to interact, don't interact.
         if (_eventSystem.IsPointerOverGameObject() || !_isInteractable) return;

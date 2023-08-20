@@ -12295,6 +12295,7 @@ MonoBehaviour:
   _dummyParticleSystem: {fileID: 813520685}
   _intactDummy: {fileID: 21300000, guid: b19e9c3b3e0377640b7f9b1797daab6d, type: 3}
   _destroyedDummy: {fileID: 21300000, guid: eceec0fd597af4143abccc32c9378d24, type: 3}
+  _dummyDestroyedSFX: {fileID: 8300000, guid: 1b4a013858e33164fb247386f3c3f1ea, type: 3}
 --- !u!1 &1134494521
 GameObject:
   m_ObjectHideFlags: 0

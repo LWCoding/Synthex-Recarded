@@ -11,11 +11,12 @@ public class CardChoiceController : MonoBehaviour
 
     [HideInInspector] public static CardChoiceController Instance;
     [Header("Object Assignments")]
-    public GameObject cardPrefab;
-    public Image bgFadeImage;
-    public TextMeshProUGUI bgText;
-    public Transform cardParentTransform;
-    public CanvasGroup skipCardCanvasGroup;
+    [SerializeField] private Image bgFadeImage;
+    [SerializeField] private TextMeshProUGUI bgText;
+    [SerializeField] private Transform cardParentTransform;
+    [SerializeField] private CanvasGroup skipCardCanvasGroup;
+    [SerializeField] private GraphicRaycaster _skipCardGraphicRaycaster;
+
     private List<GameObject> _cardChoiceObjects = new List<GameObject>();
     private GameObject _cardObjectChosen;
 
@@ -77,6 +78,7 @@ public class CardChoiceController : MonoBehaviour
             yield return new WaitForSeconds(0.16f);
         }
         skipCardCanvasGroup.gameObject.SetActive(true);
+        _skipCardGraphicRaycaster.enabled = false;
         for (int i = 0; i < 15; i++)
         {
             skipCardCanvasGroup.alpha += 0.07f;
@@ -95,6 +97,7 @@ public class CardChoiceController : MonoBehaviour
                 CardChoiceController.Instance.HideUnselectedCards(true, codeToRunAfter);
             });
         }
+        _skipCardGraphicRaycaster.enabled = true;
     }
 
     public void HideUnselectedCards(bool didPlayerChooseCard, Action codeToRunAfter)
@@ -131,8 +134,8 @@ public class CardChoiceController : MonoBehaviour
             TopBarController.Instance.AnimateCardsToDeck(remainingCard.transform.position, new List<Card> { remainingCardHandler.card }, remainingCardHandler.transform.localScale);
             GameManager.AddCardToDeck(remainingCardHandler.card); // Add card to deck.
             SoundManager.Instance.PlaySFX(SoundEffect.CARD_OBTAIN); // Play card chosen sound!
+            yield return new WaitForSeconds(1);
         }
-        yield return new WaitForSeconds(1);
         if (codeToRunAfter != null) { codeToRunAfter.Invoke(); }
     }
 

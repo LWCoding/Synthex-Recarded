@@ -3919,11 +3919,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1db50bc355a407642bf1245a28417f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 572404941624521553, guid: 52e0a4f4f70d5e5408baba883f5d5730, type: 3}
   bgFadeImage: {fileID: 1667002471}
   bgText: {fileID: 752622417}
   cardParentTransform: {fileID: 492777205}
   skipCardCanvasGroup: {fileID: 275201122}
+  _skipCardGraphicRaycaster: {fileID: 275201123}
 --- !u!82 &1713571438
 AudioSource:
   m_ObjectHideFlags: 0
