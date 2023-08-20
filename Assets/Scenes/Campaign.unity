@@ -140,6 +140,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed
+      value: 
+      objectReference: {fileID: 1151028128}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed
+      value: 
+      objectReference: {fileID: 184046618}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpArrowPressed
+      value: 
+      objectReference: {fileID: 1151028128}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownArrowPressed
+      value: 
+      objectReference: {fileID: 184046618}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -451,6 +467,14 @@ PrefabInstance:
       propertyPath: LocationChoice
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed
+      value: 
+      objectReference: {fileID: 115497448}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpArrowPressed
+      value: 
+      objectReference: {fileID: 115497448}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.size
       value: 1
@@ -11566,6 +11590,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed
+      value: 
+      objectReference: {fileID: 1151028128}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfLeftPressed
+      value: 
+      objectReference: {fileID: 7133289237780981369}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfRightPressed
+      value: 
+      objectReference: {fileID: 237709686}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownArrowPressed
+      value: 
+      objectReference: {fileID: 1151028128}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -12387,6 +12427,22 @@ PrefabInstance:
       propertyPath: LocationChoice
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed
+      value: 
+      objectReference: {fileID: 817375608}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed
+      value: 
+      objectReference: {fileID: 115497448}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpArrowPressed
+      value: 
+      objectReference: {fileID: 817375608}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownArrowPressed
+      value: 
+      objectReference: {fileID: 115497448}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.size
       value: 2

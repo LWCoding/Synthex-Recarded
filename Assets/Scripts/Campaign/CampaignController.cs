@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class CampaignController : MonoBehaviour
@@ -19,8 +19,18 @@ public class CampaignController : MonoBehaviour
     [SerializeField] private AudioClip _footstepsSFX;
 
     private CampaignSave _currCampaignSave;
+    private EventSystem _eventSystem;
+    private bool _isPlayerMoving = false;
+    private CampaignOptionController GetCurrentLevel()
+    {
+        CampaignOptionController currLevel = _levelOptions.Find((coc) => coc.transform.position == _playerIconTransform.position);
+        if (currLevel == null) Debug.LogError("Could not find current level!", gameObject);
+        return currLevel;
+    }
     public void RegisterVisitedLevel(Vector3 levelPosition) => _currCampaignSave.visitedLevels.Add(levelPosition);
     private List<CampaignOptionController> _levelOptions;
+
+    public bool CanPlayerChooseLevel() => !_isPlayerMoving && !DialogueUIController.Instance.IsRenderingDialogue() && !_eventSystem.IsPointerOverGameObject();
 
     private void FindAndStoreAllLevelOptions() => _levelOptions = new List<CampaignOptionController>(GameObject.FindObjectsOfType<CampaignOptionController>());
 
@@ -32,6 +42,7 @@ public class CampaignController : MonoBehaviour
             Destroy(this);
         }
         Instance = this;
+        _eventSystem = EventSystem.current;
     }
 
     private void Start()
@@ -45,7 +56,7 @@ public class CampaignController : MonoBehaviour
         // Store and initialize all levels.
         FindAndStoreAllLevelOptions();
         // Initialize any save information.
-        InitializeSaveInfo();
+        CreateOrLoadSave();
         // Initialize information on the state of the map.
         CampaignEventController.Instance?.InitializeMapState(GameManager.GetCampaignSave().currScene);
         // Move the player to the current hero location.
@@ -57,11 +68,35 @@ public class CampaignController : MonoBehaviour
         InitializeCurrentLevelInfo();
     }
 
+    // Handle keybinds to traverse levels.
+    private void Update()
+    {
+        // If the player can't choose a level, don't even let them do this.
+        if (!CanPlayerChooseLevel()) return;
+        // Check if the left, right, up, or down keys are being pressed.
+        float verticalAxis = Input.GetAxisRaw("Vertical");
+        float horizontalAxis = Input.GetAxisRaw("Horizontal");
+        if (verticalAxis == 0 && horizontalAxis == 0) { return; }
+        // If one of them are, try to find the axis. Find the corresponding level.
+        CampaignOptionController nextLevel;
+        if (verticalAxis != 0)
+        {
+            nextLevel = (verticalAxis > 0) ? GetCurrentLevel().LevelIfUpPressed : GetCurrentLevel().LevelIfDownPressed;
+        }
+        else
+        {
+            nextLevel = (horizontalAxis > 0) ? GetCurrentLevel().LevelIfRightPressed : GetCurrentLevel().LevelIfLeftPressed;
+        }
+        // If the level doesn't exist at this position, stop here.
+        if (nextLevel == null) return;
+        ChooseOption(nextLevel);
+    }
+
     ///<summary>
     /// If we already have save data, load the information into this script.
     /// Or else, create that information and save it as new.
     ///</summary>
-    private void InitializeSaveInfo()
+    private void CreateOrLoadSave()
     {
         if (GameManager.GetCampaignSave() == null)
         {
@@ -74,7 +109,8 @@ public class CampaignController : MonoBehaviour
             // Set all levels to be non-visited.
             foreach (CampaignOptionController coc in _levelOptions)
             {
-                coc.Initialize(false);
+                coc.Initialize();
+                coc.WasVisited = false;
             }
         }
         else
@@ -86,7 +122,8 @@ public class CampaignController : MonoBehaviour
             List<Vector3> visitedLevels = _currCampaignSave.visitedLevels;
             foreach (CampaignOptionController coc in _levelOptions)
             {
-                coc.Initialize(visitedLevels.Contains(coc.transform.position));
+                coc.Initialize();
+                coc.WasVisited = visitedLevels.Contains(coc.transform.position);
             }
         }
     }
@@ -98,13 +135,11 @@ public class CampaignController : MonoBehaviour
     private void InitializeCurrentLevelInfo()
     {
         // Try to find the current level controller that the player is at.
-        CampaignOptionController currentLevel = _levelOptions.Find((coc) => coc.transform.position == _playerIconTransform.position);
-        // If we didn't find it, error!
-        if (currentLevel == null) Debug.LogError("Could not find the current level!", gameObject);
+        CampaignOptionController currentLevel = GetCurrentLevel();
         // Invoke the current level's on load event.
         currentLevel.SetAsCurrentLevel();
         // If we found it, then set the available connected levels.
-        SetAvailableLevelOptions(currentLevel.ConnectedLevels);
+        SetAvailableLevelOptions(currentLevel.GetConnectedLevels());
     }
 
     private void SetAvailableLevelOptions(List<CampaignOptionController> availableLevelOptions)
@@ -122,18 +157,19 @@ public class CampaignController : MonoBehaviour
     }
 
     // Select an option given a CampaignOptionController.
-    public void ChooseOption(CampaignOptionController loc, bool shouldInvokeFirstTime = false, bool shouldRenderAreaEffects = true)
+    public void ChooseOption(CampaignOptionController loc)
     {
-        StartCoroutine(ChooseOptionCoroutine(loc, shouldInvokeFirstTime, shouldRenderAreaEffects));
+        StartCoroutine(ChooseOptionCoroutine(loc, loc.ShouldActivateWhenVisited()));
     }
 
-    private IEnumerator ChooseOptionCoroutine(CampaignOptionController loc, bool shouldInvokeFirstTime, bool shouldRenderAreaEffects)
+    private IEnumerator ChooseOptionCoroutine(CampaignOptionController loc, bool shouldRenderAreaEffects)
     {
         // Prevent the player from selecting another option.
         foreach (CampaignOptionController option in _levelOptions)
         {
             option.SetInteractable(false, false);
         }
+        _isPlayerMoving = true;
         // Make the character animate towards the next thing.
         CampaignCameraController.Instance.LerpCameraToPosition(loc.transform.position, 1.2f);
         StartCoroutine(MoveHeroToPositionCoroutine(loc.transform.position, 0.8f));
@@ -142,7 +178,7 @@ public class CampaignController : MonoBehaviour
         _currCampaignSave.heroMapPosition = _playerIconTransform.position;
         GameManager.SetCampaignSave(_currCampaignSave);
         // Render first-time load if necessary.
-        if (shouldInvokeFirstTime)
+        if (!loc.WasVisited)
         {
             loc.OnSelectFirstTime.Invoke();
         }
@@ -184,6 +220,7 @@ public class CampaignController : MonoBehaviour
         {
             InitializeCurrentLevelInfo();
         }
+        _isPlayerMoving = false;
     }
 
     // Makes the player icon move towards a certain position.

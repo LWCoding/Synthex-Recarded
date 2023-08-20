@@ -16,21 +16,36 @@ public class CampaignOptionController : MonoBehaviour
     [Header("Level Properties")]
     public LocationChoice LocationChoice;
     public bool CanRenderMultipleTimes;
-    public List<CampaignOptionController> ConnectedLevels = new List<CampaignOptionController>();
-    public List<Enemy> EnemiesToRender;
+    public CampaignOptionController LevelIfLeftPressed;
+    public CampaignOptionController LevelIfRightPressed;
+    public CampaignOptionController LevelIfUpPressed;
+    public CampaignOptionController LevelIfDownPressed;
     [Header("Unity Events")]
     public UnityEvent OnSelectFirstTime;
     public UnityEvent OnVisitedFirstTime;
+    [Header("Battle Properties (optional)")]
+    public List<Enemy> EnemiesToRender;
+
+    public bool WasVisited = false;
 
     private IEnumerator _iconColorChangeCoroutine = null;
     private Vector2 _originalIconColliderSize;
     private bool _isInteractable = false;
-    private bool _wasVisited = false;
     private Animator _optionAnimator;
     private EventSystem _eventSystem;
     private MouseHoverScaler _mouseHoverScaler;
 
-    public bool ShouldActivateWhenVisited() => LocationChoice == LocationChoice.NONE || !_wasVisited || CanRenderMultipleTimes;
+    public bool ShouldActivateWhenVisited() => LocationChoice == LocationChoice.NONE || !WasVisited || CanRenderMultipleTimes;
+    // Get the connected levels by checking the levels in the four directions.
+    public List<CampaignOptionController> GetConnectedLevels()
+    {
+        List<CampaignOptionController> connectedLevels = new List<CampaignOptionController>();
+        if (LevelIfLeftPressed != null) connectedLevels.Add(LevelIfLeftPressed);
+        if (LevelIfUpPressed != null) connectedLevels.Add(LevelIfUpPressed);
+        if (LevelIfRightPressed != null) connectedLevels.Add(LevelIfRightPressed);
+        if (LevelIfDownPressed != null) connectedLevels.Add(LevelIfDownPressed);
+        return connectedLevels;
+    }
 
     private void Awake()
     {
@@ -41,10 +56,8 @@ public class CampaignOptionController : MonoBehaviour
         _originalIconColliderSize = _iconCollider.size;
     }
 
-    public void Initialize(bool wasVisited)
+    public void Initialize()
     {
-        // Set the visited state.
-        _wasVisited = wasVisited;
         // Initialize the sprite and scale based on the type of location it is.
         CampaignInfo campaignInfo = Globals.GetCampaignInfo(GameManager.GetGameScene());
         LocationType locationType = campaignInfo.campaignLocations.Find((loc) => loc.locationType == LocationChoice);
@@ -78,7 +91,7 @@ public class CampaignOptionController : MonoBehaviour
         if (!shouldChangeVisuals) { return; }
         // If the location was already visited and shouldn't be
         // rendered multiple times, make it very transparent and stop.
-        if (_wasVisited && !ShouldActivateWhenVisited())
+        if (WasVisited && !ShouldActivateWhenVisited())
         {
             LerpIconSpriteColorTo(new Color(1, 1, 1, 0.15f));
             return;
@@ -123,12 +136,13 @@ public class CampaignOptionController : MonoBehaviour
     {
         // If the player has finished this location for the first time, invoke
         // after any animations are finished.
-        if (!_wasVisited)
+        if (!WasVisited)
         {
             StartCoroutine(WaitAndInvokeVisitedFirstTimeCoroutine());
         }
         CampaignController.Instance.RegisterVisitedLevel(transform.position);
-        Initialize(true);
+        WasVisited = true;
+        Initialize();
     }
 
     private IEnumerator WaitAndInvokeVisitedFirstTimeCoroutine()
@@ -140,20 +154,10 @@ public class CampaignOptionController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // If an animation or dialogue is playing, don't interact.
-        if (DialogueUIController.Instance.IsRenderingDialogue()) { return; }
-        // If we're hovering over something else or shouldn't have the
-        // ability to interact, don't interact.
-        if (_eventSystem.IsPointerOverGameObject() || !_isInteractable) return;
+        // If we shouldn't be allowed to choose a level, disable this.
+        if (!CampaignController.Instance.CanPlayerChooseLevel() || !_isInteractable) { return; }
         // Choose the option in the CampaignController if it should render.
-        if (ShouldActivateWhenVisited())
-        {
-            CampaignController.Instance.ChooseOption(this, !_wasVisited);
-        }
-        else
-        {
-            CampaignController.Instance.ChooseOption(this, !_wasVisited, false);
-        }
+        CampaignController.Instance.ChooseOption(this);
     }
 
     private IEnumerator LerpIconSpriteColorCoroutine(Color targetColor)
