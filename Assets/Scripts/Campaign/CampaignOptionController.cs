@@ -89,18 +89,10 @@ public class CampaignOptionController : MonoBehaviour
         _optionAnimator.Play("Idle");
         // If we shouldn't change the visuals, return early.
         if (!shouldChangeVisuals) { return; }
-        // If the location was already visited and shouldn't be
-        // rendered multiple times, make it very transparent and stop.
-        if (WasVisited && !ShouldActivateWhenVisited())
+        // If it's interactable, make the option pulse.
+        // Or else, reset the scale because it shouldn't be interactable.
+        if (isInteractable)
         {
-            LerpIconSpriteColorTo(new Color(1, 1, 1, 0.15f));
-            return;
-        }
-        // If it's interactable and should be active, make it a solid color.
-        // Or else, make it transparent.
-        if (isInteractable && ShouldActivateWhenVisited())
-        {
-            LerpIconSpriteColorTo(new Color(1, 1, 1, 1));
             // Make any icon except the boss icon pulse.
             if (LocationChoice != LocationChoice.BOSS_ENCOUNTER)
             {
@@ -109,9 +101,11 @@ public class CampaignOptionController : MonoBehaviour
         }
         else
         {
-            LerpIconSpriteColorTo(new Color(1, 1, 1, 0.2f));
             _mouseHoverScaler.ResetScale();
         }
+        // If the option should activate something when visited, make it opaque.
+        // Or else, make it a bit transparent.
+        LerpIconSpriteColorTo(new Color(1, 1, 1, (ShouldActivateWhenVisited()) ? 1 : 0.2f));
     }
 
     // Lerps the sprite icon color to a target color.

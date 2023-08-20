@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="dust cloud shite.png">
-	<!-- Created with Adobe Animate version 23.0.2.103 -->
-	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="dust cloud 10000" x="10" y="10" width="137" height="113"/>
-	<SubTexture name="dust cloud 20000" x="157" y="10" width="159" height="143"/>
-	<SubTexture name="dust cloud 30000" x="326" y="10" width="121" height="111"/>
-	<SubTexture name="dust cloud 40000" x="10" y="163" width="141" height="147"/>
-</TextureAtlas>
