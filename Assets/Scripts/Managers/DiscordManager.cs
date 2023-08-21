@@ -58,8 +58,8 @@ public class DiscordManager : MonoBehaviour
             }
             else
             {
-                string mapSceneName = char.ToUpper(GameManager.GetMapScene().ToString()[0]) + GameManager.GetMapScene().ToString().Substring(1).ToLower();
-                currState = GameManager.GetHeroData().characterName + " (" + GameManager.GetHeroHealth() + "/" + GameManager.GetHeroMaxHealth() + " HP) | " + mapSceneName + " Lvl. " + (GameManager.GetMapObject().currLocation.floorNumber + 1);
+                string mapSceneName = char.ToUpper(GameManager.GetGameScene().ToString()[0]) + GameManager.GetGameScene().ToString().Substring(1).ToLower();
+                currState = GameManager.GetHeroData().characterName + " (" + GameManager.GetHeroHealth() + "/" + GameManager.GetHeroMaxHealth() + " HP)";
             }
             switch (currScene)
             {
