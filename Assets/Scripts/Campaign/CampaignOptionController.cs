@@ -8,10 +8,12 @@ using UnityEngine.EventSystems;
 public class CampaignOptionController : MonoBehaviour
 {
 
+    [Header("Prefab Assignments")]
+    [SerializeField] private GameObject mapArrowObject;
     [Header("Object Assignments")]
     [SerializeField] private SpriteRenderer _iconSpriteRenderer;
-    [SerializeField] private SpriteRenderer _bgSpriteRenderer;
     [SerializeField] private BoxCollider2D _iconCollider;
+    [SerializeField] private Transform _arrowParentTransform;
     [SerializeField] private ParticleSystem _pSystem;
     [Header("Level Properties")]
     public LocationChoice LocationChoice;
@@ -35,7 +37,7 @@ public class CampaignOptionController : MonoBehaviour
     private EventSystem _eventSystem;
     private MouseHoverScaler _mouseHoverScaler;
 
-    public bool ShouldActivateWhenVisited() => LocationChoice == LocationChoice.NONE || !WasVisited || CanRenderMultipleTimes;
+    public bool ShouldActivateWhenVisited() => LocationChoice != LocationChoice.NONE && (!WasVisited || CanRenderMultipleTimes);
     // Get the connected levels by checking the levels in the four directions.
     public List<CampaignOptionController> GetConnectedLevels()
     {
@@ -54,6 +56,31 @@ public class CampaignOptionController : MonoBehaviour
         _mouseHoverScaler = GetComponent<MouseHoverScaler>();
         _mouseHoverScaler.Initialize(_iconSpriteRenderer);
         _originalIconColliderSize = _iconCollider.size;
+        InitializeArrows();
+    }
+
+    // Initialize all arrow objects pointing to available levels.
+    private void InitializeArrows()
+    {
+        // Delete all children of parent.
+        for (int i = 0; i < _arrowParentTransform.childCount; i++)
+        {
+            Destroy(_arrowParentTransform.GetChild(i).gameObject);
+        }
+        // Create all the arrows based on the number of connected levels.
+        List<CampaignOptionController> connectedLevels = GetConnectedLevels();
+        foreach (CampaignOptionController coc in connectedLevels)
+        {
+            GameObject arrowObject = Instantiate(mapArrowObject, _arrowParentTransform);
+            arrowObject.transform.position = transform.position;
+            arrowObject.transform.right = coc.transform.position - arrowObject.transform.position;
+            arrowObject.transform.Rotate(0, 0, -90);
+            arrowObject.transform.Translate(new Vector3(0, 1, 0));
+            // Make the current arrow transparent.
+            // When it is clicked, execute a similar action to selecting the level.
+            arrowObject.GetComponent<CampaignArrowHandler>().InstantlyHideArrow();
+            arrowObject.GetComponent<CampaignArrowHandler>().OnClick.AddListener(coc.OnMouseDown);
+        }
     }
 
     public void Initialize()
@@ -126,7 +153,7 @@ public class CampaignOptionController : MonoBehaviour
     // Also sets the level to be officially visited, since this runs when
     // the player has finished visiting the location.
     ///<summary>
-    public void SetAsCurrentLevel()
+    public void SelectLevel()
     {
         // If the player has finished this location for the first time, invoke
         // after any animations are finished.
@@ -137,6 +164,27 @@ public class CampaignOptionController : MonoBehaviour
         CampaignController.Instance.RegisterVisitedLevel(transform.position);
         WasVisited = true;
         Initialize();
+        // If the player doesn't have anything to do here, register some arrows
+        // to show their next steps.
+        if (!ShouldActivateWhenVisited())
+        {
+            foreach (Transform arrowTransform in _arrowParentTransform)
+            {
+                arrowTransform.GetComponent<CampaignArrowHandler>().ShowArrow();
+            }
+        }
+    }
+
+    ///<summary>
+    /// This function should be called when the player moves from this level to another
+    /// level.
+    ///</summary>
+    public void DeselectLevel()
+    {
+        foreach (Transform arrowTransform in _arrowParentTransform)
+        {
+            arrowTransform.GetComponent<CampaignArrowHandler>().HideArrow();
+        }
     }
 
     private IEnumerator WaitAndInvokeVisitedFirstTimeCoroutine()

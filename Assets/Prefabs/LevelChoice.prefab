@@ -51,19 +51,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2b27989780df5844b69079f12089d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapArrowObject: {fileID: 4366283088916912444, guid: d8a72b7fe79b25b40a985f21d2759abb, type: 3}
   _iconSpriteRenderer: {fileID: 8881728980054332556}
-  _bgSpriteRenderer: {fileID: 7859965476124678623}
   _iconCollider: {fileID: 8780564450802146013}
+  _arrowParentTransform: {fileID: 6531988423693155633}
   _pSystem: {fileID: 5685906312430733203}
   LocationChoice: 0
-  ConnectedLevels: []
-  EnemiesToRender: []
+  CanRenderMultipleTimes: 0
+  LevelIfLeftPressed: {fileID: 0}
+  LevelIfRightPressed: {fileID: 0}
+  LevelIfUpPressed: {fileID: 0}
+  LevelIfDownPressed: {fileID: 0}
   OnSelectFirstTime:
     m_PersistentCalls:
       m_Calls: []
   OnVisitedFirstTime:
     m_PersistentCalls:
       m_Calls: []
+  EnemiesToRender: []
+  WasVisited: 0
 --- !u!114 &6887161058928787484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6531988423693155633}
   m_Layer: 0
-  m_Name: LineParent
+  m_Name: ArrowParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
