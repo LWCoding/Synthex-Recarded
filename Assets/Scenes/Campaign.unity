@@ -230,7 +230,7 @@ PrefabInstance:
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnSelectFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 11400000, guid: 324742ecd08615e42a36aef7dc64faeb, type: 2}
+      objectReference: {fileID: 11400000, guid: 3a62d7d6ea15a6940ae0a63bceb80970, type: 2}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnSelectFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: Dialogue, Assembly-CSharp
@@ -12421,6 +12421,8 @@ MonoBehaviour:
   _intactDummy: {fileID: 21300000, guid: b19e9c3b3e0377640b7f9b1797daab6d, type: 3}
   _destroyedDummy: {fileID: 21300000, guid: eceec0fd597af4143abccc32c9378d24, type: 3}
   _dummyDestroyedSFX: {fileID: 8300000, guid: 1b4a013858e33164fb247386f3c3f1ea, type: 3}
+  IsPlayingEvent: 0
+  AreAllEventsComplete: 0
 --- !u!1 &1134494521
 GameObject:
   m_ObjectHideFlags: 0

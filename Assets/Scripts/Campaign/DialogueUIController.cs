@@ -26,8 +26,6 @@ public partial class DialogueUIController : MonoBehaviour
     private Dialogue _storedDialogue;
     private Queue<DialogueLine> _dialogueStringQueue = new Queue<DialogueLine>();
 
-    public bool IsRenderingDialogue() => dialogueContainerObject.activeSelf;
-
     private void Awake()
     {
         if (Instance != null)
@@ -112,24 +110,27 @@ public partial class DialogueUIController : MonoBehaviour
     public void QueueAndRenderDialogue(Dialogue dialogue)
     {
         QueueDialogueText(dialogue);
-        StartCoroutine(RenderDialogueCoroutine(() =>
+        CampaignEventController.Instance.QueuedEvents.Enqueue(() =>
         {
-            switch (dialogue.actionToPlayAfterDialogue)
+            StartCoroutine(RenderDialogueCoroutine(() =>
             {
-                case DialogueAction.HEAL_TO_FULL_HP:
-                    GameManager.SetHeroHealth(GameManager.GetHeroMaxHealth());
-                    SoundManager.Instance.PlaySFX(SoundEffect.HEAL_HEALTH);
-                    break;
-                case DialogueAction.SECRET_WIN_SEND_TO_TITLE:
-                    PlayerPrefs.SetInt("BeatBoykisser", 1);
-                    TransitionManager.Instance.HideScreen("Title", 2);
-                    break;
-                case DialogueAction.WON_GAME_SEND_TO_TITLE:
-                    PlayerPrefs.SetInt("BeatGame", 1);
-                    TransitionManager.Instance.HideScreen("Title", 2);
-                    break;
-            }
-        }));
+                switch (dialogue.actionToPlayAfterDialogue)
+                {
+                    case DialogueAction.HEAL_TO_FULL_HP:
+                        GameManager.SetHeroHealth(GameManager.GetHeroMaxHealth());
+                        SoundManager.Instance.PlaySFX(SoundEffect.HEAL_HEALTH);
+                        break;
+                    case DialogueAction.SECRET_WIN_SEND_TO_TITLE:
+                        PlayerPrefs.SetInt("BeatBoykisser", 1);
+                        TransitionManager.Instance.HideScreen("Title", 2);
+                        break;
+                    case DialogueAction.WON_GAME_SEND_TO_TITLE:
+                        PlayerPrefs.SetInt("BeatGame", 1);
+                        TransitionManager.Instance.HideScreen("Title", 2);
+                        break;
+                }
+            }));
+        });
     }
 
     /*
@@ -137,6 +138,7 @@ public partial class DialogueUIController : MonoBehaviour
     */
     public IEnumerator RenderDialogueCoroutine(Action codeToRunAfter)
     {
+        CampaignEventController.Instance.IsPlayingEvent = true;
         // If there is no dialogue to play (likely it was skipped), then
         // just run the code afterwards.
         if (_dialogueStringQueue.Count == 0)
@@ -155,7 +157,6 @@ public partial class DialogueUIController : MonoBehaviour
         // Start playing the animation for the DBox.
         _dialogueBoxAnimator.Play("Show");
         _dialogueBoxAnimator.Play(dl.focusDirection == DialogueDirection.LEFT ? "NameFrameSlideLeft" : "NameFrameSlideRight");
-        yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !IsPlaying());
         StartCoroutine(RenderDialogueTextCoroutine(codeToRunAfter));
     }
@@ -170,6 +171,7 @@ public partial class DialogueUIController : MonoBehaviour
         yield return new WaitUntil(() => !IsPlaying());
         dialogueContainerObject.SetActive(false);
         codeToRunAfter?.Invoke();
+        CampaignEventController.Instance.IsPlayingEvent = false;
     }
 
     private IEnumerator RenderDialogueTextCoroutine(Action codeToRunAfter)

@@ -25,7 +25,7 @@ public class CampaignController : MonoBehaviour
     public void RegisterVisitedLevel(Vector3 levelPosition) => _currCampaignSave.visitedLevels.Add(levelPosition);
     private List<CampaignOptionController> _levelOptions;
 
-    public bool CanPlayerChooseLevel() => !_isPlayerMoving && !DialogueUIController.Instance.IsRenderingDialogue() && !_eventSystem.IsPointerOverGameObject();
+    public bool CanPlayerChooseLevel() => !_isPlayerMoving && CampaignEventController.Instance.AreAllEventsComplete && !_eventSystem.IsPointerOverGameObject();
 
     private void FindAndStoreAllLevelOptions() => _levelOptions = new List<CampaignOptionController>(GameObject.FindObjectsOfType<CampaignOptionController>());
 
@@ -38,6 +38,10 @@ public class CampaignController : MonoBehaviour
         }
         Instance = this;
         _eventSystem = EventSystem.current;
+        // Store and initialize all levels.
+        FindAndStoreAllLevelOptions();
+        // Initialize any save information.
+        CreateOrLoadSave();
     }
 
     private void Start()
@@ -48,12 +52,6 @@ public class CampaignController : MonoBehaviour
         TransitionManager.Instance.ShowScreen(1.25f);
         // Play game music!
         SoundManager.Instance.PlayOnLoop(MusicType.MAP_MUSIC);
-        // Store and initialize all levels.
-        FindAndStoreAllLevelOptions();
-        // Initialize any save information.
-        CreateOrLoadSave();
-        // Initialize information on the state of the map.
-        CampaignEventController.Instance?.InitializeMapState(GameManager.GetCampaignSave().currScene);
         // Move the player to the current hero location.
         CampaignCameraController.Instance.MoveCameraToPosition(_playerIconTransform.position);
         // Save the game.
@@ -159,14 +157,15 @@ public class CampaignController : MonoBehaviour
 
     private IEnumerator ChooseOptionCoroutine(CampaignOptionController loc, bool shouldRenderAreaEffects)
     {
+        _isPlayerMoving = true;
+        yield return new WaitForEndOfFrame();
         // Prevent the player from selecting another option.
         foreach (CampaignOptionController option in _levelOptions)
         {
             option.SetInteractable(false, false);
         }
-        _isPlayerMoving = true;
         // If there is a current level, make sure that one is no longer set to the current level.
-        GetCurrentLevel()?.DeselectLevel();
+        GetCurrentLevel().DeselectLevel();
         // Make the character animate towards the next thing.
         CampaignCameraController.Instance.LerpCameraToPosition(loc.transform.position, 1.2f);
         StartCoroutine(MoveHeroToPositionCoroutine(loc.transform.position, 0.8f));
@@ -178,9 +177,10 @@ public class CampaignController : MonoBehaviour
         if (!loc.WasVisited)
         {
             loc.OnSelectFirstTime.Invoke();
+            CampaignEventController.Instance.RenderAllQueuedEvents();
         }
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => !DialogueUIController.Instance.IsRenderingDialogue());
+        yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);
         // If we should render the effects of the location, render it.
         // Or else, just make the character move there.
         if (shouldRenderAreaEffects)

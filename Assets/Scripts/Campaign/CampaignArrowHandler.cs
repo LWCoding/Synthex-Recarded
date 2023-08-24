@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Collider2D))]
 public class CampaignArrowHandler : MonoBehaviour
 {
 
     [HideInInspector] public UnityEvent OnClick;
 
-    private SpriteRenderer _arrowSpriteRenderer;
-    private IEnumerator _alphaChangingCoroutine = null;
+    [Header("Object Assignments")]
+    [SerializeField] private SpriteRenderer _arrowSpriteRenderer;
 
-    private void Awake()
-    {
-        _arrowSpriteRenderer = GetComponent<SpriteRenderer>();
-    }
+    private IEnumerator _alphaChangingCoroutine = null;
 
     public void InstantlyHideArrow()
     {

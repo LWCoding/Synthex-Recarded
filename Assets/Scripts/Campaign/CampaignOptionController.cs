@@ -75,7 +75,7 @@ public class CampaignOptionController : MonoBehaviour
             arrowObject.transform.position = transform.position;
             arrowObject.transform.right = coc.transform.position - arrowObject.transform.position;
             arrowObject.transform.Rotate(0, 0, -90);
-            arrowObject.transform.Translate(new Vector3(0, 1, 0));
+            arrowObject.transform.Translate(new Vector3(0, 1.1f, 0));
             // Make the current arrow transparent.
             // When it is clicked, execute a similar action to selecting the level.
             arrowObject.GetComponent<CampaignArrowHandler>().InstantlyHideArrow();
@@ -159,20 +159,19 @@ public class CampaignOptionController : MonoBehaviour
         // after any animations are finished.
         if (!WasVisited)
         {
-            StartCoroutine(WaitAndInvokeVisitedFirstTimeCoroutine());
+            // Adds all events to the queue.
+            OnVisitedFirstTime.Invoke();
+            // Renders the events one-by-one.
+            CampaignEventController.Instance.RenderAllQueuedEvents();
+        }
+        else
+        {
+            CampaignEventController.Instance.AreAllEventsComplete = true;
         }
         CampaignController.Instance.RegisterVisitedLevel(transform.position);
         WasVisited = true;
         Initialize();
-        // If the player doesn't have anything to do here, register some arrows
-        // to show their next steps.
-        if (!ShouldActivateWhenVisited())
-        {
-            foreach (Transform arrowTransform in _arrowParentTransform)
-            {
-                arrowTransform.GetComponent<CampaignArrowHandler>().ShowArrow();
-            }
-        }
+        StartCoroutine(InitializeArrowsWhenPlayerCanChoose());
     }
 
     ///<summary>
@@ -181,17 +180,16 @@ public class CampaignOptionController : MonoBehaviour
     ///</summary>
     public void DeselectLevel()
     {
+        StartCoroutine(HideArrowsAfterDelay());
+    }
+
+    private IEnumerator HideArrowsAfterDelay()
+    {
+        yield return new WaitForEndOfFrame();
         foreach (Transform arrowTransform in _arrowParentTransform)
         {
             arrowTransform.GetComponent<CampaignArrowHandler>().HideArrow();
         }
-    }
-
-    private IEnumerator WaitAndInvokeVisitedFirstTimeCoroutine()
-    {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning());
-        OnVisitedFirstTime.Invoke();
     }
 
     private void OnMouseDown()
@@ -214,6 +212,19 @@ public class CampaignOptionController : MonoBehaviour
             yield return null;
         }
         _iconSpriteRenderer.color = targetColor;
+    }
+
+    private IEnumerator InitializeArrowsWhenPlayerCanChoose()
+    {
+        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning());
+        yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);
+        if (!ShouldActivateWhenVisited())
+        {
+            foreach (Transform arrowTransform in _arrowParentTransform)
+            {
+                arrowTransform.GetComponent<CampaignArrowHandler>().ShowArrow();
+            }
+        }
     }
 
 }
