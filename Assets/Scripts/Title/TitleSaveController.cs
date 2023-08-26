@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class TitleSaveController : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class TitleSaveController : MonoBehaviour
     public static TitleSaveController Instance;
     [Header("Object Assignments")]
     [SerializeField] private CanvasGroup _saveFileContainerCanvasGroup;
+    [SerializeField] private TextMeshProUGUI saveContentText;
+    [Header("Audio Assignments")]
+    [SerializeField] private AudioClip _buttonSelectSFX;
 
     public bool IsUIAnimating { get; private set; }
 
@@ -33,6 +38,7 @@ public class TitleSaveController : MonoBehaviour
     // Toggles the visibility of the entire save panel.
     private IEnumerator ToggleSavePanelCoroutine(bool shouldUIShow)
     {
+        if (IsUIAnimating) { yield break; }
         // Set the game object to initially enabled.
         _saveFileContainerCanvasGroup.gameObject.SetActive(true);
         // Select the current save file.
@@ -102,6 +108,69 @@ public class TitleSaveController : MonoBehaviour
         }
         GameManager.IsInCampaign = true;
         TransitionManager.Instance.HideScreen("Campaign", 1.5f);
+    }
+
+
+
+    private int _numTimesEraseButtonClicked = 0;
+
+    // Erases the current save file. Called by UI buttons.
+    public void EraseCurrentSaveFile(Button buttonToAnimate)
+    {
+        // If the UI is currently animating, don't let the user select this.
+        if (IsUIAnimating) { return; }
+        _numTimesEraseButtonClicked++;
+        if (_numTimesEraseButtonClicked < 2)
+        {
+            saveContentText.text = "To delete this save, click button again to confirm.";
+            StartCoroutine(WaitBeforeResettingCount());
+            return;
+        }
+        IsUIAnimating = true;
+        FlashButton(buttonToAnimate);
+        StartCoroutine(WaitSecondBeforeErasing());
+    }
+
+    private IEnumerator WaitBeforeResettingCount()
+    {
+        yield return new WaitForSeconds(2);
+        if (_numTimesEraseButtonClicked == 1) CurrentlySelectedSave.SelectAsSaveFile();
+        _numTimesEraseButtonClicked = 0;
+    }
+
+    private IEnumerator WaitSecondBeforeErasing()
+    {
+        saveContentText.text = "Deleting save information... please wait. :)";
+        yield return new WaitForSeconds(2);
+        _numTimesEraseButtonClicked = 0;
+        SaveLoadManager.EraseSave(GetCurrentlySelectedSaveFileName());
+        CurrentlySelectedSave.SelectAsSaveFile();
+        IsUIAnimating = false;
+    }
+
+    // Flashes a specific button. Called by UI buttons.
+    public void FlashButton(Button buttonToAnimate)
+    {
+        SoundManager.Instance.PlayOneShot(_buttonSelectSFX);
+        StartCoroutine(FlashButtonCoroutine(buttonToAnimate));
+    }
+
+    private IEnumerator FlashButtonCoroutine(Button buttonToAnimate)
+    {
+        // We're animating, so let's make the user not able to select another option.
+        float buttonFlashDelay = 0.095f;
+        Sprite highlightedSprite = buttonToAnimate.spriteState.highlightedSprite;
+        Sprite disabledSprite = buttonToAnimate.spriteState.disabledSprite;
+        Image buttonImage = buttonToAnimate.GetComponent<Image>();
+        buttonToAnimate.enabled = false;
+        for (int i = 0; i < 3; i++)
+        {
+            buttonImage.sprite = highlightedSprite;
+            yield return new WaitForSecondsRealtime(buttonFlashDelay);
+            buttonImage.sprite = disabledSprite;
+            yield return new WaitForSecondsRealtime(buttonFlashDelay);
+        }
+        buttonToAnimate.enabled = true;
     }
 
 }

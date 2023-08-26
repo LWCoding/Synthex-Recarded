@@ -42,6 +42,7 @@ public class UISaveFileHandler : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (TitleSaveController.Instance.IsUIAnimating) { return; }
         // Play button sound effect.
         SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_BUTTON_HOVER);
         // Select this file as the current save file.
@@ -62,7 +63,7 @@ public class UISaveFileHandler : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            saveContentText.text = "This is a new save slot. No information here!";
+            saveContentText.text = "No information here! Click Play button to begin a new save.";
         }
         // Update transparencies of all save files.
         foreach (UISaveFileHandler saveFile in _allSaveOptions)

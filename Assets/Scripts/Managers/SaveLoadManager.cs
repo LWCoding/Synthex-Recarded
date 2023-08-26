@@ -85,4 +85,12 @@ public static class SaveLoadManager
         return so;
     }
 
+    public static void EraseSave(string fileName)
+    {
+        if (DoesSaveExist(fileName))
+        {
+            File.Delete(savePath + fileName);
+        }
+    }
+
 }
