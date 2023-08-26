@@ -42,22 +42,16 @@ public static class SaveLoadManager
 
     public static void Load(string fileName)
     {
-
-        if (!DoesSaveExist(fileName))
-        {
-            Debug.Log("Error: Save slot not found, but Load() function was still called in SaveLoadManager.cs!");
-            return;
-        }
-
-        string savedText = File.ReadAllText(savePath + fileName);
-        SaveObject so = JsonUtility.FromJson<SaveObject>(savedText);
+        Debug.Assert(DoesSaveExist(fileName), "Attempted to retrieve save object that didn't exist in SaveLoadManager.cs!");
         Debug.Log("Loading save slot (" + fileName + ").");
+
+        SaveObject so = GetSaveObject(fileName);
         GameManager.SetChosenHero(so.hero);
-        GameManager.SetGameScene(so.mapObject.currScene);
         GameManager.SetRegisteredEvents(so.registeredEvents);
         GameManager.SetMoney(so.money);
         GameManager.SetXP(so.xp);
         GameManager.SetCampaignSave(so.campaignSave);
+        if (so.mapObject != null) GameManager.SetGameScene(so.mapObject.currScene);
         if (so.campaignSave != null) GameManager.SetGameScene(so.campaignSave.currScene);
         GameManager.SetMapObject(so.mapObject);
         GameManager.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed);
@@ -80,6 +74,15 @@ public static class SaveLoadManager
         }
         // If the checks pass, return true!
         return true;
+    }
+
+    public static SaveObject GetSaveObject(string fileName)
+    {
+        Debug.Assert(DoesSaveExist(fileName), "Attempted to retrieve save object that didn't exist in SaveLoadManager.cs!");
+
+        string savedText = File.ReadAllText(savePath + fileName);
+        SaveObject so = JsonUtility.FromJson<SaveObject>(savedText);
+        return so;
     }
 
 }

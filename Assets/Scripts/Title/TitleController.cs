@@ -9,13 +9,17 @@ public class TitleController : MonoBehaviour
 
     public static TitleController Instance;
     [Header("Object Assignments")]
-    public GameObject warningContainerObject;
-    public GameObject continueButtonObject;
-    public Button settingsButton;
-    public GameObject trophyObject;
-    public List<Animator> allButtonAnimators = new List<Animator>();
+    [SerializeField] private GameObject warningContainerObject;
+    [SerializeField] private GameObject continueButtonObject;
+    [SerializeField] private Button settingsButton;
+    [SerializeField] private GameObject trophyObject;
     [Header("Audio Assignments")]
-    public AudioClip warningBeepsSFX;
+    [SerializeField] private AudioClip warningBeepsSFX;
+
+    public bool CanSelectTitleButton = false;
+
+    private List<UITitleButtonHandler> _allTitleButtons = new List<UITitleButtonHandler>();
+    public List<UITitleButtonHandler> AllTitleButtons => _allTitleButtons;
 
     private void Awake()
     {
@@ -25,6 +29,7 @@ public class TitleController : MonoBehaviour
             return;
         }
         Instance = this;
+        _allTitleButtons = new List<UITitleButtonHandler>(GameObject.FindObjectsOfType<UITitleButtonHandler>());
         SetContinueButtonState();
         trophyObject?.SetActive(PlayerPrefs.GetInt("BeatGame") == 1);
     }
@@ -54,6 +59,24 @@ public class TitleController : MonoBehaviour
             InitializeGame();
         }
 #endif
+    }
+
+    public void AnimateAllTitleButtonsIn()
+    {
+        StartCoroutine(AnimateAllTitleButtonsInCoroutine());
+    }
+
+    private IEnumerator AnimateAllTitleButtonsInCoroutine()
+    {
+        CanSelectTitleButton = true;
+        foreach (UITitleButtonHandler titleButton in _allTitleButtons)
+        {
+            Animator anim = titleButton.GetComponent<Animator>();
+            titleButton.PlayAnimation("Appear");
+        }
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => !_allTitleButtons[0].IsButtonAnimating());
+        CanSelectTitleButton = false;
     }
 
     private void InitializeWarningScreen()
@@ -89,44 +112,11 @@ public class TitleController : MonoBehaviour
     // If there is NO save file, don't make the Continue button clickable.
     private void SetContinueButtonState()
     {
-        continueButtonObject.GetComponent<TitleUIButtonHandler>().SetIsClickable(SaveLoadManager.DoesSaveExist("Save.ass"));
-    }
-
-    // Starts a new game by setting all of the variables in GameManager
-    // and initializing a starting relic. Optionally, start in a different
-    // scene by supplying the mapScene parameter.
-    public void StartNewGame()
-    {
-        // Initialize the hero with base information.
-        GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
-        GameManager.SetSeenEnemies(new List<Encounter>());
-        GameManager.SetPlayedDialogues(new List<DialogueName>(), new List<string>());
-        GameManager.SetGameScene(GameScene.FOREST);
-        GameManager.SetCampaignSave(null);
-        GameManager.SetMapObject(null);
-        GameManager.SetMoney(150);
-        GameManager.saveFileName = "Save.ass"; // TODO: Make this vary!
-        // Start the game.
-        StartGame();
-    }
-
-    public void ContinueGame()
-    {
-        // Load the game. This will populate the GameManager information.
-        SaveLoadManager.Load("Save.ass"); // TODO: Make this vary!
-        // Start the game.
-        StartGame();
-    }
-
-    private void StartGame()
-    {
-        // Make sure the map starts in the forest.
-        GameManager.IsInCampaign = true;
-        TransitionManager.Instance.HideScreen("Campaign", 1.5f);
+        continueButtonObject.GetComponent<UITitleButtonHandler>().SetIsClickable(SaveLoadManager.DoesSaveExist("Save.ass"));
     }
 
     // Plays the button hover sound.
-    public void PlaySettingsButtonHoverSFX()
+    public void PlayButtonHoverSFX()
     {
         SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_BUTTON_HOVER);
     }
@@ -140,6 +130,15 @@ public class TitleController : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    /*
+        Returns a boolean representing whether or not the specified animator is
+        playing an animation clip with the specified name.
+    */
+    public bool IsPlaying(Animator animator)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f;
     }
 
 }

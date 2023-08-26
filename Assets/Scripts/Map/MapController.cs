@@ -141,7 +141,7 @@ public class MapController : MonoBehaviour
     {
         yield return new WaitForSeconds(delayBeforeInSecs);
         // Queue the actual dialogue and play it.
-        DialogueUIController.Instance.QueueDialogueText(dialogue);
+        DialogueUIController.Instance.PrequeueDialogueText(dialogue);
         yield return DialogueUIController.Instance.RenderDialogueCoroutine(() =>
         {
             switch (dialogue.actionToPlayAfterDialogue)

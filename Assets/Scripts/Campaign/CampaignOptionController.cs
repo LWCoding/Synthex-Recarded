@@ -54,7 +54,7 @@ public class CampaignOptionController : MonoBehaviour
         _eventSystem = EventSystem.current;
         _optionAnimator = GetComponent<Animator>();
         _mouseHoverScaler = GetComponent<MouseHoverScaler>();
-        _mouseHoverScaler.Initialize(_iconSpriteRenderer);
+        _mouseHoverScaler.Initialize(_iconSpriteRenderer.transform);
         _originalIconColliderSize = _iconCollider.size;
         InitializeArrows();
     }
@@ -162,11 +162,16 @@ public class CampaignOptionController : MonoBehaviour
             // Adds all events to the queue.
             OnVisitedFirstTime.Invoke();
             // Renders the events one-by-one.
-            CampaignEventController.Instance.RenderAllQueuedEvents();
+            CampaignEventController.Instance.RenderAllQueuedEvents(true);
         }
         else
         {
             CampaignEventController.Instance.AreAllEventsComplete = true;
+            if (TransitionManager.Instance.IsScreenDarkened)
+            {
+                // Then make the game fade from black to clear.
+                TransitionManager.Instance.ShowScreen(1.25f);
+            }
         }
         CampaignController.Instance.RegisterVisitedLevel(transform.position);
         WasVisited = true;
@@ -216,7 +221,7 @@ public class CampaignOptionController : MonoBehaviour
 
     private IEnumerator InitializeArrowsWhenPlayerCanChoose()
     {
-        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning());
+        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
         yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);
         if (!ShouldActivateWhenVisited())
         {

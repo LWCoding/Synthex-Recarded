@@ -100,7 +100,7 @@ public class UpgradeIntroController : MonoBehaviour
         _introLogoAnimator.gameObject.SetActive(false);
         // Wait until the fade transition is not animating anymore.
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning());
+        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
         // Animate the terminal to turn on.
         _introAnimator.Play("TurnOnTerminal");
         // Wait for the animation to finish.

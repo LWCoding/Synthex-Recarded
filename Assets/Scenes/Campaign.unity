@@ -497,11 +497,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -510,7 +510,7 @@ PrefabInstance:
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1093532322}
+      objectReference: {fileID: 1093532327}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -525,15 +525,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: QueueAndRenderDialogue
+      value: QueuePlayBanner
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: QueueDialogueText
+      value: QueueRenderedDialogue
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DialogueUIController, Assembly-CSharp
+      value: CampaignEventController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -542,14 +542,14 @@ PrefabInstance:
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 11400000, guid: 894ff538bb3271d4298819e0342def4b, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 11400000, guid: 894ff538bb3271d4298819e0342def4b, type: 2}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: Dialogue, Assembly-CSharp
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -730,7 +730,7 @@ ParticleSystem:
   m_GameObject: {fileID: 218408519}
   serializedVersion: 8
   lengthInSec: 5
-  simulationSpeed: 0.3
+  simulationSpeed: 0.2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -1353,7 +1353,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 20
+    angle: 5
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -1558,7 +1558,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 6
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5607,8 +5607,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1625063533
-  m_SortingLayer: 1
+  m_SortingLayerID: -1244597179
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5c8a7c6615602bd40a4c65762f648efa, type: 3}
   m_Color: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 1}
@@ -11747,11 +11747,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DestroyDummy
+      value: QueueDestroyDummy
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: QueueAndRenderDialogue
+      value: QueueRenderedDialogue
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -11884,9 +11884,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 844308587}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 452e262ad280daa40ae71fb6728c90b1, type: 2}
+  m_Controller: {fileID: 9100000, guid: dc0d32632b6388f4f8611089bd24f3a9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -11968,6 +11968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f8ddede0f53bc842b57e2c5ac5dc9b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cameraTransformToMove: {fileID: 1490431582}
 --- !u!1 &899850272
 GameObject:
   m_ObjectHideFlags: 0
@@ -12018,7 +12019,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4177526784
+    rgba: 16777216
   m_fontColor: {r: 0.12002701, g: 0.1509434, b: 0.10736917, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -12119,8 +12120,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1625063533
-  m_SortingLayer: 1
+  m_SortingLayerID: -1244597179
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!224 &899850275
@@ -12400,7 +12401,6 @@ MonoBehaviour:
   _mapOptionPrefab: {fileID: 1429862133297833342, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
   _playerIconTransform: {fileID: 388591183}
   _playerParticleSystem: {fileID: 1861415394}
-  _introBannerText: {fileID: 899850273}
   _firstMapLocationTransform: {fileID: 184046617}
   _footstepsSFX: {fileID: 8300000, guid: eb7aa4030bdc41641ad9de6d8ccfeba5, type: 3}
 --- !u!114 &1093532327
@@ -12415,6 +12415,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5feb1467975fe4cb0df2570bba72a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bannerAnimator: {fileID: 844308589}
+  _bannerText: {fileID: 899850273}
   _dummySpriteRenderer: {fileID: 1850848553}
   _dummyAnimator: {fileID: 674381034}
   _dummyParticleSystem: {fileID: 813520685}
@@ -13004,7 +13006,7 @@ Transform:
   m_GameObject: {fileID: 1490431581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

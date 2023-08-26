@@ -11,8 +11,8 @@ public class TransitionManager : MonoBehaviour
     [Header("Object Assignments")]
     public Image overlayFadeImage;
 
-    private bool _isScreenTransitioning = false;
-    public bool IsScreenTransitioning() => _isScreenTransitioning;
+    public bool IsScreenTransitioning = false;
+    public bool IsScreenDarkened = true;
 
     private void Awake()
     {
@@ -53,7 +53,8 @@ public class TransitionManager : MonoBehaviour
     // to black to clear.
     private IEnumerator ShowScreenCoroutine(float time)
     {
-        _isScreenTransitioning = true;
+        IsScreenTransitioning = true;
+        IsScreenDarkened = true;
         overlayFadeImage.gameObject.SetActive(true);
         overlayFadeImage.color = new Color(0, 0, 0, 1);
         Color initialColor = overlayFadeImage.color;
@@ -75,7 +76,8 @@ public class TransitionManager : MonoBehaviour
         // In case the desired volume was changed, let's set it again here.
         SoundManager.Instance.SetVolume(SoundManager.Instance.GetDesiredVolume());
         overlayFadeImage.gameObject.SetActive(false);
-        _isScreenTransitioning = false;
+        IsScreenTransitioning = false;
+        IsScreenDarkened = false;
     }
 
     // This coroutine is called when the screen should fade
@@ -83,7 +85,8 @@ public class TransitionManager : MonoBehaviour
     // used when transitioning to a scene.
     private IEnumerator HideScreenCoroutine(string desiredSceneName, float time)
     {
-        _isScreenTransitioning = true;
+        IsScreenTransitioning = true;
+        IsScreenDarkened = false;
         overlayFadeImage.gameObject.SetActive(true);
         overlayFadeImage.color = new Color(0, 0, 0, 0);
         Color initialColor = overlayFadeImage.color;
@@ -103,7 +106,8 @@ public class TransitionManager : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.1f);
-        _isScreenTransitioning = false;
+        IsScreenTransitioning = false;
+        IsScreenDarkened = true;
         // If the deck is showing, hide it.
         if (TopBarController.Instance.IsCardPreviewShowing())
         {

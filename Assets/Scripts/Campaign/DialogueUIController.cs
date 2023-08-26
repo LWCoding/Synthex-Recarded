@@ -43,7 +43,7 @@ public partial class DialogueUIController : MonoBehaviour
     }
 
     // Queues multiple lines of text to be said.
-    public void QueueDialogueText(Dialogue dialogues)
+    public void PrequeueDialogueText(Dialogue dialogues)
     {
         // If the dialogue has already played before, don't play it.
         if (GameManager.alreadyPlayedMapDialogues.Contains(dialogues.dialogueName))
@@ -107,9 +107,9 @@ public partial class DialogueUIController : MonoBehaviour
         Render the dialogue rendering coroutine with a pre-set dialogue
         object.
     */
-    public void QueueAndRenderDialogue(Dialogue dialogue)
+    public void QueueRenderedDialogue(Dialogue dialogue)
     {
-        QueueDialogueText(dialogue);
+        PrequeueDialogueText(dialogue);
         CampaignEventController.Instance.QueuedEvents.Enqueue(() =>
         {
             StartCoroutine(RenderDialogueCoroutine(() =>
@@ -138,7 +138,7 @@ public partial class DialogueUIController : MonoBehaviour
     */
     public IEnumerator RenderDialogueCoroutine(Action codeToRunAfter)
     {
-        CampaignEventController.Instance.IsPlayingEvent = true;
+        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingEvent = true;
         // If there is no dialogue to play (likely it was skipped), then
         // just run the code afterwards.
         if (_dialogueStringQueue.Count == 0)
@@ -171,7 +171,7 @@ public partial class DialogueUIController : MonoBehaviour
         yield return new WaitUntil(() => !IsPlaying());
         dialogueContainerObject.SetActive(false);
         codeToRunAfter?.Invoke();
-        CampaignEventController.Instance.IsPlayingEvent = false;
+        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingEvent = false;
     }
 
     private IEnumerator RenderDialogueTextCoroutine(Action codeToRunAfter)

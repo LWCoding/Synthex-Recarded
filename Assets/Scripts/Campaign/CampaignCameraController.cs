@@ -7,7 +7,9 @@ public class CampaignCameraController : MonoBehaviour
 
     public static CampaignCameraController Instance;
 
-    private Transform _cameraTransform;
+    [Header("Object Assignments")]
+    [SerializeField] private Transform _cameraTransformToMove;
+
     private float _permanentZIndex;
 
     private void Awake()
@@ -17,13 +19,12 @@ public class CampaignCameraController : MonoBehaviour
             Destroy(this);
         }
         Instance = this;
-        _cameraTransform = Camera.main.transform;
-        _permanentZIndex = _cameraTransform.position.z;
+        _permanentZIndex = _cameraTransformToMove.position.z;
     }
 
     public void MoveCameraToPosition(Vector2 position)
     {
-        _cameraTransform.position = new Vector3(position.x, position.y, _permanentZIndex);
+        _cameraTransformToMove.position = new Vector3(position.x, position.y, _permanentZIndex);
     }
 
     ///<summary>
@@ -42,12 +43,12 @@ public class CampaignCameraController : MonoBehaviour
     public IEnumerator LerpCameraToPositionCoroutine(Vector2 position, float timeToWait)
     {
         float currTime = 0;
-        Vector3 initialPosition = _cameraTransform.position;
+        Vector3 initialPosition = _cameraTransformToMove.position;
         Vector3 targetPosition = new Vector3(position.x, position.y, _permanentZIndex);
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
-            _cameraTransform.position = Vector3.Lerp(initialPosition, targetPosition, Mathf.SmoothStep(0, 1, currTime / timeToWait));
+            _cameraTransformToMove.position = Vector3.Lerp(initialPosition, targetPosition, Mathf.SmoothStep(0, 1, currTime / timeToWait));
             yield return null;
         }
     }

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class SecretTitleController : MonoBehaviour
 {
 
-    public TitleUIButtonHandler quitButtonHandler;
+    public UITitleButtonHandler quitButtonHandler;
     public GameObject secretTrophyObject;
     public Sprite secretButtonSprite;
 

@@ -24,7 +24,7 @@ public class GlobalUIController : MonoBehaviour
             return;
         }
         // Make sure this object isn't destroyed.
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

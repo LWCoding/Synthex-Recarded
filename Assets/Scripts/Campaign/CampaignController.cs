@@ -13,7 +13,6 @@ public class CampaignController : MonoBehaviour
     [Header("Object Assignments")]
     [SerializeField] private Transform _playerIconTransform;
     [SerializeField] private ParticleSystem _playerParticleSystem;
-    [SerializeField] private TextMeshPro _introBannerText;
     [SerializeField] private Transform _firstMapLocationTransform;
     [Header("Audio Assignments")]
     [SerializeField] private AudioClip _footstepsSFX;
@@ -48,8 +47,6 @@ public class CampaignController : MonoBehaviour
     {
         // Initialize the UI.
         GlobalUIController.Instance.InitializeUI();
-        // Make the game fade from black to clear.
-        TransitionManager.Instance.ShowScreen(1.25f);
         // Play game music!
         SoundManager.Instance.PlayOnLoop(MusicType.MAP_MUSIC);
         // Move the player to the current hero location.
@@ -177,7 +174,7 @@ public class CampaignController : MonoBehaviour
         if (!loc.WasVisited)
         {
             loc.OnSelectFirstTime.Invoke();
-            CampaignEventController.Instance.RenderAllQueuedEvents();
+            CampaignEventController.Instance.RenderAllQueuedEvents(false);
         }
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);

@@ -153,7 +153,7 @@ public class BattleEnemyController : BattleCharacterController
     {
         _isDialoguePlaying = true;
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning());
+        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
         dialogueAnimator.Play("Show");
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => dialogueAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);

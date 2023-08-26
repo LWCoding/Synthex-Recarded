@@ -2,10 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class MouseHoverScaler : MonoBehaviour
+public class UIMouseHoverScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+
+    public UnityEvent OnHoverEnter;
+    public UnityEvent OnHoverExit;
 
     private float _initialScale;
     private float _desiredScale;
@@ -32,15 +36,17 @@ public class MouseHoverScaler : MonoBehaviour
         _desiredScale = _initialScale;
     }
 
-    public void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         if (!_isInteractable) { return; }
+        OnHoverEnter?.Invoke();
         _desiredScale = _initialScale + 0.1f;
     }
 
-    private void OnMouseExit()
+    public void OnPointerExit(PointerEventData eventData)
     {
         if (!_isInteractable) { return; }
+        OnHoverExit?.Invoke();
         _desiredScale = _initialScale;
     }
 

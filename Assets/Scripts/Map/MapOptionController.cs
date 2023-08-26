@@ -29,7 +29,7 @@ public class MapOptionController : MonoBehaviour
         _optionAnimator = GetComponent<Animator>();
         _eventSystem = EventSystem.current;
         _mouseHoverScaler = GetComponent<MouseHoverScaler>();
-        _mouseHoverScaler.Initialize(_iconRenderer);
+        _mouseHoverScaler.Initialize(_iconRenderer.transform);
     }
 
     private void OnMouseDown()
