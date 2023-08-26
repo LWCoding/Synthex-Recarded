@@ -59,6 +59,23 @@ public class TitleSaveController : MonoBehaviour
         IsUIAnimating = false;
     }
 
+    public void StartSecretGame()
+    {
+        // Initialize the hero with base information.
+        GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
+        GameManager.SetSeenEnemies(new List<Encounter>());
+        GameManager.SetGameScene(GameScene.FOREST);
+        GameManager.SetMapObject(null);
+        GameManager.SetMoney(150);
+        GameManager.SetXP(15);
+        GameManager.saveFileName = "Secret.ass";
+        GameManager.alreadyPlayedTutorials.Add("Battle");
+        GameManager.alreadyPlayedTutorials.Add("Shop");
+        // Transition the game to the MAP.
+        GameManager.IsInCampaign = false;
+        TransitionManager.Instance.HideScreen("Map", 1.5f);
+    }
+
     public void StartGameWithCurrentSaveFile()
     {
         // If the UI is currently animating, don't let the user select this.

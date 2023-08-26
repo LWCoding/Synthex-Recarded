@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TitleController : MonoBehaviour
 {
@@ -10,9 +10,10 @@ public class TitleController : MonoBehaviour
     public static TitleController Instance;
     [Header("Object Assignments")]
     [SerializeField] private GameObject warningContainerObject;
-    [SerializeField] private GameObject continueButtonObject;
+    [SerializeField] private GameObject secretButtonObject;
     [SerializeField] private Button settingsButton;
-    [SerializeField] private GameObject trophyObject;
+    [SerializeField] private GameObject beatGameTrophyObject;
+    [SerializeField] private GameObject secretTrophyObject;
     [Header("Audio Assignments")]
     [SerializeField] private AudioClip warningBeepsSFX;
 
@@ -29,9 +30,13 @@ public class TitleController : MonoBehaviour
             return;
         }
         Instance = this;
+        // Initialize all title buttons.
         _allTitleButtons = new List<UITitleButtonHandler>(GameObject.FindObjectsOfType<UITitleButtonHandler>());
-        SetContinueButtonState();
-        trophyObject?.SetActive(PlayerPrefs.GetInt("BeatGame") == 1);
+        // Show trophies depending on playerprefs variables.
+        beatGameTrophyObject?.SetActive(PlayerPrefs.GetInt("BeatGame") == 1);
+        secretTrophyObject?.SetActive(PlayerPrefs.GetInt("BeatBoykisser") >= 1);
+        // Set secret button state.
+        secretButtonObject.GetComponent<UITitleButtonHandler>().SetIsClickable(PlayerPrefs.GetInt("BeatGame") == 1);
     }
 
     private void Start()
@@ -86,6 +91,17 @@ public class TitleController : MonoBehaviour
         StartCoroutine(WarningScreenClickCoroutine());
     }
 
+    private void InitializeGame()
+    {
+        warningContainerObject.SetActive(false);
+        // Play music.
+        SoundManager.Instance.PlayOnLoop(MusicType.TITLE_MUSIC);
+        // Make the game fade from black to clear.
+        TransitionManager.Instance.ShowScreen(1);
+        // Modify the settings button for the title screen.
+        settingsButton.onClick.AddListener(() => SettingsManager.Instance.TogglePause(0.1f));
+    }
+
     private IEnumerator WarningScreenClickCoroutine()
     {
         yield return new WaitForSeconds(1);
@@ -97,48 +113,46 @@ public class TitleController : MonoBehaviour
         InitializeGame();
     }
 
-    public void InitializeGame()
-    {
-        warningContainerObject.SetActive(false);
-        // Play music.
-        SoundManager.Instance.PlayOnLoop(MusicType.TITLE_MUSIC);
-        // Make the game fade from black to clear.
-        TransitionManager.Instance.ShowScreen(1);
-        // Modify the settings button for the title screen.
-        settingsButton.onClick.AddListener(() => SettingsManager.Instance.TogglePause(0.1f));
-    }
-
-    // Checks to see if there is a save file already made.
-    // If there is NO save file, don't make the Continue button clickable.
-    private void SetContinueButtonState()
-    {
-        continueButtonObject.GetComponent<UITitleButtonHandler>().SetIsClickable(SaveLoadManager.DoesSaveExist("Save.ass"));
-    }
-
-    // Plays the button hover sound.
+    // Plays the button hover sound. Used by UI buttons.
     public void PlayButtonHoverSFX()
     {
         SoundManager.Instance.PlaySFX(SoundEffect.GENERIC_BUTTON_HOVER);
     }
 
-    // Plays the button hover sound.
+    // Opens the settings menu. Used by UI buttons.
     public void OpenSettingsMenu()
     {
         SettingsManager.Instance.TogglePause(0.2f);
     }
 
+    // Quits the game. Used by UI buttons.
     public void QuitGame()
     {
         Application.Quit();
     }
 
-    /*
-        Returns a boolean representing whether or not the specified animator is
-        playing an animation clip with the specified name.
-    */
-    public bool IsPlaying(Animator animator)
+    #region Secret code
+
+    private void Update()
     {
-        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f;
+        if (Input.GetKey(KeyCode.J) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.K))
+        {
+            PlayerPrefs.SetInt("BeatGame", 1);
+            StartCoroutine(WaitUntilNoKeyCodesThenRefresh());
+        }
+        if (Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.Y) && Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.N))
+        {
+            PlayerPrefs.SetInt("BeatGame", 0);
+            StartCoroutine(WaitUntilNoKeyCodesThenRefresh());
+        }
     }
+
+    private IEnumerator WaitUntilNoKeyCodesThenRefresh()
+    {
+        yield return new WaitUntil(() => !Input.anyKey);
+        SceneManager.LoadScene("Title");
+    }
+
+    #endregion
 
 }
