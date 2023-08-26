@@ -20,7 +20,6 @@ public class UISaveFileHandler : MonoBehaviour, IPointerClickHandler
 
     private void Awake()
     {
-        if (TitleSaveController.CurrentlySelectedSave == null) TitleSaveController.CurrentlySelectedSave = this;
         _allSaveOptions = new List<UISaveFileHandler>(GameObject.FindObjectsOfType<UISaveFileHandler>());
         _uiMouseHoverScaler = GetComponent<UIMouseHoverScaler>();
         fileNameText.text = SaveFileName;

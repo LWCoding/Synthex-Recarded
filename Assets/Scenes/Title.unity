@@ -4967,9 +4967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3605e49709b54e24ab81acc359824611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  applicationID: 0
-  largeImage: 
-  largeText: 
+  applicationID: 1137213632640462918
+  largeImage: thumbnail
+  largeText: 'Project ASS: Recarded'
 --- !u!1 &691482684
 GameObject:
   m_ObjectHideFlags: 0
@@ -9122,6 +9122,17 @@ MonoBehaviour:
   _overlayContainer: {fileID: 1283201043}
   _buttonToToggleJournal: {fileID: 306932039}
   bookmarkShowSFX: {fileID: 8300000, guid: adb33ffbe5f7a0642adeb06d00590b44, type: 3}
+--- !u!114 &1422120463 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2240354487216926246, guid: 412bed7f6e3b5af419d4228c37e15a39, type: 3}
+  m_PrefabInstance: {fileID: 731888627}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c2e15e396325e94c95c7e365cff6aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1424230903
 GameObject:
   m_ObjectHideFlags: 0
@@ -9908,6 +9919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _saveFileContainerCanvasGroup: {fileID: 1528873732}
+  _initiallySelectedSaveOption: {fileID: 1422120463}
   saveContentText: {fileID: 1995945715}
   _buttonSelectSFX: {fileID: 8300000, guid: 149360dd224a4a846b9cb61a51923c10, type: 3}
 --- !u!1 &1489518301

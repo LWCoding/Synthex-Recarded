@@ -13,6 +13,7 @@ public class TitleSaveController : MonoBehaviour
     public static TitleSaveController Instance;
     [Header("Object Assignments")]
     [SerializeField] private CanvasGroup _saveFileContainerCanvasGroup;
+    [SerializeField] private UISaveFileHandler _initiallySelectedSaveOption;
     [SerializeField] private TextMeshProUGUI saveContentText;
     [Header("Audio Assignments")]
     [SerializeField] private AudioClip _buttonSelectSFX;
@@ -27,6 +28,8 @@ public class TitleSaveController : MonoBehaviour
         }
         Instance = this;
         Debug.Assert(_saveFileContainerCanvasGroup != null, "SaveFileContainer is not assigned!", this);
+        // Set currently selected save.
+        TitleSaveController.CurrentlySelectedSave = _initiallySelectedSaveOption;
     }
 
     // Toggles the visibility of the entire save panel. Can be called from buttons.
@@ -110,8 +113,6 @@ public class TitleSaveController : MonoBehaviour
         TransitionManager.Instance.HideScreen("Campaign", 1.5f);
     }
 
-
-
     private int _numTimesEraseButtonClicked = 0;
 
     // Erases the current save file. Called by UI buttons.
@@ -126,7 +127,6 @@ public class TitleSaveController : MonoBehaviour
             StartCoroutine(WaitBeforeResettingCount());
             return;
         }
-        IsUIAnimating = true;
         FlashButton(buttonToAnimate);
         StartCoroutine(WaitSecondBeforeErasing());
     }
@@ -140,6 +140,7 @@ public class TitleSaveController : MonoBehaviour
 
     private IEnumerator WaitSecondBeforeErasing()
     {
+        IsUIAnimating = true;
         saveContentText.text = "Deleting save information... please wait. :)";
         yield return new WaitForSeconds(2);
         _numTimesEraseButtonClicked = 0;
@@ -151,6 +152,7 @@ public class TitleSaveController : MonoBehaviour
     // Flashes a specific button. Called by UI buttons.
     public void FlashButton(Button buttonToAnimate)
     {
+        if (TitleSaveController.Instance.IsUIAnimating) { return; }
         SoundManager.Instance.PlayOneShot(_buttonSelectSFX);
         StartCoroutine(FlashButtonCoroutine(buttonToAnimate));
     }

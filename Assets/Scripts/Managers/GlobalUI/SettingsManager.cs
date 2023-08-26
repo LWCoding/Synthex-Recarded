@@ -70,6 +70,7 @@ public class SettingsManager : MonoBehaviour
     {
         // If the UI is currently animating, don't let the user toggle.
         if (_isUIAnimating) { return; }
+        _isUIAnimating = true;
         // Make sure the container is active to begin with.
         _pauseContainer.SetActive(true);
         SetSettingsBackBehaviour(SceneManager.GetActiveScene().name);
@@ -219,6 +220,7 @@ public class SettingsManager : MonoBehaviour
 
     private IEnumerator AnimateButtonBeforeRunningCode(Image buttonImage, Sprite buttonDefaultSprite, Sprite buttonAltSprite, Action codeToRunAfter)
     {
+        _isUIAnimating = true;
         // We're animating, so let's make the user not able to select another option.
         DisableButtonPresses();
         PlayButtonSelectSFX(true);
@@ -230,6 +232,7 @@ public class SettingsManager : MonoBehaviour
             buttonImage.sprite = buttonDefaultSprite;
             yield return new WaitForSecondsRealtime(buttonFlashDelay);
         }
+        _isUIAnimating = false;
         codeToRunAfter.Invoke();
     }
 
@@ -312,6 +315,7 @@ public class SettingsManager : MonoBehaviour
 
     private IEnumerator AnimateScreenObjectInCoroutine(GameObject screenObject)
     {
+        _isUIAnimating = true;
         float currTime = 0;
         float timeToWait = 0.1f;
         Vector3 initialScale = screenObject.transform.localScale + new Vector3(0.07f, 0.07f, 0);
@@ -322,6 +326,7 @@ public class SettingsManager : MonoBehaviour
             screenObject.transform.localScale = Vector3.Lerp(initialScale, targetScale, currTime / timeToWait);
             yield return null;
         }
+        _isUIAnimating = false;
     }
 
     private IEnumerator LoadSceneWithUnscaledTimeCoroutine(string sceneName)

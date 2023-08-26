@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5a971ae2615af4e81f06ffa17ddfae, type: 3}
   m_Name: UpgradeVisited
   m_EditorClassIdentifier: 
-  EventType: 0
+  EventType: 1
   RequiredAmountToComplete: 1

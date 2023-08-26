@@ -60,7 +60,6 @@ public class CampaignEventController : MonoBehaviour
     private IEnumerator RenderAllQueuedEventsCoroutine(bool shouldTransitionScreen)
     {
         AreAllEventsComplete = false;
-        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
         if (QueuedEvents.Count > 0 && shouldTransitionScreen)
         {
             TransitionManager.Instance.ShowScreen(1.25f);
@@ -72,6 +71,11 @@ public class CampaignEventController : MonoBehaviour
             yield return new WaitUntil(() => !IsPlayingEvent);
         }
         AreAllEventsComplete = true;
+        // If screen is still darkened, show it now.
+        if (TransitionManager.Instance.IsScreenDarkened)
+        {
+            TransitionManager.Instance.ShowScreen(1.25f);
+        }
     }
 
     #region Show Banner Event

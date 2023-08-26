@@ -165,6 +165,7 @@ public class UpgradeController : MonoBehaviour
         _selectedCardsToUpgrade.Remove(new CardAndCost(c, upgradeCost, cardIdx));
         _totalCost -= upgradeCost;
         _cardPreviewHandlers[cardIdx].GetComponent<UpgradeCardHandler>().SetIsSelected(false);
+        _upgradeButton.interactable = _totalCost <= GameManager.GetXP() && _selectedCardsToUpgrade.Count > 0;
     }
 
     ///<summary>
