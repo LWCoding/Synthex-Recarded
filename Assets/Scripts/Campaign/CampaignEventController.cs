@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -78,6 +79,47 @@ public class CampaignEventController : MonoBehaviour
         }
     }
 
+    #region Zoom In On Object Event
+
+    // Plays the animation of the dummy getting destroyed.
+    public void QueueZoomOnObject(GameObject obj)
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            ZoomOnObject(obj, 0.6f);
+        });
+    }
+
+    // Plays the animation of the dummy getting destroyed.
+    public void QueueSlowZoomOnObject(GameObject obj)
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            ZoomOnObject(obj, 0.9f);
+        });
+    }
+
+    // Plays the animation of the dummy getting destroyed.
+    public void QueueZoomOnObjectWithNext(GameObject obj)
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            ZoomOnObject(obj, 0.6f, false);
+        });
+    }
+
+    // Plays the banner animation.
+    private void ZoomOnObject(GameObject obj, float animationTime, bool isStandaloneEvent = true)
+    {
+        if (isStandaloneEvent) IsPlayingEvent = true;
+        CampaignCameraController.Instance.ZoomCameraOnObject(obj, animationTime, 3.25f, 1, () =>
+        {
+            if (isStandaloneEvent) IsPlayingEvent = false;
+        });
+    }
+
+    #endregion
+
     #region Show Banner Event
 
     // Plays the animation of the dummy getting destroyed.
@@ -105,8 +147,12 @@ public class CampaignEventController : MonoBehaviour
                 _bannerText.text = "<color=\"black\"><size=13>The Secret</size></color>\n<color=#282E27><i><size=5>Hello from Selenium :)</size></i></color>";
                 break;
         }
+        _bannerAnimator.enabled = true;
         _bannerAnimator.Play("FadeIn");
-        StartCoroutine(StopEventWhenAnimationIsFinished(_bannerAnimator, 0));
+        StartCoroutine(StopEventWhenAnimationIsFinished(_bannerAnimator, 0, () =>
+        {
+            _bannerAnimator.enabled = false;
+        }));
     }
 
     #endregion
@@ -135,15 +181,29 @@ public class CampaignEventController : MonoBehaviour
 
     #endregion
 
+    #region Restore Camera Event
+
+    // Plays the animation of the dummy getting destroyed.
+    public void QueueRestoreCamera()
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            CampaignCameraController.Instance.RestoreCamera();
+        });
+    }
+
+    #endregion
+
     // Sets the IsPlayingEvent parameter to false after a specific animator
     // is no longer animating.
 
-    private IEnumerator StopEventWhenAnimationIsFinished(Animator anim, float delayAfter)
+    private IEnumerator StopEventWhenAnimationIsFinished(Animator anim, float delayAfter, Action codeToRunAfter = null)
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !IsPlaying(anim));
         yield return new WaitForSeconds(delayAfter);
         IsPlayingEvent = false;
+        if (codeToRunAfter != null) codeToRunAfter.Invoke();
     }
 
     /*

@@ -4969,7 +4969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   applicationID: 1137213632640462918
   largeImage: thumbnail
-  largeText: 'Project ASS: Recarded'
+  largeText: Project ASS
 --- !u!1 &691482684
 GameObject:
   m_ObjectHideFlags: 0
