@@ -174,7 +174,7 @@ public class CampaignController : MonoBehaviour
         if (!loc.WasVisited)
         {
             loc.OnSelectFirstTime.Invoke();
-            CampaignEventController.Instance.RenderAllQueuedEvents(false);
+            CampaignEventController.Instance.RenderAllQueuedEvents();
         }
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);

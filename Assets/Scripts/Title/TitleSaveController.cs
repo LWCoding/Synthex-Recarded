@@ -98,11 +98,12 @@ public class TitleSaveController : MonoBehaviour
             // Initialize the hero with base information.
             GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
             GameManager.SetSeenEnemies(new List<Encounter>());
-            GameManager.SetPlayedDialogues(new List<DialogueName>(), new List<string>());
+            GameManager.SetPlayedDialogues(new List<string>(), new List<string>());
             GameManager.SetGameScene(GameScene.FOREST);
             GameManager.SetCampaignSave(null);
             GameManager.SetMapObject(null);
             GameManager.SetMoney(150);
+            GameManager.SetXP(0);
             GameManager.saveFileName = currentSaveFile;
         }
         else

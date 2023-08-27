@@ -16,7 +16,7 @@ public class SaveObject
     [Header("Game Background Information")]
     public List<GameEvent> registeredEvents;
     public List<string> tutorialsPlayed;
-    public List<DialogueName> mapDialoguesPlayed;
+    public List<string> mapDialoguesPlayed;
     public List<Encounter> loadedEncounters;
 
 }

@@ -162,7 +162,7 @@ public class CampaignOptionController : MonoBehaviour
             // Adds all events to the queue.
             OnVisitedFirstTime.Invoke();
             // Renders the events one-by-one.
-            CampaignEventController.Instance.RenderAllQueuedEvents(true);
+            CampaignEventController.Instance.RenderAllQueuedEvents();
         }
         else
         {

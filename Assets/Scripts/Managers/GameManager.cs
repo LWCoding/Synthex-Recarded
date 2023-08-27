@@ -65,7 +65,7 @@ public static class GameManager
         foundEvent.SetCompleted();
     }
     // Dialogue data:
-    public static List<DialogueName> alreadyPlayedMapDialogues = new List<DialogueName>();
+    public static List<string> alreadyPlayedMapDialogues = new List<string>();
     public static List<string> alreadyPlayedTutorials = new List<string>();
     // Campaign/map data:
     public static bool IsInCampaign = false;
@@ -132,7 +132,7 @@ public static class GameManager
         _chosenHero.currentItems.RemoveAt(index);
     }
 
-    public static void SetPlayedDialogues(List<DialogueName> dialogues, List<string> tutorials)
+    public static void SetPlayedDialogues(List<string> dialogues, List<string> tutorials)
     {
         alreadyPlayedMapDialogues = dialogues;
         alreadyPlayedTutorials = tutorials;

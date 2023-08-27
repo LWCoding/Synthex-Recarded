@@ -20,13 +20,6 @@ public struct DialogueLine
 }
 
 [System.Serializable]
-public enum DialogueName
-{
-    FOREST_001 = 0, FOREST_002 = 1, FOREST_003 = 2, FOREST_004 = 3, FOREST_END = 4,
-    SECRET_001 = 99, SECRET_002 = 100, SECRET_END = 101
-}
-
-[System.Serializable]
 public enum DialogueAction
 {
     NONE = 0, WON_GAME_SEND_TO_TITLE = 1, SECRET_WIN_SEND_TO_TITLE = 2, HEAL_TO_FULL_HP = 3
@@ -37,7 +30,7 @@ public class Dialogue : ScriptableObject
 {
 
     [Header("Base Information")]
-    public DialogueName dialogueName;
+    public string dialogueName;
     public List<DialogueLine> dialogueLines = new List<DialogueLine>();
     public DialogueAction actionToPlayAfterDialogue;
 

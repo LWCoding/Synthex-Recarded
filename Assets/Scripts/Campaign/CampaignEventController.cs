@@ -19,6 +19,10 @@ public class CampaignEventController : MonoBehaviour
     [SerializeField] private Sprite _intactDummy;
     [SerializeField] private Sprite _destroyedDummy;
     [SerializeField] private AudioClip _dummyDestroyedSFX;
+    [Header("Ryan Object Assignments")]
+    [SerializeField] private Transform _ryanTransform;
+    [SerializeField] private ParticleSystem _ryanParticleSystem;
+    [SerializeField] private AudioClip _footstepsSFX;
 
     public Queue<UnityAction> QueuedEvents = new Queue<UnityAction>();
     public bool HasEventsQueued => QueuedEvents.Count > 0;
@@ -53,35 +57,96 @@ public class CampaignEventController : MonoBehaviour
     }
 
     // Renders all events currently in the queue.
-    public void RenderAllQueuedEvents(bool shouldTransitionScreen)
+    public void RenderAllQueuedEvents()
     {
-        StartCoroutine(RenderAllQueuedEventsCoroutine(shouldTransitionScreen));
+        StartCoroutine(RenderAllQueuedEventsCoroutine());
     }
 
-    private IEnumerator RenderAllQueuedEventsCoroutine(bool shouldTransitionScreen)
+    private IEnumerator RenderAllQueuedEventsCoroutine()
     {
         AreAllEventsComplete = false;
-        if (QueuedEvents.Count > 0 && shouldTransitionScreen)
-        {
-            TransitionManager.Instance.ShowScreen(1.25f);
-        }
-        while (QueuedEvents.Count > 0)
+        while (HasEventsQueued)
         {
             QueuedEvents.Dequeue().Invoke();
             yield return new WaitForEndOfFrame();
             yield return new WaitUntil(() => !IsPlayingEvent);
         }
         AreAllEventsComplete = true;
-        // If screen is still darkened, show it now.
         if (TransitionManager.Instance.IsScreenDarkened)
         {
             TransitionManager.Instance.ShowScreen(1.25f);
         }
     }
 
-    #region Zoom In On Object Event
+    #region Fade Transition
+
+    public void QueueScreenShow()
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            StartCoroutine(QueueScreenShowCoroutine(true));
+        });
+    }
+
+    public void QueueScreenShowWithNext()
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            StartCoroutine(QueueScreenShowCoroutine(false));
+        });
+    }
+
+    private IEnumerator QueueScreenShowCoroutine(bool isStandaloneEvent)
+    {
+        if (isStandaloneEvent) IsPlayingEvent = true;
+        TransitionManager.Instance.ShowScreen(1.25f);
+        yield return new WaitForEndOfFrame();
+        yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
+        if (isStandaloneEvent) IsPlayingEvent = false;
+    }
+
+    #endregion
+
+    #region Move Ryan To Position
 
     // Plays the animation of the dummy getting destroyed.
+    public void QueueMoveRyanToPosition(Transform positionToMoveTo)
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            StartCoroutine(MoveRyanToPositionCoroutine(positionToMoveTo.position));
+        });
+    }
+
+    private IEnumerator MoveRyanToPositionCoroutine(Vector3 targetPosition)
+    {
+        IsPlayingEvent = true;
+        float currTime = 0;
+        float timeToWait = 0.7f;
+        float timeSinceLastParticle = 0;
+        float particleCooldown = 0.15f;
+        SoundManager.Instance.PlayOneShot(_footstepsSFX, 0.22f);
+        Vector3 initialPosition = _ryanTransform.position;
+        while (currTime < timeToWait)
+        {
+            currTime += Time.deltaTime;
+            timeSinceLastParticle += Time.deltaTime;
+            _ryanTransform.position = Vector3.Lerp(initialPosition, targetPosition, currTime / timeToWait);
+            if (timeSinceLastParticle > particleCooldown)
+            {
+                _ryanParticleSystem.Emit(1);
+                timeSinceLastParticle = 0;
+            }
+            yield return null;
+        }
+        IsPlayingEvent = false;
+    }
+
+    #endregion
+
+    #region Zoom In On Object Event
+
+    // Plays animation where camera zooms in an object.
     public void QueueZoomOnObject(GameObject obj)
     {
         QueuedEvents.Enqueue(() =>
@@ -90,7 +155,7 @@ public class CampaignEventController : MonoBehaviour
         });
     }
 
-    // Plays the animation of the dummy getting destroyed.
+    // Plays animation where camera zooms in an object slowly.
     public void QueueSlowZoomOnObject(GameObject obj)
     {
         QueuedEvents.Enqueue(() =>
@@ -99,7 +164,7 @@ public class CampaignEventController : MonoBehaviour
         });
     }
 
-    // Plays the animation of the dummy getting destroyed.
+    // Plays animation where camera zooms in an object without waiting to complete.
     public void QueueZoomOnObjectWithNext(GameObject obj)
     {
         QueuedEvents.Enqueue(() =>
@@ -108,7 +173,7 @@ public class CampaignEventController : MonoBehaviour
         });
     }
 
-    // Plays the banner animation.
+    // Makes the camera object zoom in on an object.
     private void ZoomOnObject(GameObject obj, float animationTime, bool isStandaloneEvent = true)
     {
         if (isStandaloneEvent) IsPlayingEvent = true;

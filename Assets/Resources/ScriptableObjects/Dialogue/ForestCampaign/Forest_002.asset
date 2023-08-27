@@ -10,52 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 657f010bdda42f742b058c9674db6e24, type: 3}
-  m_Name: Forest_003
+  m_Name: Forest_002
   m_EditorClassIdentifier: 
-  dialogueName: MapForest003
+  dialogueName: CampaignForest002
   dialogueLines:
+  - speakerName: Ryan
+    speakerText: There it is, Jack! Isn't it intimidating?
+    leftAnimationName: JackSkepticalIdle
+    rightAnimationName: RyanHappy
+    characterBlipName: 3
+    focusDirection: 1
   - speakerName: Jack
-    speakerText: ...Cool.
-    leftAnimationName: JackTalking
+    speakerText: ...Not really?
+    leftAnimationName: JackSkeptical
     rightAnimationName: RyanHappyIdle
     characterBlipName: 1
     focusDirection: 0
   - speakerName: Ryan
-    speakerText: What a neat guy. I'm sure we'll be seeing him more often.
-    leftAnimationName: JackTalkingIdle
-    rightAnimationName: RyanHappy
-    characterBlipName: 3
-    focusDirection: 1
-  - speakerName: Ryan
-    speakerText: Anyways, I think you've got the hang of this. I'll meet you over
-      at Aericho City!
-    leftAnimationName: JackTalkingIdle
-    rightAnimationName: RyanTalking
-    characterBlipName: 3
-    focusDirection: 1
-  - speakerName: Jack
-    speakerText: Aericho City?
-    leftAnimationName: JackSkeptical
-    rightAnimationName: RyanTalkingIdle
-    characterBlipName: 1
-    focusDirection: 0
-  - speakerName: Ryan
-    speakerText: I mean, we gotta eat, right? Unless you wanna eat one of those weird
-      bug monsters all over the place here.
+    speakerText: C'mon Jack, just pretend it did something bad or something. Make
+      an excuse to beat it up.
     leftAnimationName: JackSkepticalIdle
     rightAnimationName: RyanPeeved
     characterBlipName: 3
     focusDirection: 1
   - speakerName: Jack
-    speakerText: ...Sure. Sounds good. I'll meet you there.
-    leftAnimationName: JackTalkingIdle
+    speakerText: Yeah, yeah. Alright. I'll see what I can do.
+    leftAnimationName: JackTalking
     rightAnimationName: RyanPeevedIdle
     characterBlipName: 1
     focusDirection: 0
   - speakerName: Ryan
-    speakerText: I know you will, Jack! I know you will.
+    speakerText: Yeah, Jack! Go show that cloth thing who's boss!
     leftAnimationName: JackTalkingIdle
     rightAnimationName: RyanHappy
-    characterBlipName: 3
+    characterBlipName: 2
     focusDirection: 1
   actionToPlayAfterDialogue: 0
