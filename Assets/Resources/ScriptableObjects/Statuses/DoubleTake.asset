@@ -15,6 +15,8 @@ MonoBehaviour:
   statusName: Double Take
   statusDescription: Your next [X] card(s) will play twice.
   type: 5
-  statusIcon: {fileID: 21300000, guid: 2c68620aabf1b864898f00e28c0675a2, type: 3}
+  statusIcon: {fileID: -3797620214722781797, guid: be7b31f24cb5bac4cb464733d40d91be, type: 3}
   iconSpriteScale: {x: 0.24, y: 0.24}
   effectFaction: 1
+  decrementEveryTurn: 0
+  canGoNegative: 0

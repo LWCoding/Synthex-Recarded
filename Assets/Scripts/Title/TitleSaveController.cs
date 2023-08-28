@@ -71,7 +71,7 @@ public class TitleSaveController : MonoBehaviour
     public void StartSecretGame()
     {
         // Initialize the hero with base information.
-        GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.JACK));
+        GameManager.SetChosenHero(Globals.GetBaseHero(HeroTag.RYAN));
         GameManager.SetSeenEnemies(new List<Encounter>());
         GameManager.SetGameScene(GameScene.FOREST);
         GameManager.SetMapObject(null);

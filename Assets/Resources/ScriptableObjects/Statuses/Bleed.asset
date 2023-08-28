@@ -15,7 +15,7 @@ MonoBehaviour:
   statusName: Bleed
   statusDescription: Lose [X] health at the end of the turn. Lowers by 1 each turn.
   type: 0
-  statusIcon: {fileID: 21300000, guid: 7b918801022f5224d9a2f3f09223b283, type: 3}
+  statusIcon: {fileID: -2118569550833694620, guid: be7b31f24cb5bac4cb464733d40d91be, type: 3}
   iconSpriteScale: {x: 0.31, y: 0.31}
   effectFaction: 2
   decrementEveryTurn: 1

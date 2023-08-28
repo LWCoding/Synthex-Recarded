@@ -15,7 +15,8 @@ MonoBehaviour:
   statusName: Defense
   statusDescription: All direct blocking moves provide [X] more block.
   type: 2
-  statusIcon: {fileID: 21300000, guid: c14bfc59d6d8fcf4aae2cf733539bc9a, type: 3}
+  statusIcon: {fileID: 7393545612440429156, guid: be7b31f24cb5bac4cb464733d40d91be, type: 3}
   iconSpriteScale: {x: 0.36, y: 0.36}
   effectFaction: 1
+  decrementEveryTurn: 0
   canGoNegative: 0

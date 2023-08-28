@@ -15,7 +15,7 @@ MonoBehaviour:
   statusName: Catastrophe
   statusDescription: When you play a card, deal [X] damage to all enemies.
   type: 8
-  statusIcon: {fileID: 21300000, guid: 193e4d41ba86313468f7e12e4cb06f52, type: 3}
+  statusIcon: {fileID: -631226205109210674, guid: ff336427de352e74395d4e9c0aeb90c5, type: 3}
   iconSpriteScale: {x: 0.33, y: 0.33}
   effectFaction: 1
   decrementEveryTurn: 0

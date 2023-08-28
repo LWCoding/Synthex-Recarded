@@ -16,7 +16,7 @@ MonoBehaviour:
   statusDescription: When hurt, deal [X] damage back to attackers. Lowers by 1 each
     turn.
   type: 16
-  statusIcon: {fileID: 21300000, guid: fb6a72301d1c87349a68b68e753fe7a8, type: 3}
+  statusIcon: {fileID: -2826527611751453870, guid: 00736b900017b134b88c6654441c89d4, type: 3}
   iconSpriteScale: {x: 0.33, y: 0.33}
   effectFaction: 1
   decrementEveryTurn: 1

@@ -15,6 +15,8 @@ MonoBehaviour:
   statusName: Barrier
   statusDescription: Upon taking damage, this character gains [X] block.
   type: 15
-  statusIcon: {fileID: 21300000, guid: bed962bb22fa7ec4aac0a0c941991197, type: 3}
+  statusIcon: {fileID: -2383672895540730222, guid: be7b31f24cb5bac4cb464733d40d91be, type: 3}
   iconSpriteScale: {x: 0.3, y: 0.3}
   effectFaction: 1
+  decrementEveryTurn: 0
+  canGoNegative: 0

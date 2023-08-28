@@ -1,5 +1,3 @@
-#if (UNITY_EDITOR)
-
 using System;
 using System.IO;
 using System.Linq;
@@ -7,11 +5,9 @@ using System.Xml;
 using UnityEditor;
 using UnityEngine;
 
-public class TextureAtlasSlicer : EditorWindow
-{
+public class TextureAtlasSlicer : EditorWindow {
     [MenuItem("CONTEXT/TextureImporter/Slice Sprite Using XML")]
-    public static void SliceUsingXML(MenuCommand command)
-    {
+    public static void SliceUsingXML(MenuCommand command) {
         var textureImporter = command.context as TextureImporter;
 
         var window = CreateInstance<TextureAtlasSlicer>();
@@ -22,27 +18,24 @@ public class TextureAtlasSlicer : EditorWindow
     }
 
     [MenuItem("Assets/Slice Sprite Using XML")]
-    public static void TextureAtlasSlicerWindow()
-    {
+    public static void TextureAtlasSlicerWindow() {
         var window = CreateInstance<TextureAtlasSlicer>();
 
         window.Show();
     }
 
     [MenuItem("CONTEXT/TextureImporter/Slice Sprite Using XML", true)]
-    public static bool ValidateSliceUsingXML(MenuCommand command)
-    {
+    public static bool ValidateSliceUsingXML(MenuCommand command) {
         var textureImporter = command.context as TextureImporter;
 
         //valid only if the texture type is 'sprite' or 'advanced'.
         return textureImporter && textureImporter.textureType == TextureImporterType.Sprite ||
-            textureImporter.textureType == TextureImporterType.Default;
+               textureImporter.textureType == TextureImporterType.Default;
     }
 
     public TextureImporter importer;
 
-    public TextureAtlasSlicer()
-    {
+    public TextureAtlasSlicer() {
         titleContent = new GUIContent("XML Slicer");
     }
 
@@ -54,59 +47,45 @@ public class TextureAtlasSlicer : EditorWindow
 
     public Vector2 customOffset = new Vector2(0.5f, 0.5f);
 
-    public void OnSelectionChange()
-    {
+    public void OnSelectionChange() {
         UseSelectedTexture();
     }
 
     private Texture2D selectedTexture;
 
-    private void UseSelectedTexture()
-    {
-        if (Selection.objects.Length > 1)
-        {
+    private void UseSelectedTexture() {
+        if (Selection.objects.Length > 1) {
             selectedTexture = null;
-        }
-        else
-        {
+        } else {
             selectedTexture = Selection.activeObject as Texture2D;
         }
 
-        if (selectedTexture != null)
-        {
+        if (selectedTexture != null) {
             var assetPath = AssetDatabase.GetAssetPath(selectedTexture);
 
             importer = AssetImporter.GetAtPath(assetPath) as TextureImporter;
 
-            if (importer)
-            {
+            if (importer) {
                 var extension = Path.GetExtension(assetPath);
                 var pathWithoutExtension = assetPath.Remove(assetPath.Length - extension.Length, extension.Length);
 
                 var xmlPath = pathWithoutExtension + ".xml";
 
-                var textAsset = AssetDatabase.LoadAssetAtPath(xmlPath, typeof(TextAsset));
+                var textAsset = AssetDatabase.LoadAssetAtPath(xmlPath, typeof (TextAsset));
 
-                if (textAsset != null)
-                {
+                if (textAsset != null) {
                     xmlAsset = textAsset as TextAsset;
-                }
-                else
-                {
+                } else {
                     xmlAsset = null;
                     subTextures = null;
                 }
 
                 ParseXML();
-            }
-            else
-            {
+            } else {
                 xmlAsset = null;
                 subTextures = null;
             }
-        }
-        else
-        {
+        } else {
             importer = null;
             xmlAsset = null;
             subTextures = null;
@@ -118,84 +97,72 @@ public class TextureAtlasSlicer : EditorWindow
     private SubTexture[] subTextures;
     private int wantedWidth, wantedHeight;
 
-    private void ParseXML()
-    {
-        try
-        {
+    private void ParseXML() {
+        try {
             var document = new XmlDocument();
             document.LoadXml(xmlAsset.text);
 
             var root = document.DocumentElement;
-            if (root == null || root.Name != "TextureAtlas")
-            {
+            if (root == null || root.Name != "TextureAtlas") {
                 return;
             }
 
             subTextures = root.ChildNodes
-                            .Cast<XmlNode>()
-                            .Where(childNode => childNode.Name == "SubTexture")
-                            .Select(childNode => new SubTexture
-                            {
-                                width = Convert.ToInt32(childNode.Attributes["width"].Value),
-                                height = Convert.ToInt32(childNode.Attributes["height"].Value),
-                                x = Convert.ToInt32(childNode.Attributes["x"].Value),
-                                y = Convert.ToInt32(childNode.Attributes["y"].Value),
-                                name = childNode.Attributes["name"].Value
-                            }).ToArray();
+                              .Cast<XmlNode>()
+                              .Where(childNode => childNode.Name == "SubTexture")
+                              .Select(childNode => new SubTexture {
+                                  width = Convert.ToInt32(childNode.Attributes["width"].Value),
+                                  height = Convert.ToInt32(childNode.Attributes["height"].Value),
+                                  x = Convert.ToInt32(childNode.Attributes["x"].Value),
+                                  y = Convert.ToInt32(childNode.Attributes["y"].Value),
+                                  name = childNode.Attributes["name"].Value
+                              }).ToArray();
 
             wantedWidth = 0;
             wantedHeight = 0;
 
-            foreach (var subTexture in subTextures)
-            {
+            foreach (var subTexture in subTextures) {
                 var right = subTexture.x + subTexture.width;
                 var bottom = subTexture.y + subTexture.height;
 
                 wantedWidth = Mathf.Max(wantedWidth, right);
                 wantedHeight = Mathf.Max(wantedHeight, bottom);
             }
-        }
-        catch (Exception)
-        {
+        } catch (Exception) {
             subTextures = null;
         }
     }
 
-    public void OnEnable()
-    {
+    public void OnEnable() {
         UseSelectedTexture();
     }
 
-    public void OnGUI()
-    {
-        if (importer == null)
-        {
+    public void OnGUI() {
+        if (importer == null) {
             EditorGUILayout.LabelField("Please select a texture to slice.");
             return;
         }
         EditorGUI.BeginDisabledGroup(focusedWindow != this);
         {
             EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.ObjectField("Texture", Selection.activeObject, typeof(Texture), false);
+            EditorGUILayout.ObjectField("Texture", Selection.activeObject, typeof (Texture), false);
             EditorGUI.EndDisabledGroup();
 
             if (importer.textureType != TextureImporterType.Sprite &&
-                importer.textureType != TextureImporterType.Default)
-            {
+                importer.textureType != TextureImporterType.Default) {
                 EditorGUILayout.LabelField("The Texture Type needs to be Sprite or Advanced!");
             }
 
             EditorGUI.BeginDisabledGroup((importer.textureType != TextureImporterType.Sprite &&
-                                        importer.textureType != TextureImporterType.Default));
+                                          importer.textureType != TextureImporterType.Default));
             {
                 EditorGUI.BeginChangeCheck();
-                xmlAsset = EditorGUILayout.ObjectField("XML Source", xmlAsset, typeof(TextAsset), false) as TextAsset;
-                if (EditorGUI.EndChangeCheck())
-                {
+                xmlAsset = EditorGUILayout.ObjectField("XML Source", xmlAsset, typeof (TextAsset), false) as TextAsset;
+                if (EditorGUI.EndChangeCheck()) {
                     ParseXML();
                 }
 
-                spriteAlignment = (SpriteAlignment)EditorGUILayout.EnumPopup("Pivot", spriteAlignment);
+                spriteAlignment = (SpriteAlignment) EditorGUILayout.EnumPopup("Pivot", spriteAlignment);
 
                 EditorGUI.BeginDisabledGroup(spriteAlignment != SpriteAlignment.Custom);
                 EditorGUILayout.Vector2Field("Custom Offset", customOffset);
@@ -203,25 +170,22 @@ public class TextureAtlasSlicer : EditorWindow
 
                 var needsToResizeTexture = wantedWidth > selectedTexture.width || wantedHeight > selectedTexture.height;
 
-                if (xmlAsset != null && needsToResizeTexture)
-                {
+                if (xmlAsset != null && needsToResizeTexture) {
                     EditorGUILayout.LabelField(
                         string.Format("Texture size too small."
-                                    + " It needs to be at least {0} by {1} pixels!",
+                                      + " It needs to be at least {0} by {1} pixels!",
                             wantedWidth,
                             wantedHeight));
                     EditorGUILayout.LabelField("Try changing the Max Size property in the importer.");
                 }
 
-                if (subTextures == null || subTextures.Length == 0)
-                {
+                if (subTextures == null || subTextures.Length == 0) {
                     EditorGUILayout.LabelField("Could not find any SubTextures in XML.");
                 }
 
                 EditorGUI.BeginDisabledGroup(xmlAsset == null || needsToResizeTexture || subTextures == null ||
-                                            subTextures.Length == 0);
-                if (GUILayout.Button("Slice"))
-                {
+                                             subTextures.Length == 0);
+                if (GUILayout.Button("Slice")) {
                     PerformSlice();
                 }
                 EditorGUI.EndDisabledGroup();
@@ -231,8 +195,7 @@ public class TextureAtlasSlicer : EditorWindow
         EditorGUI.EndDisabledGroup();
     }
 
-    private struct SubTexture
-    {
+    private struct SubTexture {
         public int width;
         public int height;
         public int x;
@@ -240,10 +203,8 @@ public class TextureAtlasSlicer : EditorWindow
         public string name;
     }
 
-    private void PerformSlice()
-    {
-        if (importer == null)
-        {
+    private void PerformSlice() {
+        if (importer == null) {
             return;
         }
 
@@ -251,61 +212,48 @@ public class TextureAtlasSlicer : EditorWindow
 
         var needsUpdate = false;
 
-        if (importer.spriteImportMode != SpriteImportMode.Multiple)
-        {
+        if (importer.spriteImportMode != SpriteImportMode.Multiple) {
             needsUpdate = true;
             importer.spriteImportMode = SpriteImportMode.Multiple;
         }
 
         var wantedSpriteSheet = (from subTexture in subTextures
-                                 let actualY = textureHeight - (subTexture.y + subTexture.height)
-                                 select new SpriteMetaData
-                                 {
-                                     alignment = (int)spriteAlignment,
-                                     border = new Vector4(),
-                                     name = subTexture.name,
-                                     pivot = GetPivotValue(spriteAlignment, customOffset),
-                                     rect = new Rect(subTexture.x, actualY, subTexture.width, subTexture.height)
-                                 }).ToArray();
-        // if (!needsUpdate && !importer.spritesheet.SequenceEqual(wantedSpriteSheet))
-        // {
-        //     needsUpdate = true;
-        //     importer.spritesheet = wantedSpriteSheet;
-        // }
+                                let actualY = textureHeight - (subTexture.y + subTexture.height)
+                                select new SpriteMetaData {
+                                    alignment = (int) spriteAlignment,
+                                    border = new Vector4(),
+                                    name = subTexture.name,
+                                    pivot = GetPivotValue(spriteAlignment, customOffset),
+                                    rect = new Rect(subTexture.x, actualY, subTexture.width, subTexture.height)
+                                }).ToArray();
+        if (!needsUpdate && !importer.spritesheet.SequenceEqual(wantedSpriteSheet)) {
+            needsUpdate = true;
+            importer.spritesheet = wantedSpriteSheet;
+        }
 
-        if (needsUpdate)
-        {
+        if (needsUpdate) {
             EditorUtility.SetDirty(importer);
 
-            try
-            {
+            try {
                 AssetDatabase.StartAssetEditing();
                 AssetDatabase.ImportAsset(importer.assetPath);
 
                 EditorUtility.DisplayDialog("Success!", "The sprite was sliced successfully.", "OK");
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 Debug.LogException(exception);
                 EditorUtility.DisplayDialog("Error", "There was an exception while trying to reimport the image." +
-                                                    "\nPlease check the console log for details.", "OK");
-            }
-            finally
-            {
+                                                     "\nPlease check the console log for details.", "OK");
+            } finally {
                 AssetDatabase.StopAssetEditing();
             }
-        }
-        else
-        {
+        } else {
             EditorUtility.DisplayDialog("Nope!", "The sprite is already sliced according to this XML file.", "OK");
         }
     }
 
     //SpriteEditorUtility
-    public static Vector2 GetPivotValue(SpriteAlignment alignment, Vector2 customOffset)
-    {
-        switch (alignment)
-        {
+    public static Vector2 GetPivotValue(SpriteAlignment alignment, Vector2 customOffset) {
+        switch (alignment) {
             case SpriteAlignment.Center:
                 return new Vector2(0.5f, 0.5f);
             case SpriteAlignment.TopLeft:
@@ -331,5 +279,3 @@ public class TextureAtlasSlicer : EditorWindow
         }
     }
 }
-
-#endif
