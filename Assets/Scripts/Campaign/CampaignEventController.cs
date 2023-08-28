@@ -22,6 +22,7 @@ public class CampaignEventController : MonoBehaviour
     [Header("Ryan Object Assignments")]
     [SerializeField] private Transform _ryanTransform;
     [SerializeField] private ParticleSystem _ryanParticleSystem;
+    [SerializeField] private Transform _ryanAtDummyTransform;
     [SerializeField] private AudioClip _footstepsSFX;
 
     public Queue<UnityAction> QueuedEvents = new Queue<UnityAction>();
@@ -107,6 +108,12 @@ public class CampaignEventController : MonoBehaviour
 
     #endregion
 
+    // Adds a follower transform. These follow the player when they move.
+    public void AddTransformToFollower(Transform transform)
+    {
+        CampaignController.Instance.HeroFollowerTransforms.Add(transform);
+    }
+
     #region Move Ryan To Position
 
     // Plays the animation of the dummy getting destroyed.
@@ -116,6 +123,12 @@ public class CampaignEventController : MonoBehaviour
         {
             StartCoroutine(MoveRyanToPositionCoroutine(positionToMoveTo.position));
         });
+    }
+
+    // Instantly sends Ryan's icon to a certain position.
+    public void InstantMoveRyanToPosition(Transform positionToMoveTo)
+    {
+        _ryanTransform.position = positionToMoveTo.position;
     }
 
     private IEnumerator MoveRyanToPositionCoroutine(Vector3 targetPosition)

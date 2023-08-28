@@ -17,6 +17,10 @@ public class CampaignController : MonoBehaviour
     [Header("Audio Assignments")]
     [SerializeField] private AudioClip _footstepsSFX;
 
+    public List<Transform> HeroFollowerTransforms; // Objects to follow player as they move.
+    public bool CanPlayerChooseLevel() => !_isPlayerMoving && CampaignEventController.Instance.AreAllEventsComplete && !_eventSystem.IsPointerOverGameObject();
+
+    private void FindAndStoreAllLevelOptions() => _levelOptions = new List<CampaignOptionController>(GameObject.FindObjectsOfType<CampaignOptionController>());
     private CampaignSave _currCampaignSave;
     private EventSystem _eventSystem;
     private bool _isPlayerMoving = false;
@@ -24,9 +28,6 @@ public class CampaignController : MonoBehaviour
     public void RegisterVisitedLevel(Vector3 levelPosition) => _currCampaignSave.visitedLevels.Add(levelPosition);
     private List<CampaignOptionController> _levelOptions;
 
-    public bool CanPlayerChooseLevel() => !_isPlayerMoving && CampaignEventController.Instance.AreAllEventsComplete && !_eventSystem.IsPointerOverGameObject();
-
-    private void FindAndStoreAllLevelOptions() => _levelOptions = new List<CampaignOptionController>(GameObject.FindObjectsOfType<CampaignOptionController>());
 
     // Make singleton instance of this class.
     private void Awake()
@@ -220,15 +221,28 @@ public class CampaignController : MonoBehaviour
     // Makes the player icon move towards a certain position.
     private IEnumerator MoveHeroToPositionCoroutine(Vector3 targetPosition, float timeToWait)
     {
+        // Initialize information for main hero.
         Vector3 initialPosition = _playerIconTransform.localPosition;
         float currTime = 0;
         float timeSinceLastParticle = 0;
         float particleCooldown = 0.15f;
+        // Initialize information for followers.
+        List<Vector3> followerInitialPositions = new List<Vector3>();
+        List<Vector3> followerTargetPositions = new List<Vector3>();
+        for (int i = 0; i < HeroFollowerTransforms.Count; i++)
+        {
+            followerInitialPositions.Add(HeroFollowerTransforms[i].position);
+            followerTargetPositions.Add(Vector3.Lerp(initialPosition, targetPosition, 1 - 0.33f * (i + 1)));
+        }
         SoundManager.Instance.PlayOneShot(_footstepsSFX, 0.22f);
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
             _playerIconTransform.localPosition = Vector3.Lerp(initialPosition, targetPosition, currTime / timeToWait);
+            for (int i = 0; i < HeroFollowerTransforms.Count; i++)
+            {
+                HeroFollowerTransforms[i].localPosition = Vector3.Lerp(followerInitialPositions[i], followerTargetPositions[i], currTime / timeToWait);
+            }
             timeSinceLastParticle += Time.deltaTime;
             if (timeSinceLastParticle > particleCooldown)
             {

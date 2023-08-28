@@ -55,7 +55,6 @@ public class CampaignOptionController : MonoBehaviour
         _optionAnimator = GetComponent<Animator>();
         _mouseHoverScaler = GetComponent<MouseHoverScaler>();
         _mouseHoverScaler.Initialize(_iconSpriteRenderer.transform);
-        _originalIconColliderSize = _iconCollider.size;
         InitializeArrows();
     }
 
@@ -98,11 +97,11 @@ public class CampaignOptionController : MonoBehaviour
         // Make hitbox bigger if it's an empty path.
         if (LocationChoice == LocationChoice.NONE)
         {
-            _iconCollider.size = _originalIconColliderSize * new Vector2(1.3f, 1.3f);
+            _iconCollider.size = new Vector2(1.3f, 1.3f);
         }
         else
         {
-            _iconCollider.size = _originalIconColliderSize;
+            _iconCollider.size = new Vector2(1.1f, 1.1f);
         }
     }
 
