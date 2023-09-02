@@ -124,6 +124,7 @@ public class TopBarController : MonoBehaviour, IPointerEnterHandler, IPointerExi
         heroHeadshotImage.color = color;
         pauseIconImage.color = color + new Color(0.2f, 0.2f, 0.2f);
         heroHeadshotImage.sprite = headshotSprite;
+        heroHeadshotImage.SetNativeSize();
     }
 
     // Sets the hero's health on the top bar (UI).

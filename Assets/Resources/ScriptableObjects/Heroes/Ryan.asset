@@ -23,7 +23,7 @@ MonoBehaviour:
   baseHealth: 40
   heroTag: 3
   maxItemStorageSpace: 3
-  uiHeadshotSprite: {fileID: 21300000, guid: 85ebd0d7e2496664da24a235cf033611, type: 3}
+  uiHeadshotSprite: {fileID: 21300000, guid: f532f51e83519a2429c73397e80d56c8, type: 3}
   heroUIColor: {r: 0.79607844, g: 0.08627451, b: 0.09411765, a: 1}
   mapHeadshotSprite: {fileID: 21300000, guid: aa831d25d47513f4cbc0626c9ba426f8, type: 3}
   startingDeck:

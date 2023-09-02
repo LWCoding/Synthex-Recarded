@@ -89,14 +89,8 @@ public partial class BattleController : StateMachine
     // Initializes the logic to handle card refreshing when the screen is resized.
     private void RefreshCardsOnScreenResize()
     {
-        ResizeAspectRatioController.OnScreenResize -= () =>
-        {
-            StartCoroutine(State.OnScreenResize());
-        };
-        ResizeAspectRatioController.OnScreenResize += () =>
-        {
-            StartCoroutine(State.OnScreenResize());
-        };
+        ResizeAspectRatioController.OnScreenResize -= () => StartCoroutine(State.OnScreenResize());
+        ResizeAspectRatioController.OnScreenResize += () => StartCoroutine(State.OnScreenResize());
     }
 
     // Initializes the battle tutorial if the player hasn't loaded it in yet.
