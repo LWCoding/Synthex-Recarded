@@ -64,7 +64,6 @@ MonoBehaviour:
   descText: {fileID: 6896044068343448925}
   costText: {fileID: 5586172769766574901}
   levelText: {fileID: 2819153021199003170}
-  tooltipText: {fileID: 5728503001890406789}
   previewImage: {fileID: 5488035957409045090}
   frameImage: {fileID: 2890042418212542100}
   cardEffectOverlayTransform: {fileID: 2044724876309283336}

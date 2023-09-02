@@ -41,9 +41,17 @@ public class UpgradeInfoHandler : MonoBehaviour
         _upgradeCostText.text = "[Cost: " + cost.ToString() + " XP]";
     }
 
+    ///<summary>
+    /// Animates the upgraded card to the deck, signifying that the card has been upgraded.
+    ///</summary>
+    public void AnimateCardToDeck()
+    {
+        TopBarController.Instance.AnimateCardsToDeck(_cardAfterUpgradeHandler.transform.position, new List<Card> { _cardAfterUpgradeHandler.card }, _cardAfterUpgradeHandler.transform.localScale);
+    }
+
     // Delete the current card (that this UpgradeInfoHandler is representing)
     // from the overall UpgradeController list. Then, update the summary console
-    // and destroy the current object.
+    // and destroy the current object. Called from UI.
     public void DeleteCardFromList()
     {
         UpgradeController.Instance.RemoveCardFromUpgradeList(_card, _cardCost, _cardIdx);

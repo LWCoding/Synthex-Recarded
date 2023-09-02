@@ -184,10 +184,7 @@ public class CampaignOptionController : MonoBehaviour
     /// This function should be called when the player moves from this level to another
     /// level.
     ///</summary>
-    public void DeselectLevel()
-    {
-        StartCoroutine(HideArrowsAfterDelay());
-    }
+    public void DeselectLevel() => StartCoroutine(HideArrowsAfterDelay());
 
     private IEnumerator HideArrowsAfterDelay()
     {

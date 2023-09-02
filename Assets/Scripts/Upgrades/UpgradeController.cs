@@ -68,10 +68,13 @@ public class UpgradeController : MonoBehaviour
         // AND if the player has selected any cards to upgrade.
         _upgradeButton.onClick.AddListener(() =>
         {
+            bool areThereCardsToUpgrade = _selectedCardsToUpgrade.Count > 0;
             _isOptionChosen = true;
             GameManager.SpendXP(_totalCost);
             UpgradeSelectedCards();
-            TransitionManager.Instance.BackToMapOrCampaign(1.25f);
+            // Only wait a delay before transitioning back to main scene IF cards were upgraded,
+            // so that they can animate to the deck.
+            TransitionManager.Instance.BackToMapOrCampaignAfterDelay(areThereCardsToUpgrade ? 0.75f : 0, 1.25f);
         });
         // Initialize the cards in the deck.
         StartCoroutine(InitializeDeckCardsCoroutine());
@@ -178,6 +181,13 @@ public class UpgradeController : MonoBehaviour
         {
             GameManager.GetHeroCards()[_selectedCardsToUpgrade[i].cardIdx].UpgradeLevel();
         }
+        // Animate cards to deck.
+        UpgradeInfoHandler[] upgradeInfoHandlers = GameObject.FindObjectsOfType<UpgradeInfoHandler>();
+        foreach (UpgradeInfoHandler uih in upgradeInfoHandlers)
+        {
+            uih.AnimateCardToDeck();
+        }
+        // Clear the selected cards to upgrade.
         _selectedCardsToUpgrade.Clear();
     }
 

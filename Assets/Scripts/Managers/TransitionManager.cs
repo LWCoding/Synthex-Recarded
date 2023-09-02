@@ -49,6 +49,14 @@ public class TransitionManager : MonoBehaviour
         }
     }
 
+    public void BackToMapOrCampaignAfterDelay(float delay, float time) => StartCoroutine(BackToMapOrCampaignAfterDelayCoroutine(delay, time));
+
+    private IEnumerator BackToMapOrCampaignAfterDelayCoroutine(float delay, float time)
+    {
+        yield return new WaitForSeconds(delay);
+        BackToMapOrCampaign(time);
+    }
+
     // This coroutine is called when the screen should fade
     // to black to clear.
     private IEnumerator ShowScreenCoroutine(float time)
