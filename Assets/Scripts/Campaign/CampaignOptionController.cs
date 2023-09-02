@@ -23,7 +23,9 @@ public class CampaignOptionController : MonoBehaviour
     public CampaignOptionController LevelIfUpPressed;
     public CampaignOptionController LevelIfDownPressed;
     [Header("Unity Events")]
+    [Tooltip("Runs scripts before the event renders the actual location data")]
     public UnityEvent OnSelectFirstTime;
+    [Tooltip("Runs scripts after the event renders the actual location data")]
     public UnityEvent OnVisitedFirstTime;
     [Header("Battle Properties (optional)")]
     public List<Enemy> EnemiesToRender;
@@ -222,12 +224,9 @@ public class CampaignOptionController : MonoBehaviour
     {
         yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
         yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);
-        if (!ShouldActivateWhenVisited())
+        foreach (Transform arrowTransform in _arrowParentTransform)
         {
-            foreach (Transform arrowTransform in _arrowParentTransform)
-            {
-                arrowTransform.GetComponent<CampaignArrowHandler>().ShowArrow();
-            }
+            arrowTransform.GetComponent<CampaignArrowHandler>().ShowArrow();
         }
     }
 

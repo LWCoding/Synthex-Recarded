@@ -111,7 +111,7 @@ public class ShopController : MonoBehaviour
             ShopDialogueHandler.Instance.QueueDialogueText("Ah! Howdy. You must be Jack.", "Neutral");
             ShopDialogueHandler.Instance.QueueDialogueText("I'm Shop-Bot. Please take a look at my wares.", "Neutral");
             ShopDialogueHandler.Instance.QueueDialogueText("I have cards, which perform actions during battle, and relics, which give you permanent buffs.", "Glance");
-            ShopDialogueHandler.Instance.QueueDialogueText("I also have some items that may help you on your way to what I presume to be Aericho City.", "Glance");
+            ShopDialogueHandler.Instance.QueueDialogueText("I also have items that may help you on your way. The path ahead is pretty dangerous, ridden with monsters.", "Glance");
             ShopDialogueHandler.Instance.QueueDialogueText("I have different materials at every location. So swing by at any time.", "Neutral");
             ShopDialogueHandler.Instance.RenderDialogueText(true, true, () => { ShowHologramUI(true); exitShopButton.interactable = true; });
         }
