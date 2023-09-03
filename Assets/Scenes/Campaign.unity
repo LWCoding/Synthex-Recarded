@@ -250,7 +250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LocationChoice
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LevelIfUpPressed
@@ -298,7 +298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnSelectFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -330,7 +330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: QueueMoveRyanToPosition
+      value: InstantMoveRyanToPosition
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnSelectFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -5923,7 +5923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: CanRenderMultipleTimes
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.size
@@ -12869,7 +12869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: CanRenderMultipleTimes
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.size
@@ -18062,7 +18062,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b2f90eae92ab7e4eb0d8ad4837fb9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mapOptionPrefab: {fileID: 1429862133297833342, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
   _playerIconTransform: {fileID: 388591183}
   _playerParticleSystem: {fileID: 1861415394}
   _firstMapLocationTransform: {fileID: 184046617}
@@ -18231,7 +18230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnSelectFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -18263,7 +18262,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: QueueMoveRyanToPosition
+      value: InstantMoveRyanToPosition
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnSelectFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -18484,7 +18483,7 @@ PrefabInstance:
       objectReference: {fileID: 265066351}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: CanRenderMultipleTimes
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.size
@@ -24417,7 +24416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: CanRenderMultipleTimes
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.size

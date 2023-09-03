@@ -8,8 +8,6 @@ public class CampaignController : MonoBehaviour
 {
 
     public static CampaignController Instance;
-    [Header("Prefab Assignments")]
-    [SerializeField] private GameObject _mapOptionPrefab;
     [Header("Object Assignments")]
     [SerializeField] private Transform _playerIconTransform;
     [SerializeField] private ParticleSystem _playerParticleSystem;

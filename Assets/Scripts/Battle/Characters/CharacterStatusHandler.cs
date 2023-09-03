@@ -98,7 +98,7 @@ public class CharacterStatusHandler : MonoBehaviour
             {
                 BattlePooler.Instance.ReturnStatusObjectToPool(statusIconObjects[i]);
                 statusIconObjects.RemoveAt(i);
-                return;
+                break;
             }
         }
         UpdateStatusIcons();

@@ -27,7 +27,7 @@ MonoBehaviour:
     characterBlipName: 1
     focusDirection: 0
   - speakerName: Ryan
-    speakerText: C'mon Jack, just pretend it did something bad or something. Make
+    speakerText: C'mon Jack, just pretend it did something bad... or something. Make
       an excuse to beat it up.
     leftAnimationName: JackSkepticalIdle
     rightAnimationName: RyanPeeved
@@ -43,6 +43,6 @@ MonoBehaviour:
     speakerText: Yeah, Jack! Go show that cloth thing who's boss!
     leftAnimationName: JackTalkingIdle
     rightAnimationName: RyanHappy
-    characterBlipName: 2
+    characterBlipName: 3
     focusDirection: 1
   actionToPlayAfterDialogue: 0

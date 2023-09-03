@@ -111,7 +111,7 @@ public class ShopController : MonoBehaviour
             ShopDialogueHandler.Instance.QueueDialogueText("Ah! Howdy. You must be Jack.", "Neutral");
             ShopDialogueHandler.Instance.QueueDialogueText("I'm Shop-Bot. Please take a look at my wares.", "Neutral");
             ShopDialogueHandler.Instance.QueueDialogueText("I have cards, which perform actions during battle, and relics, which give you permanent buffs.", "Glance");
-            ShopDialogueHandler.Instance.QueueDialogueText("I also have items that may help you on your way. The path ahead is pretty dangerous, ridden with monsters.", "Glance");
+            ShopDialogueHandler.Instance.QueueDialogueText("I also have items that may help you on your way. The path ahead is dangerous, ridden with monsters.", "Glance");
             ShopDialogueHandler.Instance.QueueDialogueText("I have different materials at every location. So swing by at any time.", "Neutral");
             ShopDialogueHandler.Instance.RenderDialogueText(true, true, () => { ShowHologramUI(true); exitShopButton.interactable = true; });
         }
@@ -120,7 +120,7 @@ public class ShopController : MonoBehaviour
     public void OnClickedCardsTab()
     {
         if (_isPlayerLeavingShop) { return; }
-        if (GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
+        if (!GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.ClearExistingDialogue();
@@ -133,7 +133,7 @@ public class ShopController : MonoBehaviour
     public void OnClickedRelicTab()
     {
         if (_isPlayerLeavingShop) { return; }
-        if (GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
+        if (!GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.ClearExistingDialogue();
@@ -146,7 +146,7 @@ public class ShopController : MonoBehaviour
     public void OnClickedItemTab()
     {
         if (_isPlayerLeavingShop) { return; }
-        if (GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
+        if (!GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.ClearExistingDialogue();
