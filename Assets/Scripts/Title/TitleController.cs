@@ -52,17 +52,17 @@ public class TitleController : MonoBehaviour
             JournalManager.Instance.HidePopup();
             TopBarController.Instance.HideTopBar();
         }
-#if !UNITY_WEBGL || UNITY_EDITOR
-        // If we're not using the website version, just skip the warning screen.
-        InitializeGame();
-#else
-// If we are, then show the warning screen if this is the first load.
+#if UNITY_WEBGL
+        // If we're using the web version, then show the warning screen if this is the first load.
         if (GameManager.wasTitleRendered == false) {
             InitializeWarningScreen();
             GameManager.wasTitleRendered = true;
         } else {
             InitializeGame();
         }
+#else
+        // If we're not using the web version, skip the warning screen.
+        InitializeGame();
 #endif
     }
 
