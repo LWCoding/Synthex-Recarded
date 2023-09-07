@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3721295443492858844}
   - component: {fileID: 6123879926825145547}
   m_Layer: 5
-  m_Name: Token
+  m_Name: UIToken
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
