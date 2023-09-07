@@ -38,16 +38,33 @@ public class CardHandler : MonoBehaviour
     public void ResetCardColor() => SetPreviewColor(new Color(1, 1, 1));
     // Sets the card's color.
     public void SetPreviewColor(Color color) { previewImage.color = color; frameImage.color = color; }
-    // Sets the card's unique identifier.
-    public int GetCardIdx() => _cardIdx;
-    // Gets the card's unique identifier.
-    public void SetCardIdx(int c) => _cardIdx = c;
     // This function will make the card fully shown.
     public void ShowCardInstantly() => SetCardAlpha(1);
     // This function will make the card fully transparent.
     public void HideCardInstantly() => SetCardAlpha(0);
     // Sets the alpha of the card's canvas group.
     public void SetCardAlpha(float alpha) => _cardCanvasGroup.alpha = alpha;
+
+    public int CardIdx {
+        get { return _cardIdx; }
+        set { _cardIdx = value; }
+    }
+    public bool ShouldScaleOnHover {
+        get { return _cardHoverHandler.ScaleOnHover; }
+        set { _cardHoverHandler.ScaleOnHover = value; }
+    }
+    public bool ShouldTranslateUpOnHover {
+        get { return _cardHoverHandler.TransformOnHover; }
+        set { _cardHoverHandler.TransformOnHover = value; }
+    }
+    public bool ShouldSortToTopOnHover {
+        get { return _cardHoverHandler.SortTopOnHover; }
+        set { _cardHoverHandler.SortTopOnHover = value; }
+    }
+    public bool IsDraggable {
+        get { return _cardHoverHandler.AllowDragging; }
+        set { _cardHoverHandler.AllowDragging = value; }
+    }
 
     private int _cardIdx; // Index in deck, if necessary
     private List<CardEffectType> _currentCardEffectTypes;
@@ -67,13 +84,17 @@ public class CardHandler : MonoBehaviour
 
     // Usually, this card is animated into frame with the CardAppear coroutine.
     // There is a second parameter to make it show instantly instead.
-    public void Initialize(Card c, bool shouldShowInstantly = true)
+    public void Initialize(Card c = null, bool shouldShowInstantly = true)
     {
         NullifyCardEffects();
         _currentCardEffectTypes = new List<CardEffectType>();
         // Set all of the basic properties
         InitializeStartingData();
         EnableInteractions();
+        ShouldScaleOnHover = false;
+        ShouldSortToTopOnHover = false;
+        ShouldTranslateUpOnHover = false;
+        IsDraggable = false;
         // Set the card information
         card = c;
         UpdateCardVisuals();
@@ -368,16 +389,6 @@ public class CardHandler : MonoBehaviour
     public void EnableUpgradeFunctionality()
     {
         GetComponent<UpgradeCardHandler>().enabled = true;
-    }
-
-    // Modify the behavior of this card based on mouse inputs.
-    // By default, all fields are initialized to true.
-    public void ModifyHoverBehavior(bool scaleOnHover, bool transformOnHover, bool allowDrag, bool sortTopOnHover)
-    {
-        _cardHoverHandler.ScaleOnHover = scaleOnHover;
-        _cardHoverHandler.TransformOnHover = transformOnHover;
-        _cardHoverHandler.SortTopOnHover = sortTopOnHover;
-        _cardHoverHandler.AllowDragging = allowDrag;
     }
 
     public void OnDestroy()

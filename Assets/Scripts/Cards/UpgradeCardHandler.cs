@@ -37,7 +37,7 @@ IPointerClickHandler
         // Initialize starting values.
         _parentCardHandler.SetSortingOrder(1);
         _card = _parentCardHandler.card;
-        _cardIdx = _parentCardHandler.GetCardIdx();
+        _cardIdx = _parentCardHandler.CardIdx;
         _upgradeCost = _card.level * 3;
         _isInteractable = true;
         _upgradeContainerObject.SetActive(true);

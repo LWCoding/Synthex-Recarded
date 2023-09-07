@@ -42,20 +42,6 @@ public class ShopCardInitializer : MonoBehaviour
         }
     }
 
-    // private void PopulateShopCards()
-    // {
-    //     for (int i = 0; i < 8; i++)
-    //     {
-    //         Card randomCard = GameManager.GetRandomCard(_currentCardsInShop);
-    //         // If there are no new cards, stop here.
-    //         if (randomCard == null)
-    //         {
-    //             continue;
-    //         }
-    //         _currentCardsInShop.Add(randomCard);
-    //     }
-    // }
-
     // Creates a new GameObject with a HorizontalLayoutGroup and returns
     // it. This is a helper function to organize objects in a layout.
     private GameObject CreateNewCardRow()
@@ -75,7 +61,7 @@ public class ShopCardInitializer : MonoBehaviour
         GameObject cardObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD);
         CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
         cardHandler.SetSortingOrder(1);
-        cardHandler.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
+        cardHandler.ShouldScaleOnHover = true;
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
         cardObject.transform.localScale = new Vector2(0.4f, 0.4f);
         // We want the card to appear and function immediately.

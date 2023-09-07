@@ -46,20 +46,6 @@ public class ShopItemInitializer : MonoBehaviour
         }
     }
 
-    // private void PopulateShopItems()
-    // {
-    //     for (int i = 0; i < 4; i++)
-    //     {
-    //         Item randomItem = GameManager.GetRandomItem(_currentItemsInShop);
-    //         // If there are no new items, stop here.
-    //         if (randomItem == null)
-    //         {
-    //             continue;
-    //         }
-    //         _currentItemsInShop.Add(randomItem);
-    //     }
-    // }
-
     // Creates a new GameObject with a HorizontalLayoutGroup and returns
     // it. This is a helper function to organize objects in a layout.
     private GameObject CreateNewItemRow()

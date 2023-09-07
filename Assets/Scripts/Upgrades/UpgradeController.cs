@@ -381,7 +381,7 @@ public class UpgradeController : MonoBehaviour
             // We want the card to appear from nothing, so set the
             // initial showing to false.
             cardController.Initialize(card, false);
-            cardController.SetCardIdx(currCardIdx);
+            cardController.CardIdx = currCardIdx;
             currCardIdx++;
             _cardPreviewHandlers.Add(cardController);
         }
@@ -403,7 +403,7 @@ public class UpgradeController : MonoBehaviour
         CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
         cardObject.transform.localScale = new Vector2(0.5f, 0.5f);
-        cardHandler.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
+        cardHandler.ShouldScaleOnHover = true;
         cardHandler.HideCardInstantly(); // Hide the card instantly so we can animate it after.
         cardHandler.EnableUpgradeFunctionality();
         return cardObject;

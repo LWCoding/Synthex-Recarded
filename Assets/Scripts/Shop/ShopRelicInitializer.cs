@@ -47,19 +47,6 @@ public class ShopRelicInitializer : MonoBehaviour
         }
     }
 
-    // private void PopulateShopRelics()
-    // {
-    //     for (int i = 0; i < 3; i++)
-    //     {
-    //         Relic randomRelic = GameManager.GetRandomUnownedRelic(_currentRelicsInShop);
-    //         if (randomRelic.relicRarity == RelicRarity.PLACEHOLDER)
-    //         {
-    //             continue;
-    //         }
-    //         _currentRelicsInShop.Add(randomRelic);
-    //     }
-    // }
-
     // Creates a new GameObject with a HorizontalLayoutGroup and returns
     // it. This is a helper function to organize objects in a layout.
     private GameObject CreateNewRelicRow()

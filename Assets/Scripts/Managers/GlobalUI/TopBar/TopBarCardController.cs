@@ -272,7 +272,7 @@ public class TopBarCardController : MonoBehaviour
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
         cardObject.transform.localScale = new Vector2(0.55f, 0.55f);
         cardHandler.SetSortingOrder(22);
-        cardHandler.ModifyHoverBehavior(true, false, false, false); // Modify to be static & unselectable.
+        cardHandler.ShouldScaleOnHover = true;
         cardHandler.HideCardInstantly(); // Hide the card instantly so we can animate it after.
         return cardObject;
     }

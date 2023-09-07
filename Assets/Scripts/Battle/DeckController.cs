@@ -205,7 +205,10 @@ public class DeckController : MonoBehaviour
         cardHandler.Initialize(card, true);
         cardHandler.UpdateCardVisuals(BattleController.Instance.GetPlayer().CalculateDamageModifiers(card), BattleController.Instance.GetPlayer().CalculateDefenseModifiers());
         cardHandler.UpdateColorBasedOnPlayability();
-        cardHandler.ModifyHoverBehavior(true, true, true, true);
+        cardHandler.ShouldScaleOnHover = true;
+        cardHandler.ShouldSortToTopOnHover = true;
+        cardHandler.ShouldTranslateUpOnHover = true;
+        cardHandler.IsDraggable = true;
         CardObjectsInHand.Add(cardObject);
     }
 

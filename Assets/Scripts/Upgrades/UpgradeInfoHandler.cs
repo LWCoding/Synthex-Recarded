@@ -29,11 +29,9 @@ public class UpgradeInfoHandler : MonoBehaviour
         _cardAfterUpgradeHandler.Awake();
         // Initialize both cards.
         _cardBeforeUpgradeHandler.Initialize(c);
-        _cardBeforeUpgradeHandler.ModifyHoverBehavior(false, false, false, false);
         // _cardBeforeUpgradeHandler.DisableInteractions();
         Card cardAfterUpgrade = Globals.GetCard(c.GetCardUniqueName(), c.level + 1);
         _cardAfterUpgradeHandler.Initialize(cardAfterUpgrade);
-        _cardAfterUpgradeHandler.ModifyHoverBehavior(false, false, false, false);
         // Set the tooltip delay for both cards to be short.
         _cardBeforeUpgradeHandler.GetComponent<UITooltipHandler>().SetTooltipDelay(0);
         _cardAfterUpgradeHandler.GetComponent<UITooltipHandler>().SetTooltipDelay(0);

@@ -150,7 +150,7 @@ public class CardChoiceController : MonoBehaviour
         cardObject.transform.SetParent(cardParentTransform, false);
         cardObject.transform.localScale = new Vector3(0.7f, 0.7f, 1);
         cardHandler.SetSortingOrder(14); // Set to a sorting order greater than overlay
-        cardHandler.ModifyHoverBehavior(true, false, false, false);
+        cardHandler.ShouldScaleOnHover = true;
         cardObject.GetComponent<Canvas>().sortingOrder = bgFadeImage.GetComponent<Canvas>().sortingOrder + 1;
         cardHandler.HideCardInstantly(); // Hide the card instantly so we can animate it after.
         return cardObject;
