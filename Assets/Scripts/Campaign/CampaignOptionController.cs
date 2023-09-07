@@ -22,12 +22,13 @@ public class CampaignOptionController : MonoBehaviour
     public CampaignOptionController LevelIfRightPressed;
     public CampaignOptionController LevelIfUpPressed;
     public CampaignOptionController LevelIfDownPressed;
+    public GameObject InteractableObject;
     [Header("Unity Events")]
     [Tooltip("Runs scripts before the event renders the actual location data")]
     public UnityEvent OnSelectFirstTime;
     [Tooltip("Runs scripts after the event renders the actual location data")]
     public UnityEvent OnVisitedFirstTime;
-    [Header("Battle Properties (optional)")]
+    [Header("Additional Properties (optional)")]
     public List<Enemy> EnemiesToRenderInBattle;
     public ShopLoadout LoadoutInShop;
 
@@ -39,7 +40,7 @@ public class CampaignOptionController : MonoBehaviour
     private EventSystem _eventSystem;
     private MouseHoverScaler _mouseHoverScaler;
 
-    public bool ShouldActivateWhenVisited() => LocationChoice != LocationChoice.NONE && (!WasVisited || CanRenderMultipleTimes);
+    public bool ShouldActivateWhenVisited() => (LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER) && (!WasVisited || CanRenderMultipleTimes);
     // Get the connected levels by checking the levels in the four directions.
     public List<CampaignOptionController> GetConnectedLevels()
     {
@@ -131,9 +132,15 @@ public class CampaignOptionController : MonoBehaviour
         {
             _mouseHoverScaler.ResetScale();
         }
-        // If the option should activate something when visited, make it opaque.
-        // Or else, make it a bit transparent.
-        LerpIconSpriteColorTo(new Color(1, 1, 1, (ShouldActivateWhenVisited()) ? 1 : 0.2f));
+        // If we have a battle, it should be transparent if visited.
+        // If we have anything else, just make it fully opaque.
+        if ((LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER)) {
+            // If the option should activate something when visited, make it opaque.
+            // Or else, make it a bit transparent.
+            LerpIconSpriteColorTo(new Color(1, 1, 1, (ShouldActivateWhenVisited()) ? 1 : 0.2f));
+        } else {
+            LerpIconSpriteColorTo(new Color(1, 1, 1, 1));
+        }
     }
 
     // Lerps the sprite icon color to a target color.
@@ -177,7 +184,7 @@ public class CampaignOptionController : MonoBehaviour
         CampaignController.Instance.RegisterVisitedLevel(transform.position);
         WasVisited = true;
         Initialize();
-        StartCoroutine(InitializeArrowsWhenPlayerCanChoose());
+        StartCoroutine(VisitLevelWhenPlayerCanChoose());
     }
 
     ///<summary>
@@ -189,6 +196,7 @@ public class CampaignOptionController : MonoBehaviour
     private IEnumerator HideArrowsAfterDelay()
     {
         yield return new WaitForEndOfFrame();
+        if (InteractableObject != null) { InteractableObject.GetComponent<IInteractable>().OnLocationExit(); }
         foreach (Transform arrowTransform in _arrowParentTransform)
         {
             arrowTransform.GetComponent<CampaignArrowHandler>().HideArrow();
@@ -217,10 +225,12 @@ public class CampaignOptionController : MonoBehaviour
         _iconSpriteRenderer.color = targetColor;
     }
 
-    private IEnumerator InitializeArrowsWhenPlayerCanChoose()
+    private IEnumerator VisitLevelWhenPlayerCanChoose()
     {
         yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
         yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);
+        if (LocationChoice == LocationChoice.SHOP) GameManager.nextShopLoadout = LoadoutInShop;
+        if (InteractableObject != null) { InteractableObject.GetComponent<IInteractable>().OnLocationEnter(); }
         foreach (Transform arrowTransform in _arrowParentTransform)
         {
             arrowTransform.GetComponent<CampaignArrowHandler>().ShowArrow();

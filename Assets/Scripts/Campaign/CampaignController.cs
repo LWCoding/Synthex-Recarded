@@ -177,17 +177,14 @@ public class CampaignController : MonoBehaviour
         }
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);
+        // Get current location choice.
+        LocationChoice locationChoice = loc.LocationChoice;
         // If we should render the effects of the location, render it.
         // Or else, just make the character move there.
         if (shouldRenderAreaEffects)
         {
-            LocationChoice locationChoice = loc.LocationChoice;
             switch (locationChoice)
             {
-                case LocationChoice.SHOP:
-                    GameManager.nextShopLoadout = loc.LoadoutInShop;
-                    TransitionManager.Instance.HideScreen("Shop", 0.75f);
-                    break;
                 case LocationChoice.TREASURE:
                     TreasureController.Instance.ShowChest();
                     break;
@@ -199,9 +196,6 @@ public class CampaignController : MonoBehaviour
                     GameManager.AddSeenEnemies(newEncounter);
                     GameManager.nextBattleEnemies = newEncounter.enemies;
                     TransitionManager.Instance.HideScreen("Battle", 0.75f);
-                    break;
-                case LocationChoice.UPGRADE_MACHINE:
-                    TransitionManager.Instance.HideScreen("Upgrade", 0.75f);
                     break;
                 case LocationChoice.NONE:
                     // If we're at a random path, just initialize the path from the
