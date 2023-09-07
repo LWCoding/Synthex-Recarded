@@ -661,6 +661,15 @@ public class MapController : MonoBehaviour
         switch (mapChoice)
         {
             case MapChoice.SHOP:
+            ShopLoadout shopLoadout = new ShopLoadout();
+            for (int i = 0; i < 8; i++) {
+                if (i < 4) {
+                    shopLoadout.relics.Add(GameManager.GetRandomUnownedRelic(shopLoadout.relics));
+                    shopLoadout.items.Add(GameManager.GetRandomItem(shopLoadout.items));
+                }
+                shopLoadout.cards.Add(GameManager.GetRandomCard(shopLoadout.cards));
+            }
+            GameManager.nextShopLoadout = shopLoadout;
                 TransitionManager.Instance.HideScreen("Shop", 0.75f);
                 break;
             case MapChoice.TREASURE:

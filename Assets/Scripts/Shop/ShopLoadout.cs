@@ -10,4 +10,10 @@ public class ShopLoadout
     public List<Relic> relics;
     public List<Item> items;
 
+    public ShopLoadout() {
+        cards = new List<Card>();
+        relics = new List<Relic>();
+        items = new List<Item>();
+    }
+
 }
