@@ -175,6 +175,82 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.cards.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.items.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.relics.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.items.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e8eea930677a2364186f65cbaa16f7cc, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.items.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ba2a8273ae98b0341ada89305924c384, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.items.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a680f7c18c2d5048baff14842dc2110, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.items.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: b704bdbc8de4813408db3ab5a52e8d27, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.relics.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d78981ef6d93f3c45ac486134bb100ca, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.relics.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 074666ac1e25d2348a15ce6ffafad89a, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.relics.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: d900c5e23b01c8949bcdf262f317ac7e, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.relics.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: ece5790914f321944bec5ae050e650cb, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.cards.Array.data[0].level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.cards.Array.data[1].level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.cards.Array.data[2].level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.cards.Array.data[3].level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.cards.Array.data[0].cardData
+      value: 
+      objectReference: {fileID: 11400000, guid: b764a36b9bdb75445aebf1acfdd8807d, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.cards.Array.data[1].cardData
+      value: 
+      objectReference: {fileID: 11400000, guid: aea7d41fd1b967a409936a9188a69f3e, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.cards.Array.data[2].cardData
+      value: 
+      objectReference: {fileID: 11400000, guid: d3115aed8c059fd468267a5b50896031, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LoadoutInShop.cards.Array.data[3].cardData
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cc014817d9997143bd27b8799c36606, type: 2}
     - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.01
@@ -5907,7 +5983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LocationChoice
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LevelIfDownPressed
@@ -12239,6 +12315,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: EnemiesToRenderInBattle.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: EnemiesToRenderInBattle.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnSelectFirstTime.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -12853,7 +12937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LocationChoice
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LevelIfDownPressed
@@ -18499,6 +18583,14 @@ PrefabInstance:
       objectReference: {fileID: 817375608}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: EnemiesToRender.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: EnemiesToRenderInBattle.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: EnemiesToRenderInBattle.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
     - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
@@ -24400,7 +24492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LocationChoice
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LevelIfDownPressed

@@ -28,12 +28,12 @@ public class CampaignOptionController : MonoBehaviour
     [Tooltip("Runs scripts after the event renders the actual location data")]
     public UnityEvent OnVisitedFirstTime;
     [Header("Battle Properties (optional)")]
-    public List<Enemy> EnemiesToRender;
+    public List<Enemy> EnemiesToRenderInBattle;
+    public ShopLoadout LoadoutInShop;
 
     public bool WasVisited = false;
 
     private IEnumerator _iconColorChangeCoroutine = null;
-    private Vector2 _originalIconColliderSize;
     private bool _isInteractable = false;
     private Animator _optionAnimator;
     private EventSystem _eventSystem;

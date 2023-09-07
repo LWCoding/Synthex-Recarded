@@ -13,6 +13,7 @@ public class ShopItemInitializer : MonoBehaviour
 
     private void Start()
     {
+        _currentItemsInShop = GameManager.nextShopLoadout.items;
         InitializeShopItems();
     }
 
@@ -20,7 +21,6 @@ public class ShopItemInitializer : MonoBehaviour
     {
         Transform horizontalTransform = null;
         int currItemIdx = 0;
-        PopulateShopItems();
         // Recover a pooled object for each item.
         foreach (Item item in _currentItemsInShop)
         {
@@ -46,19 +46,19 @@ public class ShopItemInitializer : MonoBehaviour
         }
     }
 
-    private void PopulateShopItems()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            Item randomItem = GameManager.GetRandomItem(_currentItemsInShop);
-            // If there are no new items, stop here.
-            if (randomItem == null)
-            {
-                continue;
-            }
-            _currentItemsInShop.Add(randomItem);
-        }
-    }
+    // private void PopulateShopItems()
+    // {
+    //     for (int i = 0; i < 4; i++)
+    //     {
+    //         Item randomItem = GameManager.GetRandomItem(_currentItemsInShop);
+    //         // If there are no new items, stop here.
+    //         if (randomItem == null)
+    //         {
+    //             continue;
+    //         }
+    //         _currentItemsInShop.Add(randomItem);
+    //     }
+    // }
 
     // Creates a new GameObject with a HorizontalLayoutGroup and returns
     // it. This is a helper function to organize objects in a layout.

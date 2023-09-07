@@ -185,6 +185,7 @@ public class CampaignController : MonoBehaviour
             switch (locationChoice)
             {
                 case LocationChoice.SHOP:
+                    GameManager.nextShopLoadout = loc.LoadoutInShop;
                     TransitionManager.Instance.HideScreen("Shop", 0.75f);
                     break;
                 case LocationChoice.TREASURE:
@@ -194,7 +195,7 @@ public class CampaignController : MonoBehaviour
                 case LocationChoice.MINIBOSS_ENCOUNTER:
                 case LocationChoice.BOSS_ENCOUNTER:
                     Encounter newEncounter = new Encounter();
-                    newEncounter.enemies = loc.EnemiesToRender;
+                    newEncounter.enemies = loc.EnemiesToRenderInBattle;
                     GameManager.AddSeenEnemies(newEncounter);
                     GameManager.nextBattleEnemies = newEncounter.enemies;
                     TransitionManager.Instance.HideScreen("Battle", 0.75f);

@@ -93,11 +93,11 @@ IPointerClickHandler
         switch (cardRarity)
         {
             case CardRarity.COMMON:
-                return 100 + Random.Range(-20, 20); // 80-120 $
+                return 100;
             case CardRarity.UNCOMMON:
-                return 150 + Random.Range(-20, 20); // 130-170 $
+                return 150;
             case CardRarity.RARE:
-                return 200 + Random.Range(-20, 20); // 180-220 $
+                return 200;
         }
         return 99999; // Unobtainable!
     }

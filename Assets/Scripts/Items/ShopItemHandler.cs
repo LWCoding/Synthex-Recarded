@@ -92,11 +92,11 @@ public class ShopItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExit
         switch (itemRarity)
         {
             case ItemRarity.COMMON:
-                return 60 + Random.Range(-10, 10); // 50-70 $
+                return 60;
             case ItemRarity.UNCOMMON:
-                return 100 + Random.Range(-10, 10); // 90-110 $
+                return 90;
             case ItemRarity.RARE:
-                return 120 + Random.Range(-10, 10); // 110-130 $
+                return 120;
         }
         return 99999; // Unobtainable!
     }

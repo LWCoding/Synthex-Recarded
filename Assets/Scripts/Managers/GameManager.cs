@@ -31,6 +31,7 @@ public static class GameManager
     public static void AddXP(int x) => _xp = Mathf.Min(100, _xp + x);
     public static void SpendXP(int x) => AddXP(-x);
     // Meta data:
+    public static ShopLoadout nextShopLoadout;
     public static List<Enemy> nextBattleEnemies = new List<Enemy>();
     // Event data:
     private static List<GameEvent> registeredEvents = new List<GameEvent>();

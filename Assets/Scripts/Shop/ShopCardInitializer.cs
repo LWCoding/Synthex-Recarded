@@ -13,6 +13,7 @@ public class ShopCardInitializer : MonoBehaviour
 
     private void Start()
     {
+        _currentCardsInShop = GameManager.nextShopLoadout.cards;
         InitializeShopCards();
     }
 
@@ -20,7 +21,6 @@ public class ShopCardInitializer : MonoBehaviour
     {
         Transform horizontalTransform = null;
         int currCardIdx = 0;
-        PopulateShopCards();
         // Recover a pooled object for each card.
         foreach (Card card in _currentCardsInShop)
         {
@@ -42,19 +42,19 @@ public class ShopCardInitializer : MonoBehaviour
         }
     }
 
-    private void PopulateShopCards()
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            Card randomCard = GameManager.GetRandomCard(_currentCardsInShop);
-            // If there are no new cards, stop here.
-            if (randomCard == null)
-            {
-                continue;
-            }
-            _currentCardsInShop.Add(randomCard);
-        }
-    }
+    // private void PopulateShopCards()
+    // {
+    //     for (int i = 0; i < 8; i++)
+    //     {
+    //         Card randomCard = GameManager.GetRandomCard(_currentCardsInShop);
+    //         // If there are no new cards, stop here.
+    //         if (randomCard == null)
+    //         {
+    //             continue;
+    //         }
+    //         _currentCardsInShop.Add(randomCard);
+    //     }
+    // }
 
     // Creates a new GameObject with a HorizontalLayoutGroup and returns
     // it. This is a helper function to organize objects in a layout.
