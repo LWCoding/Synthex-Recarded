@@ -50,6 +50,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Priority
+    uniqueID: 1619906949
+    locked: 0
   - name: Effects
     uniqueID: 2669903763
     locked: 0

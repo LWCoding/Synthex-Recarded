@@ -426,7 +426,6 @@ MonoBehaviour:
   _statusIconSprite: {fileID: 8315203161563671771}
   _statusIconAnimationSprite: {fileID: 9144901941462568929}
   _statusCountText: {fileID: 797509160639635675}
-  _statusDescription: {fileID: 3597148264545133969}
 --- !u!114 &5350577776568626889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,7 +647,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &797509160639635675
 MonoBehaviour:
