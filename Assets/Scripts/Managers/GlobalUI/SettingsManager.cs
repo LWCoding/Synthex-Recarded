@@ -73,7 +73,6 @@ public class SettingsManager : MonoBehaviour
         _isUIAnimating = true;
         // Make sure the container is active to begin with.
         _pauseContainer.SetActive(true);
-        SetSettingsBackBehaviour(SceneManager.GetActiveScene().name);
         // Toggle the pause state and then animate the UI in.
         _isGamePaused = !_isGamePaused;
         if (_isGamePaused)
@@ -87,32 +86,6 @@ public class SettingsManager : MonoBehaviour
         else
         {
             StartCoroutine(TogglePauseCoroutine(false, animationTime));
-        }
-    }
-
-    // Title: Settings button should close the menu
-    // Game: Settings button should re-open pause menu
-    public void SetSettingsBackBehaviour(string sceneName)
-    {
-        // If we've already chosen an option, don't let the user select.
-        if (_isOptionChosen) { return; }
-        if (sceneName != "Title")
-        {
-            // If not title, bring back to the rest of the pause menu
-            _settingsBackButton.onClick.RemoveAllListeners();
-            _settingsBackButton.onClick.AddListener(() =>
-            {
-                ToggleSubscreen("Main");
-            });
-        }
-        else
-        {
-            // If title, close the menu
-            _settingsBackButton.onClick.RemoveAllListeners();
-            _settingsBackButton.onClick.AddListener(() =>
-            {
-                TogglePause(0.1f);
-            });
         }
     }
 
@@ -150,6 +123,7 @@ public class SettingsManager : MonoBehaviour
     // CALLED BY EXIT OPTIONS SCREEN
     public void ShowMainScreen(bool shouldHappenInstantly = false)
     {
+        if (SceneManager.GetActiveScene().name == "Title") { TogglePause(0.1f); }
         // If we've already chosen an option, don't let the user select.
         if (_isOptionChosen) { return; }
         ToggleSubscreen("Main", shouldHappenInstantly);
