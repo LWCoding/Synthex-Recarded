@@ -6,11 +6,16 @@ public class ChangeSceneInteractable : MonoBehaviour, IInteractable
 {
 
     [Header("Object Assignments")]
+    public MouseHoverScaler spriteObjectScaler;
     public GameObject popupObject;
     [Header("Area Properties")]
     public string sceneNameWhenInteracted;
 
+    private bool _isInteractable = false;
+
     public void Awake() {
+        spriteObjectScaler.Initialize(spriteObjectScaler.transform);
+        spriteObjectScaler.SetIsInteractable(true);
         OnLocationExit();
     }
 
@@ -20,11 +25,14 @@ public class ChangeSceneInteractable : MonoBehaviour, IInteractable
 
     public void OnLocationEnter() {
         popupObject.SetActive(true);
+        _isInteractable = true;
         StartCoroutine(CheckForInteractCoroutine());
     }
 
     public void OnLocationExit() {
         popupObject.SetActive(false);
+        _isInteractable = false;
+        spriteObjectScaler.ResetScale();
         StopAllCoroutines();
     }
 
@@ -34,6 +42,24 @@ public class ChangeSceneInteractable : MonoBehaviour, IInteractable
                 OnInteract();
             }
             yield return null;
+        }
+    }
+
+    public void OnMouseDown() {
+        if (_isInteractable) {
+            OnInteract();
+        }
+    }
+
+    public void OnMouseOver() {
+        if (_isInteractable) {
+            spriteObjectScaler.OnMouseEnter();
+        }
+    }
+
+    public void OnMouseExit() {
+        if (_isInteractable) {
+            spriteObjectScaler.OnMouseExit();
         }
     }
 

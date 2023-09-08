@@ -19207,8 +19207,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553c803dc1b4ce448939dbb08d839668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteObjectScaler: {fileID: 1518512459}
   popupObject: {fileID: 1518512456}
   sceneNameWhenInteracted: Upgrade
+--- !u!114 &1518512459 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3951375243960227078, guid: f438baffb93ebe04d9407209993351f6, type: 3}
+  m_PrefabInstance: {fileID: 1518512454}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93f6dd8573a0cfc428b8ded12cdcbbc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1546139431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24963,6 +24975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 553c803dc1b4ce448939dbb08d839668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteObjectScaler: {fileID: 6823878024710154825}
   popupObject: {fileID: 6823878024710154824}
   sceneNameWhenInteracted: Shop
 --- !u!1 &6823878024710154824 stripped
@@ -24970,6 +24983,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7478807255584384963, guid: f438baffb93ebe04d9407209993351f6, type: 3}
   m_PrefabInstance: {fileID: 6823878024710154821}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6823878024710154825 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3951375243960227078, guid: f438baffb93ebe04d9407209993351f6, type: 3}
+  m_PrefabInstance: {fileID: 6823878024710154821}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93f6dd8573a0cfc428b8ded12cdcbbc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7133289237780981368
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,5 +8,9 @@ public interface IInteractable
     void OnInteract();
     void OnLocationEnter();
     void OnLocationExit();
+    
+    void OnMouseDown();
+    void OnMouseOver();
+    void OnMouseExit();
 
 }

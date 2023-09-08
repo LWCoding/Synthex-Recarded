@@ -35,10 +35,10 @@ public class MouseHoverScaler : MonoBehaviour
     public void OnMouseEnter()
     {
         if (!_isInteractable) { return; }
-        _desiredScale = _initialScale + 0.1f;
+        _desiredScale = _initialScale * 1.08f;
     }
 
-    private void OnMouseExit()
+    public void OnMouseExit()
     {
         if (!_isInteractable) { return; }
         _desiredScale = _initialScale;
