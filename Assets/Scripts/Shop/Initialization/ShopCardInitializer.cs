@@ -64,7 +64,7 @@ public class ShopCardInitializer : MonoBehaviour
         cardObject.transform.localPosition = new Vector3(cardObject.transform.localPosition.x, cardObject.transform.localPosition.y, 0);
         cardObject.transform.localScale = new Vector2(0.4f, 0.4f);
         // We want the card to appear and function immediately.
-        cardHandler.Initialize(card, true);
+        cardHandler.Initialize(card);
         cardHandler.EnableInteractions();
         cardHandler.ToggleShopFunctionality(true);
         cardHandler.ShouldScaleOnHover = true;

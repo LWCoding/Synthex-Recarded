@@ -86,8 +86,9 @@ public class CardHandler : MonoBehaviour
 
     // Usually, this card is animated into frame with the CardAppear coroutine.
     // There is a second parameter to make it show instantly instead.
-    public void Initialize(Card c = null, bool shouldShowInstantly = true)
+    public void Initialize(Card c)
     {
+        // Remove all effects on this card (from battle)
         NullifyCardEffects();
         _currentCardEffectTypes = new List<CardEffectType>();
         // Set all of the basic properties
@@ -108,13 +109,6 @@ public class CardHandler : MonoBehaviour
         string tooltipText = GetTooltipText();
         _uiTooltipHandler.SetTooltipText(tooltipText);
         _uiTooltipHandler.SetTooltipInteractibility(tooltipText != "");
-        // Make sure all opacities for the card
-        // are automatically shown IF it is a wanted
-        // behavior.
-        if (shouldShowInstantly)
-        {
-            ShowCardInstantly();
-        }
     }
 
     // Updates the card's color depending on if it's playable or not.

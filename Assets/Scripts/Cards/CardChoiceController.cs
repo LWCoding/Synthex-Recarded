@@ -72,7 +72,7 @@ public class CardChoiceController : MonoBehaviour
             CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
             Card c = cardsToShow[i];
             cardObject.transform.position = cardParentTransform.position + new Vector3(startPosition + i * positionDifference, 0, 0);
-            cardHandler.Initialize(c, false);
+            cardHandler.Initialize(c);
             cardHandler.ShouldScaleOnHover = true;
             cardHandler.CardAppear();
             _cardChoiceObjects.Add(cardObject);

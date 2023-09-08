@@ -202,7 +202,8 @@ public class DeckController : MonoBehaviour
     {
         GameObject cardObject = BattlePooler.Instance.GetCardObjectFromPool(_deckParentTransform);
         CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
-        cardHandler.Initialize(card, true);
+        cardHandler.Initialize(card);
+        cardHandler.ShowCardInstantly();
         cardHandler.UpdateCardVisuals(BattleController.Instance.GetPlayer().CalculateDamageModifiers(card), BattleController.Instance.GetPlayer().CalculateDefenseModifiers());
         cardHandler.UpdateColorBasedOnPlayability();
         cardHandler.ShouldScaleOnHover = true;

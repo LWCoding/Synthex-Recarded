@@ -144,7 +144,7 @@ public class TopBarCardController : MonoBehaviour
             cardObject.transform.SetParent(horizontalTransform, false);
             // We want the card to appear from nothing, so set the
             // initial showing to false.
-            cardController.Initialize(card, false);
+            cardController.Initialize(card);
             currCardIdx++;
             _cardPreviewHandlers.Add(cardController);
         }

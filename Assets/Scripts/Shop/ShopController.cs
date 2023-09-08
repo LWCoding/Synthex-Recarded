@@ -176,7 +176,7 @@ public class ShopController : MonoBehaviour
         }
     }
 
-    public void ShowHologramUI(bool shouldAnimate)
+    private void ShowHologramUI(bool shouldAnimate)
     {
         hologramCanvasGroup.gameObject.SetActive(true);
         if (!shouldAnimate)
@@ -187,7 +187,7 @@ public class ShopController : MonoBehaviour
         StartCoroutine(ToggleHologramUICoroutine(true));
     }
 
-    public void HideHologramUI(bool shouldAnimate)
+    private void HideHologramUI(bool shouldAnimate)
     {
         if (!shouldAnimate)
         {
@@ -211,7 +211,7 @@ public class ShopController : MonoBehaviour
 
     public void SwitchShopTabTo(ShopTab shopTab)
     {
-        List<ShopIconHandler> allIconHandlers = new List<ShopIconHandler>() {
+        List<ShopIconHandler> allIconHandlers = new() {
             cardShopIconHandler, itemShopIconHandler, relicShopIconHandler
         };
         ShopIconHandler chosenShopIconHandler = null;
