@@ -200,8 +200,8 @@ public class ShopController : MonoBehaviour
     private IEnumerator ToggleHologramUICoroutine(bool shouldShow)
     {
         WaitForSeconds wfs = new WaitForSeconds(0.01f);
-        float initialVal = (shouldShow) ? 0 : 1;
-        float targetVal = (shouldShow) ? 1 : 0;
+        float initialVal = shouldShow ? 0 : 1;
+        float targetVal = shouldShow ? 1 : 0;
         for (int i = 0; i < 30; i++)
         {
             hologramCanvasGroup.alpha = Mathf.Lerp(initialVal, targetVal, (float)i / 30);

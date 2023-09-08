@@ -37,7 +37,7 @@ public class ShopRelicInitializer : MonoBehaviour
             GameObject relicObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.RELIC);
             RelicHandler relicHandler = relicObject.GetComponent<RelicHandler>();
             relicHandler.Initialize(relic, true);
-            relicHandler.EnableShopFunctionality();
+            relicHandler.ToggleShopFunctionality(true);
             relicHandler.SetSortingOrder(1);
             relicHandler.SetRelicImageScale(2, 1);
             relicObject.transform.localPosition = new Vector3(relicObject.transform.localPosition.x, relicObject.transform.localPosition.y, 0);

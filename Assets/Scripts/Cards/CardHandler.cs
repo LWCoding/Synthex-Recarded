@@ -73,6 +73,8 @@ public class CardHandler : MonoBehaviour
     private Transform _canvasTransform;
     private CanvasGroup _cardCanvasGroup;
 
+    public void ToggleShopFunctionality(bool isPurchaseable) => GetComponent<BuyableObject>().enabled = isPurchaseable;
+
     public void Awake()
     {
         _cardHoverHandler = GetComponent<CardHoverHandler>();
@@ -99,6 +101,8 @@ public class CardHandler : MonoBehaviour
         card = c;
         UpdateCardVisuals();
         ResetCardColor();
+        // Disable external functionalities.
+        ToggleShopFunctionality(false);
         // Initialize tooltip information for any card
         _uiTooltipHandler.HideTooltip();
         string tooltipText = GetTooltipText();
@@ -378,12 +382,6 @@ public class CardHandler : MonoBehaviour
     public void DisableInteractions()
     {
         _graphicRaycaster.enabled = false;
-    }
-
-    // Enable the functionality of the card for the shop scene.
-    public void EnableShopFunctionality()
-    {
-        GetComponent<ShopCardHandler>().enabled = true;
     }
 
     public void EnableUpgradeFunctionality()

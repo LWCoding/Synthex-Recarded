@@ -8,6 +8,7 @@ using TMPro;
 
 [RequireComponent(typeof(ItemEffectRenderer))]
 [RequireComponent(typeof(UITooltipHandler))]
+[RequireComponent(typeof(ItemBuyable))]
 public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
 
@@ -29,6 +30,10 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private IEnumerator _itemFlashCoroutine = null;
     private Canvas _itemCanvas;
 
+    public void ToggleShopFunctionality(bool isPurchaseable) {
+        _canClickToUse = false;
+        GetComponent<BuyableObject>().enabled = isPurchaseable;
+    }
     public void SetVerifyChoiceVisibility(bool isVisible) => verifyChoiceImage.enabled = isVisible;
 
     private void Awake()
@@ -48,7 +53,6 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         SetItemImageScale(1, 1);
         // Set all of the basic properties
         itemFlashObject.SetActive(false);
-        GetComponent<ShopItemHandler>().enabled = false;
         SetVerifyChoiceVisibility(false);
         _initialScale = imageObject.transform.localScale.x;
         _desiredScale = _initialScale;
@@ -56,6 +60,8 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         _uiTooltipHandler.HideTooltip();
         _uiTooltipHandler.SetTooltipInteractibility(showLocalTooltipOnHover);
         _showUITooltipOnHover = showUITooltipOnHover;
+        // Disable external functionalities.
+        ToggleShopFunctionality(false);
         // Set the item information
         itemInfo = item;
         _uiTooltipHandler.SetTooltipText(item.itemName);
@@ -181,12 +187,6 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         _itemCanvas.sortingOrder = sortingOrder;
         _uiTooltipHandler.SetTooltipSortingOrder(sortingOrder + 1);
-    }
-
-    public void EnableShopFunctionality()
-    {
-        _canClickToUse = false;
-        GetComponent<ShopItemHandler>().enabled = true;
     }
 
     public void FixedUpdate()

@@ -37,7 +37,6 @@ public class CampaignOptionController : MonoBehaviour
     private IEnumerator _iconColorChangeCoroutine = null;
     private bool _isInteractable = false;
     private Animator _optionAnimator;
-    private EventSystem _eventSystem;
     private MouseHoverScaler _mouseHoverScaler;
 
     public bool ShouldActivateWhenVisited() => (LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER) && (!WasVisited || CanRenderMultipleTimes);
@@ -54,7 +53,6 @@ public class CampaignOptionController : MonoBehaviour
 
     private void Awake()
     {
-        _eventSystem = EventSystem.current;
         _optionAnimator = GetComponent<Animator>();
         _mouseHoverScaler = GetComponent<MouseHoverScaler>();
         _mouseHoverScaler.Initialize(_iconSpriteRenderer.transform);
@@ -134,7 +132,7 @@ public class CampaignOptionController : MonoBehaviour
         }
         // If we have a battle, it should be transparent if visited.
         // If we have anything else, just make it fully opaque.
-        if ((LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER)) {
+        if (LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER) {
             // If the option should activate something when visited, make it opaque.
             // Or else, make it a bit transparent.
             LerpIconSpriteColorTo(new Color(1, 1, 1, (ShouldActivateWhenVisited()) ? 1 : 0.2f));

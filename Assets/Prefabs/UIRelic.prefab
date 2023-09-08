@@ -458,10 +458,10 @@ GameObject:
   - component: {fileID: 1553819017696739162}
   - component: {fileID: 2352684039412742249}
   - component: {fileID: 2173573721725986735}
-  - component: {fileID: 4767002887737686047}
   - component: {fileID: 3199716005661577163}
   - component: {fileID: 6457986935235798490}
   - component: {fileID: 8823905513411016743}
+  - component: {fileID: 6450916255160778274}
   m_Layer: 5
   m_Name: UIRelic
   m_TagString: Untagged
@@ -520,20 +520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04b49c621e3d93b448932971e34b2851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4767002887737686047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5566234391343878259}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c96f65d2f0b25e4b87892664ffc1b02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  relicCostText: {fileID: 8186325513174562645}
-  frameOverlayObject: {fileID: 166441282426208303}
 --- !u!114 &3199716005661577163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,6 +577,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6450916255160778274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5566234391343878259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79439008294fb924fb5dc3f2321dd631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  purchaseOverlayObject: {fileID: 166441282426208303}
+  costText: {fileID: 8186325513174562645}
 --- !u!1 &7453361516262531908
 GameObject:
   m_ObjectHideFlags: 0

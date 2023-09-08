@@ -54,7 +54,7 @@ public class CampaignController : MonoBehaviour
         GameManager.SaveGame();
         // Initialize information for current level.
         // We do this AFTER the save so that dialogue will replay if the player leaves.
-        FindAndSelectCurrentLevel();
+        SelectCurrentLevel();
     }
 
     // Handle keybinds to traverse levels.
@@ -121,7 +121,7 @@ public class CampaignController : MonoBehaviour
     /// Find the current level. If it doesn't exist, set the choosable options to
     /// be the start options. Or else, set the choosable options.
     ///</summary>
-    private void FindAndSelectCurrentLevel()
+    private void SelectCurrentLevel()
     {
         // Try to find the current level controller that the player is at.
         CampaignOptionController currentLevel = GetCurrentLevel();
@@ -191,8 +191,7 @@ public class CampaignController : MonoBehaviour
                 case LocationChoice.BASIC_ENCOUNTER:
                 case LocationChoice.MINIBOSS_ENCOUNTER:
                 case LocationChoice.BOSS_ENCOUNTER:
-                    Encounter newEncounter = new Encounter();
-                    newEncounter.enemies = loc.EnemiesToRenderInBattle;
+                    Encounter newEncounter = new() { enemies = loc.EnemiesToRenderInBattle };
                     GameManager.AddSeenEnemies(newEncounter);
                     GameManager.nextBattleEnemies = newEncounter.enemies;
                     TransitionManager.Instance.HideScreen("Battle", 0.75f);
@@ -200,13 +199,13 @@ public class CampaignController : MonoBehaviour
                 case LocationChoice.NONE:
                     // If we're at a random path, just initialize the path from the
                     // current position.
-                    FindAndSelectCurrentLevel();
+                    SelectCurrentLevel();
                     break;
             }
         }
         else
         {
-            FindAndSelectCurrentLevel();
+            SelectCurrentLevel();
         }
         _isPlayerMoving = false;
     }
@@ -220,8 +219,8 @@ public class CampaignController : MonoBehaviour
         float timeSinceLastParticle = 0;
         float particleCooldown = 0.15f;
         // Initialize information for followers.
-        List<Vector3> followerInitialPositions = new List<Vector3>();
-        List<Vector3> followerTargetPositions = new List<Vector3>();
+        List<Vector3> followerInitialPositions = new();
+        List<Vector3> followerTargetPositions = new();
         for (int i = 0; i < HeroFollowerTransforms.Count; i++)
         {
             followerInitialPositions.Add(HeroFollowerTransforms[i].position);

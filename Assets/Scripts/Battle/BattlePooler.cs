@@ -14,11 +14,11 @@ public class BattlePooler : MonoBehaviour
     public GameObject projectilePrefab;
     public GameObject projectileParticlePrefab;
     public Transform pooledObjectParentTransform;
-    private Stack<GameObject> _inactiveCardObjects = new Stack<GameObject>();
-    private Stack<GameObject> _inactiveStatusObjects = new Stack<GameObject>();
-    private Stack<GameObject> _inactiveOneShotObjects = new Stack<GameObject>();
-    private Stack<GameObject> _inactiveProjectileObjects = new Stack<GameObject>();
-    private Stack<GameObject> _inactiveProjectileParticleObjects = new Stack<GameObject>();
+    private readonly Stack<GameObject> _inactiveCardObjects = new();
+    private readonly Stack<GameObject> _inactiveStatusObjects = new();
+    private readonly Stack<GameObject> _inactiveOneShotObjects = new();
+    private readonly Stack<GameObject> _inactiveProjectileObjects = new();
+    private readonly Stack<GameObject> _inactiveProjectileParticleObjects = new();
 
     private void Awake()
     {

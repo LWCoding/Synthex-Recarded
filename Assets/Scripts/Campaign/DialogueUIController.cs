@@ -24,7 +24,7 @@ public partial class DialogueUIController : MonoBehaviour
     private RectTransform _leftSpriteRectTransform;
     private RectTransform _rightSpriteRectTransform;
     private Dialogue _storedDialogue;
-    private Queue<DialogueLine> _dialogueStringQueue = new Queue<DialogueLine>();
+    private Queue<DialogueLine> _dialogueStringQueue = new();
 
     private void Awake()
     {

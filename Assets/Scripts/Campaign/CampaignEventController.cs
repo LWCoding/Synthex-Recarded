@@ -22,7 +22,6 @@ public class CampaignEventController : MonoBehaviour
     [Header("Ryan Object Assignments")]
     [SerializeField] private Transform _ryanTransform;
     [SerializeField] private ParticleSystem _ryanParticleSystem;
-    [SerializeField] private Transform _ryanAtDummyTransform;
     [SerializeField] private AudioClip _footstepsSFX;
 
     public Queue<UnityAction> QueuedEvents = new Queue<UnityAction>();
@@ -52,7 +51,7 @@ public class CampaignEventController : MonoBehaviour
             case GameScene.FOREST:
                 // Set dummy to either be intact or destroyed.
                 bool defeatedDummy = GameManager.IsEventComplete(EventType.DEFEATED_DUMMY);
-                _dummySpriteRenderer.sprite = (defeatedDummy) ? _destroyedDummy : _intactDummy;
+                _dummySpriteRenderer.sprite = defeatedDummy ? _destroyedDummy : _intactDummy;
                 break;
         }
     }
@@ -274,7 +273,6 @@ public class CampaignEventController : MonoBehaviour
 
     // Sets the IsPlayingEvent parameter to false after a specific animator
     // is no longer animating.
-
     private IEnumerator StopEventWhenAnimationIsFinished(Animator anim, float delayAfter, Action codeToRunAfter = null)
     {
         yield return new WaitForEndOfFrame();

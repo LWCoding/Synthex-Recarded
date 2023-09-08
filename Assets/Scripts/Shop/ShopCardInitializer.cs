@@ -66,7 +66,7 @@ public class ShopCardInitializer : MonoBehaviour
         // We want the card to appear and function immediately.
         cardHandler.Initialize(card, true);
         cardHandler.EnableInteractions();
-        cardHandler.EnableShopFunctionality();
+        cardHandler.ToggleShopFunctionality(true);
         cardHandler.ShouldScaleOnHover = true;
         return cardObject;
     }

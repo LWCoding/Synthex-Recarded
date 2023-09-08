@@ -37,7 +37,7 @@ public class ShopItemInitializer : MonoBehaviour
             GameObject itemObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.ITEM);
             ItemHandler itemHandler = itemObject.GetComponent<ItemHandler>();
             itemHandler.Initialize(item, true, false);
-            itemHandler.EnableShopFunctionality();
+            itemHandler.ToggleShopFunctionality(true);
             itemHandler.SetSortingOrder(1);
             itemHandler.SetItemImageScale(2, 1);
             itemObject.transform.SetParent(horizontalTransform, false);

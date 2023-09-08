@@ -29,17 +29,17 @@ public partial class BattleController : StateMachine
     }
 
     [Header("Spawnable Enemy Locations")]
-    [SerializeField] private List<SpawnableEnemyLocation> _spawnableEnemyLocations = new List<SpawnableEnemyLocation>();
+    [SerializeField] private List<SpawnableEnemyLocation> _spawnableEnemyLocations = new();
     public SpawnableEnemyLocation GetNextAvailableEnemyLocation() => _spawnableEnemyLocations.Find((loc) => !loc.isTaken);
     public void TakeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = true;
     public void FreeUpEnemyLocation(Vector3 pos) => _spawnableEnemyLocations.Find((loc) => loc.position == pos).isTaken = false;
 
     private BattleCharacterController _playerBCC;
-    private List<BattleCharacterController> _enemyBCCs = new List<BattleCharacterController>();
+    private readonly List<BattleCharacterController> _enemyBCCs = new();
     public BattleCharacterController GetPlayer() => _playerBCC;
     public List<BattleCharacterController> GetAliveEnemies() => _enemyBCCs.FindAll((bec) => bec.IsAlive());
 
-    [HideInInspector] public UnityEvent OnNextTurnStart = new UnityEvent();
+    [HideInInspector] public UnityEvent OnNextTurnStart = new();
     public int TurnNumber; // To help with Enemy AI calculations
 
     private void Awake()

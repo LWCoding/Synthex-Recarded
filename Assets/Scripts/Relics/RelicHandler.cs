@@ -17,13 +17,13 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private UITooltipHandler _uiTooltipHandler;
     private Image _relicFlashImage;
-    private bool _showTooltipOnHover;
     private float _initialScale;
     private float _desiredScale;
     private IEnumerator _relicFlashCoroutine = null;
     private IEnumerator _shinySpinCoroutine = null;
     private Canvas _relicCanvas;
 
+    public bool ToggleShopFunctionality(bool isPurchaseable) => GetComponent<BuyableObject>().enabled = isPurchaseable;
     public void DisableTooltip() => _uiTooltipHandler.SetTooltipInteractibility(false);
 
     private void Awake()
@@ -42,10 +42,10 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         _uiTooltipHandler.HideTooltip();
         relicFlashObject.SetActive(false);
         GetComponent<TreasureRelicHandler>().enabled = false;
-        GetComponent<ShopRelicHandler>().enabled = false;
         _initialScale = imageObject.transform.localScale.x;
         _desiredScale = _initialScale;
-        this._showTooltipOnHover = showTooltipOnHover;
+        // Disable external functionalities
+        ToggleShopFunctionality(false);
         // Set the relic information
         relicInfo = r;
         _uiTooltipHandler.SetTooltipText(r.relicName);
@@ -136,12 +136,6 @@ public class RelicHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             StopCoroutine(_shinySpinCoroutine);
         }
         shinyBGObject.SetActive(false);
-    }
-
-    public void EnableShopFunctionality()
-    {
-        GetComponent<ShopRelicHandler>().enabled = true;
-        _uiTooltipHandler.SetTooltipScale(new Vector2(0.6f, 0.6f));
     }
 
     private IEnumerator RotateShinyBGCoroutine()
