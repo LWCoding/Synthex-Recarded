@@ -20,6 +20,8 @@ public class ChangeSceneInteractable : MonoBehaviour, IInteractable
     }
 
     public void OnInteract() {
+        if (!_isInteractable) { return; }
+        _isInteractable = false;
         TransitionManager.Instance.HideScreen(sceneNameWhenInteracted, 1.25f);
     }
 
