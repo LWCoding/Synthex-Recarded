@@ -172,6 +172,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Destination
+      value: 
+      objectReference: {fileID: 1211257490}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.data[0]
       value: 
       objectReference: {fileID: 817375608}
@@ -179,6 +183,14 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed._destination
+      value: 
+      objectReference: {fileID: 1211257490}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfLeftPressed.Destination
+      value: 
+      objectReference: {fileID: 1546139432}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LoadoutInShop.cards.Array.size
       value: 4
@@ -188,9 +200,21 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfLeftPressed._destination
+      value: 
+      objectReference: {fileID: 1546139432}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfRightPressed.Destination
+      value: 
+      objectReference: {fileID: 1962024501}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LoadoutInShop.relics.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfRightPressed._destination
+      value: 
+      objectReference: {fileID: 1962024501}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LoadoutInShop.items.Array.data[0]
       value: 
@@ -240,6 +264,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Requirements.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LoadoutInShop.cards.Array.data[0].cardData
       value: 
       objectReference: {fileID: 11400000, guid: b764a36b9bdb75445aebf1acfdd8807d, type: 2}
@@ -255,6 +283,10 @@ PrefabInstance:
       propertyPath: LoadoutInShop.cards.Array.data[3].cardData
       value: 
       objectReference: {fileID: 11400000, guid: 6cc014817d9997143bd27b8799c36606, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Requirements.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b1809a13948f6b04aafa0e2ebfa5b25f, type: 2}
     - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.01
@@ -607,9 +639,6 @@ Transform:
   - {fileID: 1962024500}
   - {fileID: 1794230}
   - {fileID: 1211257491}
-  - {fileID: 1980374981}
-  - {fileID: 918576936}
-  - {fileID: 265066350}
   m_Father: {fileID: 132243682}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &31102636
@@ -924,6 +953,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Destination
+      value: 
+      objectReference: {fileID: 1151028128}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.data[0]
       value: 
       objectReference: {fileID: 184046618}
@@ -939,6 +972,18 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed._destination
+      value: 
+      objectReference: {fileID: 1151028128}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed.Destination
+      value: 
+      objectReference: {fileID: 184046618}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed._destination
+      value: 
+      objectReference: {fileID: 184046618}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnSelectFirstTime.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -1663,6 +1708,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Destination
+      value: 
+      objectReference: {fileID: 115497448}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.data[0]
       value: 
       objectReference: {fileID: 115497448}
@@ -1674,6 +1723,10 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed._destination
+      value: 
+      objectReference: {fileID: 115497448}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnVisitedFirstTime.m_PersistentCalls.m_Calls.Array.size
       value: 6
@@ -7132,6 +7185,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Destination
+      value: 
+      objectReference: {fileID: 1962024501}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.data[0]
       value: 
       objectReference: {fileID: 817375608}
@@ -7139,6 +7196,18 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed._destination
+      value: 
+      objectReference: {fileID: 1962024501}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfLeftPressed.Destination
+      value: 
+      objectReference: {fileID: 817375608}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed._destination
+      value: 
+      objectReference: {fileID: 817375608}
     - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.15
@@ -7452,115 +7521,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2101026841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &265066349
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 30176182}
-    m_Modifications:
-    - target: {fileID: 1429862133297833342, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_Name
-      value: Level 6C
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LocationChoice
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LevelIfDownPressed
-      value: 
-      objectReference: {fileID: 1211257490}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LevelIfLeftPressed
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LevelIfRightPressed
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: CanRenderMultipleTimes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: ConnectedLevels.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: EnemiesToRender.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: ConnectedLevels.Array.data[0]
-      value: 
-      objectReference: {fileID: 817375608}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: EnemiesToRender.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 26d708f9d6fb8c644a5ec007ae235f43, type: 2}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 20.73
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
---- !u!4 &265066350 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-  m_PrefabInstance: {fileID: 265066349}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &265066351 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-  m_PrefabInstance: {fileID: 265066349}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2b27989780df5844b69079f12089d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &271328772
 GameObject:
   m_ObjectHideFlags: 0
@@ -16658,6 +16618,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed.Destination
+      value: 
+      objectReference: {fileID: 1151028128}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfLeftPressed.Destination
+      value: 
+      objectReference: {fileID: 7133289237780981369}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfLeftPressed._destination
+      value: 
+      objectReference: {fileID: 7133289237780981369}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfRightPressed.Destination
+      value: 
+      objectReference: {fileID: 237709686}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfRightPressed._destination
+      value: 
+      objectReference: {fileID: 237709686}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: EnemiesToRenderInBattle.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -18022,115 +18002,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &918576934
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 30176182}
-    m_Modifications:
-    - target: {fileID: 1429862133297833342, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_Name
-      value: Level 6B
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LocationChoice
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LevelIfDownPressed
-      value: 
-      objectReference: {fileID: 1211257490}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LevelIfLeftPressed
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LevelIfRightPressed
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: CanRenderMultipleTimes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: ConnectedLevels.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: EnemiesToRender.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: ConnectedLevels.Array.data[0]
-      value: 
-      objectReference: {fileID: 817375608}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: EnemiesToRender.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: dbf3bcfd32467fe428c68fa0fca73f1d, type: 2}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 21.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
---- !u!114 &918576935 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-  m_PrefabInstance: {fileID: 918576934}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2b27989780df5844b69079f12089d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &918576936 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-  m_PrefabInstance: {fileID: 918576934}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &922297666
 GameObject:
   m_ObjectHideFlags: 0
@@ -24399,6 +24270,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Destination
+      value: 
+      objectReference: {fileID: 817375608}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.data[0]
       value: 
       objectReference: {fileID: 817375608}
@@ -24414,6 +24289,18 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed._destination
+      value: 
+      objectReference: {fileID: 817375608}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed.Destination
+      value: 
+      objectReference: {fileID: 115497448}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed._destination
+      value: 
+      objectReference: {fileID: 115497448}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: OnSelectFirstTime.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -24831,7 +24718,7 @@ PrefabInstance:
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LevelIfUpPressed
       value: 
-      objectReference: {fileID: 918576935}
+      objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: InteractableObject
       value: 
@@ -24843,11 +24730,11 @@ PrefabInstance:
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LevelIfLeftPressed
       value: 
-      objectReference: {fileID: 1980374980}
+      objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: LevelIfRightPressed
       value: 
-      objectReference: {fileID: 265066351}
+      objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: CanRenderMultipleTimes
       value: 0
@@ -24868,6 +24755,10 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 3478a63354528b54080af982b4ce4309, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed.Destination
+      value: 
+      objectReference: {fileID: 1794231}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: EnemiesToRenderInBattle.Array.size
       value: 1
@@ -27260,6 +27151,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Destination
+      value: 
+      objectReference: {fileID: 1794231}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.data[0]
       value: 
       objectReference: {fileID: 817375608}
@@ -27267,6 +27162,22 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed._destination
+      value: 
+      objectReference: {fileID: 1794231}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed.Destination
+      value: 
+      objectReference: {fileID: 7133289237780981369}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed._destination
+      value: 
+      objectReference: {fileID: 7133289237780981369}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfRightPressed._destination
+      value: 
+      objectReference: {fileID: 1794231}
     - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.15
@@ -35211,6 +35122,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Destination
+      value: 
+      objectReference: {fileID: 1794231}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.data[0]
       value: 
       objectReference: {fileID: 817375608}
@@ -35218,6 +35133,22 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed._destination
+      value: 
+      objectReference: {fileID: 1794231}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed.Destination
+      value: 
+      objectReference: {fileID: 237709686}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed._destination
+      value: 
+      objectReference: {fileID: 237709686}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfLeftPressed._destination
+      value: 
+      objectReference: {fileID: 1794231}
     - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.26
@@ -35363,115 +35294,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &1980374979
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 30176182}
-    m_Modifications:
-    - target: {fileID: 1429862133297833342, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_Name
-      value: Level 6A
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LocationChoice
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LevelIfDownPressed
-      value: 
-      objectReference: {fileID: 1211257490}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LevelIfLeftPressed
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: LevelIfRightPressed
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: CanRenderMultipleTimes
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: ConnectedLevels.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: EnemiesToRender.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: ConnectedLevels.Array.data[0]
-      value: 
-      objectReference: {fileID: 817375608}
-    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: EnemiesToRender.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: e6538a40b623fe24d8ff8c3b7d667d95, type: 2}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -4.34
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 20.73
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
---- !u!114 &1980374980 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-  m_PrefabInstance: {fileID: 1980374979}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2b27989780df5844b69079f12089d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1980374981 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
-  m_PrefabInstance: {fileID: 1980374979}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1983404567
 GameObject:
   m_ObjectHideFlags: 0
@@ -36913,6 +36735,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed.Destination
+      value: 
+      objectReference: {fileID: 1546139432}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: ConnectedLevels.Array.data[0]
       value: 
       objectReference: {fileID: 817375608}
@@ -36920,6 +36746,22 @@ PrefabInstance:
       propertyPath: EnemiesToRender.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 9e123a439c9f51a489d05f410c70a8be, type: 2}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfUpPressed._destination
+      value: 
+      objectReference: {fileID: 1546139432}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfDownPressed._destination
+      value: 
+      objectReference: {fileID: 817375608}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfRightPressed.Destination
+      value: 
+      objectReference: {fileID: 817375608}
+    - target: {fileID: 2253271811531405381, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
+      propertyPath: LevelIfRightPressed._destination
+      value: 
+      objectReference: {fileID: 817375608}
     - target: {fileID: 4814892868510318345, guid: 9aab32649cb09db49bd5c25534cccff2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.12

@@ -67,14 +67,15 @@ public class CampaignController : MonoBehaviour
         float horizontalAxis = Input.GetAxisRaw("Horizontal");
         if (verticalAxis == 0 && horizontalAxis == 0) { return; }
         // If one of them are, try to find the axis. Find the corresponding level.
+        CampaignOptionController currentLevel = GetCurrentLevel();
         CampaignOptionController nextLevel;
         if (verticalAxis != 0)
         {
-            nextLevel = (verticalAxis > 0) ? GetCurrentLevel().LevelIfUpPressed : GetCurrentLevel().LevelIfDownPressed;
+            nextLevel = (verticalAxis > 0) ? currentLevel.LevelIfUpPressed.GetDestination() : currentLevel.LevelIfDownPressed.GetDestination();
         }
         else
         {
-            nextLevel = (horizontalAxis > 0) ? GetCurrentLevel().LevelIfRightPressed : GetCurrentLevel().LevelIfLeftPressed;
+            nextLevel = (horizontalAxis > 0) ? currentLevel.LevelIfRightPressed.GetDestination() : currentLevel.LevelIfLeftPressed.GetDestination();
         }
         // If the level doesn't exist at this position, stop here.
         if (nextLevel == null) return;

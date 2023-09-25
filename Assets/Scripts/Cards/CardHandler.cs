@@ -45,23 +45,28 @@ public class CardHandler : MonoBehaviour
     // Sets the alpha of the card's canvas group.
     public void SetCardAlpha(float alpha) => _cardCanvasGroup.alpha = alpha;
 
-    public int CardIdx {
+    public int CardIdx
+    {
         get { return _cardIdx; }
         set { _cardIdx = value; }
     }
-    public bool ShouldScaleOnHover {
+    public bool ShouldScaleOnHover
+    {
         get { return _cardHoverHandler.ScaleOnHover; }
         set { _cardHoverHandler.ScaleOnHover = value; }
     }
-    public bool ShouldTranslateUpOnHover {
+    public bool ShouldTranslateUpOnHover
+    {
         get { return _cardHoverHandler.TransformOnHover; }
         set { _cardHoverHandler.TransformOnHover = value; }
     }
-    public bool ShouldSortToTopOnHover {
+    public bool ShouldSortToTopOnHover
+    {
         get { return _cardHoverHandler.SortTopOnHover; }
         set { _cardHoverHandler.SortTopOnHover = value; }
     }
-    public bool IsDraggable {
+    public bool IsDraggable
+    {
         get { return _cardHoverHandler.AllowDragging; }
         set { _cardHoverHandler.AllowDragging = value; }
     }
@@ -82,6 +87,11 @@ public class CardHandler : MonoBehaviour
         _uiTooltipHandler = GetComponent<UITooltipHandler>();
         _canvasTransform = GameObject.Find("Canvas").transform;
         if (_canvasTransform == null) { Debug.LogError("Could not find required Canvas for CardHandler.cs!"); }
+    }
+
+    private void OnEnable()
+    {
+        SetSortingOrder(1);
     }
 
     // Usually, this card is animated into frame with the CardAppear coroutine.
@@ -182,8 +192,7 @@ public class CardHandler : MonoBehaviour
         GameObject cardEffectObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD_EFFECT);
         cardEffectObject.GetComponent<Image>().sprite = cardEffect.sprite;
         cardEffectObject.transform.SetParent(cardEffectOverlayTransform, false);
-        cardEffectObject.transform.localPosition = Vector3.zero;
-        cardEffectObject.transform.localRotation = Quaternion.identity;
+        cardEffectObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         StartCoroutine(AnimateCardEffectIn(cardEffectObject));
         _currentCardEffectTypes.Add(type);
     }

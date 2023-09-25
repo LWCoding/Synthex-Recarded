@@ -65,10 +65,10 @@ public static class SaveLoadManager
     {
         // If we don't have a save file, we don't have a save.
         if (!File.Exists(savePath + fileName)) { return false; }
-        // Try and take some stuff from the save to see if it's valid.
+        // Check if the hero is valid. If it is invalid, we likely have a corrupted file.
         string savedText = File.ReadAllText(savePath + fileName);
         SaveObject so = JsonUtility.FromJson<SaveObject>(savedText);
-        if (so.hero.currentRelics.Count > 0 && so.hero.currentRelics[0] == null)
+        if (so.hero.heroData == null)
         {
             return false;
         }

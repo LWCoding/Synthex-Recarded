@@ -142,16 +142,12 @@ public class CardChoiceController : MonoBehaviour
 
     private GameObject GetCardObjectFromPool()
     {
-        GameObject cardObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD);
+        GameObject cardObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD, cardParentTransform);
         // Return an already created card object.
         CardHandler cardHandler = cardObject.GetComponent<CardHandler>();
         // Set all of the stuff for the created card object.
-        cardObject.SetActive(true);
         cardObject.transform.localScale = new Vector3(0.7f, 0.7f, 1);
-        cardObject.transform.SetParent(cardParentTransform, false);
-        cardObject.transform.localScale = new Vector3(0.7f, 0.7f, 1);
-        cardHandler.SetSortingOrder(14); // Set to a sorting order greater than overlay
-        cardObject.GetComponent<Canvas>().sortingOrder = bgFadeImage.GetComponent<Canvas>().sortingOrder + 1;
+        cardHandler.SetSortingOrder(bgFadeImage.GetComponent<Canvas>().sortingOrder + 1);
         cardHandler.HideCardInstantly(); // Hide the card instantly so we can animate it after.
         return cardObject;
     }

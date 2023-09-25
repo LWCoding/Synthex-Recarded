@@ -2,7 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
+
+[System.Serializable]
+public struct TravelLocation
+{
+    [SerializeField] private CampaignOptionController _destination;
+    public List<GameEvent> Requirements;
+    public CampaignOptionController GetDestination()
+    {
+        return (IsVisitable()) ? _destination : null;
+    }
+    public bool IsVisitable() => _destination != null &&
+                                (Requirements == null ||
+                                Requirements.TrueForAll((ge) => ge.IsCompleted()));
+}
 
 [RequireComponent(typeof(MouseHoverScaler))]
 public class CampaignOptionController : MonoBehaviour
@@ -18,10 +31,10 @@ public class CampaignOptionController : MonoBehaviour
     [Header("Level Properties")]
     public LocationChoice LocationChoice;
     public bool CanRenderMultipleTimes;
-    public CampaignOptionController LevelIfLeftPressed;
-    public CampaignOptionController LevelIfRightPressed;
-    public CampaignOptionController LevelIfUpPressed;
-    public CampaignOptionController LevelIfDownPressed;
+    public TravelLocation LevelIfLeftPressed;
+    public TravelLocation LevelIfRightPressed;
+    public TravelLocation LevelIfUpPressed;
+    public TravelLocation LevelIfDownPressed;
     public GameObject InteractableObject;
     [Header("Unity Events")]
     [Tooltip("Runs scripts before the event renders the actual location data")]
@@ -43,12 +56,12 @@ public class CampaignOptionController : MonoBehaviour
     // Get the connected levels by checking the levels in the four directions.
     public List<CampaignOptionController> GetConnectedLevels()
     {
-        List<CampaignOptionController> connectedLevels = new List<CampaignOptionController>();
-        if (LevelIfLeftPressed != null) connectedLevels.Add(LevelIfLeftPressed);
-        if (LevelIfUpPressed != null) connectedLevels.Add(LevelIfUpPressed);
-        if (LevelIfRightPressed != null) connectedLevels.Add(LevelIfRightPressed);
-        if (LevelIfDownPressed != null) connectedLevels.Add(LevelIfDownPressed);
-        return connectedLevels;
+        HashSet<CampaignOptionController> connectedLevels = new HashSet<CampaignOptionController>();
+        if (LevelIfLeftPressed.IsVisitable()) connectedLevels.Add(LevelIfLeftPressed.GetDestination());
+        if (LevelIfUpPressed.IsVisitable()) connectedLevels.Add(LevelIfUpPressed.GetDestination());
+        if (LevelIfRightPressed.IsVisitable()) connectedLevels.Add(LevelIfRightPressed.GetDestination());
+        if (LevelIfDownPressed.IsVisitable()) connectedLevels.Add(LevelIfDownPressed.GetDestination());
+        return new List<CampaignOptionController>(connectedLevels);
     }
 
     private void Awake()
@@ -132,11 +145,14 @@ public class CampaignOptionController : MonoBehaviour
         }
         // If we have a battle, it should be transparent if visited.
         // If we have anything else, just make it fully opaque.
-        if (LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER) {
+        if (LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER)
+        {
             // If the option should activate something when visited, make it opaque.
             // Or else, make it a bit transparent.
             LerpIconSpriteColorTo(new Color(1, 1, 1, (ShouldActivateWhenVisited()) ? 1 : 0.2f));
-        } else {
+        }
+        else
+        {
             LerpIconSpriteColorTo(new Color(1, 1, 1, 1));
         }
     }
