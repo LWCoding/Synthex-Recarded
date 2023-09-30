@@ -2,35 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeSceneInteractable : MonoBehaviour, IInteractable
+public class TreasureInteractable : MonoBehaviour, IInteractable
 {
 
     [Header("Object Assignments")]
     [SerializeField] private MouseHoverScaler _spriteObjectScaler;
+    [SerializeField] private SpriteRenderer _spriteRendererToChange;
     [SerializeField] private GameObject _popupObject;
-    [Header("Area Properties")]
-    [SerializeField] private string _sceneNameWhenInteracted;
+    [Header("Chest Assignments")]
+    [SerializeField] private EventType _chestEvent;
+    [SerializeField] private Sprite _unlockedSprite;
+    [SerializeField] private Sprite _lockedSprite;
 
     private bool _isInteractable = false;
 
     public void Awake()
     {
         _spriteObjectScaler.Initialize(_spriteObjectScaler.transform);
-        _spriteObjectScaler.SetIsInteractable(true);
+        _spriteObjectScaler.SetIsInteractable(!GameManager.IsEventComplete(_chestEvent));
+        SetSpriteBasedOnState();
         OnLocationExit();
+    }
+
+    private void SetSpriteBasedOnState()
+    {
+        _spriteRendererToChange.sprite = GameManager.IsEventComplete(_chestEvent) ? _unlockedSprite : _lockedSprite;
     }
 
     public void OnInteract()
     {
         if (!_isInteractable) { return; }
         _isInteractable = false;
-        TransitionManager.Instance.HideScreen(_sceneNameWhenInteracted, 1.25f);
+        TreasureController.Instance.ShowChest();
+        SetSpriteBasedOnState();
     }
 
     public void OnLocationEnter()
     {
+        if (!_isInteractable) { return; }
         _popupObject.SetActive(true);
-        _isInteractable = true;
         StartCoroutine(CheckForInteractCoroutine());
     }
 

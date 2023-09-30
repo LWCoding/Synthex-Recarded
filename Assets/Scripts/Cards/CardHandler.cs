@@ -94,8 +94,11 @@ public class CardHandler : MonoBehaviour
         SetSortingOrder(1);
     }
 
-    // Usually, this card is animated into frame with the CardAppear coroutine.
-    // There is a second parameter to make it show instantly instead.
+    /// <summary>
+    /// Initializes the card object with given card information.
+    /// Should be followed by ShowCardInstantly or HideCardInstantly or CardAppear 
+    /// to show the card.
+    /// </summary>
     public void Initialize(Card c)
     {
         // Remove all effects on this card (from battle)

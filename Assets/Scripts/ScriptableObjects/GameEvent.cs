@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EventType
 {
-    VISITED_SHOP_BEFORE = 0, VISITED_UPGRADES_BEFORE = 1, DEFEATED_DUMMY = 2
+    VISITED_SHOP_BEFORE = 0, VISITED_UPGRADES_BEFORE = 1, DEFEATED_DUMMY = 2, FOREST_CHEST_001 = 3,
 }
 
 [CreateAssetMenu(fileName = "GameEvent", menuName = "ScriptableObjects/GameEvent")]
