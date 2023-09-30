@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+/*
+    NOTE TO SELF:
+    Do not directly call this class from anything other than the
+    TreasureController.cs singleton!
+*/
+
 public class ChestHandler : MonoBehaviour, IPointerClickHandler
 {
 

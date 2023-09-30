@@ -22,7 +22,7 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private UITooltipHandler _uiTooltipHandler;
     private Image _itemFlashImage;
     private int _timesItemClicked = 0; // 1 = show checkmark, 2 = use item
-    private bool _canClickToUse = true;
+    public bool CanClickToUse = true;
     private bool _showUITooltipOnHover;
     private float _initialScale;
     private float _desiredScale;
@@ -30,8 +30,9 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private IEnumerator _itemFlashCoroutine = null;
     private Canvas _itemCanvas;
 
-    public void ToggleShopFunctionality(bool isPurchaseable) {
-        _canClickToUse = false;
+    public void ToggleShopFunctionality(bool isPurchaseable)
+    {
+        CanClickToUse = false;
         GetComponent<BuyableObject>().enabled = isPurchaseable;
     }
     public void SetVerifyChoiceVisibility(bool isVisible) => verifyChoiceImage.enabled = isVisible;
@@ -138,7 +139,7 @@ public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!IsItemPlayable()) { return; }
-        if (itemInfo.type != ItemType.NONE && _canClickToUse)
+        if (itemInfo.type != ItemType.NONE && CanClickToUse)
         {
             _timesItemClicked++;
             // If we've clicked the first time, prompt to confirm.

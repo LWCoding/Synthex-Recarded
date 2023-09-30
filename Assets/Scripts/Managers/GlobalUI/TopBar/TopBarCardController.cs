@@ -26,6 +26,7 @@ public class TopBarCardController : MonoBehaviour
     private bool _isDeckPreviewButtonClickable = true;
     private Button _currentlySelectedButton = null;
     public bool IsCardPreviewShowing() => _currentlySelectedButton != null;
+    private int _currentlySelectedButtonInitialSortingOrder = 0;
     private List<CardHandler> _cardPreviewHandlers = new List<CardHandler>();
 
     public void Initialize()
@@ -118,7 +119,8 @@ public class TopBarCardController : MonoBehaviour
         // Enable the graphic raycaster so that the scrolling works.
         _cardPreviewGraphicRaycaster.enabled = true;
         // Set the sorting order of the cards to be over the overlay.
-        int newSortingOrder = _deckOverlayImage.GetComponent<Canvas>().sortingOrder + 1;
+        _currentlySelectedButtonInitialSortingOrder = _currentlySelectedButton.GetComponent<Canvas>().sortingOrder;
+        int newSortingOrder = _deckOverlayImage.GetComponent<Canvas>().sortingOrder + 5;
         _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = newSortingOrder;
         // Initialize information for card handlers.
         _cardPreviewHandlers = new List<CardHandler>();
@@ -158,7 +160,7 @@ public class TopBarCardController : MonoBehaviour
         // Animate the scrollbar in.
         StartCoroutine(ToggleScrollBarCoroutine(true));
         // In case sorting order was modified, re-set it again.
-        _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = _deckOverlayImage.GetComponent<Canvas>().sortingOrder + 1;
+        _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = newSortingOrder;
         _cardPreviewScrollRect.enabled = true;
         _currentlySelectedButton.interactable = true;
     }
@@ -178,6 +180,7 @@ public class TopBarCardController : MonoBehaviour
 
     private IEnumerator HideCardsCoroutine()
     {
+        _currentlySelectedButton.GetComponent<Canvas>().sortingOrder = _currentlySelectedButtonInitialSortingOrder;
         _currentlySelectedButton.interactable = false;
         WaitForSeconds wfs = new WaitForSeconds(0.02f);
         // Disable the horizontal layout groups so that the cards don't teleport

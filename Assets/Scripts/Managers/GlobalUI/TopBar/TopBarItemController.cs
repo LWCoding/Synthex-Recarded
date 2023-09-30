@@ -36,6 +36,7 @@ public class TopBarItemController : MonoBehaviour
             Item item = (i >= itemList.Count) ? GetPlaceholderItem() : itemList[i];
             itemObj.GetComponent<ItemHandler>().Initialize(item, false, true, i);
             itemObj.GetComponent<ItemHandler>().SetSortingOrder(TopBarController.Instance.GetTopBarSortingOrder() + 1);
+            itemObj.GetComponent<ItemHandler>().CanClickToUse = true;
             _itemReferences.Add(itemObj);
         }
     }
