@@ -11,8 +11,10 @@ public class TreasureInteractable : MonoBehaviour, IInteractable
     [SerializeField] private GameObject _popupObject;
     [Header("Chest Assignments")]
     [SerializeField] private EventType _chestEvent;
-    [SerializeField] private Sprite _unlockedSprite;
-    [SerializeField] private Sprite _lockedSprite;
+    [Tooltip("Sprite that the chest will appear as if already opened")]
+    [SerializeField] private Sprite _alreadyOpenedSprite;
+    [Tooltip("Sprite that the chest will appear as if not opened yet")]
+    [SerializeField] private Sprite _notYetOpenedSprite;
 
     private bool _isInteractable = false;
 
@@ -35,9 +37,10 @@ public class TreasureInteractable : MonoBehaviour, IInteractable
 
     public void OnLocationEnter()
     {
+        // Enable interactions with chest IF player hasn't opened it before
         _isInteractable = !EventManager.IsEventComplete(_chestEvent);
+        _popupObject.SetActive(_isInteractable);
         if (!_isInteractable) { return; }
-        _popupObject.SetActive(true);
         StartCoroutine(CheckForInteractCoroutine());
     }
 
@@ -87,7 +90,7 @@ public class TreasureInteractable : MonoBehaviour, IInteractable
 
     private void SetSpriteBasedOnState()
     {
-        _spriteRendererToChange.sprite = EventManager.IsEventComplete(_chestEvent) ? _unlockedSprite : _lockedSprite;
+        _spriteRendererToChange.sprite = EventManager.IsEventComplete(_chestEvent) ? _alreadyOpenedSprite : _notYetOpenedSprite;
     }
 
 }

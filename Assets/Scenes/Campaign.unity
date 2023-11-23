@@ -8744,8 +8744,8 @@ MonoBehaviour:
   _spriteRendererToChange: {fileID: 1476923205}
   _popupObject: {fileID: 397275061}
   _chestEvent: 3
-  _unlockedSprite: {fileID: 21300000, guid: 047b1d7a3ffc5b64b9d8b4b9d98e520f, type: 3}
-  _lockedSprite: {fileID: 21300000, guid: 7d10691772c9399479b0761aa4112583, type: 3}
+  _alreadyOpenedSprite: {fileID: 21300000, guid: 7d10691772c9399479b0761aa4112583, type: 3}
+  _notYetOpenedSprite: {fileID: 21300000, guid: 758c8cb1ed689af4b9ea807a84851b63, type: 3}
 --- !u!1 &397275061 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7478807255584384963, guid: f438baffb93ebe04d9407209993351f6, type: 3}

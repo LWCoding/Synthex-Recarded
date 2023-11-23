@@ -7,7 +7,7 @@ public static class GameManager
 {
 
     // Save data:
-    public static string saveFileName;
+    public static string SaveFileName;
     // Hero data:
     private static Hero _chosenHero;
     public static void SetChosenHero(Hero h) => _chosenHero = h;
@@ -116,14 +116,14 @@ public static class GameManager
         so.xp = GetXP();
         so.mapDialoguesPlayed = alreadyPlayedMapDialogues;
         so.tutorialsPlayed = alreadyPlayedTutorials;
-        so.registeredEvents = EventManager.registeredEvents;
+        so.registeredEvents = EventManager.RegisteredEvents;
         // Save info for campaign
         so.campaignSave = GetCampaignSave();
         // Save info for map (if applicable)
         so.mapObject = GetMapObject();
         so.loadedEncounters = GetLoadedEncounters();
         GlobalUIController.Instance.PlaySaveIconAnimation();
-        SaveLoadManager.Save(so, saveFileName);
+        SaveLoadManager.Save(so, SaveFileName);
     }
 
     /// <summary>

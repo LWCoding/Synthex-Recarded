@@ -13,6 +13,10 @@ public class MouseHoverScaler : MonoBehaviour
 
     private Transform _transformToScale;
 
+    /// <summary>
+    /// Toggles the functionality of scaling the object when the mouse is over it.
+    /// </summary>
+    /// <param name="isInteractable">Boolean representing if the object will scale when hovered over.</param>
     public void SetIsInteractable(bool isInteractable) => _isInteractable = isInteractable;
 
     public void Initialize(Transform transformToScale)

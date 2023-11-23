@@ -206,7 +206,7 @@ public static class Globals
         // Try to look for the dialogue.
         // If we can't find it, return null. Or else, return the dialogue itself.
         DialogueByFloor dbf = foundMapInfo.mapDialogues.Find((dialogueByFloor) => dialogueByFloor.floorNumber == floor);
-        return (dbf == null) ? null : dbf.mapDialogue;
+        return dbf?.mapDialogue;
     }
 
     // Gets a card by name.
@@ -365,7 +365,7 @@ public static class Globals
         });
         if (!foundGameEvent)
         {
-            Debug.Log("Could not find game event (" + type + ") in Globals.cs!");
+            Debug.Log("Could not find game event (" + type + ") in Globals.cs! Perhaps you need to create a ScriptableObject?");
         }
         return foundGameEvent;
     }

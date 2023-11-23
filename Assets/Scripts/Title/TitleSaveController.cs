@@ -77,7 +77,7 @@ public class TitleSaveController : MonoBehaviour
         GameManager.SetMapObject(null);
         GameManager.SetMoney(150);
         GameManager.SetXP(15);
-        GameManager.saveFileName = "Secret.ass";
+        GameManager.SaveFileName = "Secret.ass";
         GameManager.alreadyPlayedTutorials.Add("Battle");
         GameManager.alreadyPlayedTutorials.Add("Shop");
         // Transition the game to the MAP.
@@ -104,7 +104,7 @@ public class TitleSaveController : MonoBehaviour
             GameManager.SetMapObject(null);
             GameManager.SetMoney(150);
             GameManager.SetXP(0);
-            GameManager.saveFileName = currentSaveFile;
+            GameManager.SaveFileName = currentSaveFile;
         }
         else
         {

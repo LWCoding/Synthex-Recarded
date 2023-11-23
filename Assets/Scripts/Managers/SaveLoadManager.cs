@@ -47,7 +47,7 @@ public static class SaveLoadManager
 
         SaveObject so = GetSaveObject(fileName);
         GameManager.SetChosenHero(so.hero);
-        EventManager.SetRegisteredEvents(so.registeredEvents);
+        EventManager.RegisteredEvents = so.registeredEvents;
         GameManager.SetMoney(so.money);
         GameManager.SetXP(so.xp);
         GameManager.SetCampaignSave(so.campaignSave);
@@ -56,7 +56,7 @@ public static class SaveLoadManager
         GameManager.SetMapObject(so.mapObject);
         GameManager.SetPlayedDialogues(so.mapDialoguesPlayed, so.tutorialsPlayed);
         GameManager.SetSeenEnemies(so.loadedEncounters);
-        GameManager.saveFileName = fileName;
+        GameManager.SaveFileName = fileName;
 
     }
 
