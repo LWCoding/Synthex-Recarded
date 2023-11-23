@@ -8743,7 +8743,7 @@ MonoBehaviour:
   _spriteObjectScaler: {fileID: 397275062}
   _spriteRendererToChange: {fileID: 1476923205}
   _popupObject: {fileID: 397275061}
-  _chestEvent: 0
+  _chestEvent: 3
   _unlockedSprite: {fileID: 21300000, guid: 047b1d7a3ffc5b64b9d8b4b9d98e520f, type: 3}
   _lockedSprite: {fileID: 21300000, guid: 7d10691772c9399479b0761aa4112583, type: 3}
 --- !u!1 &397275061 stripped

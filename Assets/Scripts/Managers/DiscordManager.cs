@@ -8,11 +8,7 @@ public class DiscordManager : MonoBehaviour
     public string largeImage;
     public string largeText;
 
-    private long time;
-
     public Discord.Discord discord;
-
-    private float _timeSinceLastUpdate = 0;
 
 #if !UNITY_WEBGL
     void Start()

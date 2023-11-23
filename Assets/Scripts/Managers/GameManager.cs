@@ -32,42 +32,10 @@ public static class GameManager
     public static void SpendXP(int x) => AddXP(-x);
     // Meta data:
     public static ShopLoadout nextShopLoadout;
-    public static List<Enemy> nextBattleEnemies = new List<Enemy>();
-    // Event data:
-    private static List<GameEvent> registeredEvents = new List<GameEvent>();
-    public static bool IsEventComplete(EventType eventType)
-    {
-        GameEvent foundEvent = registeredEvents.Find((e) => e.EventType == eventType);
-        return foundEvent != null && foundEvent.IsCompleted();
-    }
-    public static void SetRegisteredEvents(List<GameEvent> events) => registeredEvents = events;
-    public static void IncrementEventCounter(EventType eventType)
-    {
-        GameEvent foundEvent = registeredEvents.Find((e) => e.EventType == eventType);
-        // Initialize the event if we can't find this event.
-        if (foundEvent == null)
-        {
-            foundEvent = Globals.GetGameEvent(eventType);
-            registeredEvents.Add(foundEvent);
-        }
-        // Increment the event counter.
-        foundEvent.Increment();
-    }
-    public static void CompleteEvent(EventType eventType)
-    {
-        GameEvent foundEvent = registeredEvents.Find((e) => e.EventType == eventType);
-        // Initialize the event if we can't find this event.
-        if (foundEvent == null)
-        {
-            foundEvent = Globals.GetGameEvent(eventType);
-            registeredEvents.Add(foundEvent);
-        }
-        // Set the event to be completed.
-        foundEvent.SetCompleted();
-    }
+    public static List<Enemy> nextBattleEnemies = new();
     // Dialogue data:
-    public static List<string> alreadyPlayedMapDialogues = new List<string>();
-    public static List<string> alreadyPlayedTutorials = new List<string>();
+    public static List<string> alreadyPlayedMapDialogues = new();
+    public static List<string> alreadyPlayedTutorials = new();
     // Campaign/map data:
     public static bool IsInCampaign = false;
     // Campaign data:
@@ -83,7 +51,7 @@ public static class GameManager
     private static SerializableMapObject _mapObject = null;
     public static SerializableMapObject GetMapObject() => _mapObject;
     public static void SetMapObject(SerializableMapObject smo) => _mapObject = smo;
-    private static List<Encounter> _alreadyLoadedEncounters = new List<Encounter>();
+    private static List<Encounter> _alreadyLoadedEncounters = new();
     public static List<Encounter> GetLoadedEncounters() => _alreadyLoadedEncounters;
     public static void AddSeenEnemies(Encounter enemyEncounter)
     {
@@ -148,7 +116,7 @@ public static class GameManager
         so.xp = GetXP();
         so.mapDialoguesPlayed = alreadyPlayedMapDialogues;
         so.tutorialsPlayed = alreadyPlayedTutorials;
-        so.registeredEvents = registeredEvents;
+        so.registeredEvents = EventManager.registeredEvents;
         // Save info for campaign
         so.campaignSave = GetCampaignSave();
         // Save info for map (if applicable)

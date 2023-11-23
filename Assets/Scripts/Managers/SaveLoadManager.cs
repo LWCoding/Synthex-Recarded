@@ -47,7 +47,7 @@ public static class SaveLoadManager
 
         SaveObject so = GetSaveObject(fileName);
         GameManager.SetChosenHero(so.hero);
-        GameManager.SetRegisteredEvents(so.registeredEvents);
+        EventManager.SetRegisteredEvents(so.registeredEvents);
         GameManager.SetMoney(so.money);
         GameManager.SetXP(so.xp);
         GameManager.SetCampaignSave(so.campaignSave);

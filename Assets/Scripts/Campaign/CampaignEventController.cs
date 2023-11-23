@@ -50,7 +50,7 @@ public class CampaignEventController : MonoBehaviour
         {
             case GameScene.FOREST:
                 // Set dummy to either be intact or destroyed.
-                bool defeatedDummy = GameManager.IsEventComplete(EventType.DEFEATED_DUMMY);
+                bool defeatedDummy = EventManager.IsEventComplete(EventType.DEFEATED_DUMMY);
                 _dummySpriteRenderer.sprite = defeatedDummy ? _destroyedDummy : _intactDummy;
                 break;
         }
@@ -252,7 +252,7 @@ public class CampaignEventController : MonoBehaviour
         _dummyParticleSystem.Play();
         _dummyAnimator.Play("Destroy");
         SoundManager.Instance.PlayOneShot(_dummyDestroyedSFX, 1.2f);
-        GameManager.CompleteEvent(EventType.DEFEATED_DUMMY);
+        EventManager.CompleteEvent(EventType.DEFEATED_DUMMY);
         StartCoroutine(StopEventWhenAnimationIsFinished(_dummyAnimator, 1));
     }
 

@@ -58,7 +58,7 @@ public class ShopController : MonoBehaviour
     private IEnumerator CloseDoorAfterDelayCoroutine()
     {
         // Since we're leaving the shop, set the visited shop event to true.
-        GameManager.CompleteEvent(EventType.VISITED_SHOP_BEFORE);
+        EventManager.CompleteEvent(EventType.VISITED_SHOP_BEFORE);
         // Play the close door animation.
         exitShopButton.interactable = false;
         _isPlayerLeavingShop = true;
@@ -96,7 +96,7 @@ public class ShopController : MonoBehaviour
         shopkeeperAnimator.gameObject.SetActive(true);
         shopkeeperAnimator.Play("ShopkeepShow");
         yield return new WaitForSeconds(1f);
-        if (GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
+        if (EventManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             // If the player has visited a shop before, just show the UI.
             ShowHologramUI(true);
@@ -120,7 +120,7 @@ public class ShopController : MonoBehaviour
     public void OnClickedCardsTab()
     {
         if (_isPlayerLeavingShop) { return; }
-        if (!GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
+        if (!EventManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.ClearExistingDialogue();
@@ -133,7 +133,7 @@ public class ShopController : MonoBehaviour
     public void OnClickedRelicTab()
     {
         if (_isPlayerLeavingShop) { return; }
-        if (!GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
+        if (!EventManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.ClearExistingDialogue();
@@ -146,7 +146,7 @@ public class ShopController : MonoBehaviour
     public void OnClickedItemTab()
     {
         if (_isPlayerLeavingShop) { return; }
-        if (!GameManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
+        if (!EventManager.IsEventComplete(EventType.VISITED_SHOP_BEFORE))
         {
             ShopDialogueHandler.Instance.ShowDialogueBox();
             ShopDialogueHandler.Instance.ClearExistingDialogue();
@@ -199,7 +199,7 @@ public class ShopController : MonoBehaviour
 
     private IEnumerator ToggleHologramUICoroutine(bool shouldShow)
     {
-        WaitForSeconds wfs = new WaitForSeconds(0.01f);
+        WaitForSeconds wfs = new(0.01f);
         float initialVal = shouldShow ? 0 : 1;
         float targetVal = shouldShow ? 1 : 0;
         for (int i = 0; i < 30; i++)

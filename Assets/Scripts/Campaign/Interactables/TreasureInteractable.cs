@@ -19,14 +19,9 @@ public class TreasureInteractable : MonoBehaviour, IInteractable
     public void Awake()
     {
         _spriteObjectScaler.Initialize(_spriteObjectScaler.transform);
-        _spriteObjectScaler.SetIsInteractable(!GameManager.IsEventComplete(_chestEvent));
+        _spriteObjectScaler.SetIsInteractable(true);
         SetSpriteBasedOnState();
         OnLocationExit();
-    }
-
-    private void SetSpriteBasedOnState()
-    {
-        _spriteRendererToChange.sprite = GameManager.IsEventComplete(_chestEvent) ? _unlockedSprite : _lockedSprite;
     }
 
     public void OnInteract()
@@ -34,11 +29,13 @@ public class TreasureInteractable : MonoBehaviour, IInteractable
         if (!_isInteractable) { return; }
         _isInteractable = false;
         TreasureController.Instance.ShowChest();
+        EventManager.CompleteEvent(_chestEvent);
         SetSpriteBasedOnState();
     }
 
     public void OnLocationEnter()
     {
+        _isInteractable = !EventManager.IsEventComplete(_chestEvent);
         if (!_isInteractable) { return; }
         _popupObject.SetActive(true);
         StartCoroutine(CheckForInteractCoroutine());
@@ -86,6 +83,11 @@ public class TreasureInteractable : MonoBehaviour, IInteractable
         {
             _spriteObjectScaler.OnMouseExit();
         }
+    }
+
+    private void SetSpriteBasedOnState()
+    {
+        _spriteRendererToChange.sprite = EventManager.IsEventComplete(_chestEvent) ? _unlockedSprite : _lockedSprite;
     }
 
 }
