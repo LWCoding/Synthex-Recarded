@@ -31,8 +31,6 @@ public class TreasureInteractable : MonoBehaviour, IInteractable
         if (!_isInteractable) { return; }
         _isInteractable = false;
         TreasureController.Instance.ShowChest();
-        EventManager.CompleteEvent(_chestEvent);
-        SetSpriteBasedOnState();
     }
 
     public void OnLocationEnter()
