@@ -92,6 +92,12 @@ public class CardHandler : MonoBehaviour
     private void OnEnable()
     {
         SetSortingOrder(1);
+        ShouldScaleOnHover = false;
+        ShouldSortToTopOnHover = false;
+        ShouldTranslateUpOnHover = false;
+        IsDraggable = false;
+        // Disable external functionalities.
+        ToggleShopFunctionality(false);
     }
 
     /// <summary>
@@ -107,16 +113,10 @@ public class CardHandler : MonoBehaviour
         // Set all of the basic properties
         InitializeStartingData();
         EnableInteractions();
-        ShouldScaleOnHover = false;
-        ShouldSortToTopOnHover = false;
-        ShouldTranslateUpOnHover = false;
-        IsDraggable = false;
         // Set the card information
         card = c;
         UpdateCardVisuals();
         ResetCardColor();
-        // Disable external functionalities.
-        ToggleShopFunctionality(false);
         // Initialize tooltip information for any card
         _uiTooltipHandler.HideTooltip();
         string tooltipText = GetTooltipText();
