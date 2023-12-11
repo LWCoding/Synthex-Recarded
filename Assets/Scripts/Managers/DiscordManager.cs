@@ -8,6 +8,9 @@ public class DiscordManager : MonoBehaviour
     public string largeImage;
     public string largeText;
 
+    private float time;
+    private float _timeSinceLastUpdate;
+
     public Discord.Discord discord;
 
 #if !UNITY_WEBGL
@@ -98,7 +101,7 @@ public class DiscordManager : MonoBehaviour
                 },
                 Timestamps =
                 {
-                    Start = time
+                    Start = (long)time
                 }
             };
 
