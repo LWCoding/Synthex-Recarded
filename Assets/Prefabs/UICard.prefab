@@ -494,7 +494,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Gain 1 (<sprite name="health">) + 1 <sprite name="energy">.
+  m_text: Gain 1 (<sprite name="bleed">) + 1 <sprite name="burn">.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e0ad5e440d0d2a04eb61de2388637ea4, type: 2}
   m_sharedMaterial: {fileID: -3051246655096822723, guid: e0ad5e440d0d2a04eb61de2388637ea4, type: 2}
@@ -1549,10 +1549,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3911751791537123811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 130, y: -72.225}
+  m_SizeDelta: {x: 244, y: 128.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4589941262225060903
 CanvasRenderer:
