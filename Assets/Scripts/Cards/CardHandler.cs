@@ -118,10 +118,7 @@ public class CardHandler : MonoBehaviour
         UpdateCardVisuals();
         ResetCardColor();
         // Initialize tooltip information for any card
-        _uiTooltipHandler.HideTooltip();
-        string tooltipText = GetTooltipText();
-        _uiTooltipHandler.SetTooltipText(tooltipText);
-        _uiTooltipHandler.SetTooltipInteractibility(tooltipText != "");
+        UpdateTooltipText();
     }
 
     // Updates the card's color depending on if it's playable or not.
@@ -193,11 +190,13 @@ public class CardHandler : MonoBehaviour
     {
         CardEffect cardEffect = Globals.GetCardEffect(type);
         GameObject cardEffectObject = ObjectPooler.Instance.GetObjectFromPool(PoolableType.CARD_EFFECT);
-        cardEffectObject.GetComponent<Image>().sprite = cardEffect.sprite;
+        cardEffectObject.GetComponent<Image>().sprite = cardEffect.effectSprite;
         cardEffectObject.transform.SetParent(cardEffectOverlayTransform, false);
-        cardEffectObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+        cardEffectObject.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         StartCoroutine(AnimateCardEffectIn(cardEffectObject));
         _currentCardEffectTypes.Add(type);
+        // Update the tooltip text to include description of card effect.
+        UpdateTooltipText();
     }
 
     private IEnumerator AnimateCardEffectIn(GameObject cardEffectObject)
@@ -286,6 +285,14 @@ public class CardHandler : MonoBehaviour
         StartCoroutine(CardAppearCoroutine(0.18f));
     }
 
+    private void UpdateTooltipText()
+    {
+        _uiTooltipHandler.HideTooltip();
+        string tooltipText = GetTooltipText();
+        _uiTooltipHandler.SetTooltipText(tooltipText);
+        _uiTooltipHandler.SetTooltipInteractibility(tooltipText != "");
+    }
+
     // Get the tooltip text with info on the card's special effects.
     // Returns an empty string ("") if there are no effects to show.
     private string GetTooltipText()
@@ -313,6 +320,13 @@ public class CardHandler : MonoBehaviour
                 if (foundStatusFlavor.statusIcon != null) { textToRender += "<sprite name=\"" + foundStatusFlavor.name.ToLower() + "\"> "; }
                 textToRender += "<b>" + foundStatusFlavor.name + "</b>:\n" + foundStatusFlavor.statusDescription;
             }
+        }
+        // Loop through the effects that this card currently possesses.
+        foreach (CardEffectType effectType in _currentCardEffectTypes)
+        {
+            CardEffect cardEffect = Globals.GetCardEffect(effectType);
+            if (textToRender != "") { textToRender += "\n"; }
+            textToRender += "<b>" + cardEffect.effectName + "</b>:\n" + cardEffect.effectDescription;
         }
         return textToRender;
     }

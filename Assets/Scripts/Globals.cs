@@ -335,7 +335,7 @@ public static class Globals
         CardEffect foundCardEffect = null;
         allCardEffects.ForEach((cardEffect) =>
         {
-            if (cardEffect.type == type)
+            if (cardEffect.effectType == type)
             {
                 foundCardEffect = cardEffect;
                 return;

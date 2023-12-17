@@ -12,7 +12,9 @@ public class CardEffect : ScriptableObject
 {
 
     [Header("Base Information")]
-    public CardEffectType type;
-    public Sprite sprite;
+    public CardEffectType effectType;
+    public string effectName;
+    public string effectDescription;
+    public Sprite effectSprite;
 
 }

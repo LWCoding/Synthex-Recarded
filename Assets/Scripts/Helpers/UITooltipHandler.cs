@@ -26,7 +26,6 @@ public class UITooltipHandler : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private CanvasGroup _tooltipCanvasGroup;
     private IEnumerator _tooltipShowCoroutine = null;
 
-    public int GetSortingOrder() => _tooltipCanvas.sortingOrder;
     public void SetTooltipDelay(float delay) => _tooltipFadeInDelay = delay;
     public void SetTooltipText(string text) => _tooltipMainText.text = text;
     public void SetTooltipSubText(string text) => _tooltipSubText.text = text;
