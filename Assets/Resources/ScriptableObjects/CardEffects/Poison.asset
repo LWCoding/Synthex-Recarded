@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0391086efaf7ca54599f1bc86abc4a28, type: 3}
   m_Name: Poison
   m_EditorClassIdentifier: 
-  EffectType: 0
-  EffectDescription: When this card is played, lose 4 health.
-  EffectSprite: {fileID: 21300000, guid: 64f7c895fe081eb42b046fd79e9c47a4, type: 3}
+  effectType: 0
+  effectName: Poisoned
+  effectDescription: On playing this card, lose 4 health.
+  effectSprite: {fileID: 21300000, guid: 64f7c895fe081eb42b046fd79e9c47a4, type: 3}
