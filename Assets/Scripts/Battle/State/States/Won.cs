@@ -15,12 +15,16 @@ public class Won : State
             BattleController.GetPlayer().ChangeHealth(4);
         }
         // Allot some time to animate the coins going to the player's balance.
-        yield return new WaitForSeconds(1.4f);
+        yield return new WaitForSeconds(2.5f);
+        /*
         // Let the player add a new card to their deck (out of 3).
         CardChoiceController.Instance.ShowCardChoices(3, () =>
         {
             TransitionManager.Instance.BackToMapOrCampaign(0.75f);
         });
+        */
+        // Transition the battle back to the map/campaign scene.
+        TransitionManager.Instance.BackToMapOrCampaign(0.75f);
     }
 
 }
