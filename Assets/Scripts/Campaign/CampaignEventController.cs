@@ -36,7 +36,7 @@ public class CampaignEventController : MonoBehaviour
     /// (Functions that should not play during cutscenes.)
     /// </summary>
     /// <returns>A boolean representing if events are all complete. (Good to go!)</returns>
-    public bool AreEventsComplete() => !IsPlayingEvent && !_areAllEventsComplete; 
+    public bool AreEventsComplete() => !IsPlayingEvent && _areAllEventsComplete; 
 
     private void Awake()
     {

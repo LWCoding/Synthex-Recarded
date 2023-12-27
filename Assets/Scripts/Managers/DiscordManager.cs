@@ -65,6 +65,9 @@ public class DiscordManager : MonoBehaviour
                 case "Title":
                     details = "Lost in the title screen...";
                     break;
+                case "Campaign":
+                    details = "Traversing the campaign...";
+                    break;
                 case "Map":
                     details = "Taking a gander at the map";
                     break;

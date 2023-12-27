@@ -22,9 +22,11 @@ public class CampaignController : MonoBehaviour
     private CampaignSave _currCampaignSave;
     private EventSystem _eventSystem;
     private bool _isPlayerMoving = false;
-    private CampaignOptionController GetCurrentLevel() => _levelOptions.Find((coc) => coc.transform.position == _playerIconTransform.position);
-    public void RegisterVisitedLevel(Vector3 levelPosition) => _currCampaignSave.visitedLevels.Add(levelPosition);
     private List<CampaignOptionController> _levelOptions;
+
+    public CampaignOptionController CurrentLevel;
+
+    public void RegisterVisitedLevel(Vector3 levelPosition) => _currCampaignSave.visitedLevels.Add(levelPosition);
 
 
     // Make singleton instance of this class.
@@ -54,32 +56,7 @@ public class CampaignController : MonoBehaviour
         GameManager.SaveGame();
         // Initialize information for current level.
         // We do this AFTER the save so that dialogue will replay if the player leaves.
-        SelectCurrentLevel();
-    }
-
-    // Handle keybinds to traverse levels.
-    private void Update()
-    {
-        // If the player can't choose a level, don't even let them do this.
-        if (!CanPlayerChooseLevel()) return;
-        // Check if the left, right, up, or down keys are being pressed.
-        float verticalAxis = Input.GetAxisRaw("Vertical");
-        float horizontalAxis = Input.GetAxisRaw("Horizontal");
-        if (verticalAxis == 0 && horizontalAxis == 0) { return; }
-        // If one of them are, try to find the axis. Find the corresponding level.
-        CampaignOptionController currentLevel = GetCurrentLevel();
-        CampaignOptionController nextLevel;
-        if (verticalAxis != 0)
-        {
-            nextLevel = (verticalAxis > 0) ? currentLevel.LevelIfUpPressed.GetDestination() : currentLevel.LevelIfDownPressed.GetDestination();
-        }
-        else
-        {
-            nextLevel = (horizontalAxis > 0) ? currentLevel.LevelIfRightPressed.GetDestination() : currentLevel.LevelIfLeftPressed.GetDestination();
-        }
-        // If the level doesn't exist at this position, stop here.
-        if (nextLevel == null) return;
-        ChooseOption(nextLevel);
+        CurrentLevel.SelectLevel();
     }
 
     ///<summary>
@@ -91,8 +68,10 @@ public class CampaignController : MonoBehaviour
         if (GameManager.GetCampaignSave() == null)
         {
             // If we didn't find a saved campaign, create a new campaign.
-            _currCampaignSave = new CampaignSave();
-            _currCampaignSave.currScene = GameManager.GetGameScene();
+            _currCampaignSave = new CampaignSave
+            {
+                currScene = GameManager.GetGameScene()
+            };
             _playerIconTransform.position = _firstMapLocationTransform.position;
             _currCampaignSave.heroMapPosition = _playerIconTransform.position;
             GameManager.SetCampaignSave(_currCampaignSave);
@@ -118,34 +97,6 @@ public class CampaignController : MonoBehaviour
         }
     }
 
-    ///<summary>
-    /// Find the current level. If it doesn't exist, set the choosable options to
-    /// be the start options. Or else, set the choosable options.
-    ///</summary>
-    private void SelectCurrentLevel()
-    {
-        // Try to find the current level controller that the player is at.
-        CampaignOptionController currentLevel = GetCurrentLevel();
-        // Invoke the current level's on load event.
-        currentLevel.SelectLevel();
-        // If we found it, then set the available connected levels.
-        EnableCollidersOfAvailableLevels(currentLevel.GetConnectedLevels());
-    }
-
-    private void EnableCollidersOfAvailableLevels(List<CampaignOptionController> availableLevels)
-    {
-        // Initially disable all level options.
-        foreach (CampaignOptionController coc in _levelOptions)
-        {
-            coc.SetInteractable(false);
-        }
-        // Then, re-enable all the ones that are valid.
-        foreach (CampaignOptionController coc in availableLevels)
-        {
-            coc.SetInteractable(true);
-        }
-    }
-
     // Select an option given a CampaignOptionController.
     public void ChooseOption(CampaignOptionController loc)
     {
@@ -162,10 +113,10 @@ public class CampaignController : MonoBehaviour
             option.SetInteractable(false, false);
         }
         // If there is a current level, make sure that one is no longer set to the current level.
-        GetCurrentLevel().DeselectLevel();
+        CurrentLevel.DeselectLevel();
         // Make the character animate towards the next thing.
         CampaignCameraController.Instance.LerpCameraToPosition(loc.transform.position, 1.2f);
-        StartCoroutine(MoveHeroToPositionCoroutine(loc.transform.position, 0.8f));
+        // StartCoroutine(MoveHeroToPositionCoroutine(loc.transform.position, 0.8f));
         yield return CampaignCameraController.Instance.LerpCameraToPositionCoroutine(loc.transform.position, 1.3f);
         // Serialize current choice.
         _currCampaignSave.heroMapPosition = _playerIconTransform.position;
@@ -200,17 +151,18 @@ public class CampaignController : MonoBehaviour
                 case LocationChoice.NONE:
                     // If we're at a random path, just initialize the path from the
                     // current position.
-                    SelectCurrentLevel();
+                    CurrentLevel.SelectLevel();
                     break;
             }
         }
         else
         {
-            SelectCurrentLevel();
+            CurrentLevel.SelectLevel();
         }
         _isPlayerMoving = false;
     }
 
+    /*
     // Makes the player icon move towards a certain position.
     private IEnumerator MoveHeroToPositionCoroutine(Vector3 targetPosition, float timeToWait)
     {
@@ -247,5 +199,6 @@ public class CampaignController : MonoBehaviour
         _playerIconTransform.localPosition = targetPosition;
         yield return new WaitForSeconds(0.5f);
     }
+    */
 
 }

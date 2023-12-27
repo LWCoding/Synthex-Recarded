@@ -52,7 +52,7 @@ public class CampaignCameraController : MonoBehaviour
     {
         float currTime = 0;
         Color initialColor = _vignetteImage.color;
-        Color targetColor = new Color(initialColor.r, initialColor.g, initialColor.b, targetAlpha);
+        Color targetColor = new(initialColor.r, initialColor.g, initialColor.b, targetAlpha);
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
@@ -79,7 +79,7 @@ public class CampaignCameraController : MonoBehaviour
     {
         float currTime = 0;
         Vector3 initialPosition = _cameraTransformToMove.position;
-        Vector3 targetPosition = new Vector3(position.x, position.y, _permanentZIndex);
+        Vector3 targetPosition = new(position.x, position.y, _permanentZIndex);
         while (currTime < timeToWait)
         {
             currTime += Time.deltaTime;
@@ -146,7 +146,7 @@ public class CampaignCameraController : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(0.3f);
-        if (codeToRunAfter != null) codeToRunAfter.Invoke();
+        codeToRunAfter?.Invoke();
     }
 
 }

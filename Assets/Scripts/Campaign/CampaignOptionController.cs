@@ -188,7 +188,7 @@ public class CampaignOptionController : MonoBehaviour
         }
         else
         {
-            CampaignEventController.Instance.IsPlayingEvent = true;
+            // CampaignEventController.Instance.IsPlayingEvent = true;
             if (TransitionManager.Instance.IsScreenDarkened)
             {
                 // Then make the game fade from black to clear.

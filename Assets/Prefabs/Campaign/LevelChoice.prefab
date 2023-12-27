@@ -58,17 +58,30 @@ MonoBehaviour:
   _pSystem: {fileID: 5685906312430733203}
   LocationChoice: 0
   CanRenderMultipleTimes: 0
-  LevelIfLeftPressed: {fileID: 0}
-  LevelIfRightPressed: {fileID: 0}
-  LevelIfUpPressed: {fileID: 0}
-  LevelIfDownPressed: {fileID: 0}
+  LevelIfLeftPressed:
+    _destination: {fileID: 0}
+    Requirements: []
+  LevelIfRightPressed:
+    _destination: {fileID: 0}
+    Requirements: []
+  LevelIfUpPressed:
+    _destination: {fileID: 0}
+    Requirements: []
+  LevelIfDownPressed:
+    _destination: {fileID: 0}
+    Requirements: []
+  InteractableObject: {fileID: 0}
   OnSelectFirstTime:
     m_PersistentCalls:
       m_Calls: []
   OnVisitedFirstTime:
     m_PersistentCalls:
       m_Calls: []
-  EnemiesToRender: []
+  EnemiesToRenderInBattle: []
+  LoadoutInShop:
+    cards: []
+    relics: []
+    items: []
   WasVisited: 0
 --- !u!114 &6887161058928787484
 MonoBehaviour:
@@ -111,7 +124,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.005307913, y: -0.04131347}
