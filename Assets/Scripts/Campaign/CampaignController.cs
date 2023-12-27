@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CampaignController : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class CampaignController : MonoBehaviour
     [SerializeField] private AudioClip _footstepsSFX;
 
     public List<Transform> HeroFollowerTransforms; // Objects to follow player as they move.
-    public bool CanPlayerChooseLevel() => !_isPlayerMoving && CampaignEventController.Instance.AreAllEventsComplete && !_eventSystem.IsPointerOverGameObject();
+    public bool CanPlayerChooseLevel() => !_isPlayerMoving && !CampaignEventController.Instance.IsPlayingAnyEvent && !_eventSystem.IsPointerOverGameObject();
 
     private void FindAndStoreAllLevelOptions() => _levelOptions = new List<CampaignOptionController>(GameObject.FindObjectsOfType<CampaignOptionController>());
     private CampaignSave _currCampaignSave;
@@ -36,6 +37,13 @@ public class CampaignController : MonoBehaviour
         }
         Instance = this;
         _eventSystem = EventSystem.current;
+#if UNITY_EDITOR
+        // If the game scene hasn't been initialized, go back to Title.
+        if (GameManager.GetGameScene() == GameScene.NONE)
+        {
+            SceneManager.LoadScene("Title");
+        }
+#endif
         // Store and initialize all levels.
         FindAndStoreAllLevelOptions();
         // Initialize any save information.
@@ -177,7 +185,7 @@ public class CampaignController : MonoBehaviour
             CampaignEventController.Instance.RenderAllQueuedEvents();
         }
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);
+        yield return new WaitUntil(() => !CampaignEventController.Instance.IsPlayingAnyEvent);
         // Get current location choice.
         LocationChoice locationChoice = loc.LocationChoice;
         // If we should render the effects of the location, render it.

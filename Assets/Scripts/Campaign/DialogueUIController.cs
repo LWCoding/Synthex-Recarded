@@ -138,7 +138,7 @@ public partial class DialogueUIController : MonoBehaviour
     */
     public IEnumerator RenderDialogueCoroutine(Action codeToRunAfter)
     {
-        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingEvent = true;
+        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingSingularEvent = true;
         // If there is no dialogue to play (likely it was skipped), then
         // just run the code afterwards.
         if (_dialogueStringQueue.Count == 0)
@@ -171,7 +171,7 @@ public partial class DialogueUIController : MonoBehaviour
         yield return new WaitUntil(() => !IsPlaying());
         dialogueContainerObject.SetActive(false);
         codeToRunAfter?.Invoke();
-        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingEvent = false;
+        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingSingularEvent = false;
     }
 
     private IEnumerator RenderDialogueTextCoroutine(Action codeToRunAfter)

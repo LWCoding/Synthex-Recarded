@@ -26,8 +26,10 @@ public class CampaignEventController : MonoBehaviour
 
     public Queue<UnityAction> QueuedEvents = new Queue<UnityAction>();
     public bool HasEventsQueued => QueuedEvents.Count > 0;
-    public bool IsPlayingEvent = false;
-    public bool AreAllEventsComplete = false;
+    public bool IsPlayingSingularEvent = false;
+    private bool _areAllEventsComplete = false;
+
+    public bool IsPlayingAnyEvent => IsPlayingSingularEvent || !_areAllEventsComplete;
 
     private void Awake()
     {
@@ -64,14 +66,14 @@ public class CampaignEventController : MonoBehaviour
 
     private IEnumerator RenderAllQueuedEventsCoroutine()
     {
-        AreAllEventsComplete = false;
+        _areAllEventsComplete = false;
         while (HasEventsQueued)
         {
             QueuedEvents.Dequeue().Invoke();
             yield return new WaitForEndOfFrame();
-            yield return new WaitUntil(() => !IsPlayingEvent);
+            yield return new WaitUntil(() => !IsPlayingSingularEvent);
         }
-        AreAllEventsComplete = true;
+        _areAllEventsComplete = true;
         if (TransitionManager.Instance.IsScreenDarkened)
         {
             TransitionManager.Instance.ShowScreen(1.25f);
@@ -98,11 +100,11 @@ public class CampaignEventController : MonoBehaviour
 
     private IEnumerator QueueScreenShowCoroutine(bool isStandaloneEvent)
     {
-        if (isStandaloneEvent) IsPlayingEvent = true;
+        if (isStandaloneEvent) IsPlayingSingularEvent = true;
         TransitionManager.Instance.ShowScreen(1.25f);
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
-        if (isStandaloneEvent) IsPlayingEvent = false;
+        if (isStandaloneEvent) IsPlayingSingularEvent = false;
     }
 
     #endregion
@@ -132,7 +134,7 @@ public class CampaignEventController : MonoBehaviour
 
     private IEnumerator MoveRyanToPositionCoroutine(Vector3 targetPosition)
     {
-        IsPlayingEvent = true;
+        IsPlayingSingularEvent = true;
         float currTime = 0;
         float timeToWait = 0.7f;
         float timeSinceLastParticle = 0;
@@ -151,7 +153,7 @@ public class CampaignEventController : MonoBehaviour
             }
             yield return null;
         }
-        IsPlayingEvent = false;
+        IsPlayingSingularEvent = false;
     }
 
     #endregion
@@ -188,10 +190,10 @@ public class CampaignEventController : MonoBehaviour
     // Makes the camera object zoom in on an object.
     private void ZoomOnObject(GameObject obj, float animationTime, bool isStandaloneEvent = true)
     {
-        if (isStandaloneEvent) IsPlayingEvent = true;
+        if (isStandaloneEvent) IsPlayingSingularEvent = true;
         CampaignCameraController.Instance.ZoomCameraOnObject(obj, animationTime, 3.25f, 1, () =>
         {
-            if (isStandaloneEvent) IsPlayingEvent = false;
+            if (isStandaloneEvent) IsPlayingSingularEvent = false;
         });
     }
 
@@ -211,7 +213,7 @@ public class CampaignEventController : MonoBehaviour
     // Plays the banner animation.
     private void PlayBanner()
     {
-        IsPlayingEvent = true;
+        IsPlayingSingularEvent = true;
         switch (GameManager.GetGameScene())
         {
             case GameScene.FOREST:
@@ -248,7 +250,7 @@ public class CampaignEventController : MonoBehaviour
     // Plays the animation of the dummy getting destroyed.
     private void DestroyDummy()
     {
-        IsPlayingEvent = true;
+        IsPlayingSingularEvent = true;
         _dummyParticleSystem.Play();
         _dummyAnimator.Play("Destroy");
         SoundManager.Instance.PlayOneShot(_dummyDestroyedSFX, 1.2f);
@@ -278,7 +280,7 @@ public class CampaignEventController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !IsPlaying(anim));
         yield return new WaitForSeconds(delayAfter);
-        IsPlayingEvent = false;
+        IsPlayingSingularEvent = false;
         if (codeToRunAfter != null) codeToRunAfter.Invoke();
     }
 

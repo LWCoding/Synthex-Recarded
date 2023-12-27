@@ -188,7 +188,6 @@ public class CampaignOptionController : MonoBehaviour
         }
         else
         {
-            CampaignEventController.Instance.AreAllEventsComplete = true;
             if (TransitionManager.Instance.IsScreenDarkened)
             {
                 // Then make the game fade from black to clear.
@@ -242,7 +241,7 @@ public class CampaignOptionController : MonoBehaviour
     private IEnumerator VisitLevelWhenPlayerCanChoose()
     {
         yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
-        yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);
+        yield return new WaitUntil(() => !CampaignEventController.Instance.IsPlayingAnyEvent);
         if (LocationChoice == LocationChoice.SHOP) GameManager.nextShopLoadout = LoadoutInShop;
         if (InteractableObject != null) { InteractableObject.GetComponent<IInteractable>().OnLocationEnter(); }
         foreach (Transform arrowTransform in _arrowParentTransform)
