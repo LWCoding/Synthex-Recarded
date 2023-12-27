@@ -27,7 +27,16 @@ public class CampaignEventController : MonoBehaviour
     public Queue<UnityAction> QueuedEvents = new Queue<UnityAction>();
     public bool HasEventsQueued => QueuedEvents.Count > 0;
     public bool IsPlayingEvent = false;
-    public bool AreAllEventsComplete = false;
+
+    private bool _areAllEventsComplete = false; 
+
+    /// <summary>
+    /// If no events are currently playing, this returns True. Else False.
+    /// Should be called by functions that plan to cause a screen refresh. 
+    /// (Functions that should not play during cutscenes.)
+    /// </summary>
+    /// <returns>A boolean representing if events are all complete. (Good to go!)</returns>
+    public bool AreEventsComplete() => !IsPlayingEvent && !_areAllEventsComplete; 
 
     private void Awake()
     {
@@ -64,14 +73,14 @@ public class CampaignEventController : MonoBehaviour
 
     private IEnumerator RenderAllQueuedEventsCoroutine()
     {
-        AreAllEventsComplete = false;
+        _areAllEventsComplete = false;
         while (HasEventsQueued)
         {
             QueuedEvents.Dequeue().Invoke();
             yield return new WaitForEndOfFrame();
             yield return new WaitUntil(() => !IsPlayingEvent);
         }
-        AreAllEventsComplete = true;
+        _areAllEventsComplete = true;
         if (TransitionManager.Instance.IsScreenDarkened)
         {
             TransitionManager.Instance.ShowScreen(1.25f);
@@ -279,7 +288,7 @@ public class CampaignEventController : MonoBehaviour
         yield return new WaitUntil(() => !IsPlaying(anim));
         yield return new WaitForSeconds(delayAfter);
         IsPlayingEvent = false;
-        if (codeToRunAfter != null) codeToRunAfter.Invoke();
+        codeToRunAfter?.Invoke();
     }
 
     /*

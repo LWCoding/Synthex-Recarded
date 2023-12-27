@@ -16,7 +16,7 @@ public class CampaignController : MonoBehaviour
     [SerializeField] private AudioClip _footstepsSFX;
 
     public List<Transform> HeroFollowerTransforms; // Objects to follow player as they move.
-    public bool CanPlayerChooseLevel() => !_isPlayerMoving && CampaignEventController.Instance.AreAllEventsComplete && !_eventSystem.IsPointerOverGameObject();
+    public bool CanPlayerChooseLevel() => !_isPlayerMoving && CampaignEventController.Instance.AreEventsComplete() && !_eventSystem.IsPointerOverGameObject();
 
     private void FindAndStoreAllLevelOptions() => _levelOptions = new List<CampaignOptionController>(GameObject.FindObjectsOfType<CampaignOptionController>());
     private CampaignSave _currCampaignSave;
@@ -177,7 +177,7 @@ public class CampaignController : MonoBehaviour
             CampaignEventController.Instance.RenderAllQueuedEvents();
         }
         yield return new WaitForEndOfFrame();
-        yield return new WaitUntil(() => CampaignEventController.Instance.AreAllEventsComplete);
+        yield return new WaitUntil(() => CampaignEventController.Instance.AreEventsComplete());
         // Get current location choice.
         LocationChoice locationChoice = loc.LocationChoice;
         // If we should render the effects of the location, render it.
