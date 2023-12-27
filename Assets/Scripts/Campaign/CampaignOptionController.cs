@@ -31,10 +31,6 @@ public class CampaignOptionController : MonoBehaviour
     [Header("Level Properties")]
     public LocationChoice LocationChoice;
     public bool CanRenderMultipleTimes;
-    public TravelLocation LevelIfLeftPressed;
-    public TravelLocation LevelIfRightPressed;
-    public TravelLocation LevelIfUpPressed;
-    public TravelLocation LevelIfDownPressed;
     public GameObject InteractableObject;
     [Header("Unity Events")]
     [Tooltip("Runs scripts before the event renders the actual location data")]
@@ -53,47 +49,12 @@ public class CampaignOptionController : MonoBehaviour
     private MouseHoverScaler _mouseHoverScaler;
 
     public bool ShouldActivateWhenVisited() => (LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER) && (!WasVisited || CanRenderMultipleTimes);
-    // Get the connected levels by checking the levels in the four directions.
-    public List<CampaignOptionController> GetConnectedLevels()
-    {
-        HashSet<CampaignOptionController> connectedLevels = new HashSet<CampaignOptionController>();
-        if (LevelIfLeftPressed.IsVisitable()) connectedLevels.Add(LevelIfLeftPressed.GetDestination());
-        if (LevelIfUpPressed.IsVisitable()) connectedLevels.Add(LevelIfUpPressed.GetDestination());
-        if (LevelIfRightPressed.IsVisitable()) connectedLevels.Add(LevelIfRightPressed.GetDestination());
-        if (LevelIfDownPressed.IsVisitable()) connectedLevels.Add(LevelIfDownPressed.GetDestination());
-        return new List<CampaignOptionController>(connectedLevels);
-    }
 
     private void Awake()
     {
         _optionAnimator = GetComponent<Animator>();
         _mouseHoverScaler = GetComponent<MouseHoverScaler>();
         _mouseHoverScaler.Initialize(_iconSpriteRenderer.transform);
-        InitializeArrows();
-    }
-
-    // Initialize all arrow objects pointing to available levels.
-    private void InitializeArrows()
-    {
-        // Delete all children of parent.
-        for (int i = 0; i < _arrowParentTransform.childCount; i++)
-        {
-            Destroy(_arrowParentTransform.GetChild(i).gameObject);
-        }
-        // Create all the arrows based on the number of connected levels.
-        List<CampaignOptionController> connectedLevels = GetConnectedLevels();
-        foreach (CampaignOptionController coc in connectedLevels)
-        {
-            GameObject arrowObject = Instantiate(mapArrowObject, _arrowParentTransform);
-            arrowObject.transform.position = transform.position;
-            arrowObject.transform.right = coc.transform.position - arrowObject.transform.position;
-            arrowObject.transform.Rotate(0, 0, -90);
-            arrowObject.transform.Translate(new Vector3(0, 1.1f, 0));
-            // Make the current arrow transparent.
-            // When it is clicked, execute a similar action to selecting the level.
-            arrowObject.GetComponent<CampaignArrowHandler>().InstantlyHideArrow();
-            arrowObject.GetComponent<CampaignArrowHandler>().OnClick.AddListener(coc.OnMouseDown);
-        }
     }
 
     public void Initialize()
