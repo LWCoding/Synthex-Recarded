@@ -24,7 +24,7 @@ public class CampaignController : MonoBehaviour
     private bool _isPlayerMoving = false;
     private List<CampaignOptionController> _levelOptions;
 
-    public CampaignOptionController CurrentLevel;
+    [HideInInspector] public CampaignOptionController CurrentLevel;
 
     public void RegisterVisitedLevel(Vector3 levelPosition) => _currCampaignSave.visitedLevels.Add(levelPosition);
 
@@ -50,13 +50,14 @@ public class CampaignController : MonoBehaviour
         GlobalUIController.Instance.InitializeUI();
         // Play game music!
         SoundManager.Instance.PlayOnLoop(MusicType.MAP_MUSIC);
-        // Move the player to the current hero location.
-        CampaignCameraController.Instance.MoveCameraToPosition(_playerIconTransform.position);
         // Save the game.
         GameManager.SaveGame();
         // Initialize information for current level.
         // We do this AFTER the save so that dialogue will replay if the player leaves.
-        CurrentLevel.SelectLevel();
+        if (CurrentLevel != null)
+        {
+            CurrentLevel.SelectLevel();
+        }
     }
 
     ///<summary>
@@ -114,10 +115,6 @@ public class CampaignController : MonoBehaviour
         }
         // If there is a current level, make sure that one is no longer set to the current level.
         CurrentLevel.DeselectLevel();
-        // Make the character animate towards the next thing.
-        CampaignCameraController.Instance.LerpCameraToPosition(loc.transform.position, 1.2f);
-        // StartCoroutine(MoveHeroToPositionCoroutine(loc.transform.position, 0.8f));
-        yield return CampaignCameraController.Instance.LerpCameraToPositionCoroutine(loc.transform.position, 1.3f);
         // Serialize current choice.
         _currCampaignSave.heroMapPosition = _playerIconTransform.position;
         GameManager.SetCampaignSave(_currCampaignSave);

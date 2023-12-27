@@ -8,13 +8,13 @@ public struct TravelLocation
 {
     [SerializeField] private CampaignOptionController _destination;
     public List<GameEvent> Requirements;
-    public CampaignOptionController GetDestination()
+    public readonly CampaignOptionController GetDestination()
     {
         return (IsVisitable()) ? _destination : null;
     }
-    public bool IsVisitable() => _destination != null &&
-                                (Requirements == null ||
-                                Requirements.TrueForAll((ge) => ge.IsCompleted()));
+    public readonly bool IsVisitable() => _destination != null &&
+                                         (Requirements == null ||
+                                         Requirements.TrueForAll((ge) => ge.IsCompleted()));
 }
 
 [RequireComponent(typeof(MouseHoverScaler))]
