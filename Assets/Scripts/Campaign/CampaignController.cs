@@ -99,8 +99,10 @@ public class CampaignController : MonoBehaviour
         if (GameManager.GetCampaignSave() == null)
         {
             // If we didn't find a saved campaign, create a new campaign.
-            _currCampaignSave = new CampaignSave();
-            _currCampaignSave.currScene = GameManager.GetGameScene();
+            _currCampaignSave = new CampaignSave
+            {
+                currScene = GameManager.GetGameScene()
+            };
             _playerIconTransform.position = _firstMapLocationTransform.position;
             _currCampaignSave.heroMapPosition = _playerIconTransform.position;
             GameManager.SetCampaignSave(_currCampaignSave);
@@ -200,6 +202,18 @@ public class CampaignController : MonoBehaviour
                 case LocationChoice.BASIC_ENCOUNTER:
                 case LocationChoice.MINIBOSS_ENCOUNTER:
                 case LocationChoice.BOSS_ENCOUNTER:
+#if UNITY_EDITOR
+                    // TODO: REMOVE THIS FOR TESTING ENEMY BATTLES!
+                    string enemyListString = "";
+                    foreach (Enemy e in loc.EnemiesToRenderInBattle)
+                    {
+                        enemyListString += e.characterName + " ";
+                    }
+                    Debug.Log("Skipping encounter, but would run battle with:");
+                    Debug.Log(enemyListString);
+                    SelectCurrentLevel();
+                    break;
+#endif  
                     Encounter newEncounter = new() { enemies = loc.EnemiesToRenderInBattle };
                     GameManager.AddSeenEnemies(newEncounter);
                     GameManager.nextBattleEnemies = newEncounter.enemies;
