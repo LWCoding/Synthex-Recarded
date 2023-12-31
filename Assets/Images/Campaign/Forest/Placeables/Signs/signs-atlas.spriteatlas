@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: signs-atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 8ec3fc52bcd63e84b9036d31584d5310, type: 3}
+    - {fileID: 2800000, guid: 99968c782cfba69479843f9008164b7b, type: 3}
+    - {fileID: 2800000, guid: a7e37e917f7eac54bb3e6805085f81f9, type: 3}
+    - {fileID: 2800000, guid: 3365ba15459cb46418022cd545aef64b, type: 3}
+    - {fileID: 2800000, guid: 9cf9ba1c7cda9b54db1eb72b8f5fd103, type: 3}
+    - {fileID: 2800000, guid: 97e1d842d61941445b2227419d7fbbaa, type: 3}
+    - {fileID: 2800000, guid: 3cc4d46cd7829714191e9f9a3b298196, type: 3}
+    - {fileID: 2800000, guid: 0216c0aa126291c4fa297a8dc0d87b23, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - a7e37e917f7eac54bb3e6805085f81f9: 21300000
+    - 97e1d842d61941445b2227419d7fbbaa: 21300000
+    - 8ec3fc52bcd63e84b9036d31584d5310: 21300000
+    - 3365ba15459cb46418022cd545aef64b: 21300000
+    - 99968c782cfba69479843f9008164b7b: 21300000
+    - 0216c0aa126291c4fa297a8dc0d87b23: 21300000
+    - 9cf9ba1c7cda9b54db1eb72b8f5fd103: 21300000
+    - 3cc4d46cd7829714191e9f9a3b298196: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: a7e37e917f7eac54bb3e6805085f81f9, type: 3}
+  - {fileID: 21300000, guid: 97e1d842d61941445b2227419d7fbbaa, type: 3}
+  - {fileID: 21300000, guid: 8ec3fc52bcd63e84b9036d31584d5310, type: 3}
+  - {fileID: 21300000, guid: 3365ba15459cb46418022cd545aef64b, type: 3}
+  - {fileID: 21300000, guid: 99968c782cfba69479843f9008164b7b, type: 3}
+  - {fileID: 21300000, guid: 0216c0aa126291c4fa297a8dc0d87b23, type: 3}
+  - {fileID: 21300000, guid: 9cf9ba1c7cda9b54db1eb72b8f5fd103, type: 3}
+  - {fileID: 21300000, guid: 3cc4d46cd7829714191e9f9a3b298196, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Sign_Variants_MAP0003
+  - Sign_Variants_MAP0006
+  - Sign_Variants_MAP0001
+  - Sign_Variants_MAP0004
+  - Sign_Variants_MAP0002
+  - Sign_Variants_MAP0008
+  - Sign_Variants_MAP0005
+  - Sign_Variants_MAP0007
+  m_RenderDataMap: {}
+  m_Tag: signs-atlas
+  m_IsVariant: 0

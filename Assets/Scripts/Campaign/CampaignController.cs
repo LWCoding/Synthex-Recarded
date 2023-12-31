@@ -214,11 +214,11 @@ public class CampaignController : MonoBehaviour
                     SelectCurrentLevel();
                     break;
 #endif  
-                    Encounter newEncounter = new() { enemies = loc.EnemiesToRenderInBattle };
-                    GameManager.AddSeenEnemies(newEncounter);
-                    GameManager.nextBattleEnemies = newEncounter.enemies;
-                    TransitionManager.Instance.HideScreen("Battle", 0.75f);
-                    break;
+                    //Encounter newEncounter = new() { enemies = loc.EnemiesToRenderInBattle };
+                    //GameManager.AddSeenEnemies(newEncounter);
+                    //GameManager.nextBattleEnemies = newEncounter.enemies;
+                    //TransitionManager.Instance.HideScreen("Battle", 0.75f);
+                    //break;
                 case LocationChoice.NONE:
                     // If we're at a random path, just initialize the path from the
                     // current position.
