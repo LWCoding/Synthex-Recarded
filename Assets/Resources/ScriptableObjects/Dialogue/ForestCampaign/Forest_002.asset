@@ -34,7 +34,7 @@ MonoBehaviour:
     characterBlipName: 3
     focusDirection: 1
   - speakerName: Jack
-    speakerText: Yeah, yeah. Alright. I'll see what I can do.
+    speakerText: ...
     leftAnimationName: JackTalking
     rightAnimationName: RyanPeevedIdle
     characterBlipName: 1

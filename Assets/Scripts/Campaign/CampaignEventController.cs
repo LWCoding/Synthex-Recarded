@@ -217,7 +217,7 @@ public class CampaignEventController : MonoBehaviour
         switch (GameManager.GetGameScene())
         {
             case GameScene.FOREST:
-                _bannerText.text = "<color=\"black\"><size=13>The Forest</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
+                _bannerText.text = "<color=\"black\"><size=13>Old Woods</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
                 break;
             case GameScene.AERICHO:
                 _bannerText.text = "<color=\"black\"><size=13>Aericho City</size></color>\n<color=#282E27><i><size=5>Chapter 2</size></i></color>";
