@@ -69,6 +69,11 @@ public class CampaignOptionController : MonoBehaviour
 #if UNITY_EDITOR
     public void OnDrawGizmos()
     {
+        if (LocationChoice != LocationChoice.NONE)
+        {
+            Gizmos.color = Color.gray;
+            Gizmos.DrawWireSphere(transform.position, 1);
+        }
         if (LevelIfLeftPressed.HasValidPosition())
         {
             Gizmos.color = Color.green;
