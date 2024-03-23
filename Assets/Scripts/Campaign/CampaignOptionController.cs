@@ -72,17 +72,17 @@ public class CampaignOptionController : MonoBehaviour
             Gizmos.color = Color.green;
             Gizmos.DrawLine(transform.position, LevelIfLeftPressed.GetPosition());
         }
-        if (LevelIfLeftPressed.GetPosition() != null)
+        if (LevelIfUpPressed.GetPosition() != null)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, LevelIfUpPressed.GetPosition());
         }
-        if (LevelIfLeftPressed.GetPosition() != null)
+        if (LevelIfRightPressed.GetPosition() != null)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(transform.position, LevelIfRightPressed.GetPosition());
         }
-        if (LevelIfLeftPressed.GetPosition() != null)
+        if (LevelIfDownPressed.GetPosition() != null)
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(transform.position, LevelIfDownPressed.GetPosition());
