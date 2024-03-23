@@ -15,6 +15,7 @@ public struct TravelLocation
     public bool IsVisitable() => _destination != null &&
                                 (Requirements == null ||
                                 Requirements.TrueForAll((ge) => ge.IsCompleted()));
+    public Vector3 GetPosition() => _destination.transform.position;
 }
 
 [RequireComponent(typeof(MouseHoverScaler))]
@@ -62,6 +63,30 @@ public class CampaignOptionController : MonoBehaviour
         if (LevelIfRightPressed.IsVisitable()) connectedLevels.Add(LevelIfRightPressed.GetDestination());
         if (LevelIfDownPressed.IsVisitable()) connectedLevels.Add(LevelIfDownPressed.GetDestination());
         return new List<CampaignOptionController>(connectedLevels);
+    }
+
+    public void OnDrawGizmos()
+    {
+        if (LevelIfLeftPressed.GetPosition() != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, LevelIfLeftPressed.GetPosition());
+        }
+        if (LevelIfLeftPressed.GetPosition() != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, LevelIfUpPressed.GetPosition());
+        }
+        if (LevelIfLeftPressed.GetPosition() != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, LevelIfRightPressed.GetPosition());
+        }
+        if (LevelIfLeftPressed.GetPosition() != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, LevelIfDownPressed.GetPosition());
+        }
     }
 
     private void Awake()
