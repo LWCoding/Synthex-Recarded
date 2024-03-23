@@ -15,6 +15,7 @@ public struct TravelLocation
     public bool IsVisitable() => _destination != null &&
                                 (Requirements == null ||
                                 Requirements.TrueForAll((ge) => ge.IsCompleted()));
+    public bool HasValidPosition() => _destination != null;
     public Vector3 GetPosition() => _destination.transform.position;
 }
 
@@ -65,29 +66,31 @@ public class CampaignOptionController : MonoBehaviour
         return new List<CampaignOptionController>(connectedLevels);
     }
 
+#if UNITY_EDITOR
     public void OnDrawGizmos()
     {
-        if (LevelIfLeftPressed.GetPosition() != null)
+        if (LevelIfLeftPressed.HasValidPosition())
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, LevelIfLeftPressed.GetPosition());
+            Gizmos.DrawLine(transform.position + new Vector3(0, 0.3f), LevelIfLeftPressed.GetPosition() + new Vector3(0, 0.3f));
         }
-        if (LevelIfUpPressed.GetPosition() != null)
+        if (LevelIfUpPressed.HasValidPosition())
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, LevelIfUpPressed.GetPosition());
+            Gizmos.DrawLine(transform.position + new Vector3(0, 0.1f), LevelIfUpPressed.GetPosition() + new Vector3(0, 0.1f));
         }
-        if (LevelIfRightPressed.GetPosition() != null)
+        if (LevelIfRightPressed.HasValidPosition())
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawLine(transform.position, LevelIfRightPressed.GetPosition());
+            Gizmos.DrawLine(transform.position - new Vector3(0, 0.1f), LevelIfRightPressed.GetPosition() - new Vector3(0, 0.1f));
         }
-        if (LevelIfDownPressed.GetPosition() != null)
+        if (LevelIfDownPressed.HasValidPosition())
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, LevelIfDownPressed.GetPosition());
+            Gizmos.DrawLine(transform.position - new Vector3(0, 0.3f), LevelIfDownPressed.GetPosition() - new Vector3(0, 0.3f));
         }
     }
+#endif
 
     private void Awake()
     {
