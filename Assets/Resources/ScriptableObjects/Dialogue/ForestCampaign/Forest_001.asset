@@ -14,47 +14,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueName: CampaignForest001
   dialogueLines:
-  - speakerName: Jack
-    speakerText: ...
-    leftAnimationName: JackSkepticalIdle
-    rightAnimationName: RyanHappyIdle
-    characterBlipName: 1
-    focusDirection: 0
-  - speakerName: Jack
-    speakerText: So, Ryan, what are we doing here again?
-    leftAnimationName: JackTalking
-    rightAnimationName: RyanHappyIdle
-    characterBlipName: 1
-    focusDirection: 0
   - speakerName: Ryan
-    speakerText: Come on, dude! I told you I found a cool dummy out in the woods...
-      it's basically begging for a fight!
+    speakerText: "\u2026Jack! Are you listening to me?"
     leftAnimationName: JackTalkingIdle
-    rightAnimationName: RyanHappy
+    rightAnimationName: RyanPeeved
     characterBlipName: 3
     focusDirection: 1
-  - speakerName: Jack
-    speakerText: I don't know... Can't we just stay back in the treehouse and chill
-      out?
-    leftAnimationName: JackSkeptical
-    rightAnimationName: RyanTalkingIdle
-    characterBlipName: 1
-    focusDirection: 0
   - speakerName: Ryan
-    speakerText: Don't pussy out on me... This thing is actually sick, yo.
+    speakerText: "C\u2019mon dude! I\u2019m telling you, we *have* to check out Aericho
+      city. "
     leftAnimationName: JackSkepticalIdle
     rightAnimationName: RyanPeeved
     characterBlipName: 3
     focusDirection: 1
+  - speakerName: Ryan
+    speakerText: "I know it\u2019s rough with your history and all, but I overheard
+      them saying stuff! And there\u2019s tooooons of people moving there, for some
+      reason\u2026"
+    leftAnimationName: JackSkepticalIdle
+    rightAnimationName: RyanTalking
+    characterBlipName: 3
+    focusDirection: 1
+  - speakerName: Ryan
+    speakerText: "They were all like\u2026 economy this\u2026 infrastructure that\u2026
+      and something about the <color=\"yellow\">Old Woods</color> being in danger!"
+    leftAnimationName: JackSkepticalIdle
+    rightAnimationName: RyanTalking
+    characterBlipName: 3
+    focusDirection: 1
   - speakerName: Jack
-    speakerText: Sigh... alright then, how is it done?
-    leftAnimationName: JackSkeptical
-    rightAnimationName: RyanPeevedIdle
+    speakerText: ...
+    leftAnimationName: JackSkepticalIdle
+    rightAnimationName: RyanTalkingIdle
     characterBlipName: 1
     focusDirection: 0
   - speakerName: Ryan
-    speakerText: Follow me! I'll show you the way.
-    leftAnimationName: JackSkepticalIdle
+    speakerText: "Don\u2019t worry dude! I\u2019ll come with, it\u2019ll be totally
+      fine. Reno\u2019s chill with me, y\u2019know?"
+    leftAnimationName: JackTalkingIdle
+    rightAnimationName: RyanHappy
+    characterBlipName: 3
+    focusDirection: 1
+  - speakerName: Ryan
+    speakerText: 'I will say, though, the forest creatures are pretty rowdy today.
+      So you might have to brush up a bit on your fighting skills. '
+    leftAnimationName: JackTalkingIdle
+    rightAnimationName: RyanTalking
+    characterBlipName: 3
+    focusDirection: 1
+  - speakerName: Ryan
+    speakerText: "But it\u2019s nothing I haven\u2019t planned for! Follow me, I\u2019ve
+      brought the perfect thing for the occasion!"
+    leftAnimationName: JackTalkingIdle
     rightAnimationName: RyanHappy
     characterBlipName: 3
     focusDirection: 1

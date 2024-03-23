@@ -21,7 +21,7 @@ MonoBehaviour:
     characterBlipName: 1
     focusDirection: 0
   - speakerName: Ryan
-    speakerText: Dang, Jack! You really showed them who's boss!
+    speakerText: Dang, Jack! You really showed them!
     leftAnimationName: JackTalkingIdle
     rightAnimationName: RyanHappy
     characterBlipName: 3
@@ -62,8 +62,8 @@ MonoBehaviour:
     characterBlipName: 3
     focusDirection: 1
   - speakerName: Ryan
-    speakerText: Anyways, looks like there's a shop up ahead. Why don't we go check
-      it out?
+    speakerText: Anyways, I think I remember a shop being up ahead. Why don't we
+      go check it out?
     leftAnimationName: JackSkepticalIdle
     rightAnimationName: RyanTalking
     characterBlipName: 3

@@ -12,9 +12,11 @@ public struct TravelLocation
     {
         return (IsVisitable()) ? _destination : null;
     }
-    public readonly bool IsVisitable() => _destination != null &&
-                                         (Requirements == null ||
-                                         Requirements.TrueForAll((ge) => ge.IsCompleted()));
+    public bool IsVisitable() => _destination != null &&
+                                (Requirements == null ||
+                                Requirements.TrueForAll((ge) => ge.IsCompleted()));
+    public bool HasValidPosition() => _destination != null;
+    public Vector3 GetPosition() => _destination.transform.position;
 }
 
 [RequireComponent(typeof(MouseHoverScaler))]
@@ -49,6 +51,47 @@ public class CampaignOptionController : MonoBehaviour
     private MouseHoverScaler _mouseHoverScaler;
 
     public bool ShouldActivateWhenVisited() => (LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER) && (!WasVisited || CanRenderMultipleTimes);
+    // Get the connected levels by checking the levels in the four directions.
+    public List<CampaignOptionController> GetConnectedLevels()
+    {
+        HashSet<CampaignOptionController> connectedLevels = new HashSet<CampaignOptionController>();
+        if (LevelIfLeftPressed.IsVisitable()) connectedLevels.Add(LevelIfLeftPressed.GetDestination());
+        if (LevelIfUpPressed.IsVisitable()) connectedLevels.Add(LevelIfUpPressed.GetDestination());
+        if (LevelIfRightPressed.IsVisitable()) connectedLevels.Add(LevelIfRightPressed.GetDestination());
+        if (LevelIfDownPressed.IsVisitable()) connectedLevels.Add(LevelIfDownPressed.GetDestination());
+        return new List<CampaignOptionController>(connectedLevels);
+    }
+
+#if UNITY_EDITOR
+    public void OnDrawGizmos()
+    {
+        if (LocationChoice != LocationChoice.NONE)
+        {
+            Gizmos.color = Color.gray;
+            Gizmos.DrawWireSphere(transform.position, 1);
+        }
+        if (LevelIfLeftPressed.HasValidPosition())
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position + new Vector3(0, 0.3f), LevelIfLeftPressed.GetPosition() + new Vector3(0, 0.3f));
+        }
+        if (LevelIfUpPressed.HasValidPosition())
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position + new Vector3(0, 0.1f), LevelIfUpPressed.GetPosition() + new Vector3(0, 0.1f));
+        }
+        if (LevelIfRightPressed.HasValidPosition())
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position - new Vector3(0, 0.1f), LevelIfRightPressed.GetPosition() - new Vector3(0, 0.1f));
+        }
+        if (LevelIfDownPressed.HasValidPosition())
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position - new Vector3(0, 0.3f), LevelIfDownPressed.GetPosition() - new Vector3(0, 0.3f));
+        }
+    }
+#endif
 
     private void Awake()
     {
@@ -149,7 +192,6 @@ public class CampaignOptionController : MonoBehaviour
         }
         else
         {
-            // CampaignEventController.Instance.IsPlayingEvent = true;
             if (TransitionManager.Instance.IsScreenDarkened)
             {
                 // Then make the game fade from black to clear.
@@ -203,7 +245,7 @@ public class CampaignOptionController : MonoBehaviour
     private IEnumerator VisitLevelWhenPlayerCanChoose()
     {
         yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
-        yield return new WaitUntil(() => CampaignEventController.Instance.AreEventsComplete());
+        yield return new WaitUntil(() => !CampaignEventController.Instance.IsPlayingAnyEvent);
         if (LocationChoice == LocationChoice.SHOP) GameManager.nextShopLoadout = LoadoutInShop;
         if (InteractableObject != null) { InteractableObject.GetComponent<IInteractable>().OnLocationEnter(); }
         foreach (Transform arrowTransform in _arrowParentTransform)

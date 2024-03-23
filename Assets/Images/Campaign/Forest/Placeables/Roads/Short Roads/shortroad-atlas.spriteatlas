@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: shortroad-atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 1b9437776b3393a438804df2165860ff, type: 3}
+    - {fileID: 2800000, guid: 74a094be03c925a49ae4a8f5064ab711, type: 3}
+    - {fileID: 2800000, guid: 00dd95fe6ab2cb4488ec61ab86d03052, type: 3}
+    - {fileID: 2800000, guid: 79b4e4bfa14e58f41ae45ababdc62829, type: 3}
+    - {fileID: 2800000, guid: 50daf25d34d51ee4499f04f9d759f50e, type: 3}
+    - {fileID: 2800000, guid: a2eb9dd9d71396945926ed62263e49ff, type: 3}
+    - {fileID: 2800000, guid: 8d0301195f9f9b142aa89b6d0b4a8508, type: 3}
+    - {fileID: 2800000, guid: 8e686165a9eea48449e370928550397d, type: 3}
+    - {fileID: 2800000, guid: a4ebad1a817e43342baa50024af482a4, type: 3}
+    - {fileID: 2800000, guid: a46398ef480ad27438b8dc2f3dd3b74b, type: 3}
+    - {fileID: 2800000, guid: 2b1572b525bf13147af2a81dc190f1b3, type: 3}
+    - {fileID: 2800000, guid: 15cf40c7003f73b4db7c3e9959db5242, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 8e686165a9eea48449e370928550397d: 21300000
+    - 2b1572b525bf13147af2a81dc190f1b3: 21300000
+    - 1b9437776b3393a438804df2165860ff: 21300000
+    - 15cf40c7003f73b4db7c3e9959db5242: 21300000
+    - 8d0301195f9f9b142aa89b6d0b4a8508: 21300000
+    - a2eb9dd9d71396945926ed62263e49ff: 21300000
+    - a4ebad1a817e43342baa50024af482a4: 21300000
+    - 50daf25d34d51ee4499f04f9d759f50e: 21300000
+    - 74a094be03c925a49ae4a8f5064ab711: 21300000
+    - 00dd95fe6ab2cb4488ec61ab86d03052: 21300000
+    - 79b4e4bfa14e58f41ae45ababdc62829: 21300000
+    - a46398ef480ad27438b8dc2f3dd3b74b: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 8e686165a9eea48449e370928550397d, type: 3}
+  - {fileID: 21300000, guid: 2b1572b525bf13147af2a81dc190f1b3, type: 3}
+  - {fileID: 21300000, guid: 1b9437776b3393a438804df2165860ff, type: 3}
+  - {fileID: 21300000, guid: 15cf40c7003f73b4db7c3e9959db5242, type: 3}
+  - {fileID: 21300000, guid: 8d0301195f9f9b142aa89b6d0b4a8508, type: 3}
+  - {fileID: 21300000, guid: a2eb9dd9d71396945926ed62263e49ff, type: 3}
+  - {fileID: 21300000, guid: a4ebad1a817e43342baa50024af482a4, type: 3}
+  - {fileID: 21300000, guid: 50daf25d34d51ee4499f04f9d759f50e, type: 3}
+  - {fileID: 21300000, guid: 74a094be03c925a49ae4a8f5064ab711, type: 3}
+  - {fileID: 21300000, guid: 00dd95fe6ab2cb4488ec61ab86d03052, type: 3}
+  - {fileID: 21300000, guid: 79b4e4bfa14e58f41ae45ababdc62829, type: 3}
+  - {fileID: 21300000, guid: a46398ef480ad27438b8dc2f3dd3b74b, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Short_Road_MAP_7
+  - Short_Road_MAP_2
+  - Short_Road_MAP_6
+  - Short_Road_MAP_3
+  - Short_Road_MAP_8
+  - Short_Road_MAP_9
+  - Short_Road_MAP_5
+  - Short_Road_MAP_10
+  - Short_Road_MAP_4
+  - Short_Road_MAP_12
+  - Short_Road_MAP_11
+  - Short_Road_MAP_1
+  m_RenderDataMap: {}
+  m_Tag: shortroad-atlas
+  m_IsVariant: 0

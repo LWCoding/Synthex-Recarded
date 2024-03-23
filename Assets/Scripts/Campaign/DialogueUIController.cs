@@ -138,7 +138,7 @@ public partial class DialogueUIController : MonoBehaviour
     */
     public IEnumerator RenderDialogueCoroutine(Action codeToRunAfter)
     {
-        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingEvent = true;
+        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingSingularEvent = true;
         // If there is no dialogue to play (likely it was skipped), then
         // just run the code afterwards.
         if (_dialogueStringQueue.Count == 0)
@@ -171,7 +171,7 @@ public partial class DialogueUIController : MonoBehaviour
         yield return new WaitUntil(() => !IsPlaying());
         dialogueContainerObject.SetActive(false);
         codeToRunAfter?.Invoke();
-        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingEvent = false;
+        if (CampaignEventController.Instance != null) CampaignEventController.Instance.IsPlayingSingularEvent = false;
     }
 
     private IEnumerator RenderDialogueTextCoroutine(Action codeToRunAfter)
@@ -192,12 +192,18 @@ public partial class DialogueUIController : MonoBehaviour
         float punctWfs = 0.14f;
         float startTime, timeToWait;
         bool skippedDialogue = false;
+        bool skippingCharacters = false;  // To skip rendering characters in <>
         for (int i = 1; i < currentDialogueText.Length + 1; i++)
         {
-            SetContentsText(currentDialogueText.Substring(0, i));
+            char currentChar = currentDialogueText[i - 1];
+            // If we find a <, wait until we find a corresponding >
+            if (currentChar == '<') { skippingCharacters = true; }
+            if (currentChar == '>') { skippingCharacters = false; }
+            if (skippingCharacters) { continue; }
+            // Set the contents of the dialogue box.
+            SetContentsText(currentDialogueText[0..i]);
             // Wait for an amount of time depending on the current character.
             startTime = Time.time;
-            char currentChar = currentDialogueText[i - 1];
             if (currentChar == '?' || currentChar == '!' || currentChar == '.' || currentChar == ',')
             {
                 timeToWait = punctWfs;
@@ -232,11 +238,19 @@ public partial class DialogueUIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the `name` section of the UI dialogue box.
+    /// </summary>
+    /// <param name="nameText">The string to set the name text to.</param>
     public void SetNameText(string nameText)
     {
         dialogueNameText.text = nameText;
     }
 
+    /// <summary>
+    /// Sets the `contents` section of the UI dialogue box.
+    /// </summary>
+    /// <param name="dialogueText">The string to set the content text to.</param>
     public void SetContentsText(string dialogueText)
     {
         dialogueContentsText.text = dialogueText;

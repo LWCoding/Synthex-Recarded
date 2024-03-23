@@ -27,17 +27,10 @@ public class CampaignEventController : MonoBehaviour
 
     public Queue<UnityAction> QueuedEvents = new Queue<UnityAction>();
     public bool HasEventsQueued => QueuedEvents.Count > 0;
-    public bool IsPlayingEvent = false;
+    public bool IsPlayingSingularEvent = false;
+    private bool _areAllEventsComplete = false;
 
-    private bool _areAllEventsComplete = false; 
-
-    /// <summary>
-    /// If no events are currently playing, this returns True. Else False.
-    /// Should be called by functions that plan to cause a screen refresh. 
-    /// (Functions that should not play during cutscenes.)
-    /// </summary>
-    /// <returns>A boolean representing if events are all complete. (Good to go!)</returns>
-    public bool AreEventsComplete() => !IsPlayingEvent && _areAllEventsComplete; 
+    public bool IsPlayingAnyEvent => IsPlayingSingularEvent || !_areAllEventsComplete;
 
     private void Awake()
     {
@@ -79,7 +72,7 @@ public class CampaignEventController : MonoBehaviour
         {
             QueuedEvents.Dequeue().Invoke();
             yield return new WaitForEndOfFrame();
-            yield return new WaitUntil(() => !IsPlayingEvent);
+            yield return new WaitUntil(() => !IsPlayingSingularEvent);
         }
         _areAllEventsComplete = true;
         if (TransitionManager.Instance.IsScreenDarkened)
@@ -108,11 +101,11 @@ public class CampaignEventController : MonoBehaviour
 
     private IEnumerator QueueScreenShowCoroutine(bool isStandaloneEvent)
     {
-        if (isStandaloneEvent) IsPlayingEvent = true;
+        if (isStandaloneEvent) IsPlayingSingularEvent = true;
         TransitionManager.Instance.ShowScreen(1.25f);
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
-        if (isStandaloneEvent) IsPlayingEvent = false;
+        if (isStandaloneEvent) IsPlayingSingularEvent = false;
     }
 
     #endregion
@@ -142,7 +135,7 @@ public class CampaignEventController : MonoBehaviour
 
     private IEnumerator MoveRyanToPositionCoroutine(Vector3 targetPosition)
     {
-        IsPlayingEvent = true;
+        IsPlayingSingularEvent = true;
         float currTime = 0;
         float timeToWait = 0.7f;
         float timeSinceLastParticle = 0;
@@ -161,7 +154,48 @@ public class CampaignEventController : MonoBehaviour
             }
             yield return null;
         }
-        IsPlayingEvent = false;
+        IsPlayingSingularEvent = false;
+    }
+
+    #endregion
+
+    #region Zoom In On Object Event
+
+    // Plays animation where camera zooms in an object.
+    public void QueueZoomOnObject(GameObject obj)
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            ZoomOnObject(obj, 0.6f);
+        });
+    }
+
+    // Plays animation where camera zooms in an object slowly.
+    public void QueueSlowZoomOnObject(GameObject obj)
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            ZoomOnObject(obj, 0.9f);
+        });
+    }
+
+    // Plays animation where camera zooms in an object without waiting to complete.
+    public void QueueZoomOnObjectWithNext(GameObject obj)
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            ZoomOnObject(obj, 0.6f, false);
+        });
+    }
+
+    // Makes the camera object zoom in on an object.
+    private void ZoomOnObject(GameObject obj, float animationTime, bool isStandaloneEvent = true)
+    {
+        if (isStandaloneEvent) IsPlayingSingularEvent = true;
+        CampaignCameraController.Instance.ZoomCameraOnObject(obj, animationTime, 3.25f, 1, () =>
+        {
+            if (isStandaloneEvent) IsPlayingSingularEvent = false;
+        });
     }
 
     #endregion
@@ -180,11 +214,11 @@ public class CampaignEventController : MonoBehaviour
     // Plays the banner animation.
     private void PlayBanner()
     {
-        IsPlayingEvent = true;
+        IsPlayingSingularEvent = true;
         switch (GameManager.GetGameScene())
         {
             case GameScene.FOREST:
-                _bannerText.text = "<color=\"black\"><size=13>The Forest</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
+                _bannerText.text = "<color=\"black\"><size=13>Old Woods</size></color>\n<color=#282E27><i><size=5>Chapter 1</size></i></color>";
                 break;
             case GameScene.AERICHO:
                 _bannerText.text = "<color=\"black\"><size=13>Aericho City</size></color>\n<color=#282E27><i><size=5>Chapter 2</size></i></color>";
@@ -213,7 +247,7 @@ public class CampaignEventController : MonoBehaviour
     // Plays the animation of the dummy getting destroyed.
     private void DestroyDummy()
     {
-        IsPlayingEvent = true;
+        IsPlayingSingularEvent = true;
         _dummyParticleSystem.Play();
         _dummyAnimator.Play("Destroy");
         SoundManager.Instance.PlayOneShot(_dummyDestroyedSFX, 1.2f);
@@ -241,8 +275,8 @@ public class CampaignEventController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => _cameraDirector.state != PlayState.Playing);
         yield return new WaitForSeconds(delayAfter);
-        IsPlayingEvent = false;
-        codeToRunAfter?.Invoke();
+        IsPlayingSingularEvent = false;
+        if (codeToRunAfter != null) codeToRunAfter.Invoke();
     }
 
     /*
