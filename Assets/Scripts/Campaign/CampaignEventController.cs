@@ -5,37 +5,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
 
-public class CampaignEventController : MonoBehaviour
+public abstract class CampaignEventController : MonoBehaviour
 {
 
     public static CampaignEventController Instance;
     [Header("Banner Object Assignments")]
     [SerializeField] private Animator _bannerAnimator;
     [SerializeField] private TextMeshPro _bannerText;
-    [Header("Dummy Object Assignments")]
-    [SerializeField] private SpriteRenderer _dummySpriteRenderer;
-    [SerializeField] private Animator _dummyAnimator;
-    [SerializeField] private ParticleSystem _dummyParticleSystem;
-    [SerializeField] private Sprite _intactDummy;
-    [SerializeField] private Sprite _destroyedDummy;
-    [SerializeField] private AudioClip _dummyDestroyedSFX;
-    [Header("Gate Object Assignments")]
-    [SerializeField] private SpriteRenderer _firstGateObject;
-    [SerializeField] private Sprite _closedGate;
-    [SerializeField] private Sprite _openGate;
-    [Header("Ryan Object Assignments")]
-    [SerializeField] private Transform _ryanTransform;
-    [SerializeField] private ParticleSystem _ryanParticleSystem;
-    [SerializeField] private AudioClip _footstepsSFX;
 
-    public Queue<UnityAction> QueuedEvents = new Queue<UnityAction>();
+    public Queue<UnityAction> QueuedEvents = new();
     public bool HasEventsQueued => QueuedEvents.Count > 0;
     public bool IsPlayingSingularEvent = false;
     private bool _areAllEventsComplete = true;  // Initially true, false when events are rendered
 
     public bool IsPlayingAnyEvent => IsPlayingSingularEvent || !_areAllEventsComplete;
 
-    private void Awake()
+    public void Awake()
     {
         if (Instance != null)
         {
@@ -44,26 +29,13 @@ public class CampaignEventController : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    public void Start()
     {
-        InitializeMapState(GameManager.GetGameScene());
+        InitializeMapState();
     }
 
     // Initializes the states of all map objects from the save file.
-    private void InitializeMapState(GameScene area)
-    {
-        switch (area)
-        {
-            case GameScene.FOREST:
-                // Set dummy to either be intact or destroyed.
-                bool defeatedDummy = EventManager.IsEventComplete(EventType.DEFEATED_DUMMY);
-                _dummySpriteRenderer.sprite = defeatedDummy ? _destroyedDummy : _intactDummy;
-                // Set first gate to either be open or closed
-                bool gateOpen = EventManager.IsEventComplete(EventType.FOREST_GATE_001);
-                _firstGateObject.sprite = gateOpen ? _openGate : _closedGate;
-                break;
-        }
-    }
+    public abstract void InitializeMapState();
 
     // Renders all events currently in the queue.
     public void RenderAllQueuedEvents()
@@ -112,55 +84,6 @@ public class CampaignEventController : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !TransitionManager.Instance.IsScreenTransitioning);
         if (isStandaloneEvent) IsPlayingSingularEvent = false;
-    }
-
-    #endregion
-
-    // Adds a follower transform. These follow the player when they move.
-    public void AddTransformToFollower(Transform transform)
-    {
-        CampaignController.Instance.HeroFollowerTransforms.Add(transform);
-    }
-
-    #region Move Ryan To Position
-
-    // Plays the animation of the dummy getting destroyed.
-    public void QueueMoveRyanToPosition(Transform positionToMoveTo)
-    {
-        QueuedEvents.Enqueue(() =>
-        {
-            StartCoroutine(MoveRyanToPositionCoroutine(positionToMoveTo.position));
-        });
-    }
-
-    // Instantly sends Ryan's icon to a certain position.
-    public void InstantMoveRyanToPosition(Transform positionToMoveTo)
-    {
-        _ryanTransform.position = positionToMoveTo.position;
-    }
-
-    private IEnumerator MoveRyanToPositionCoroutine(Vector3 targetPosition)
-    {
-        IsPlayingSingularEvent = true;
-        float currTime = 0;
-        float timeToWait = 0.7f;
-        float timeSinceLastParticle = 0;
-        float particleCooldown = 0.15f;
-        SoundManager.Instance.PlayOneShot(_footstepsSFX, 0.22f);
-        Vector3 initialPosition = _ryanTransform.position;
-        while (currTime < timeToWait)
-        {
-            currTime += Time.deltaTime;
-            timeSinceLastParticle += Time.deltaTime;
-            _ryanTransform.position = Vector3.Lerp(initialPosition, targetPosition, currTime / timeToWait);
-            if (timeSinceLastParticle > particleCooldown)
-            {
-                _ryanParticleSystem.Emit(1);
-                timeSinceLastParticle = 0;
-            }
-            yield return null;
-        }
-        IsPlayingSingularEvent = false;
     }
 
     #endregion
@@ -243,30 +166,6 @@ public class CampaignEventController : MonoBehaviour
 
     #endregion
 
-    #region Destroy Dummy Event
-
-    // Plays the animation of the dummy getting destroyed.
-    public void QueueDestroyDummy()
-    {
-        QueuedEvents.Enqueue(() =>
-        {
-            DestroyDummy();
-        });
-    }
-
-    // Plays the animation of the dummy getting destroyed.
-    private void DestroyDummy()
-    {
-        IsPlayingSingularEvent = true;
-        _dummyParticleSystem.Play();
-        _dummyAnimator.Play("Destroy");
-        SoundManager.Instance.PlayOneShot(_dummyDestroyedSFX, 1.2f);
-        EventManager.CompleteEvent(EventType.DEFEATED_DUMMY);
-        StartCoroutine(StopEventWhenAnimationIsFinished(_dummyAnimator, 1));
-    }
-
-    #endregion
-
     #region Restore Camera Event
 
     // Plays the animation of the dummy getting destroyed.
@@ -280,22 +179,9 @@ public class CampaignEventController : MonoBehaviour
 
     #endregion
 
-    #region Open First Gate Event
-
-    public void QueueOpenFirstGate()
-    {
-        QueuedEvents.Enqueue(() =>
-        {
-            EventManager.CompleteEvent(EventType.FOREST_GATE_001);
-            _firstGateObject.sprite = _openGate;
-        });
-    }
-
-    #endregion
-
     // Sets the IsPlayingEvent parameter to false after a specific animator
     // is no longer animating.
-    private IEnumerator StopEventWhenAnimationIsFinished(Animator anim, float delayAfter, Action codeToRunAfter = null)
+    public IEnumerator StopEventWhenAnimationIsFinished(Animator anim, float delayAfter, Action codeToRunAfter = null)
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitUntil(() => !IsPlaying(anim));
