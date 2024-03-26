@@ -31,10 +31,16 @@ public class TitleController : MonoBehaviour
         }
         Instance = this;
         // Initialize all title buttons.
-        _allTitleButtons = new List<UITitleButtonHandler>(GameObject.FindObjectsOfType<UITitleButtonHandler>());
+        _allTitleButtons = new List<UITitleButtonHandler>(FindObjectsOfType<UITitleButtonHandler>());
         // Show trophies depending on playerprefs variables.
-        beatGameTrophyObject?.SetActive(PlayerPrefs.GetInt("BeatGame") == 1);
-        secretTrophyObject?.SetActive(PlayerPrefs.GetInt("BeatBoykisser") >= 1);
+        if (beatGameTrophyObject != null)
+        {
+            beatGameTrophyObject.SetActive(PlayerPrefs.GetInt("BeatGame") == 1);
+        }
+        if (secretTrophyObject != null)
+        {
+            secretTrophyObject.SetActive(PlayerPrefs.GetInt("BeatBoykisser") >= 1);
+        }
         // Set secret button state.
         secretButtonObject.GetComponent<UITitleButtonHandler>().SetIsClickable(PlayerPrefs.GetInt("BeatGame") == 1);
     }
@@ -93,6 +99,7 @@ public class TitleController : MonoBehaviour
 
     private void InitializeGame()
     {
+        EventManager.RegisteredEvents = new();  // No events should be rendered at beginning
         warningContainerObject.SetActive(false);
         // Play music.
         SoundManager.Instance.PlayOnLoop(MusicType.TITLE_MUSIC);

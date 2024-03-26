@@ -29,7 +29,7 @@ public class TitleSaveController : MonoBehaviour
         Instance = this;
         Debug.Assert(_saveFileContainerCanvasGroup != null, "SaveFileContainer is not assigned!", this);
         // Set currently selected save.
-        TitleSaveController.CurrentlySelectedSave = _initiallySelectedSaveOption;
+        CurrentlySelectedSave = _initiallySelectedSaveOption;
     }
 
     // Toggles the visibility of the entire save panel. Can be called from buttons.

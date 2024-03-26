@@ -19,7 +19,10 @@ public class EventManager
         // Initialize the event if we can't find this event.
         if (foundEvent == null)
         {
-            foundEvent = Globals.GetGameEvent(eventType);
+            foundEvent = new GameEvent
+            {
+                EventType = eventType
+            };
             RegisteredEvents.Add(foundEvent);
         }
         return foundEvent;

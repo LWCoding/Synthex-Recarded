@@ -19,6 +19,10 @@ public class CampaignEventController : MonoBehaviour
     [SerializeField] private Sprite _intactDummy;
     [SerializeField] private Sprite _destroyedDummy;
     [SerializeField] private AudioClip _dummyDestroyedSFX;
+    [Header("Gate Object Assignments")]
+    [SerializeField] private SpriteRenderer _firstGateObject;
+    [SerializeField] private Sprite _closedGate;
+    [SerializeField] private Sprite _openGate;
     [Header("Ryan Object Assignments")]
     [SerializeField] private Transform _ryanTransform;
     [SerializeField] private ParticleSystem _ryanParticleSystem;
@@ -54,6 +58,9 @@ public class CampaignEventController : MonoBehaviour
                 // Set dummy to either be intact or destroyed.
                 bool defeatedDummy = EventManager.IsEventComplete(EventType.DEFEATED_DUMMY);
                 _dummySpriteRenderer.sprite = defeatedDummy ? _destroyedDummy : _intactDummy;
+                // Set first gate to either be open or closed
+                bool gateOpen = EventManager.IsEventComplete(EventType.FOREST_GATE_001);
+                _firstGateObject.sprite = gateOpen ? _openGate : _closedGate;
                 break;
         }
     }
@@ -273,6 +280,19 @@ public class CampaignEventController : MonoBehaviour
 
     #endregion
 
+    #region Open First Gate Event
+
+    public void QueueOpenFirstGate()
+    {
+        QueuedEvents.Enqueue(() =>
+        {
+            EventManager.CompleteEvent(EventType.FOREST_GATE_001);
+            _firstGateObject.sprite = _openGate;
+        });
+    }
+
+    #endregion
+
     // Sets the IsPlayingEvent parameter to false after a specific animator
     // is no longer animating.
     private IEnumerator StopEventWhenAnimationIsFinished(Animator anim, float delayAfter, Action codeToRunAfter = null)
@@ -281,7 +301,7 @@ public class CampaignEventController : MonoBehaviour
         yield return new WaitUntil(() => !IsPlaying(anim));
         yield return new WaitForSeconds(delayAfter);
         IsPlayingSingularEvent = false;
-        if (codeToRunAfter != null) codeToRunAfter.Invoke();
+        codeToRunAfter?.Invoke();
     }
 
     /*

@@ -93,10 +93,6 @@ public static class Globals
         // and add them to the `allCampaignInfo` variable.
         allCampaignInfo = Resources.LoadAll<CampaignInfo>("ScriptableObjects/CampaignInfo").ToList();
 
-        // Find all game event information in the "GameEvent" folder (through Resources)
-        // and add them to the `allGameEvents` variable.
-        allGameEvents = Resources.LoadAll<GameEvent>("ScriptableObjects/GameEvents").ToList();
-
         // After everything is initialized, set to true.
         globalsInitialized = true;
 
@@ -346,28 +342,6 @@ public static class Globals
             Debug.Log("Could not find relic (" + type + ") in Globals.cs!");
         }
         return foundCardEffect;
-    }
-
-    public static GameEvent GetGameEvent(EventType type)
-    {
-        if (!globalsInitialized)
-        {
-            Initialize();
-        }
-        GameEvent foundGameEvent = null;
-        allGameEvents.ForEach((gameEvent) =>
-        {
-            if (gameEvent.EventType == type)
-            {
-                foundGameEvent = gameEvent;
-                return;
-            }
-        });
-        if (!foundGameEvent)
-        {
-            Debug.Log("Could not find game event (" + type + ") in Globals.cs! Perhaps you need to create a ScriptableObject?");
-        }
-        return foundGameEvent;
     }
 
 }

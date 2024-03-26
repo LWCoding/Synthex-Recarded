@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public enum EventType
 {
     VISITED_SHOP_BEFORE = 0, VISITED_UPGRADES_BEFORE = 1, DEFEATED_DUMMY = 2, FOREST_CHEST_001 = 3,
+    FOREST_GATE_001 = 4
 }
 
-[CreateAssetMenu(fileName = "GameEvent", menuName = "ScriptableObjects/GameEvent")]
-public class GameEvent : ScriptableObject
+[System.Serializable]
+public class GameEvent
 {
 
     [Header("Base Information")]

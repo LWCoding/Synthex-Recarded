@@ -14,7 +14,7 @@ public struct TravelLocation
     }
     public bool IsVisitable() => _destination != null &&
                                 (Requirements == null ||
-                                Requirements.TrueForAll((ge) => ge.IsCompleted()));
+                                Requirements.TrueForAll((ge) => EventManager.IsEventComplete(ge.EventType)));
     public bool HasValidPosition() => _destination != null;
     public Vector3 GetPosition() => _destination.transform.position;
 }
@@ -58,7 +58,7 @@ public class CampaignOptionController : MonoBehaviour
     // Get the connected levels by checking the levels in the four directions.
     public List<CampaignOptionController> GetConnectedLevels()
     {
-        HashSet<CampaignOptionController> connectedLevels = new HashSet<CampaignOptionController>();
+        HashSet<CampaignOptionController> connectedLevels = new();
         if (LevelIfLeftPressed.IsVisitable()) connectedLevels.Add(LevelIfLeftPressed.GetDestination());
         if (LevelIfUpPressed.IsVisitable()) connectedLevels.Add(LevelIfUpPressed.GetDestination());
         if (LevelIfRightPressed.IsVisitable()) connectedLevels.Add(LevelIfRightPressed.GetDestination());
@@ -277,6 +277,7 @@ public class CampaignOptionController : MonoBehaviour
         yield return new WaitUntil(() => !CampaignEventController.Instance.IsPlayingAnyEvent);
         if (LocationChoice == LocationChoice.SHOP) GameManager.nextShopLoadout = LoadoutInShop;
         if (InteractableObject != null) { InteractableObject.GetComponent<IInteractable>().OnLocationEnter(); }
+        InitializeArrows();  // Re-render arrows in case requirements made new ones available
         foreach (Transform arrowTransform in _arrowParentTransform)
         {
             arrowTransform.GetComponent<CampaignArrowHandler>().ShowArrow();
