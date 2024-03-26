@@ -17,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - river (bg)
   - 
   - 
   - 
@@ -44,6 +44,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: river (bg)
+    uniqueID: 1257748423
+    locked: 0
   - name: Background
     uniqueID: 2050204075
     locked: 0
