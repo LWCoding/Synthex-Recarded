@@ -27,7 +27,7 @@ public class CampaignEventController : MonoBehaviour
     public Queue<UnityAction> QueuedEvents = new Queue<UnityAction>();
     public bool HasEventsQueued => QueuedEvents.Count > 0;
     public bool IsPlayingSingularEvent = false;
-    private bool _areAllEventsComplete = false;
+    private bool _areAllEventsComplete = true;  // Initially true, false when events are rendered
 
     public bool IsPlayingAnyEvent => IsPlayingSingularEvent || !_areAllEventsComplete;
 

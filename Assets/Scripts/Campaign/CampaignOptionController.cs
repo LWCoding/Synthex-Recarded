@@ -32,7 +32,7 @@ public class CampaignOptionController : MonoBehaviour
     [SerializeField] private ParticleSystem _pSystem;
     [Header("Level Properties")]
     public LocationChoice LocationChoice;
-    public bool CanRenderMultipleTimes;
+    public bool IsIconAlwaysOpaque;
     public TravelLocation LevelIfLeftPressed;
     public TravelLocation LevelIfRightPressed;
     public TravelLocation LevelIfUpPressed;
@@ -54,7 +54,7 @@ public class CampaignOptionController : MonoBehaviour
     private Animator _optionAnimator;
     private MouseHoverScaler _mouseHoverScaler;
 
-    public bool ShouldActivateWhenVisited() => (LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER) && (!WasVisited || CanRenderMultipleTimes);
+    public bool ShouldActivateWhenVisited() => (LocationChoice == LocationChoice.BASIC_ENCOUNTER || LocationChoice == LocationChoice.MINIBOSS_ENCOUNTER || LocationChoice == LocationChoice.BOSS_ENCOUNTER) && (!WasVisited || IsIconAlwaysOpaque);
     // Get the connected levels by checking the levels in the four directions.
     public List<CampaignOptionController> GetConnectedLevels()
     {
@@ -77,22 +77,22 @@ public class CampaignOptionController : MonoBehaviour
         if (LevelIfLeftPressed.HasValidPosition())
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position + new Vector3(0, 0.3f), LevelIfLeftPressed.GetPosition() + new Vector3(0, 0.3f));
+            Gizmos.DrawLine(transform.position + new Vector3(0.16f, 0.16f), LevelIfLeftPressed.GetPosition() + new Vector3(0, 0.3f));
         }
         if (LevelIfUpPressed.HasValidPosition())
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position + new Vector3(0, 0.1f), LevelIfUpPressed.GetPosition() + new Vector3(0, 0.1f));
+            Gizmos.DrawLine(transform.position + new Vector3(0.08f, 0.08f), LevelIfUpPressed.GetPosition() + new Vector3(0, 0.1f));
         }
         if (LevelIfRightPressed.HasValidPosition())
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawLine(transform.position - new Vector3(0, 0.1f), LevelIfRightPressed.GetPosition() - new Vector3(0, 0.1f));
+            Gizmos.DrawLine(transform.position - new Vector3(0.08f, 0.08f), LevelIfRightPressed.GetPosition() - new Vector3(0, 0.1f));
         }
         if (LevelIfDownPressed.HasValidPosition())
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position - new Vector3(0, 0.3f), LevelIfDownPressed.GetPosition() - new Vector3(0, 0.3f));
+            Gizmos.DrawLine(transform.position - new Vector3(0.16f, 0.16f), LevelIfDownPressed.GetPosition() - new Vector3(0, 0.3f));
         }
     }
 #endif
