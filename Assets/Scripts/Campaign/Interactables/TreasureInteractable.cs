@@ -30,6 +30,7 @@ public class TreasureInteractable : MonoBehaviour, IInteractable
     {
         if (!_isInteractable) { return; }
         _isInteractable = false;
+        EventManager.CompleteEvent(_chestEvent);
         TreasureController.Instance.ShowChest();
     }
 
